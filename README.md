@@ -38,3 +38,12 @@ Una vez que el PR esté aprobado, yo me encargo de hacer el merge. Pero, vas a e
 Mantene tu Rama prendida, digo actualizada:
 Se considera buena práctica mantener tu actualizada con la rama principal para evitar conflictos. 
 Traten de no crear ramas de ramas. O sea, crear un branch de otro branch. Porque vamos a terminar con un arbolito de Navidad. 
+
+
+
+#COMANDOS 
+'git clone https://github.com/DocisJP/D5.git'
+'cd D5' 
+'git checkout -b nombreDeTuRama' 
+
+Estas ready pa trabajar
