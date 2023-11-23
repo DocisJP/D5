@@ -28,7 +28,7 @@ return "form_registro.html";
 }
 
 @PostMapping("/registro")
-public String registro(@RequestParam String nombre,@RequestParam String apellido, @RequestParam String email,@RequestParam String password,@RequestParam String password2, @RequestParam Long dni, @RequestParam Integer telefono)throws MatchException{
+public String registro(@RequestParam String nombre,@RequestParam String apellido, @RequestParam String email,@RequestParam String password,@RequestParam String password2, @RequestParam Long dni, @RequestParam Integer telefono)throws MyException{
 
     try {
         usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono);

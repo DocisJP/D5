@@ -62,11 +62,29 @@ public class UsuarioServicio implements IServicioGeneral<Usuario>, UserDetailsSe
         }
 
     }
+    
+    public Usuario buscarUsuario(String id){
+    
+        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+        
+        if (respuesta.isPresent()) {
+            
+            Usuario usuario = respuesta.get();
+            
+            return usuario;
+            
+        } else { 
+            
+            return null;
+        
+        }
+    
+    }
 
     @Override
     public void eliminar(Usuario usuario) {
         
-        
+        usuarioRepositorio.delete(usuario);
        
 
     }
