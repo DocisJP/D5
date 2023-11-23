@@ -1,11 +1,13 @@
 package com.D5.web.app.servicios;
 
+import com.D5.web.app.entidades.Proyecto;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Role;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -94,6 +96,13 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setEstado(Boolean.FALSE);
     }
 
+    public void agregarProyecto(Proyecto proyecto, Usuario usuario){
+    
+     List<Proyecto> proyectos = usuario.getProyectoLista();
+     proyectos.add(proyecto);
+     usuario.setProyectoLista(proyectos);
+     usuarioRepositorio.save(usuario);
+    }
         
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
