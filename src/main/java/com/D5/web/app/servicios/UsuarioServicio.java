@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Role;
 import com.D5.web.app.exepciones.MyException;
-import com.D5.web.app.repositorios.IServicioGeneral;
 import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
 import java.util.Optional;
@@ -14,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
-public class UsuarioServicio implements IServicioGeneral<Usuario>, UserDetailsService {
+public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
@@ -81,7 +80,7 @@ public class UsuarioServicio implements IServicioGeneral<Usuario>, UserDetailsSe
     
     }
 
-    @Override
+    
     public void eliminar(Usuario usuario) {
         
         usuarioRepositorio.delete(usuario);
@@ -89,36 +88,13 @@ public class UsuarioServicio implements IServicioGeneral<Usuario>, UserDetailsSe
 
     }
 
-    @Override
+    
     public void cambiarEstado(Usuario usuario) {
       
         usuario.setEstado(Boolean.FALSE);
     }
 
-    @Override
-    public void crear(Usuario algunaEntidad) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void registrar(Usuario algunaEntidad) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void visualizar(Usuario dashBoardoProyectoReunion) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void accederPerfil(Usuario usuario) {
         
-
-    }
-
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -126,24 +102,12 @@ public class UsuarioServicio implements IServicioGeneral<Usuario>, UserDetailsSe
 
     }
 
-    @Override
-    public void agregar(Usuario algunaEntidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void valida(Usuario algunError) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public void modificar(Usuario algunaEntidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+        
+   
 }
