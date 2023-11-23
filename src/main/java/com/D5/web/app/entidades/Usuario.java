@@ -55,5 +55,6 @@ public class Usuario {
 	private Role role;
 
 	private List<Proyecto> proyectoLista;
+        
 	
 }
