@@ -7,8 +7,11 @@ import org.hibernate.annotations.GenericGenerator;
 import com.D5.web.app.enumerador.Role;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -48,10 +51,13 @@ public class Usuario {
 	@NotBlank
 	private Integer telefono;
 	
+	 @OneToOne
+	 private Imagen imagen;
 	
 	//Esto no es parte del formulario
 	private Boolean estado;
 
+	@Enumerated(EnumType.STRING)
 	private Role role;
 
 	private List<Proyecto> proyectoLista;

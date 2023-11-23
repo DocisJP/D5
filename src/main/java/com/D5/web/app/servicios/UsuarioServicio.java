@@ -1,5 +1,7 @@
 package com.D5.web.app.servicios;
 
+import org.springframework.stereotype.Service;
+
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Role;
 import com.D5.web.app.exepciones.MyException;
@@ -10,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+@Service
 public class UsuarioServicio implements IServicioGeneral <Usuario>, UserDetailsService{
 
     @Autowired

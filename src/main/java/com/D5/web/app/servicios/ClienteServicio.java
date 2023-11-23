@@ -1,8 +1,11 @@
 package com.D5.web.app.servicios;
 
+import org.springframework.stereotype.Service;
+
 import com.D5.web.app.entidades.Cliente;
 import com.D5.web.app.repositorios.IServicioGeneral;
 
+@Service
 public class ClienteServicio implements IServicioGeneral<Cliente> {
 
 	@Override
