@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>           
+            <!-- Hamburguesa -->
+            <div class="contenedor-portada">
+            </div>
+            <div class="contenedor-form">
+                <div class="bodyForm">
+                    <h1>Inicia Sesión</h1>
+                    <div class="form">
+
+                        <div class="formLogin">
+                            <form class="m-5" th:action= "@{/logincheck}" method="POST">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Ingresa tu E-mail </label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="E-mail">
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Ingresa tu contraseña</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>

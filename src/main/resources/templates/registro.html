@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+
+
+    <body class="bodyForm">
+        <header class="contenedor_header">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+        </header>
+        <h1>Registrate</h1>
+        <div class="form">
+            <div class="formLogin">
+                <form class="m-5" th:action= "@{/registro}" method="POST">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Ingresa tu nombre </label>
+                        <input type="text" class="form-control" placeholder="Nombre" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Ingresa tu apellido </label>
+                        <input type="text" class="form-control" placeholder="Apellido" >
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Ingresa tu E-mail </label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="E-mail">
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Ingresa tu contraseña</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Ingresa tu DNI</label>
+                        <input type="number" class="form-control" placeholder="Número de Documento">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Ingresa tu teléfono</label>
+                        <input type="number" class="form-control" placeholder="Teléfono" >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
+        </div>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>

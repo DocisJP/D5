@@ -1,0 +1,14 @@
+<div class="container-modelo">
+    <div th:if="${error != null}" class="error">
+        <div class="card-body">  
+            <h4 class="card-title">Error 👎</h4>
+            <p class="card-text" th:text="${error}"></p>
+        </div>
+    </div>
+    <div th:if="${exito != null}" class="exito">
+        <div class="card-body">  
+            <h4 class="card-title">Exito 👍</h4>
+            <p class="card-text" th:text="${exito}"></p>
+        </div>
+    </div>
+</div>
