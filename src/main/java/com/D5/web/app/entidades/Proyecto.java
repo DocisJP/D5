@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -14,14 +14,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
+
 @Entity
 public class Proyecto {
 
@@ -46,11 +41,75 @@ public class Proyecto {
 	
 	private List<Agente> equipo;
 	
-	@OneToMany
-	@Column(name = "reunion")
+	@OneToMany(mappedBy = "proyecto")
 	private List<Reunion> listaReuniones;
 	
-	@OneToMany
-	@Column(name = "tarea")
+	
 	private List<Tarea> tareas;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getDetalleProyecto() {
+		return detalleProyecto;
+	}
+
+	public void setDetalleProyecto(String detalleProyecto) {
+		this.detalleProyecto = detalleProyecto;
+	}
+
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Date getFechaFinalizacion() {
+		return fechaFinalizacion;
+	}
+
+	public void setFechaFinalizacion(Date fechaFinalizacion) {
+		this.fechaFinalizacion = fechaFinalizacion;
+	}
+
+	public List<Agente> getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(List<Agente> equipo) {
+		this.equipo = equipo;
+	}
+
+	public List<Reunion> getListaReuniones() {
+		return listaReuniones;
+	}
+
+	public void setListaReuniones(List<Reunion> listaReuniones) {
+		this.listaReuniones = listaReuniones;
+	}
+
+	public List<Tarea> getTareas() {
+		return tareas;
+	}
+
+	public void setTareas(List<Tarea> tareas) {
+		this.tareas = tareas;
+	}
+	
+	
 }
