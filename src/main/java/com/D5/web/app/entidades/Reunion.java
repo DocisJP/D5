@@ -9,10 +9,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -23,13 +23,11 @@ public class Reunion {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	
-	@OneToOne
-	private Proyecto proyecto;
 	
-	@NotBlank
+	@NotNull
 	private Cliente cliente;
 	
-	@NotBlank
+	@NotNull
 	private Agente agente;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -49,13 +47,6 @@ public class Reunion {
 		this.id = id;
 	}
 
-	public Proyecto getProyecto() {
-		return proyecto;
-	}
-
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
-	}
 
 	public Cliente getCliente() {
 		return cliente;

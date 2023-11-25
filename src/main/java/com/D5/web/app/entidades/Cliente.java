@@ -1,11 +1,11 @@
 package com.D5.web.app.entidades;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@DiscriminatorValue("Cliente")
 public class Cliente extends Usuario {
 
 	@NotBlank

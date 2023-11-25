@@ -13,7 +13,6 @@ import jakarta.persistence.Lob;
 
 
 
-
 @Entity
 public class Imagen {
 

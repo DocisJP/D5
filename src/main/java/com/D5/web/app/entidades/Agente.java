@@ -4,15 +4,18 @@ package com.D5.web.app.entidades;
 
 import java.util.List;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotBlank;
 
 
 
 @Entity
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@DiscriminatorValue("Agente")
 public class Agente extends Usuario{
 	
 	@NotBlank
@@ -20,7 +23,13 @@ public class Agente extends Usuario{
 	
 	@OneToMany(mappedBy= "agente")
 	private List<Tarea> tareas;
-	@OneToMany
+	
+	@ManyToMany
+	@JoinTable(
+			name = "agente_contactos", // Nombre de la tabla de unión
+	        joinColumns = @JoinColumn(name = "agente_id"), // Columna en la tabla de unión para 'Agente'
+	        inverseJoinColumns = @JoinColumn(name = "contacto_id") // Columna en la tabla de unión para 'Usuario'
+	    )
 	private List<Usuario> contactos;
 	
 	private List<String> notas;

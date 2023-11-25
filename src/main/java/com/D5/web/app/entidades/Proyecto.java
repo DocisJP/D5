@@ -2,11 +2,12 @@ package com.D5.web.app.entidades;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -20,34 +21,47 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 public class Proyecto {
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	
-	@NotBlank
-	private String nombre;
-	
-	@NotBlank
-	private String detalleProyecto;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaInicio;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaFinalizacion;
-	
-	private List<Agente> equipo;
-	
-	@OneToMany(mappedBy = "proyecto")
-	private List<Reunion> listaReuniones;
-	
-	
-	private List<Tarea> tareas;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
+    
+    @NotBlank
+    private String nombre;
+    
+    @NotBlank
+    private String detalleProyecto;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaInicio;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaFinalizacion;
+    
+ 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Agente> equipo;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reunion> listaReuniones;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tarea> tareas;
 
-	public String getId() {
+    
+    public Proyecto() {
+        this.equipo = new ArrayList<>();
+        this.listaReuniones = new ArrayList<>();
+        this.tareas = new ArrayList<>();
+    }
+
+    
+    
+    public String getId() {
 		return id;
 	}
 
