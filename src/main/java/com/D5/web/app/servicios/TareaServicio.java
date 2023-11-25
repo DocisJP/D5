@@ -1,6 +1,7 @@
 package com.D5.web.app.servicios;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.D5.web.app.entidades.Agente;
@@ -17,74 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class TareaServicio implements IServicioGeneral<Tarea>{
-
-	@Override
-	public void agregar(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void modificar(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void eliminar(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cambiarEstado(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void crear(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void registrar(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visualizar(Tarea dashBoardoProyectoReunion) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void accederPerfil(Tarea algunClienteoAgente) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void valida(Tarea algunError) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-
 public class TareaServicio implements IServicioGeneral<Tarea> {
 
+	@Autowired
     TareaRepositorio tareaRepositorio;
 
-    Tarea tarea = new Tarea();
 
     @Transactional
     public void agregar(String nombreTarea, String descripcion, Boolean estado, Agente agente, Date fechaInicio, Date fechaFinalizacion) throws MyException {
-        valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
-        tarea.setAgente(agente);
+    	Tarea tarea = new Tarea();
+
+    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
+        
+    	tarea.setAgente(agente);
         tarea.setDescripcion(descripcion);
         tarea.setEstado(estado);
         tarea.setFechaInicio(fechaInicio);
@@ -140,9 +86,6 @@ public class TareaServicio implements IServicioGeneral<Tarea> {
         }
         if (descripcion.isBlank()) {
             throw new MyException("La descripcion no puede ser espacios");
-        }
-        if (estado == null) {
-            throw new MyException("Estado inválido");
         }
         if (fechaInicio.before(Date.from(Instant.now())) || fechaInicio.equals(fechaFinalizacion)) {
             throw new MyException("Fecha de inicio no puede ser anterior al día de hoy");

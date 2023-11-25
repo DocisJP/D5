@@ -14,6 +14,8 @@ import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +32,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/proyecto")
 public class ProyectoControlador {
 
+	@Autowired
     TareaServicio tareaServicio;
+    
+    @Autowired
     ReunionServicio reunionServicio;
 
+    @Autowired
     ProyectoServicio proyectoServicio;
 
     @GetMapping("/lista/tareas")

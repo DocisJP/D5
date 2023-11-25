@@ -24,7 +24,7 @@ return "index.html";
 @GetMapping("/registrar")
 public String registrar(){
 
-return "form_registro.html";
+return "registro.html";
 }
 
 @PostMapping("/registro")

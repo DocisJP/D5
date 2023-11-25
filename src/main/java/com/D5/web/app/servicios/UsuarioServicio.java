@@ -50,7 +50,7 @@ public class UsuarioServicio implements UserDetailsService {
             
             Usuario usuario = respuesta.get();
             
-             usuario.setNombre(nombre);
+        usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setEmail(email);
         usuario.setPassword(password);
@@ -66,22 +66,29 @@ public class UsuarioServicio implements UserDetailsService {
     
     public Usuario buscarUsuario(String id){
     
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-        
-        if (respuesta.isPresent()) {
-            
-            Usuario usuario = respuesta.get();
-            
-            return usuario;
-            
-        } else { 
-            
-            return null;
-        
-        }
+    	/*
+	        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
+	        
+	        if (respuesta.isPresent()) {
+	            
+	            Usuario usuario = respuesta.get();
+	            
+	            return usuario;
+	            
+	        } else { 
+	            
+	            return null;
+	        
+	        }
+    	 * 
+    	 */
+    	return usuarioRepositorio.findById(id).orElse(null);
     
     }
 
+    public Usuario buscarporEmail(String email) {
+    	return usuarioRepositorio.findbyEmail(email);
+    }
     
     public void eliminar(Usuario usuario) {
         
@@ -94,6 +101,11 @@ public class UsuarioServicio implements UserDetailsService {
     public void cambiarEstado(Usuario usuario) {
       
         usuario.setEstado(Boolean.FALSE);
+        
+        /*
+         *  usuario.setEstado(!usuario.getEstado());
+        	usuarioRepositorio.save(usuario);
+         */
     }
 
     public void agregarProyecto(Proyecto proyecto, Usuario usuario){
@@ -114,7 +126,7 @@ public class UsuarioServicio implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); //Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
         
