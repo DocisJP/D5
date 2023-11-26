@@ -1,13 +1,13 @@
 package com.D5.web.app.servicios;
 
-import com.D5.web.app.entidades.Proyecto;
+
 import org.springframework.stereotype.Service;
+
+import com.D5.web.app.entidades.Imagen;
 import com.D5.web.app.entidades.Usuario;
-import com.D5.web.app.enumerador.Role;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +21,7 @@ public class UsuarioServicio implements UserDetailsService {
     UsuarioRepositorio usuarioRepositorio;
 
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono) throws MyException {
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, String direccion, String empresa, Imagen imagen) throws MyException {
 
         valida(password, password2);
 
@@ -32,7 +32,11 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setPassword(password);
         usuario.setDni(dni);
         usuario.setTelefono(telefono);
-        usuario.setRole(Role.CLIENTE);
+        usuario.setDireccion(direccion);
+        usuario.setEmpresa(empresa);
+        usuario.setImagen(imagen);
+        
+        //usuario.setRole(Role.CLIENTE);
         usuario.setEstado(Boolean.TRUE);
 
         usuarioRepositorio.save(usuario);
@@ -40,7 +44,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono) throws MyException {
+    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, Imagen imagen, String direccion, String empresa) throws MyException {
 
         valida(password, password2);
         
@@ -56,7 +60,11 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setPassword(password);
         usuario.setDni(dni);
         usuario.setTelefono(telefono);
-        usuario.setRole(Role.CLIENTE);
+        usuario.setDireccion(direccion);
+        usuario.setEmpresa(empresa);
+        usuario.setImagen(imagen);
+        
+        //usuario.setRole(Role.CLIENTE);
         usuario.setEstado(Boolean.TRUE);
         
         usuarioRepositorio.save(usuario);
@@ -108,13 +116,13 @@ public class UsuarioServicio implements UserDetailsService {
          */
     }
 
-    public void agregarProyecto(Proyecto proyecto, Usuario usuario){
-    
-     List<Proyecto> proyectos = usuario.getProyectoLista();
-     proyectos.add(proyecto);
-     usuario.setProyectoLista(proyectos);
-     usuarioRepositorio.save(usuario);
-    }
+//    public void agregarProyecto(Proyecto proyecto, Usuario usuario){
+//    
+//     List<Proyecto> proyectos = usuario.getProyectoLista();
+//     proyectos.add(proyecto);
+//     usuario.setProyectoLista(proyectos);
+//     usuarioRepositorio.save(usuario);
+//    }
         
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {

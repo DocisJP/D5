@@ -5,97 +5,98 @@ import java.util.Date;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "reunion")
 public class Reunion {
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	
-	@OneToOne
-	private Proyecto proyecto;
-	
-	@NotBlank
-	private Cliente cliente;
-	
-	@NotBlank
-	private Agente agente;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date horarioDeInicio;
-	
-	@NotBlank
-	private String detalle;
-	
-	private Boolean estado;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    @NotBlank
+    @ManyToOne
+    private Proyecto proyecto;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date horarioDeInicio;
 
-	public Proyecto getProyecto() {
-		return proyecto;
-	}
+    @NotBlank
+    private String detalle;
 
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
-	}
+    private Boolean estado;
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    // Una reunión puede tener varios participantes
+    @ManyToMany
+    @JoinTable(
+            name = "reunion_participantes",
+            joinColumns = @JoinColumn(name = "reunion_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private Set<Usuario> participantes = new HashSet<>();
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Agente getAgente() {
-		return agente;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setAgente(Agente agente) {
-		this.agente = agente;
-	}
+    public Proyecto getProyecto() {
+        return proyecto;
+    }
 
-	public Date getHorarioDeInicio() {
-		return horarioDeInicio;
-	}
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
 
-	public void setHorarioDeInicio(Date horarioDeInicio) {
-		this.horarioDeInicio = horarioDeInicio;
-	}
+    public Date getHorarioDeInicio() {
+        return horarioDeInicio;
+    }
 
-	public String getDetalle() {
-		return detalle;
-	}
+    public void setHorarioDeInicio(Date horarioDeInicio) {
+        this.horarioDeInicio = horarioDeInicio;
+    }
 
-	public void setDetalle(String detalle) {
-		this.detalle = detalle;
-	}
+    public String getDetalle() {
+        return detalle;
+    }
 
-	public Boolean getEstado() {
-		return estado;
-	}
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
-	
-	
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public Set<Usuario> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(Set<Usuario> participantes) {
+        this.participantes = participantes;
+    }
+    
+    
 }
