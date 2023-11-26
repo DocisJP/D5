@@ -4,7 +4,6 @@ package com.D5.web.app.servicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.D5.web.app.entidades.Agente;
 
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.exepciones.MyException;
@@ -13,7 +12,6 @@ import com.D5.web.app.repositorios.TareaRepositorio;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -24,22 +22,20 @@ public class TareaServicio implements IServicioGeneral<Tarea> {
     TareaRepositorio tareaRepositorio;
 
 
-    @Transactional
-    public void agregar(String nombreTarea, String descripcion, Boolean estado, Agente agente, Date fechaInicio, Date fechaFinalizacion) throws MyException {
-    	Tarea tarea = new Tarea();
-
-    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
-        
-    	tarea.setAgente(agente);
-        tarea.setDescripcion(descripcion);
-        tarea.setEstado(estado);
-        tarea.setFechaInicio(fechaInicio);
-        tarea.setFechaFinalizacion(fechaFinalizacion);
-        tarea.setNombreTarea(nombreTarea);
-
-        tareaRepositorio.save(tarea);
-
-    }
+//    @Transactional
+//    public void agregar(String nombreTarea, String descripcion, Boolean estado) throws MyException {
+//    	Tarea tarea = new Tarea();
+//
+//    	valida(nombreTarea, descripcion, estado);
+//        
+//   
+//        tarea.setDescripcion(descripcion);
+//        tarea.setEstado(estado);
+//        tarea.setNombreTarea(nombreTarea);
+//
+//        tareaRepositorio.save(tarea);
+//
+//    }
 
     @Transactional
     @Override
@@ -55,20 +51,20 @@ public class TareaServicio implements IServicioGeneral<Tarea> {
 
     }
 
-    @Transactional
-    @Override
-    public void cambiarEstado(Tarea algunaEntidad) {
-        Optional<Tarea> respuesta = tareaRepositorio.findById(algunaEntidad.getId());
-
-        if (respuesta.isPresent()) {
-            if (respuesta.get().getEstado()) {
-                respuesta.get().setEstado(Boolean.FALSE);
-            } else {
-                respuesta.get().setEstado(Boolean.TRUE);
-            }
-        }
-
-    }
+//    @Transactional
+//    @Override
+//    public void cambiarEstado(Tarea algunaEntidad) {
+//        Optional<Tarea> respuesta = tareaRepositorio.findById(algunaEntidad.getId());
+//
+//        if (respuesta.isPresent()) {
+//            if (respuesta.get().getEstado()) {
+//                respuesta.get().setEstado(Boolean.FALSE);
+//            } else {
+//                respuesta.get().setEstado(Boolean.TRUE);
+//            }
+//        }
+//
+//    }
 
     @Transactional(readOnly = true)
     public List<Tarea> listarTareas() {
@@ -125,6 +121,12 @@ public class TareaServicio implements IServicioGeneral<Tarea> {
     public void valida(Tarea algunError) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+	@Override
+	public void cambiarEstado(Tarea algunaEntidad) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

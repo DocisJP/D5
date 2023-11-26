@@ -5,94 +5,122 @@ import java.util.Date;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 
+
 @Entity
+@Table(name = "tarea")
 public class Tarea {
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	
-	private String nombreTarea;
-	private String descripcion;
-	private Boolean estado;
-	
-	
-	@ManyToOne
-	private Agente agente;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaInicio;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaFinalizacion;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    private String nombreTarea;
+    private String descripcion;
+    private Boolean estado;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @ManyToOne
+    private Proyecto proyect;
 
-	public String getNombreTarea() {
-		return nombreTarea;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaInicio;
 
-	public void setNombreTarea(String nombreTarea) {
-		this.nombreTarea = nombreTarea;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaFinalizacion;
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    // La tarea pertenece a un proyecto
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proyecto_id")
+    private Proyecto proyecto;
 
-	public Boolean getEstado() {
-		return estado;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Agente getAgente() {
-		return agente;
-	}
+    public String getNombreTarea() {
+        return nombreTarea;
+    }
 
-	public void setAgente(Agente agente) {
-		this.agente = agente;
-	}
+    public void setNombreTarea(String nombreTarea) {
+        this.nombreTarea = nombreTarea;
+    }
 
-	public Date getFechaInicio() {
-		return fechaInicio;
-	}
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-	public Date getFechaFinalizacion() {
-		return fechaFinalizacion;
-	}
+    public Boolean getEstado() {
+        return estado;
+    }
 
-	public void setFechaFinalizacion(Date fechaFinalizacion) {
-		this.fechaFinalizacion = fechaFinalizacion;
-	}
-	
-	
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public Proyecto getProyect() {
+        return proyect;
+    }
+
+    public void setProyect(Proyecto proyect) {
+        this.proyect = proyect;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
+
+    public void setFechaFinalizacion(Date fechaFinalizacion) {
+        this.fechaFinalizacion = fechaFinalizacion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Proyecto getProyecto() {
+        return proyecto;
+    }
+
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
+    }
+    
+    
 }

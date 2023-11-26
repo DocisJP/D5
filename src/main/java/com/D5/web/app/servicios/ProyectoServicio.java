@@ -5,19 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import com.D5.web.app.entidades.Agente;
-
 import com.D5.web.app.entidades.Proyecto;
-import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea;
-import com.D5.web.app.exepciones.MyException;
+
 import com.D5.web.app.repositorios.IServicioGeneral;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -35,24 +27,24 @@ public class ProyectoServicio implements IServicioGeneral<Proyecto> {
 
     }
 
-    public List<Reunion> verReuniones(Proyecto proyecto) {
-        Optional<Proyecto> respuesta = proyectoRepositorio.findById(proyecto.getId());
-        List<Reunion> contenido = new ArrayList<>();
-        if (respuesta.isPresent()) {
-            contenido = respuesta.get().getListaReuniones();
-        }
-        return contenido;
-
-    }
-
-    public List<Tarea> verTareas(Proyecto proyecto) {
-        Optional<Proyecto> respuesta = proyectoRepositorio.findById(proyecto.getId());
-        List<Tarea> lista = new ArrayList<>();
-        if (respuesta.isPresent()) {
-            lista = respuesta.get().getTareas();
-        }
-        return lista;
-    }
+//    public List<Reunion> verReuniones(Proyecto proyecto) {
+//        Optional<Proyecto> respuesta = proyectoRepositorio.findById(proyecto.getId());
+//        List<Reunion> contenido = new ArrayList<>();
+//        if (respuesta.isPresent()) {
+//            contenido = respuesta.get().getListaReuniones();
+//        }
+//        return contenido;
+//
+//    }
+//
+//    public List<Tarea> verTareas(Proyecto proyecto) {
+//        Optional<Proyecto> respuesta = proyectoRepositorio.findById(proyecto.getId());
+//        List<Tarea> lista = new ArrayList<>();
+//        if (respuesta.isPresent()) {
+//            lista = respuesta.get().getTareas();
+//        }
+//        return lista;
+//    }
 
     @Override
     public void agregar(Proyecto algunaEntidad) {
@@ -74,12 +66,12 @@ public class ProyectoServicio implements IServicioGeneral<Proyecto> {
     public void cambiarEstado(Proyecto algunaEntidad) {
     }
 
-    @Transactional
-    public void crear(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion, List<Agente> equipo, List<Reunion> listaReuniones, List<Tarea> tareas) throws MyException {
-        //valida(nombre, detalleProyecto, fechaInicio, fechaFinalizacion, equipo, listaReuniones, tareas);
-       // Proyecto proyecto = new Proyecto(null, nombre, detalleProyecto, fechaInicio, fechaFinalizacion, equipo, listaReuniones, tareas);
-       // proyectoRepositorio.saveAndFlush(proyecto);
-    }
+//    @Transactional
+//    public void crear(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion, List<Agente> equipo, List<Reunion> listaReuniones, List<Tarea> tareas) throws MyException {
+//        //valida(nombre, detalleProyecto, fechaInicio, fechaFinalizacion, equipo, listaReuniones, tareas);
+//       // Proyecto proyecto = new Proyecto(null, nombre, detalleProyecto, fechaInicio, fechaFinalizacion, equipo, listaReuniones, tareas);
+//       // proyectoRepositorio.saveAndFlush(proyecto);
+//    }
 
     @Override
     public void registrar(Proyecto algunaEntidad) {
@@ -99,24 +91,24 @@ public class ProyectoServicio implements IServicioGeneral<Proyecto> {
 
     }
 
-    public void valida(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion, List<Agente> equipo, List<Reunion> listaReuniones, List<Tarea> tareas) throws MyException {
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MyException("nombre vacío o nulo");
-
-        }
-        
-        if (detalleProyecto.isBlank() || detalleProyecto == null) {
-            throw new MyException("detalle vacío o nulo");
-
-        }
-        if (fechaInicio.before(Date.from(Instant.now())) || fechaInicio.equals(fechaFinalizacion)) {
-            throw new MyException("Fecha de inicio no puede ser anterior al día de hoy");
-        }
-        if (fechaInicio.after(fechaFinalizacion)) {
-            throw new MyException("Fecha de inicio no puede ser posterior a la de finalización");
-        }
-
-    }
+//    public void valida(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion, List<Agente> equipo, List<Reunion> listaReuniones, List<Tarea> tareas) throws MyException {
+//        if (nombre.isEmpty() || nombre == null) {
+//            throw new MyException("nombre vacío o nulo");
+//
+//        }
+//        
+//        if (detalleProyecto.isBlank() || detalleProyecto == null) {
+//            throw new MyException("detalle vacío o nulo");
+//
+//        }
+//        if (fechaInicio.before(Date.from(Instant.now())) || fechaInicio.equals(fechaFinalizacion)) {
+//            throw new MyException("Fecha de inicio no puede ser anterior al día de hoy");
+//        }
+//        if (fechaInicio.after(fechaFinalizacion)) {
+//            throw new MyException("Fecha de inicio no puede ser posterior a la de finalización");
+//        }
+//
+//    }
 
     @Override
     public void crear(Proyecto algunaEntidad) {
