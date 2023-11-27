@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
@@ -20,8 +21,11 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
 
+    @Autowired
+    private ImagenServicio imagenServicio;
+    
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, String direccion, String empresa, Imagen imagen) throws MyException {
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, String direccion, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -34,6 +38,9 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setTelefono(telefono);
         usuario.setDireccion(direccion);
         usuario.setEmpresa(empresa);
+        
+        Imagen imagen = imagenServicio.guardar(archivo);
+        
         usuario.setImagen(imagen);
         
         //usuario.setRole(Role.CLIENTE);
@@ -44,7 +51,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, Imagen imagen, String direccion, String empresa) throws MyException {
+    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, MultipartFile archivo, String direccion, String empresa) throws MyException {
 
         valida(password, password2);
         
@@ -62,6 +69,17 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setTelefono(telefono);
         usuario.setDireccion(direccion);
         usuario.setEmpresa(empresa);
+        
+        String idImagen = null;
+            
+            if (usuario.getImagen() != null) {
+                
+                idImagen = usuario.getImagen().getId();
+            }
+
+            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+            
+        
         usuario.setImagen(imagen);
         
         //usuario.setRole(Role.CLIENTE);

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/")
@@ -29,10 +30,10 @@ return "registro.html";
 }
 
 @PostMapping("/registro")
-public String registro(@RequestParam String nombre,@RequestParam String apellido, @RequestParam String email,@RequestParam String password,@RequestParam String password2, @RequestParam Long dni, @RequestParam Integer telefono, @RequestParam String direccion, @RequestParam String empresa, @RequestParam Imagen imagen)throws MyException{
+public String registro(@RequestParam String nombre,@RequestParam String apellido, @RequestParam String email,@RequestParam String password,@RequestParam String password2, @RequestParam Long dni, @RequestParam Integer telefono, @RequestParam String direccion, @RequestParam String empresa, MultipartFile archivo)throws MyException{
 
     try {
-        usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion, empresa, imagen);
+        usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion, empresa, archivo);
         return "index.html";
     } catch (MyException e) {
         
