@@ -1,5 +1,6 @@
 package com.D5.web.app.entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,8 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
+
 
 
 
@@ -51,13 +51,13 @@ public class Proyecto {
 	@OneToMany(mappedBy="proyect")
 	private List<Tarea> tareas;
         
-        @ManyToMany
+    @ManyToMany
     @JoinTable(
         name = "proyecto_usuarios",
         joinColumns = @JoinColumn(name = "proyecto_id"),
         inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-    private Set<Usuario> usuarios = new HashSet<>();
+    private List<Usuario> usuarios = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -115,13 +115,15 @@ public class Proyecto {
         this.tareas = tareas;
     }
 
-    public Set<Usuario> getUsuarios() {
-        return usuarios;
-    }
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
 
-    public void setUsuarios(Set<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+    
         
         
 }
