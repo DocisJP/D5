@@ -33,6 +33,7 @@ public class Proyecto {
 	
 	@NotBlank
 	private String nombre;
+        private Boolean estado;
 	
 	@NotBlank
 	private String detalleProyecto;
@@ -65,6 +66,14 @@ public class Proyecto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public String getNombre() {
