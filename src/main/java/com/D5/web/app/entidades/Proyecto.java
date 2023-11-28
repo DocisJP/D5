@@ -58,6 +58,8 @@ public class Proyecto {
         inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     private List<Usuario> usuarios = new ArrayList<>();
+    
+    private Boolean estado;
 
     public String getId() {
         return id;
@@ -121,6 +123,14 @@ public class Proyecto {
 
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+
+	public Boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
 	}
 
     

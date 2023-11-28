@@ -13,31 +13,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/")
 public class VistaPrincipal {
-    
-    @Autowired
-    UsuarioServicio usuarioServicio;
 
-        @GetMapping("/")
-public String index() {
-return "index.html";
-}
+	@Autowired
+	UsuarioServicio usuarioServicio;
 
-@GetMapping("/registrar")
-public String registrar(){
+	@GetMapping("/")
+	public String index() {
+		return "index.html";
+	}
 
-return "registro.html";
-}
+	@GetMapping("/registrar")
+	public String registrar() {
 
-@PostMapping("/registro")
-public String registro(@RequestParam String nombre,@RequestParam String apellido, @RequestParam String email,@RequestParam String password,@RequestParam String password2, @RequestParam Long dni, @RequestParam Integer telefono, @RequestParam String direccion, @RequestParam String empresa, @RequestParam Imagen imagen)throws MyException{
+		return "registro.html";
+	}
 
-    try {
-        usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion, empresa, imagen);
-        return "index.html";
-    } catch (MyException e) {
-        
-        return "index.html";
-    }
+	@PostMapping("/registro")
+	public String registro(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
+			@RequestParam String password, @RequestParam String password2, @RequestParam Long dni,
+			@RequestParam Integer telefono, @RequestParam String direccion, @RequestParam String empresa,
+			@RequestParam Imagen imagen) throws MyException {
 
-}
+		try {
+			usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion,
+					empresa, imagen);
+			return "index.html";
+		} catch (MyException e) {
+
+			return "index.html";
+		}
+
+	}
 }
