@@ -1,26 +1,26 @@
 <nav class="navegacion">
+        <!-- Hamburguesa -->
+        <input type="checkbox" id="check" />
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
 
-    <input type="checkbox" id="check">
+        <!-- Logo -->
+        <a href="#" class="enlace">
+          <img src="/logo2.png" alt="" class="logo" />
+        </a>
 
-    <label for="check" class="checkbtn">
-        <i class="fas fa-bars"></i>
-    </label>
+        <!--Enlaces y botones del nav-->
+        <div class="enlaces">
+          <input type="checkbox" id="check" />
+        <label for="check" class="checkbtn">
+          <i class="fas fa-bars"></i>
+        </label>
+          <a href="#">Inicio</a>
+          <a href="#">Nosotros</a>
+          <a href="#">Contacto</a>
 
-    <!-- Logo -->
-    <a href="#" class="enlace">
-        <img src="img/logo2.png" alt="" class="logo"/>
-    </a>
-
-    <!--Enlaces y botones del nav-->
-    <div class="enlaces">
-
-        <a href="#">Inicio</a>
-        <a href="#">Nosotros</a>
-        <a href="#">Contacto</a>
-
-        <!-- <a href="form_login.html" class="botonLink">Inicia Sesión</a> -->
-        <a th:href="@{/registrar}" class="botonLink">Registrate</a>
-
-    </div>
-
-</nav> 
+          <!-- <a href="form_login.html" class="botonLink">Inicia Sesión</a> -->
+          <a th:href="@{/registrar}" class="botonLink">Registrate</a>
+        </div>
+      </nav>
