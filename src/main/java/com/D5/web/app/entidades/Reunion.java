@@ -48,6 +48,7 @@ public class Reunion {
             joinColumns = @JoinColumn(name = "reunion_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
+    
     private Set<Usuario> participantes = new HashSet<>();
 
     public String getId() {

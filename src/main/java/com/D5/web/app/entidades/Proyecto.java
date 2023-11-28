@@ -20,43 +20,42 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
-
-
 @Entity
-@Table(name="proyecto")
+@Table(name = "proyecto")
 public class Proyecto {
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	
-	@NotBlank
-	private String nombre;
-	
-	@NotBlank
-	private String detalleProyecto;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaInicio;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaFinalizacion;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-	@OneToMany(mappedBy="proyecto")
-	private List<Reunion> listaReuniones;
-	
-	@OneToMany(mappedBy="proyect")
-	private List<Tarea> tareas;
-        
-        @ManyToMany
+    @NotBlank
+    private String nombre;
+
+    @NotBlank
+    private String detalleProyecto;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaInicio;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaFinalizacion;
+
+    @OneToMany(mappedBy = "proyecto")
+    private List<Reunion> listaReuniones;
+
+    @OneToMany(mappedBy = "proyect")
+    private List<Tarea> tareas;
+
+    @ManyToMany
     @JoinTable(
-        name = "proyecto_usuarios",
-        joinColumns = @JoinColumn(name = "proyecto_id"),
-        inverseJoinColumns = @JoinColumn(name = "usuario_id")
+            name = "proyecto_usuarios",
+            joinColumns = @JoinColumn(name = "proyecto_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
+
     private Set<Usuario> usuarios = new HashSet<>();
 
     public String getId() {
@@ -122,6 +121,5 @@ public class Proyecto {
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-        
-        
+
 }
