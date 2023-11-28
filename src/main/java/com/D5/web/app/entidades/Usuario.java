@@ -2,7 +2,7 @@ package com.D5.web.app.entidades;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.D5.web.app.enumerador.Role;
+import com.D5.web.app.enumerador.Rol;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -57,7 +57,7 @@ public class Usuario {
 	private Boolean estado;
 
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Rol rol;
 
     public String getId() {
         return id;
@@ -131,12 +131,12 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public Role getRole() {
-        return role;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
 	public String getDireccion() {
