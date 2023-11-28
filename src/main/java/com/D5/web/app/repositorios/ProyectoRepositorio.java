@@ -17,4 +17,5 @@ public interface ProyectoRepositorio extends JpaRepository<Proyecto, String>{
             + "AND pu.usuario_id=u.id "
             + "AND u.email = :email")
     public List<Proyecto> findTareaByUsuario(@Param("email") String email);
+    
 }
