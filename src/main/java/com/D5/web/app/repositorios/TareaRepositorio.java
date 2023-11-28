@@ -10,8 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface TareaRepositorio extends JpaRepository<Tarea, String>{
-
+ 
     
     @Query("SELECT t FROM Tarea t,Usuario u WHERE t.usuario_id=u.id AND u.email = :email")
     public List<Tarea> findTareaByUsuario(@Param("email") String email);
+  
+    
 }

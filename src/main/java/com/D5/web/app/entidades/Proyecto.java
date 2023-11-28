@@ -1,5 +1,6 @@
 package com.D5.web.app.entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +17,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.validation.constraints.NotBlank; 
+
 
 @Entity
 @Table(name = "proyecto")
@@ -31,6 +31,7 @@ public class Proyecto {
 
     @NotBlank
     private String nombre;
+    private Boolean estado;
 
     @NotBlank
     private String detalleProyecto;
@@ -56,7 +57,7 @@ public class Proyecto {
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
 
-    private Set<Usuario> usuarios = new HashSet<>();
+    private List<Usuario> usuarios = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -64,6 +65,14 @@ public class Proyecto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public String getNombre() {
@@ -114,12 +123,13 @@ public class Proyecto {
         this.tareas = tareas;
     }
 
-    public Set<Usuario> getUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(Set<Usuario> usuarios) {
+     
+	public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-
+ 
 }

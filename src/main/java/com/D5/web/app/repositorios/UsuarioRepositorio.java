@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.D5.web.app.entidades.Usuario;
 import java.util.List;
 
-@Repository
+@Repository 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     
@@ -21,3 +21,5 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.role = :role")
     public List<Usuario> findbyRole(@Param("role") String role);
 } 
+ 
+ 

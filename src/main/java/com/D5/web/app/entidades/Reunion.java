@@ -1,5 +1,6 @@
 package com.D5.web.app.entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -16,8 +17,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
 
 @Entity
 @Table(name = "reunion")
@@ -48,8 +49,8 @@ public class Reunion {
             joinColumns = @JoinColumn(name = "reunion_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-    
-    private Set<Usuario> participantes = new HashSet<>();
+ 
+    private List<Usuario> participantes = new ArrayList<Usuario>(); 
 
     public String getId() {
         return id;
@@ -91,13 +92,15 @@ public class Reunion {
         this.estado = estado;
     }
 
-    public Set<Usuario> getParticipantes() {
-        return participantes;
-    }
+	public List<Usuario> getParticipantes() {
+		return participantes;
+	}
 
-    public void setParticipantes(Set<Usuario> participantes) {
-        this.participantes = participantes;
-    }
+	public void setParticipantes(List<Usuario> participantes) {
+		this.participantes = participantes;
+	}
+
+   
     
     
 }
