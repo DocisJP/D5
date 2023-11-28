@@ -20,7 +20,7 @@ public class VistaPrincipal {
 
         @GetMapping("/")
 public String index() {
-return "index.html";
+return "principal.html";
 }
 
 @GetMapping("/registrar")
@@ -34,10 +34,10 @@ public String registro(@RequestParam String nombre,@RequestParam String apellido
 
     try {
         usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion, empresa, archivo);
-        return "index.html";
+        return "principal.html";
     } catch (MyException e) {
         
-        return "index.html";
+        return "principal.html";
     }
 
 }
