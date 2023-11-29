@@ -16,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 
@@ -29,7 +28,7 @@ public class Reunion {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @NotBlank
+    
     @ManyToOne
     private Proyecto proyecto;
 
@@ -37,7 +36,7 @@ public class Reunion {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date horarioDeInicio;
 
-    @NotBlank
+    
     private String detalle;
 
     private Boolean estado;

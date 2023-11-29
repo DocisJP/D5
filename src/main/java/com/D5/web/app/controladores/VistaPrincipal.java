@@ -1,6 +1,6 @@
 package com.D5.web.app.controladores;
 
-import com.D5.web.app.entidades.Imagen;
+
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class VistaPrincipal {
 	public String registro(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
 			@RequestParam String password, @RequestParam String password2, @RequestParam Long dni,
 			@RequestParam Long telefono, @RequestParam String direccion, @RequestParam String empresa,
-			@RequestParam Imagen imagen) throws MyException {
+			@RequestParam MultipartFile imagen) throws MyException {
 
 		try {
 			usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion,

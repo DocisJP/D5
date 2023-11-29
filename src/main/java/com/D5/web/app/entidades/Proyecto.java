@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotBlank; 
+ 
 
 
 @Entity
@@ -29,11 +29,11 @@ public class Proyecto {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @NotBlank
+    
     private String nombre;
     
 
-    @NotBlank
+    
     private String detalleProyecto;
 
     @Temporal(TemporalType.TIMESTAMP)
