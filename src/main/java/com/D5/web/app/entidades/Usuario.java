@@ -44,7 +44,7 @@ public class Usuario {
 	private Long dni;
 
 	@NotNull
-	private Integer telefono;
+	private Long telefono;
 	
     @OneToOne
 	private Imagen imagen;
@@ -107,11 +107,11 @@ public class Usuario {
         this.dni = dni;
     }
 
-    public Integer getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Integer telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
 

@@ -35,7 +35,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
     
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, String direccion, String empresa, MultipartFile archivo) throws MyException {
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, String direccion, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -61,7 +61,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Integer telefono, MultipartFile archivo, String direccion, String empresa) throws MyException {
+    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, MultipartFile archivo, String direccion, String empresa) throws MyException {
 
         valida(password, password2);
         
@@ -123,7 +123,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public Usuario buscarporEmail(String email) {
-    	return usuarioRepositorio.findbyEmail(email);
+    	return usuarioRepositorio.findByEmail(email);
     }
     
     public void eliminar(Usuario usuario) {
@@ -163,11 +163,11 @@ public class UsuarioServicio implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
-    Usuario usuario = usuarioRepositorio.findbyEmail(email);
+    Usuario usuario = usuarioRepositorio.findByEmail(email);
     
       if (usuario != null) {
 
-            List<GrantedAuthority> permisos = new ArrayList();
+            List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
             GrantedAuthority p = new  SimpleGrantedAuthority(usuario.getRol().toString());
 

@@ -56,7 +56,6 @@ public class Proyecto {
             joinColumns = @JoinColumn(name = "proyecto_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-
     private List<Usuario> usuarios = new ArrayList<>();
     
     private Boolean estado;
@@ -133,11 +132,5 @@ public class Proyecto {
 		this.estado = estado;
 	}
 
-    
-
-	
-
-	
- 
 
 }

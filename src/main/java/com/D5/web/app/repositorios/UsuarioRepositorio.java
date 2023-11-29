@@ -16,10 +16,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     public Usuario buscarPorDni(@Param("dni") Integer dni);
 
     @Query("SELECT u FROM Usuario u WHERE u.email = :email")
-    public Usuario findbyEmail(@Param("email") String email);
+    public Usuario findByEmail(@Param("email") String email);
 
-    @Query("SELECT u FROM Usuario u WHERE u.role = :role")
-    public List<Usuario> findbyRole(@Param("role") String role);
+    @Query("SELECT u FROM Usuario u WHERE u.rol = :role")
+    public List<Usuario> findByRole(@Param("role") String role);
 } 
  
  

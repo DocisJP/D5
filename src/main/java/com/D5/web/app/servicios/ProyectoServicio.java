@@ -1,124 +1,138 @@
 package com.D5.web.app.servicios;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.D5.web.app.entidades.Proyecto;
-
+import com.D5.web.app.entidades.Reunion;
+import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.repositorios.IServicioGeneral;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
-import java.util.Date;
-import org.springframework.transaction.annotation.Transactional;
+//import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProyectoServicio implements IServicioGeneral<Proyecto> {
-	
+
+    private final ProyectoRepositorio proyectoRepositorio;
 
     @Autowired
-    ProyectoRepositorio proyectoRepositorio;
+    public ProyectoServicio(ProyectoRepositorio proyectoRepositorio) {
+        this.proyectoRepositorio = proyectoRepositorio;
+    }
 
+    @Override
     @Transactional
-    public void agregar(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion) {
-        //Proyecto proyecto = new Proyecto(null, nombre, detalleProyecto, fechaInicio, fechaFinalizacion, null, null, null);
-        //proyectoRepositorio.save(proyecto);
-
-    }
-
-//    public List<Reunion> verReuniones(Proyecto proyecto) {
-//        Optional<Proyecto> respuesta = proyectoRepositorio.findById(proyecto.getId());
-//        List<Reunion> contenido = new ArrayList<>();
-//        if (respuesta.isPresent()) {
-//            contenido = respuesta.get().getListaReuniones();
-//        }
-//        return contenido;
-//
-//    }
-//
-//    public List<Tarea> verTareas(Proyecto proyecto) {
-//        Optional<Proyecto> respuesta = proyectoRepositorio.findById(proyecto.getId());
-//        List<Tarea> lista = new ArrayList<>();
-//        if (respuesta.isPresent()) {
-//            lista = respuesta.get().getTareas();
-//        }
-//        return lista;
-//    }
-
-    @Override
-    public void agregar(Proyecto algunaEntidad) {
-        // TODO Auto-generated method stub
-
+    public void agregar(Proyecto proyecto) {
+        proyectoRepositorio.save(proyecto);
     }
 
     @Override
-    public void modificar(Proyecto algunaEntidad) {
-        proyectoRepositorio.saveAndFlush(algunaEntidad);
+    @Transactional
+    public void modificar(Proyecto proyecto) {
+        Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
+        
+        existente.setFechaInicio(null);
+        existente.setFechaFinalizacion(null);
+        existente.setNombre(proyecto.getNombre());
+        existente.setDetalleProyecto(proyecto.getDetalleProyecto());
+        existente.setFechaInicio(proyecto.getFechaInicio());
+        existente.setFechaFinalizacion(proyecto.getFechaFinalizacion());
+        
+
+        
+        actualizarReuniones(existente, proyecto.getListaReuniones());
+        actualizarTareas(existente, proyecto.getTareas());
+
+        proyectoRepositorio.save(existente);
+    }
+
+    private void actualizarReuniones(Proyecto existente, List<Reunion> nuevasReuniones) {
+        existente.getListaReuniones().clear();
+        if (nuevasReuniones != null) {
+            existente.getListaReuniones().addAll(nuevasReuniones);
+        }
+    }
+
+    private void actualizarTareas(Proyecto existente, List<Tarea> nuevasTareas) {
+        existente.getTareas().clear();
+        if (nuevasTareas != null) {
+            existente.getTareas().addAll(nuevasTareas);
+        }
+    }
+
+
+    @Override
+    @Transactional
+    public void eliminar(Proyecto proyecto) {
+        proyectoRepositorio.delete(proyecto);
     }
 
     @Override
-    public void eliminar(Proyecto algunaEntidad) {
-        proyectoRepositorio.delete(algunaEntidad);
+    public void cambiarEstado(Proyecto proyecto) {
+        Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
+        existente.setEstado(!existente.getEstado());
+        proyectoRepositorio.save(existente);
+    }
+
+
+    @Override
+    public void registrar(Proyecto proyecto) {
+        proyectoRepositorio.save(proyecto);
     }
 
     @Override
-    public void cambiarEstado(Proyecto algunaEntidad) {
-    }
-
-//    @Transactional
-//    public void crear(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion, List<Agente> equipo, List<Reunion> listaReuniones, List<Tarea> tareas) throws MyException {
-//        //valida(nombre, detalleProyecto, fechaInicio, fechaFinalizacion, equipo, listaReuniones, tareas);
-//       // Proyecto proyecto = new Proyecto(null, nombre, detalleProyecto, fechaInicio, fechaFinalizacion, equipo, listaReuniones, tareas);
-//       // proyectoRepositorio.saveAndFlush(proyecto);
-//    }
-
-    @Override
-    public void registrar(Proyecto algunaEntidad) {
-        // TODO Auto-generated method stub
-
+    public void valida(Proyecto proyecto) {
+        if (proyecto.getNombre() == null || proyecto.getNombre().isEmpty() || proyecto.getNombre().isBlank()) {
+            throw new IllegalArgumentException("El nombre del proyecto es requerido");
+        }
     }
 
     @Override
-    public void visualizar(Proyecto dashBoardoProyectoReunion) {
-        // TODO Auto-generated method stub
-
+    public void visualizar(Proyecto proyecto) {
+        proyectoRepositorio.findById(proyecto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
     }
 
     @Override
-    public void accederPerfil(Proyecto algunClienteoAgente) {
-        // TODO Auto-generated method stub
-
+    public void accederPerfil(Proyecto proyecto) {
+        proyectoRepositorio.findById(proyecto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
     }
-
-//    public void valida(String nombre, String detalleProyecto, Date fechaInicio, Date fechaFinalizacion, List<Agente> equipo, List<Reunion> listaReuniones, List<Tarea> tareas) throws MyException {
-//        if (nombre.isEmpty() || nombre == null) {
-//            throw new MyException("nombre vacío o nulo");
-//
-//        }
-//        
-//        if (detalleProyecto.isBlank() || detalleProyecto == null) {
-//            throw new MyException("detalle vacío o nulo");
-//
-//        }
-//        if (fechaInicio.before(Date.from(Instant.now())) || fechaInicio.equals(fechaFinalizacion)) {
-//            throw new MyException("Fecha de inicio no puede ser anterior al día de hoy");
-//        }
-//        if (fechaInicio.after(fechaFinalizacion)) {
-//            throw new MyException("Fecha de inicio no puede ser posterior a la de finalización");
-//        }
-//
-//    }
-
+    
     @Override
-    public void crear(Proyecto algunaEntidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    @Transactional
+    public void crear(Proyecto proyecto) {
+        valida(proyecto); 
+        establecerRelaciones(proyecto); 
+        proyectoRepositorio.save(proyecto);
     }
 
-    @Override
-    public void valida(Proyecto algunError) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
+    private void establecerRelaciones(Proyecto proyecto) {
+        for (Reunion reunion : proyecto.getListaReuniones()) {
+            reunion.setProyecto(proyecto);
+        }
+        for (Tarea tarea : proyecto.getTareas()) {
+            tarea.setProyecto(proyecto);
+        }
+        
+    }
+    
+    public Proyecto buscarPorId(String id) {
+        Optional<Proyecto> resultado = proyectoRepositorio.findById(id);
+        if (resultado.isPresent()) {
+            return resultado.get();
+        } else {
+            throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
+        }
+    }
 
 }
+
+
