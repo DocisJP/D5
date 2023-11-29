@@ -1,115 +1,157 @@
-<body>
-    <header class="contenedor-header-formulario">
-        <nav class="navegacion">
-            <!-- Logo -->
-            <a href="#" class="enlace">
-                <img src="img/logo2.png" alt="" class="logo" />
-            </a>
-        </nav>
-        <div class="contenedor-portada"></div>
-        <div class="contenedor-form">
-            <div class="bodyForm-registrar">
-                <h1>Regístrate</h1>
-                <div class="form-registrar">
-                    <div class="formLogin-registrar">
-                        <form class="m-5">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="nombre" class="form-label"
-                                           >Ingresa tu nombre</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Nombre"
-                                        id="nombre"
-                                        />
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header-formulario">
+            <nav class="navegacion">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/logo2.png" alt="" class="logo" />
+                </a>
+            </nav>
+            <div class="contenedor-portada"></div>
+            <div class="contenedor-form-registrar">
+                <div class="bodyForm-registrar">
+                    <h1>Regístrate</h1>
+                    <div class="form-registrar">
+                        <div class="formLogin-registrar">
+                            <form class="m-5" th:action= "@{/registro}" method="POST" enctype="multipart/form-data">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="nombre" class="form-label" >Ingresa tu nombre</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Nombre"
+                                            id="nombre"
+                                            name="nombre"
+                                            th:value="${nombre}"
+                                            />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="apellido" class="form-label"
+                                               >Ingresa tu apellido</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Apellido"
+                                            id="apellido"
+                                            name="apellido"
+                                            th:value="${apellido}"
+                                            />
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="apellido" class="form-label"
-                                           >Ingresa tu apellido</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Apellido"
-                                        id="apellido"
-                                        />
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="exampleInputEmail1" class="form-label"
+                                               >Ingresa tu E-mail</label
+                                        >
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="exampleInputEmail1"
+                                            aria-describedby="emailHelp"
+                                            placeholder="E-mail"
+                                            name="email"
+                                            th:value="${email}"
+                                            />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword1" class="form-label"
+                                               >Ingresa tu DNI</label
+                                        >
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            placeholder="Número de Documento"
+                                            name="dni"
+                                            th:value="dni"
+                                            />
+
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1" class="form-label"
-                                           >Ingresa tu E-mail</label
-                                    >
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        id="exampleInputEmail1"
-                                        aria-describedby="emailHelp"
-                                        placeholder="E-mail"
-                                        />
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="direccion" class="form-label" >Ingresa tu direccion</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Direccion"
+                                            id="nombre"
+                                            name="direccion"
+                                            th:value="${direccion}"
+                                            />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="empresa" class="form-label"
+                                               >Ingresa la empresa a la que pertenece</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Empresa"
+                                            name="empresa"
+                                            th:value="${empresa}"
+                                            />
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputPassword1" class="form-label"
-                                           >Ingresa tu contraseña</label
-                                    >
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="exampleInputPassword1"
-                                        placeholder="Contraseña"
-                                        />
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword1" class="form-label"
+                                               >Ingresa tu contraseña</label
+                                        >
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            placeholder="Ingresa la Contraseña"
+                                            name="password"
+                                            th:value="${password}"
+                                            />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword1" class="form-label"
+                                               >Repita la contraseña</label
+                                        >
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            placeholder="Repite Contraseña"
+                                            name="password2"
+                                            th:value="${password2}"
+                                            />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="exampleInputPassword1" class="form-label"
-                                           >Ingresa tu DNI</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        placeholder="Número de Documento"
-                                        />
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword1" class="form-label"
+                                               >Ingresa tu teléfono</label
+                                        >
+                                        <input
+                                            type="number"
+                                            class="form-control"
+                                            placeholder="Teléfono"
+                                            name="telefono"
+                                            th:value="telefono"
+                                            />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ingresa tu foto de perfil</label>
+                                        <input class="form-control" type="file" name="archivo" />
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputPassword1" class="form-label"
-                                           >Ingresa tu teléfono</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        placeholder="Teléfono"
-                                        />
+                                <div class="container-btn">
+                                    <button type="submit" class="btn btn-primary">
+                                        Registrarse
+                                    </button>
+                                    <div class="btn-volver">
+                                        <a href="@{/principal}">Volver</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label">Ingresa tu foto de perfil</label>
-                                <input class="form-control" type="file" name="archivo" />
-                            </div>
-                            <div class="container-btn">
-                                <button type="submit" class="btn btn-primary">
-                                    Registrarse
-                                </button>
-                                <div class="btn-volver">
-                                    <a href="@{/principal}">Volver</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <footer>
-        <div class="container-footer">
-            <p>&copy; 2023 Argentina</p>
-            <div class="social">
-                <img src="/frontendReformado/templates/img/social-icons.svg" />
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+                            </form>                           
+                            </header>
+                            <footer th:replace = "/fragments/footer :: footer"></footer>
+                            </body>
+
+                            </html>
 
