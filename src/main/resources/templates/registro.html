@@ -73,6 +73,31 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
+                                        <label for="direccion" class="form-label" >Ingresa tu direccion</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Direccion"
+                                            id="nombre"
+                                            name="direccion"
+                                            th:value="${direccion}"
+                                            />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="empresa" class="form-label"
+                                               >Ingresa la empresa a la que pertenece</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Empresa"
+                                            name="empresa"
+                                            th:value="${empresa}"
+                                            />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
                                         <label for="exampleInputPassword1" class="form-label"
                                                >Ingresa tu contraseña</label
                                         >
