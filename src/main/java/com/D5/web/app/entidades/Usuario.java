@@ -49,9 +49,9 @@ public class Usuario {
     @OneToOne
 	private Imagen imagen;
     
-    private String direccion;
+        private String direccion;
     
-    private String empresa;
+        private String empresa;
 	
 	//Esto no es parte del formulario
 	private Boolean estado;
