@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head th:replace = "/fragments/head :: head"></head>
+  <body class="body-tarea">
+    <div class="wrapper-tarea">
+      <div class="container-titulo-tarea">
+      <h1>Ingresa una tarea en tu block de notas</h1>
+    </div>
+      <form action="@{/tarea/registro}" method="post">
+        <label class="tarea" for="nota">Nombre de la tarea</label><br />
+        <input
+          class="input-tarea"
+          type="text"
+          name="nombreTarea"
+          th:value="${nombreTarea}"
+          placeholder="Nombre"
+        />
+        <label class="tarea" for="nota">Descripcion de la tarea</label><br />
+       
+        <div class="container-text-tarea">
+          <textarea
+            id="nota"
+            name="descripcion"
+            th:value="${descripcion}"
+            rows="4"
+            cols="50"
+            placeholder="Descripcion"
+          ></textarea
+          ><br /><br />
+        </div>
+        <button type="submit" class="btn-tarea">Guardar tarea</button>
+      </form>
+    </div>
+  </body>
 </html>

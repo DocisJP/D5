@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head th:replace = "/fragments/head :: head"></head>
-
   <body>
     <header class="contenedor-header">
-      <nav th:replace = "/fragments/navbar :: nav"></nav>
+        <nav th:replace = "/fragments/navbar :: nav"></nav>
       <div class="contenedor-portada"></div>
-
       <div class="contenedor-form">
         <div class="bodyForm">
           <h1>Inicia Sesión</h1>
