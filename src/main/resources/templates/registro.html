@@ -58,7 +58,7 @@
                                             />
                                     </div>
                                     <div class="col-md-6">
-                                         <label for="exampleInputPassword1" class="form-label"
+                                        <label for="exampleInputPassword1" class="form-label"
                                                >Ingresa tu DNI</label
                                         >
                                         <input
@@ -68,7 +68,7 @@
                                             name="dni"
                                             th:value="dni"
                                             />
-                                       
+
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -110,15 +110,12 @@
                                             th:value="telefono"
                                             />
                                     </div>
-
                                     <div class="col-md-6">
                                         <label class="form-label">Ingresa tu foto de perfil</label>
                                         <input class="form-control" type="file" name="archivo" />
                                     </div>
                                 </div>
-                               
-                            </form>
-                             <div class="container-btn">
+                                <div class="container-btn">
                                     <button type="submit" class="btn btn-primary">
                                         Registrarse
                                     </button>
@@ -126,9 +123,10 @@
                                         <a href="@{/principal}">Volver</a>
                                     </div>
                                 </div>
+                            </form>                           
                             </header>
                             <footer th:replace = "/fragments/footer :: footer"></footer>
-    </body>
+                            </body>
 
                             </html>
 
