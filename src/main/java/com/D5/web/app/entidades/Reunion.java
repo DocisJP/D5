@@ -36,7 +36,6 @@ public class Reunion {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date horarioDeInicio;
 
-    
     private String detalle;
 
     private Boolean estado;
@@ -50,6 +49,8 @@ public class Reunion {
     )
  
     private List<Usuario> participantes = new ArrayList<Usuario>(); 
+    
+    private String nombre;
 
     public String getId() {
         return id;
@@ -97,6 +98,14 @@ public class Reunion {
 
 	public void setParticipantes(List<Usuario> participantes) {
 		this.participantes = participantes;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
    

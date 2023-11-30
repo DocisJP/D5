@@ -34,7 +34,7 @@ public class VistaPrincipal {
 	public String registro(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
 			@RequestParam String password, @RequestParam String password2, @RequestParam Long dni,
 			@RequestParam Long telefono, @RequestParam String direccion, @RequestParam String empresa,
-			@RequestParam MultipartFile imagen) throws MyException {
+			MultipartFile imagen) throws MyException {
 
 		try {
 			usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion,

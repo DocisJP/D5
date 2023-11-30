@@ -6,50 +6,37 @@ import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
-import com.D5.web.app.repositorios.IServicioGeneral;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
-//import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProyectoServicio implements IServicioGeneral<Proyecto> {
+public class ProyectoServicio {
 
-    private final ProyectoRepositorio proyectoRepositorio;
+	@Autowired
+    private ProyectoRepositorio proyectoRepositorio;
 
-    @Autowired
-    public ProyectoServicio(ProyectoRepositorio proyectoRepositorio) {
-        this.proyectoRepositorio = proyectoRepositorio;
-    }
 
-    @Override
+    
     @Transactional
-    public void agregar(Proyecto proyecto) {
-        proyectoRepositorio.save(proyecto);
-    }
-
-    @Override
-    @Transactional
-    public void modificar(Proyecto proyecto) {
+    public Proyecto modificar(Proyecto proyecto) {
         Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
-        
-        existente.setFechaInicio(null);
-        existente.setFechaFinalizacion(null);
+
         existente.setNombre(proyecto.getNombre());
         existente.setDetalleProyecto(proyecto.getDetalleProyecto());
         existente.setFechaInicio(proyecto.getFechaInicio());
         existente.setFechaFinalizacion(proyecto.getFechaFinalizacion());
-        
+        existente.setEstado(proyecto.getEstado());
 
-        
         actualizarReuniones(existente, proyecto.getListaReuniones());
         actualizarTareas(existente, proyecto.getTareas());
 
-        proyectoRepositorio.save(existente);
+        return proyectoRepositorio.save(existente);
     }
+
 
     private void actualizarReuniones(Proyecto existente, List<Reunion> nuevasReuniones) {
         existente.getListaReuniones().clear();
@@ -66,46 +53,49 @@ public class ProyectoServicio implements IServicioGeneral<Proyecto> {
     }
 
 
-    @Override
+    
     @Transactional
     public void eliminar(Proyecto proyecto) {
         proyectoRepositorio.delete(proyecto);
     }
 
-    @Override
-    public void cambiarEstado(Proyecto proyecto) {
+    
+    public Boolean cambiarEstado(Proyecto proyecto) {
         Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
         existente.setEstado(!existente.getEstado());
         proyectoRepositorio.save(existente);
+        return existente.getEstado();
     }
 
 
-    @Override
+
+    
     public void registrar(Proyecto proyecto) {
         proyectoRepositorio.save(proyecto);
     }
 
-    @Override
-    public void valida(Proyecto proyecto) {
+    
+    private void valida(Proyecto proyecto) {
         if (proyecto.getNombre() == null || proyecto.getNombre().isEmpty() || proyecto.getNombre().isBlank()) {
             throw new IllegalArgumentException("El nombre del proyecto es requerido");
         }
     }
 
-    @Override
-    public void visualizar(Proyecto proyecto) {
-        proyectoRepositorio.findById(proyecto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
+    
+    
+    public List<Proyecto> visualizar() {
+        return proyectoRepositorio.findAll();
     }
 
-    @Override
+
+    
     public void accederPerfil(Proyecto proyecto) {
         proyectoRepositorio.findById(proyecto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
     }
     
-    @Override
+    
     @Transactional
     public void crear(Proyecto proyecto) {
         valida(proyecto); 
