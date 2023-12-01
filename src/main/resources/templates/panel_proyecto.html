@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header">
+            <nav class="navegacion">
+                <!-- Hamburguesa -->
+                <input type="checkbox" id="check" />
+                <label for="check" class="checkbtn">
+                    <i class="fas fa-bars"></i>
+                </label>
+
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="img/logo2.png" alt="" class="logo" />
+                </a>
+            </nav>
+            <div class="contenedor-portada"></div>
+
+            <main class="contenedor-proyecto">
+                <!-- Sección para listar proyectos (visible para el Agente) -->
+
+                <div class="contenedor-tabla">
+
+
+                    <section id="proyectos-agente">
+                        <h2>Listado de Proyectos</h2>
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Detalle</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Finalización</th>
+                                    <th>Modificación</th>
+                                    <th>Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="proyecto : ${proyectos}">
+                                <tr>
+                                    <th th:text="${proyecto.id}"></th>
+                                    <td th:text="${proyecto.nombre}"></td>
+                                    <td th:text="${proyecto.detalle}"></td>
+                                    <td th:text="${proyecto.fechaInicio}"></td>
+                                    <td th:text="${proyecto.fechaFinalizacion}"></td>
+                                    <td>
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/modificar/__${proyecto.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/proyecto/eliminar/__${proyecto.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Aquí va la tabla con proyectos y acciones para el Agente -->
+                    </section>
+
+                    <!-- Sección para crear un nuevo proyecto (visible para el Agente) -->
+                    <section id="crear-proyecto">
+                        <a th:href="@{/proyecto/registrar}" class="btn">Crear nuevo Proyecto</a>
+                        <!-- Metodo get return formulario_proyecto.html -->
+                        <!-- Formulario para crear un nuevo proyecto -->
+                    </section>
+
+                    <!-- Sección para solicitar un proyecto (visible para el Cliente) -->
+                    <section id="solicitar-proyecto">
+                        <a href="#" class="btn">Solicitar nuevo Proyecto</a>
+                        <!-- Listado de Agentes disponibles y formulario de solicitud -->
+                    </section>
+
+                    <div class="btn-volver">
+                        <a href="@{/index}">Volver</a>
+                    </div>
+                </div>
+            </main>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>

@@ -57,7 +57,6 @@
     display: block;
     color: white;
     font-size: 2rem;
-    z-index: 999;
   }
   
   .enlaces {
@@ -84,9 +83,12 @@
     color: white;
   }
   .botonLink {
+    display: flex;
+    justify-content: center;
     background-color: var(--terciario);
     color: var(--fondo);
     width: 80%;
+    
   }
   .botonLink:hover {
     background-color: var(--blanco);
@@ -100,7 +102,7 @@
 /* portada */
 .contenedor-header {
   height: 100vh;
-  background-image: url("/portada.jpg");
+  background-image: url("/img/portada2.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -229,7 +231,7 @@
 /*Formulario Registro*/
 /* portada */
 .contenedor-header-formulario {
-  background-image: url("/portada2.png");
+  background-image: url("/img/portada.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -312,118 +314,231 @@
   width: 20rem;
 }
 .contenedor-cards{
-  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 30rem;
   background-color: white;
   border-radius: 1rem;
+  margin: 1rem;
 }
 .contenedor-principal{
-  background-color: var(--fondo);
+  display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+ background-color: var(--terciario);
+ width: 70%;
+ padding: 1rem 0;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
 }
-/*Block notas*/
+@media (max-width:768px ) {
+ .contenedor-principal{
+  display: grid;
+ grid-template-columns: 1fr;
+ }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
-
-.body-tarea {
+.main{
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: #081b29;
-  color: azure;
+  background-color: var(--terciario);
 }
-.wrapper-tarea {
-  position: relative;
-  width: 80%;
-  background: transparent;
-  border: 2px solid rgb(64, 184, 193);
-  box-shadow: 0 0 25px rgb(54, 145, 151);
-  overflow: hidden;
+
+/*Cards con efectos*/
+
+.myCard {
+  background-color: transparent;
+  width: 25rem;
+  height: 25rem;
+  perspective: 1000px;
+  margin: 2rem 1rem;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: 900;
   text-align: center;
-  align-items: center;
-  margin: 5rem;
-  padding-bottom: 2rem;
+  margin: 0;
 }
-.wrapper-tarea h1 {
-  padding: .5rem;
-  font-size: 3rem;
-  border-bottom: 5px double whitesmoke;
-}
-.wrapper-tarea form label {
-  font-size: 2rem;
-  display: block;
-}
-.container-text-tarea {
+
+.innerCard {
+  position: relative;
   width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.myCard:hover .innerCard {
+  transform: rotateY(180deg);
+}
+
+.frontSide,
+.backSide {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  color:var(--fondo);
+  box-shadow: 0 0 5px rgba(21, 8, 120, 0.5);
+  font-weight: 700;
+ 
+}
+
+.frontSide,
+.frontSide::before {
+  background: var(--blanco)
+}
+
+.backSide,
+.backSide::before {
+  background-image: linear-gradient(160deg, #0f3149 0%,  #081b29 100%);
+  color: var(--blanco);
+}
+
+.backSide {
+  transform: rotateY(180deg);
+}
+
+.frontSide::before,
+.backSide::before {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  position: absolute;
+  z-index: -1;
+  border-radius: 1em;
+  
+ 
+}
+
+/*NOTAS*/
+
+.contenedor-notas{
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #081b29ea;
+  color: white;
+  width: 70%;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 3rem;
 }
-.wrapper-tarea form textarea {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #081b29;
-  padding: 1.5rem;
-  margin: 0 3rem;
-  display: flex;
-  width: 80%;
-  height: 380px;
-  border: 3px solid #0ef;
-  overflow-y: scroll;
-  cursor: pointer;
-  resize: none;
-  outline: none;
-  box-shadow: 6px 9px rgba(255, 255, 255, 0.757),
-      12px 18px rgba(255, 255, 255, 0.757);
-}
-.wrapper-tarea form textarea::-webkit-scrollbar {
-  width: 12px;
-  background-color: rgba(49, 163, 172, 0.734);
-}
-.wrapper-tarea form textarea::-webkit-scrollbar-thumb {
-  background-color: #1a5986;
-  border-radius: 6px;
-}
-.wrapper-tarea form textarea:focus {
-  border: 3px solid rgb(76, 169, 175);
-}
-.btn-tarea {
-  position: relative;
-  width: 40%;
-  height: 45px;
-  background: transparent;
-  border: 2px solid rgb(76, 179, 186);
-  outline: none;
-  border-radius: 40px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #fff;
-  font-weight: 600;
-  z-index: 1;
-  overflow: hidden;
-}
-.btn-tarea:hover {
-  background: linear-gradient(#081b29, #0ef, #081b29, rgb(61, 172, 180));
-}
-.tarea{
-  margin: 1rem;
-  font-size: 1.2rem;
-}
-.input-tarea{
-  margin: 1rem;
-  font-size: 1.2rem;
-  width: 80%;
-  border-radius: 5px;
-  font-weight: 600;
-  color: #081b29;
-}
-.container-titulo-tarea{
-  background-color: #fff;
-  color: #081b29;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
 
+/*Panel Proyecto*/
+.contenedor-header-proyecto {
+  background-image: url("/img/fondo-degrade.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  opacity: 0.9;
+  padding-bottom: 5rem;
+}
+.container-proyecto .btn {
+  background-color: var(--fondo);
+  color: var(--blanco);
+  border: 2px solid var(--terciario);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28rem;
+}
+.container-proyecto .btn:hover {
+  background-color: var(--terciario);
+  color: var(--fondo);
+  border: 2px solid var(--oscuro);
+}
+section {
+  margin-bottom: 20px;
+}
+
+
+
+/* Estilos para la tabla de proyectos */
+.contenedor-proyecto{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #081b29ea;
+  color: white;
+  width: 90%;
+  border-radius: 1rem;
+}
+.contenedor-tabla{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  width: 90%;
+  color:white;
+  
+}
+table {
+ margin: 3rem 0;
+  border-collapse: collapse;
+ 
+   
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: #081b29;
+  color: #fff;
+}
+a.modificar {
+  outline: none;
+  text-decoration: none;
+  color: green;
+}
+a.modificar:hover,
+a.eliminar:hover {
+  filter: brightness(1.5);
+  color: black;
+  cursor: pointer;
+}
+a.eliminar {
+  outline: none;
+  text-decoration: none;
+  color: red;
+}
+.proyectos-agente{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes animate {
+  0% {
+    opacity: 0.3;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
 }
