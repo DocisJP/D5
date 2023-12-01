@@ -34,6 +34,13 @@ public class ProyectoControlador {
     @Autowired
     ProyectoServicio proyectoServicio;
 
+    @GetMapping("/panel")
+    public String panelControl(){
+        
+    return "panel_proyecto.html";
+    }
+    
+    
     @GetMapping("/lista/tareas")
     public String listaTareas(ModelMap model) {
 

@@ -1,140 +1,130 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
- <head th:replace = "/fragments/head :: head"></head>
-
-<body>
-    <header class="contenedor-header">
-        <nav class="navegacion">
-            <!-- Hamburguesa -->
-            <input type="checkbox" id="check" />
-            <label for="check" class="checkbtn">
-                <i class="fas fa-bars"></i>
-            </label>
-
-            <!-- Logo -->
-            <a href="#" class="enlace">
-                <img src="img/logo2.png" alt="" class="logo" />
-            </a>
-
-            <!--Enlaces y botones del nav-->
-            <div class="enlaces">
-                <input type="checkbox" id="check" />
-                <label for="check" class="checkbtn">
-                    <i class="fas fa-bars"></i>
-                </label>
-                <a href="#proyecto">Proyecto</a>
-                <a href="#calendario">Calendario</a>
-                <a href="#pendientes">Pendientes</a>
-                <a href="#block-de-notas">Block de Notas</a>
-                <a href="#agenda">Agenda</a>
-                <a href="#perfil">Perfil</a>
-
-                
-            </div>
-        </nav>
-        <div class="contain">
-            <div class="container-saludo">
-                <h2 th:if="${session.usuariosession != null}" th:text="'Hola de vuelta '"></h2> 
-                <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>  
-                <div class="container-imagen">
-                    <a><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"></a>  
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div class="contenedor-portada"></div>
+            <div class="contenedor-form">
+                <div class="bodyForm">
+                    <h1>Inicia Sesión</h1>
+                    <div class="form">
+                        <div class="formLogin">
+                            <form class="m-5" th:action= "@{/logincheck}" method="POST">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label"
+                                           >Ingresa tu E-mail
+                                    </label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="exampleInputEmail1"
+                                        aria-describedby="emailHelp"
+                                        placeholder="E-mail"
+                                        name="email"
+                                        th:value="email"
+                                        />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >Ingresa tu contraseña</label
+                                    >
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="exampleInputPassword1"
+                                        placeholder="Contraseña"
+                                        name="password"
+                                        th:value="password"
+                                        />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
-
-   <!-- CONTENEDOR PRINCIPAL-->
-
-    <main class="main">
-        <div class="contenedor-principal">
-            <div class="myCard" id="proyecto">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <h3 class="title">PROYECTO</h3>
-                        <img class="img-cards" src="img/creative.jpg" alt="proyecto">
+        </header>
+        <main>
+            <div class="container-titulo-cards">
+                <h1 class="titulo-cards" id="nosotros">Nosotros</h1>
+                <h4 class="descripcion-cards">
+                    Somos una agencia de publicidad que trabaja con clientes de todo
+                    Latinoamérica. Nuestra empresa se caracteriza por brindar soluciones
+                    Web a nuestros clientes. Contamos con un excelente staff de
+                    colaboradores. Eficiencia y Perfeccionismo serían nuestras mejores
+                    cualidades.
+                </h4>
+            </div>
+            <section class="container-cards">
+                <div class="card custom-card m-4" style="width: 18rem">
+                    <img
+                        src="img/creative.jpg"
+                        class="card-img-top"
+                        alt="..."
+                        />
+                    <div class="card-body">
+                        <h5 class="card-title">Creatividad</h5>
+                        <p class="card-text">
+                            La creatividad es la base de todos nuestros proyectos. Nuestro
+                            proyectos se caracterizan por ser únicos y personalizados.
+                        </p>
+                        <div class="card-footer d-flex justify-content-center">
+                            <p class="btn btn-primary">Nuestros proyectos</p>
+                            <!--Este listado solo debe mostrar nombre del proyecto breve descripción y alguna foto-->
+                        </div>
                     </div>
-                    <div class="backSide">
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                        <a class="botonLink" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
-                        <!--metodo get return panel_proyecto.html-->
-                    </div>                   
+                </div>
+                <div class="card custom-card m-4" style="width: 18rem">
+                    <img
+                        src="img/profesional.jpg"
+                        class="card-img-top"
+                        alt="..."
+                        />
+                    <div class="card-body">
+                        <h5 class="card-title">Profesional</h5>
+                        <p class="card-text">
+                            Nos caracterizamos por nuestro profesionalismo. Nuestros Agentes
+                            están preseleccionados para poder brindarle a nuestros clientes la
+                            mejor experiencia.
+                        </p>
+                        <div class="card-footer d-flex justify-content-center">
+                            <p class="btn btn-primary">Conocer a nuestros Agentes</p>
+                            <!--Este listado solo debe mostrar nombre foto y profesion-->
+                        </div>
+                    </div>
+                </div>
+                <div class="card custom-card m-4" style="width: 18rem">
+                    <img
+                        src="img/equipo.jpg"
+                        class="card-img-top"
+                        alt="..."
+                        />
+                    <div class="card-body">
+                        <h5 class="card-title">Equipo</h5>
+                        <p class="card-text">
+                            Nuestro trabajo en equipo es nuestra mayor fortaleza. Trabajamos
+                            de manera conjunta para optimizar el tiempo y lograr nuestras
+                            metas.
+                        </p>
+                        <div class="card-footer d-flex justify-content-center">
+                            <p class="btn btn-primary">Nuestra Historia</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="container-contacto">
+                <div class="info">
+                    <h4>Más de nosotros</h4>
+                    <a th:href="@{/registrar}" class="btn">Registrate</a>
+                </div>
+                <div class="contacto" id="contacto">
+                    <h5>Contactanos</h5>
+                    <h5>Telefono: 11342274647</h5>
+                    <h5>Email: fiveDesign@gmail.com</h5>
                 </div>
             </div>
-            <div class="myCard" id="calendario">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <h3 class="title">CALENDARIO</h3>
-                        <img class="img-cards" src="img/calendario2.jpg" alt="calendario">
-                    </div>
-                    <div class="backSide">                       
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                        <a class="botonLink">CLICK AQUÍ</a>
-                    </div>                    
-                </div>
-            </div>
-            <div class="myCard" id="pendientes">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <h3 class="title">PENDIENTES</h3>
-                        <img class="img-cards" src="img/pendientes.jpg" alt="pendientes">
-                    </div>
-                    <div class="backSide">
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                        <a class="botonLink">CLICK AQUÍ</a>
-                    </div>                   
-                </div>
-            </div>
-            <div class="myCard" id="block-de-notas">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <h3 class="title">BLOCK DE NOTAS</h3>
-                        <img class="img-cards" src="img/block.jpg" alt="block de notas">
-                    </div>
-                    <div class="backSide">
-                        
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                        <a class="botonLink" th:href="@{/tarea/registrar}" >CLICK AQUÍ</a>
-                        <!-- Metodo get return block_notas.html -->
-                    </div>  
-                </div>
-            </div>
-            <div class="myCard" id="perfil">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <h3 class="title">PERFIL</h3>
-                        <img class="img-cards" src="img/perfil.jpg" alt="perfil">
-                    </div>
-                    <div class="backSide">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                        <a class="botonLink">CLICK AQUÍ</a>
-                    </div>
-                    
-                </div>
-            </div>
-            <div class="myCard" id="agenda">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <h3 class="title">AGENDA</h3>
-                        <img class="img-cards" src="img/contactos.png" alt="agenda">
-                    </div>
-                    <div class="backSide">   
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                        <a class="botonLink">CLICK AQUÍ</a>
-                    </div>
-                    
-                </div>
-            </div>
-    </div>
-    </main>
-    <footer>
-        <div class="container-footer">
-          <p>&copy; 2023 Argentina</p>
-          <div class="social">
-            <img src="/img/social-icons.svg" />
-          </div>
-        </div>
-      </footer>
-</body>
-
+        </main>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
 </html>
