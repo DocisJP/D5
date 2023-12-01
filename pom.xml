@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.5</version>
-        <relativePath /> <!-- comentario -->
+        <relativePath /> 
     </parent>
     <groupId>com.d5.springboot.app</groupId>
     <artifactId>D5</artifactId>
