@@ -27,23 +27,24 @@ public class ImagenServicio {
     public Imagen guardar(MultipartFile archivo)throws MyException{
         
         
-        Imagen imagen = new Imagen();
+      
         if (archivo != null) {                        
-            try {                
+            try {             
+                
+                  Imagen imagen = new Imagen();
+                  
                 imagen.setMime(archivo.getContentType());
                 imagen.setNombre(archivo.getName());
                 imagen.setContenido(archivo.getBytes());
                 
-                
+               return imagenRepositorio.save(imagen); 
             } catch (Exception e) {
                 
-                System.err.println(e.getMessage());
-                
-            }
-            
+                System.err.println(e.getMessage());               
+            }       
         }
        
-       return imagenRepositorio.save(imagen);
+       return null;
     }
     
     public Imagen actualizar(MultipartFile archivo, String idImagen)throws MyException{

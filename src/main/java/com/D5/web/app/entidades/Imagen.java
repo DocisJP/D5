@@ -26,7 +26,6 @@ public class Imagen {
 	private String nombre;
 	
 	@Lob @Basic(fetch = FetchType.LAZY)
-           @Column(name = "contenido", columnDefinition = "MEDIUMBLOB")
 	private byte[] contenido;
 	
 
