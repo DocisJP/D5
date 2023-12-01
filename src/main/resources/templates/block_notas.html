@@ -1,37 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace = "/fragments/head :: head"></head>
-    <body class="body-tarea">
-        <div class="wrapper-tarea">
-            <div class="container-titulo-tarea">
-                <h1>Ingresa una tarea en tu block de notas</h1>
-            </div>
-            <form action="@{/tarea/registro}" method="post">
-                <label class="tarea" for="nota">Nombre de la tarea</label><br />
-                <input
-                    class="input-tarea"
-                    type="text"
-                    name="nombreTarea"
-                    th:value="${nombreTarea}"
-                    placeholder="Nombre"
-                    />
-                <label class="tarea" for="nota">Descripcion de la tarea</label><br />
-                <div class="container-text-tarea">
-                    <textarea
-                        id="nota"
-                        name="descripcion"
-                        th:value="${descripcion}"
-                        rows="4"
-                        cols="50"
-                        placeholder="Descripcion"
-                        ></textarea
-                    ><br /><br />
+    <body>
+        <header class="contenedor-header">
+            <nav class="navegacion">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="img/logo2.png" alt="" class="logo" />
+                </a>
+            </nav>
+            <div class="contenedor-portada"></div>
+            <div class="contenedor-form">
+                <div class="contenedor-notas">
+                    <h2 class="mb-5">Ingresa una tarea en tu block de notas</h2>
+
+                    <form action="@{/tarea/registro}" method="post">
+                        <label class="tarea form-label" for="nota">Nombre de la tarea</label><br />
+                        <input class="form-control mb-4" type="text" name="nombreTarea" th:value="${nombreTarea}"
+                               placeholder="Nombre" />
+
+                        <label class="tarea" for="nota">Descripcion de la tarea</label><br />
+
+                        <div class="container-text-tarea mb-3">
+                            <textarea class="form-control" id="nota" name="descripcion" th:value="${descripcion}" rows="4" cols="50"
+                                      placeholder="Descripcion"></textarea><br /><br />
+                        </div>
+                        <button type="submit" class="botonLink">Guardar tarea</button>
+                        <div class="btn-volver">
+                            <a href="@{/index}">Volver</a>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit" class="btn-tarea">Guardar tarea</button>
-            </form>
-            <div class="btn-volver">
-                <a href="@{/index}">Volver</a>
             </div>
         </div>
-    </body>
+    </header>
+   <footer th:replace = "/fragments/footer :: footer"></footer>
+</body>
 </html>

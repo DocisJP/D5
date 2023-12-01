@@ -1,15 +1,140 @@
-<!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+ <head th:replace = "/fragments/head :: head"></head>
+
+<body>
+    <header class="contenedor-header">
+        <nav class="navegacion">
+            <!-- Hamburguesa -->
+            <input type="checkbox" id="check" />
+            <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+            </label>
+
+            <!-- Logo -->
+            <a href="#" class="enlace">
+                <img src="img/logo2.png" alt="" class="logo" />
+            </a>
+
+            <!--Enlaces y botones del nav-->
+            <div class="enlaces">
+                <input type="checkbox" id="check" />
+                <label for="check" class="checkbtn">
+                    <i class="fas fa-bars"></i>
+                </label>
+                <a href="#proyecto">Proyecto</a>
+                <a href="#calendario">Calendario</a>
+                <a href="#pendientes">Pendientes</a>
+                <a href="#block-de-notas">Block de Notas</a>
+                <a href="#agenda">Agenda</a>
+                <a href="#perfil">Perfil</a>
+
+                
+            </div>
+        </nav>
+        <div class="contain">
+            <div class="container-saludo">
+                <h2 th:if="${session.usuariosession != null}" th:text="'Hola de vuelta '"></h2> 
+                <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>  
+                <div class="container-imagen">
+                    <a><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"></a>  
+                </div>
+            </div>
+        </div>
+    </header>
+
+   <!-- CONTENEDOR PRINCIPAL-->
+
+    <main class="main">
+        <div class="contenedor-principal">
+            <div class="myCard" id="proyecto">
+                <div class="innerCard">
+                    <div class="frontSide">
+                        <h3 class="title">PROYECTO</h3>
+                        <img class="img-cards" src="img/creative.jpg" alt="proyecto">
+                    </div>
+                    <div class="backSide">
+                        
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                        <a class="botonLink" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
+                        <!--metodo get return panel_proyecto.html-->
+                    </div>                   
+                </div>
+            </div>
+            <div class="myCard" id="calendario">
+                <div class="innerCard">
+                    <div class="frontSide">
+                        <h3 class="title">CALENDARIO</h3>
+                        <img class="img-cards" src="img/calendario2.jpg" alt="calendario">
+                    </div>
+                    <div class="backSide">                       
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                        <a class="botonLink">CLICK AQUÍ</a>
+                    </div>                    
+                </div>
+            </div>
+            <div class="myCard" id="pendientes">
+                <div class="innerCard">
+                    <div class="frontSide">
+                        <h3 class="title">PENDIENTES</h3>
+                        <img class="img-cards" src="img/pendientes.jpg" alt="pendientes">
+                    </div>
+                    <div class="backSide">
+                        
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                        <a class="botonLink">CLICK AQUÍ</a>
+                    </div>                   
+                </div>
+            </div>
+            <div class="myCard" id="block-de-notas">
+                <div class="innerCard">
+                    <div class="frontSide">
+                        <h3 class="title">BLOCK DE NOTAS</h3>
+                        <img class="img-cards" src="img/block.jpg" alt="block de notas">
+                    </div>
+                    <div class="backSide">
+                        
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                        <a class="botonLink" th:href="@{/tarea/registrar}" >CLICK AQUÍ</a>
+                        <!-- Metodo get return block_notas.html -->
+                    </div>  
+                </div>
+            </div>
+            <div class="myCard" id="perfil">
+                <div class="innerCard">
+                    <div class="frontSide">
+                        <h3 class="title">PERFIL</h3>
+                        <img class="img-cards" src="img/perfil.jpg" alt="perfil">
+                    </div>
+                    <div class="backSide">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                        <a class="botonLink">CLICK AQUÍ</a>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="myCard" id="agenda">
+                <div class="innerCard">
+                    <div class="frontSide">
+                        <h3 class="title">AGENDA</h3>
+                        <img class="img-cards" src="img/contactos.png" alt="agenda">
+                    </div>
+                    <div class="backSide">   
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                        <a class="botonLink">CLICK AQUÍ</a>
+                    </div>
+                    
+                </div>
+            </div>
+    </div>
+    </main>
+    <footer>
+        <div class="container-footer">
+          <p>&copy; 2023 Argentina</p>
+          <div class="social">
+            <img src="/img/social-icons.svg" />
+          </div>
+        </div>
+      </footer>
+</body>
+
 </html>
