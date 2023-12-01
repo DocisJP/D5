@@ -102,7 +102,7 @@
 /* portada */
 .contenedor-header {
   height: 100vh;
-  background-image: url("../img/portada.jpg");
+  background-image: url("/img/portada2.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -231,7 +231,7 @@
 /*Formulario Registro*/
 /* portada */
 .contenedor-header-formulario {
-  background-image: url("../img/portada2.png");
+  background-image: url("/img/portada.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -445,7 +445,7 @@ align-items: center;
 
 /*Panel Proyecto*/
 .contenedor-header-proyecto {
-  background-image: url("../imagenes/fondo-degrade.jpg");
+  background-image: url("/img/fondo-degrade.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
