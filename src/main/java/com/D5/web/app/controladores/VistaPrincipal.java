@@ -1,9 +1,12 @@
 package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Imagen;
+import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.UsuarioServicio;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +43,18 @@ public String registro(@RequestParam String nombre,@RequestParam String apellido
         return "principal.html";
     }
 
+}
+
+@PreAuthorize("hasAnyRole('Role_USER', 'ROLE_ADMIN')")
+@GetMapping("/inicio")
+public String inicio(HttpSession session){
+
+    Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+    
+    if (logueado.getRol().toString().equals("ADMIN")) {
+        return "redirect:/admin/dashboard";
+    }
+    
+    return "principal.html";
 }
 }
