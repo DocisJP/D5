@@ -71,9 +71,6 @@ public class ReunionServicio {
         }
     }
 
-
-
-
     
     public Map<String, Object> verDetalle(Reunion reunion) {
         Map<String, Object> detalles = new HashMap<>();
