@@ -49,7 +49,8 @@ public class Reunion {
             joinColumns = @JoinColumn(name = "reunion_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
-    private List<Usuario> participantes = new ArrayList<Usuario>();
+ 
+    private List<Usuario> participantes = new ArrayList<Usuario>(); 
 
     public String getId() {
         return id;

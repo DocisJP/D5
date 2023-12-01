@@ -17,46 +17,46 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotBlank;
-
-
+import jakarta.validation.constraints.NotBlank; 
 
 
 @Entity
-@Table(name="proyecto")
+@Table(name = "proyecto")
 public class Proyecto {
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	
-	@NotBlank
-	private String nombre;
-	
-	@NotBlank
-	private String detalleProyecto;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaInicio;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private Date fechaFinalizacion;
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
-	@OneToMany(mappedBy="proyecto")
-	private List<Reunion> listaReuniones;
-	
-	@OneToMany(mappedBy="proyect")
-	private List<Tarea> tareas;
-        
+    @NotBlank
+    private String nombre;
+    private Boolean estado;
+
+    @NotBlank
+    private String detalleProyecto;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaInicio;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date fechaFinalizacion;
+
+    @OneToMany(mappedBy = "proyecto")
+    private List<Reunion> listaReuniones;
+
+    @OneToMany(mappedBy = "proyect")
+    private List<Tarea> tareas;
+
     @ManyToMany
     @JoinTable(
-        name = "proyecto_usuarios",
-        joinColumns = @JoinColumn(name = "proyecto_id"),
-        inverseJoinColumns = @JoinColumn(name = "usuario_id")
+            name = "proyecto_usuarios",
+            joinColumns = @JoinColumn(name = "proyecto_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
+
     private List<Usuario> usuarios = new ArrayList<>();
 
     public String getId() {
@@ -65,6 +65,14 @@ public class Proyecto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public String getNombre() {
@@ -115,15 +123,13 @@ public class Proyecto {
         this.tareas = tareas;
     }
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
 
+     
 	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-    
-        
-        
+        this.usuarios = usuarios;
+    }
+ 
 }

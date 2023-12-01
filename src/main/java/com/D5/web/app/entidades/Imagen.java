@@ -1,6 +1,7 @@
 package com.D5.web.app.entidades;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class Imagen {
 	private String nombre;
 	
 	@Lob @Basic(fetch = FetchType.LAZY)
+           @Column(name = "contenido", columnDefinition = "MEDIUMBLOB")
 	private byte[] contenido;
 	
 
