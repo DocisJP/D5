@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+
+    <body>
+        <header class="contenedor-header">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+        </header>
+       <body>
+    <h1>Lista de Pendientes</h1>
+
+    <label for="nueva-tarea">Nueva Tarea:</label>
+    <input type="text" id="nueva-tarea" onkeyup="agregarConEnter(event)" />
+    <button onclick="agregarTarea()">Agregar</button>
+
+    <ul id="lista-pendientes"></ul>
+
+    <script>
+      function agregarTarea() {
+        var nuevaTarea = document.getElementById("nueva-tarea").value;
+        if (nuevaTarea !== "") {
+          var lista = document.getElementById("lista-pendientes");
+          var nuevoElemento = document.createElement("li");
+          nuevoElemento.innerHTML =
+            '<span class="verificar" onclick="marcarComoCompletada(this)">&#9898;</span>' +
+            nuevaTarea +
+            '<i class="fas fa-trash-alt" onclick="eliminarTarea(this)"></i>';
+          lista.appendChild(nuevoElemento);
+          document.getElementById("nueva-tarea").value = ""; // Limpiar el campo de entrada después de agregar la tarea
+        }
+      }
+
+      function marcarComoCompletada(elemento) {
+        // Cambiar el símbolo de círculo vacío a marca de verificación al hacer clic
+        if (elemento.textContent === "◯") {
+          elemento.textContent = "✔"; // Marca de verificación
+        } else {
+          elemento.textContent = "◯"; // Círculo vacío
+        }
+      }
+
+      function eliminarTarea(elemento) {
+        // Eliminar el elemento padre (li) al hacer clic en el ícono de eliminar
+        var tarea = elemento.parentNode;
+        tarea.parentNode.removeChild(tarea);
+      }
+
+      function agregarConEnter(event) {
+        // Agregar tarea si se presiona la tecla "Enter"
+        if (event.key === "Enter") {
+          agregarTarea();
+        }
+      }
+    </script>
+  </body>
+    </main>
+    <footer th:replace = "/fragments/footer :: footer"></footer>
+</body>
+</html>

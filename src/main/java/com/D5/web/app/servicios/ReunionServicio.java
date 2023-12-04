@@ -14,7 +14,6 @@ import com.D5.web.app.repositorios.ReunionRepositorio;
 import jakarta.transaction.Transactional;
 
 
-
 @Service
 public class ReunionServicio {
 
@@ -105,5 +104,3 @@ public class ReunionServicio {
 	
 
 }	
-
-

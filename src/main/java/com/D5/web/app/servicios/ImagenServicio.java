@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.D5.web.app.servicios;
 
 import com.D5.web.app.entidades.Imagen;
@@ -14,10 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- *
- * @author leandro
- */
 @Service
 public class ImagenServicio {
     
@@ -25,9 +17,7 @@ public class ImagenServicio {
     private ImagenRepositorio imagenRepositorio;
     
     public Imagen guardar(MultipartFile archivo)throws MyException{
-        
-        
-      
+
         if (archivo != null) {                        
             try {             
                 

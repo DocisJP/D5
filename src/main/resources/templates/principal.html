@@ -1,40 +1,17 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace = "/fragments/head :: head"></head>
 
     <body>
         <header class="contenedor-header">
-            <nav class="navegacion">
-                <!-- Hamburguesa -->
-                <input type="checkbox" id="check" />
-                <label for="check" class="checkbtn">
-                    <i class="fas fa-bars"></i>
-                </label>
-
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="img/logo2.png" alt="" class="logo" />
-                </a>
-
-                <!--Enlaces y botones del nav-->
-                <div class="enlaces">
-                    <input type="checkbox" id="check" />
-                    <label for="check" class="checkbtn">
-                        <i class="fas fa-bars"></i>
-                    </label>
-                    <a href="#proyecto">Proyecto</a>
-                    <a href="#calendario">Calendario</a>
-                    <a href="#pendientes">Pendientes</a>
-                    <a href="#block-de-notas">Block de Notas</a>
-                    <a href="#agenda">Agenda</a>
-                    <a href="#perfil">Perfil</a>       
-                </div>
-            </nav>
-            <div class="contain">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+            <div class="contain" sec:authorize ="isAuthenticated()">
                 <div class="container-saludo">
-                    <h2 th:if="${session.usuariosession != null}" th:text="'Hola de vuelta '"></h2> 
-                    <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>  
+                    <h2 th:text="'Hola de vuelta '"></h2>
+                    <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>
                     <div class="container-imagen">
-                        <a><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"></a>  
+                            <a><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"></a>
                     </div>
                 </div>
             </div>
@@ -66,7 +43,7 @@
                         </div>
                         <div class="backSide">                       
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                            <a class="botonLink">CLICK AQUÍ</a>
+                            <a class="botonLink" th:href="@{/reunion/panel}">CLICK AQUÍ</a>
                         </div>                    
                     </div>
                 </div>
@@ -79,7 +56,7 @@
                         <div class="backSide">
 
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                            <a class="botonLink">CLICK AQUÍ</a>
+                            <a class="botonLink" th:href="@{/tarea/panel}">CLICK AQUÍ</a>
                         </div>                   
                     </div>
                 </div>
@@ -105,7 +82,7 @@
                         </div>
                         <div class="backSide">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                            <a class="botonLink">CLICK AQUÍ</a>
+                            <a class="botonLink" th:href="@{/panel}">CLICK AQUÍ</a>
                         </div>
 
                     </div>
@@ -118,7 +95,7 @@
                         </div>
                         <div class="backSide">   
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                            <a class="botonLink">CLICK AQUÍ</a>
+                            <a class="botonLink" th:href="@{/}">CLICK AQUÍ</a>
                         </div>
 
                     </div>

@@ -2,11 +2,13 @@ package com.D5.web.app.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
+import jakarta.validation.ValidationException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +21,20 @@ public class ProyectoServicio {
     private ProyectoRepositorio proyectoRepositorio;
 
 
-    
+	
+	@Transactional
+	public Proyecto crear(Proyecto proyecto) {
+	    try {
+	        valida(proyecto); 
+	        establecerRelaciones(proyecto); 
+	        return proyectoRepositorio.save(proyecto);
+	    } catch (ValidationException e) {
+	        throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
+	    } catch (Exception e) {
+	        throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
+	    }
+	}
+ 
     @Transactional
     public Proyecto modificar(Proyecto proyecto) {
         Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
@@ -55,8 +70,13 @@ public class ProyectoServicio {
 
     
     @Transactional
-    public void eliminar(Proyecto proyecto) {
-        proyectoRepositorio.delete(proyecto);
+    public void eliminarPorId(String id) {
+        Proyecto proyecto = proyectoRepositorio.findById(id).orElse(null);
+        if (proyecto != null) {
+            proyectoRepositorio.delete(proyecto);
+        } else {
+            throw new IllegalArgumentException("Proyecto no encontrado con ID: " + id);
+        }
     }
 
     
@@ -80,6 +100,18 @@ public class ProyectoServicio {
         if (proyecto.getNombre() == null || proyecto.getNombre().isEmpty() || proyecto.getNombre().isBlank()) {
             throw new IllegalArgumentException("El nombre del proyecto es requerido");
         }
+        if (proyecto.getDetalleProyecto() == null) {
+        	throw new IllegalArgumentException("El detalle del producto no puede ser nulo ");
+        }
+        if (proyecto.getFechaInicio().before(Date.from(Instant.now())) || proyecto.getFechaInicio().equals(proyecto.getFechaFinalizacion())) {
+        	throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al día de hoy");
+        }
+        if (proyecto.getFechaInicio().after(proyecto.getFechaFinalizacion())) {
+        	throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalización");
+        }
+        if (proyecto.getFechaFinalizacion().before(proyecto.getFechaInicio())) {
+        	throw new IllegalArgumentException("Fecha de finalización no puede ser previa a la fecha de inicio");
+        }
     }
 
     
@@ -95,13 +127,6 @@ public class ProyectoServicio {
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
     }
     
-    
-    @Transactional
-    public void crear(Proyecto proyecto) {
-        valida(proyecto); 
-        establecerRelaciones(proyecto); 
-        proyectoRepositorio.save(proyecto);
-    }
 
 
     private void establecerRelaciones(Proyecto proyecto) {
@@ -122,7 +147,9 @@ public class ProyectoServicio {
             throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
         }
     }
+    
+    public List<Proyecto> listarProyectos(){
+    	return proyectoRepositorio.findAll();
+    }
 
 }
-
-

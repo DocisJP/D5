@@ -4,45 +4,9 @@
     <body>
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
-            <div class="contenedor-portada"></div>
-            <div class="contenedor-form">
-                <div class="bodyForm">
-                    <h1>Inicia Sesión</h1>
-                    <div class="form">
-                        <div class="formLogin">
-                            <form class="m-5" th:action= "@{/logincheck}" method="POST">
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label"
-                                           >Ingresa tu E-mail
-                                    </label>
-                                    <input
-                                        type="email"
-                                        class="form-control"
-                                        id="exampleInputEmail1"
-                                        aria-describedby="emailHelp"
-                                        placeholder="E-mail"
-                                        name="email"
-                                        th:value="email"
-                                        />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label"
-                                           >Ingresa tu contraseña</label
-                                    >
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        id="exampleInputPassword1"
-                                        placeholder="Contraseña"
-                                        name="password"
-                                        th:value="password"
-                                        />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Ingresar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div th:replace = "/fragments/modelo :: div"></div>
+            <div class="contenedor-portada">
+                <h1>Bienvenido a Five Design</h1>   
             </div>
         </header>
         <main>
@@ -117,6 +81,44 @@
                 <div class="info">
                     <h4>Más de nosotros</h4>
                     <a th:href="@{/registrar}" class="btn">Registrate</a>
+                </div>
+                <div class="contenedor-form contacto">
+                    <div class="bodyForm">
+                        <h1>Contacto</h1>
+                        <div class="form">
+                            <div class="formLogin">
+                                <form class="m-5">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label"
+                                               >Ingresa tu E-mail
+                                        </label>
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="exampleInputEmail1"
+                                            aria-describedby="emailHelp"
+                                            placeholder="E-mail"
+                                            />
+                                        <div class="mb-3">
+                                            <label for="nota" class="form-label"
+                                                   >Dejanos un mensaje
+                                            </label>
+                                            <textarea
+                                                class="form-control"
+                                                id="nota"
+                                                name="mensaje"
+                                                th:value="${mensaje}"
+                                                rows="4"
+                                                cols="50"
+                                                placeholder="Mensaje"
+                                                ></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="contacto" id="contacto">
                     <h5>Contactanos</h5>

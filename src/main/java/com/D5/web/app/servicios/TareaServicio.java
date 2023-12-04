@@ -12,42 +12,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 public class TareaServicio {
 
-	@Autowired
+    @Autowired
     TareaRepositorio tareaRepositorio;
 
-
     @Transactional
-    public void crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
+    public void agregar(String nombreTarea, String descripcion, Date fechaInicio, Date fechaFinalizacion) throws MyException {
+        Tarea tarea = new Tarea();
+    }
+    @Transactional
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
     	Tarea tarea = new Tarea();
 
-    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
-        
-   
+    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);   
         tarea.setDescripcion(descripcion);
         tarea.setEstado(estado);
         tarea.setNombreTarea(nombreTarea);
-
-        tareaRepositorio.save(tarea);
-
+        return tareaRepositorio.save(tarea);
     }
 
     @Transactional
      public Tarea modificar(Tarea algunaEntidad) {
         return tareaRepositorio.saveAndFlush(algunaEntidad);
-
     }
 
     @Transactional
     public void eliminar(Tarea algunaEntidad) {
         tareaRepositorio.delete(algunaEntidad);
-
     }
 
     @Transactional
@@ -63,7 +58,6 @@ public class TareaServicio {
     public List<Tarea> listarTareas() {
         return tareaRepositorio.findAll();
     }
-
     
     public Tarea buscarPorId(String id) {
         Optional<Tarea> resultado = tareaRepositorio.findById(id);
@@ -73,7 +67,6 @@ public class TareaServicio {
             throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
         }
     }
-
     
     public void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
         if (estado == null) {
@@ -88,10 +81,8 @@ public class TareaServicio {
         if (fechaInicio.after(fechaFinalizacion)) {
             throw new MyException("Fecha de inicio no puede ser posterior a la de finalización");
         }
-
     }
-
-    	
+    
     public Map<String, Object> verDetalle(Tarea tarea) {
         Map<String, Object> detalles = new HashMap<>();
         detalles.put("nombre", tarea.getDescripcion());
@@ -103,10 +94,4 @@ public class TareaServicio {
 
         return detalles;
     }
-
-  
-
-
-
-
 }

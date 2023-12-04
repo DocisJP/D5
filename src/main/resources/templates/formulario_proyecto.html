@@ -12,76 +12,36 @@
             <div class="contenedor-portada"></div>
             <div class="contenedor-form-registrar">
                 <div class="bodyForm-registrar">
-                    <h1>Regístrate</h1>
-                    <div class="form-registrar">
-                        <div class="formLogin-registrar">
-                            <form class="m-5" th:action= "@{/proyecto/registro}" method="POST">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="nombre" class="form-label" >Ingresa el nombre del proyecto</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Nombre"
-                                            id="nombre"
-                                            name="nombre"
-                                            th:value="${nombre}"
-                                            />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="detalle" class="form-label"
-                                               >Ingresa la detalle</label
-                                        >
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Detalle"
-                                            id="detalle"
-                                            name="detalle"
-                                            th:value="${detalle}"
-                                            />
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="fechaInicio" class="form-label"
-                                               >Ingresa tu E-mail</label
-                                        >
-                                        <input
-                                            type="date"
-                                            class="form-control"
-                                            id="fechaInicio"
-                                            placeholder="Fecha Inicio"
-                                            name="fechaInicio"
-                                            th:value="${fechaInicio}"
-                                            />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="fechaFinalizacion" class="form-label"
-                                               >Ingresa la fecha de finalizacion</label
-                                        >
-                                        <input
-                                            type="date"
-                                            class="form-control"
-                                            placeholder="Fecha de Finalizacion"
-                                            name="fechaFinalizacion"
-                                            th:value="fechaFinalizacion"
-                                            />
-                                    </div>
-                                </div>
-                         <div class="container-btn">
-                                    <button type="submit" class="btn btn-primary">
-                                        Registrarse
-                                    </button>
-                                    <div class="btn-volver">
-                                        <a href="@{/principal}">Volver</a>
-                                    </div>
-                         </div>
-                    </form>                           
-            </header>
-                            <footer th:replace = "/fragments/footer :: footer"></footer>
-    </body>
+                    <h1 class="text-center">Registro de Proyecto</h1>
+                    <form class="mt-4" th:action="@{/proyecto/registro}" th:object="${proyecto}" method="POST">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del Proyecto</label>
+                            <input type="text" class="form-control" id="nombre" th:field="*{nombre}" placeholder="Nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="detalle" class="form-label">Detalle del Proyecto</label>
+                            <input type="text" class="form-control" id="detalle" th:field="*{detalleProyecto}" placeholder="Detalle">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicio" th:field="*{fechaInicio}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="fechaFinalizacion" class="form-label">Fecha de Finalización</label>
+                                <input type="date" class="form-control" id="fechaFinalizacion" th:field="*{fechaFinalizacion}">
+                            </div>
+                        </div>
+                        <input type="hidden" th:field="*{estado}" value="true">
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                            <a href="@{/principal}" class="btn btn-secondary">Volver</a>
+                        </div>
+                    </form>              
+                    </header>
+                    <footer th:replace = "/fragments/footer :: footer"></footer>
+                    </body>
 
-</html>
+                    </html>
 
 

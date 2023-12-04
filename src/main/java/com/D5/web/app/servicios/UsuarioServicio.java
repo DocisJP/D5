@@ -28,14 +28,17 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
+    BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
     private ImagenServicio imagenServicio;
-    
+
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, String direccion, String empresa, MultipartFile archivo) throws MyException {
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, 
+            String direccion, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -48,13 +51,12 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setTelefono(telefono);
         usuario.setDireccion(direccion);
         usuario.setEmpresa(empresa);
-        
-        Imagen imagen = imagenServicio.guardar(archivo);
-        
-        usuario.setImagen(imagen);
-        
         usuario.setRol(Rol.USER);
         usuario.setEstado(Boolean.TRUE);
+
+        Imagen imagen = imagenServicio.guardar(archivo);
+
+        usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
 
@@ -64,72 +66,57 @@ public class UsuarioServicio implements UserDetailsService {
     public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, MultipartFile archivo, String direccion, String empresa) throws MyException {
 
         valida(password, password2);
-        
+
         Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-        
+
         if (respuesta.isPresent()) {
-            
+
             Usuario usuario = respuesta.get();
-            
-        usuario.setNombre(nombre);
-        usuario.setApellido(apellido);
-        usuario.setEmail(email);
-        usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-        usuario.setDni(dni);
-        usuario.setTelefono(telefono);
-        usuario.setDireccion(direccion);
-        usuario.setEmpresa(empresa);
-        
-        String idImagen = null;
-            
+
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+            usuario.setDni(dni);
+            usuario.setTelefono(telefono);
+            usuario.setDireccion(direccion);
+            usuario.setEmpresa(empresa);
+
+            String idImagen = null;
+
             if (usuario.getImagen() != null) {
-                
+
                 idImagen = usuario.getImagen().getId();
             }
 
             Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-            
-        
-        usuario.setImagen(imagen);
-        
-        usuario.setRol(Rol.USER);
-        usuario.setEstado(Boolean.TRUE);
-        
-        usuarioRepositorio.save(usuario);
+
+            usuario.setImagen(imagen);
+
+            usuario.setRol(Rol.USER);
+            usuario.setEstado(Boolean.TRUE);
+
+            usuarioRepositorio.save(usuario);
         }
 
     }
-    
-    public Usuario buscarUsuario(String id){
-    
-    	/*
-	        Optional<Usuario> respuesta = usuarioRepositorio.findById(id);
-	        
-	        if (respuesta.isPresent()) {
-	            
-	            Usuario usuario = respuesta.get();
-	            
-	            return usuario;
-	            
-	        } else { 
-	            
-	            return null;
-	        
-	        }
-    	 * 
-    	 */
-    	return usuarioRepositorio.findById(id).orElse(null);
-    
+
+    @Transactional
+    public Usuario buscarUsuario(String id) {
+
+        return usuarioRepositorio.findById(id).orElse(null);
+
     }
 
+    @Transactional
     public Usuario buscarporEmail(String email) {
     	return usuarioRepositorio.findByEmail(email);
     }
-    
+
+    @Transactional
     public void eliminar(Usuario usuario) {
-        
+
         usuarioRepositorio.delete(usuario);
-       
 
     }
    public Usuario getOne(String id){
@@ -138,13 +125,9 @@ public class UsuarioServicio implements UserDetailsService {
     }
     
     public void cambiarEstado(Usuario usuario) {
-      
-        usuario.setEstado(Boolean.FALSE);
-        
-        /*
-         *  usuario.setEstado(!usuario.getEstado());
-        	usuarioRepositorio.save(usuario);
-         */
+        usuario.setEstado(!usuario.getEstado());
+        usuarioRepositorio.save(usuario);
+
     }
 
 //    public void agregarProyecto(Proyecto proyecto, Usuario usuario){
@@ -154,7 +137,6 @@ public class UsuarioServicio implements UserDetailsService {
 //     usuario.setProyectoLista(proyectos);
 //     usuarioRepositorio.save(usuario);
 //    }
-        
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -162,7 +144,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
@@ -172,7 +153,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
-            GrantedAuthority p = new  SimpleGrantedAuthority(usuario.getRol().toString());
+            GrantedAuthority p = new SimpleGrantedAuthority(usuario.getRol().toString());
 
             permisos.add(p);
 
@@ -185,14 +166,7 @@ public class UsuarioServicio implements UserDetailsService {
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
 
         } else {
-
             return null;
-
         }
-    
     }
-
-        
-    
-   
 }

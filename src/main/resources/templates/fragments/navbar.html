@@ -16,11 +16,23 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <a href="#">Inicio</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#contacto">Contacto</a>
+        <a th:href="@{/}" th:if="${session.usuariosession == null}">Inicio</a>
+        <a href="#nosotros" th:if="${session.usuariosession == null}">Nosotros</a>
+        <a href="#contacto" th:if="${session.usuariosession == null}">Contacto</a>
+        <a href="#proyecto" th:if="${session.usuariosession != null}">Proyecto</a>
+        <a href="#calendario" th:if="${session.usuariosession != null}">Calendario</a>
+        <a href="#pendientes" th:if="${session.usuariosession != null}">Pendientes</a>
+        <a href="#block-de-notas" th:if="${session.usuariosession != null}">Block de Notas</a>
+        <a href="#agenda" th:if="${session.usuariosession != null}">Agenda</a>  
+        <a class="nav-link dropdown-toggle" href="#" th:if="${session.usuariosession != null}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Perfil
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" href="#perfil" >Ver más</a></li>
+        </ul>
 
-        <!-- <a href="form_login.html" class="botonLink">Inicia Sesión</a> -->
-        <a th:href="@{/registrar}" class="botonLink">Registrate</a>
+        <a th:if="${session.usuariosession == null}" th:href="@{/login}" class="botonLink">Ingresar</a>
+        <a th:if="${session.usuariosession == null}" th:href="@{/registrar}" class="botonLink">Registrate</a>
     </div>
 </nav>
