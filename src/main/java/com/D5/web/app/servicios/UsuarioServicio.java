@@ -1,6 +1,5 @@
 package com.D5.web.app.servicios;
 
-
 import org.springframework.stereotype.Service;
 
 import com.D5.web.app.entidades.Imagen;
@@ -37,7 +36,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, 
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono,
             String direccion, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
@@ -110,7 +109,12 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Transactional
     public Usuario buscarporEmail(String email) {
-    	return usuarioRepositorio.findByEmail(email);
+        return usuarioRepositorio.findByEmail(email);
+    }
+
+    @Transactional
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepositorio.findAll();
     }
 
     @Transactional
@@ -119,11 +123,12 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.delete(usuario);
 
     }
-   public Usuario getOne(String id){
-    
+
+    public Usuario getOne(String id) {
+
         return usuarioRepositorio.getReferenceById(id);
     }
-    
+
     public void cambiarEstado(Usuario usuario) {
         usuario.setEstado(!usuario.getEstado());
         usuarioRepositorio.save(usuario);
@@ -137,8 +142,6 @@ public class UsuarioServicio implements UserDetailsService {
 //     usuario.setProyectoLista(proyectos);
 //     usuarioRepositorio.save(usuario);
 //    }
-
-
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -148,10 +151,10 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        
-    Usuario usuario = usuarioRepositorio.findByEmail(email);
-    
-      if (usuario != null) {
+
+        Usuario usuario = usuarioRepositorio.findByEmail(email);
+
+        if (usuario != null) {
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 

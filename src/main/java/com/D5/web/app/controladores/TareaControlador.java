@@ -5,7 +5,7 @@ import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.TareaServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,40 +22,41 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/tarea")
 public class TareaControlador {
 
-	@Autowired
-	private UsuarioServicio usuarioServicio;
+    @Autowired
+    private UsuarioServicio usuarioServicio;
 
     @Autowired
     private TareaServicio tareaServicio;
 
-     @GetMapping("/panel")
+    @GetMapping("/panel")
     public String panel() {
-        
+
         return "panel_pendientes.html";
     }
-    
+
     // Muestra el formulario para agregar una nueva tarea
     @GetMapping("/registrar")
     public String formularioRegistrar(Model model) {
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         model.addAttribute("tarea", new Tarea());
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuarios", usuarios);
         return "formulario_tarea";
     }
 
     // Procesa el formulario y registra una nueva tarea
     @PostMapping("/registro")
     public String registrarTarea(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs, @RequestParam String usuarioId) {
-       Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
-    	
-    	try {
-    		tarea.setUsuario(usuarioEncargado);
+        Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
+
+        try {
+
             Tarea tareaGuardada = tareaServicio.crear(
-                    tarea.getNombreTarea(), 
-                    tarea.getDescripcion(), 
-                    tarea.getEstado(), 
-                    tarea.getFechaInicio(), 
+                    tarea.getNombreTarea(),
+                    tarea.getDescripcion(),
+                    tarea.getEstado(),
+                    tarea.getFechaInicio(),
                     tarea.getFechaFinalizacion(),
-                    tarea.getUsuario());
+                    usuarioEncargado);
 
             if (tareaGuardada != null && tareaGuardada.getId() != null) {
                 redirectAttrs.addFlashAttribute("exito", "Tarea creada con éxito!");
@@ -71,20 +72,16 @@ public class TareaControlador {
         }
     }
 
-    
     @GetMapping("/detalle/{id}")
     public String verDetalle(@PathVariable String id, Model model) throws MyException {
         Tarea tarea = tareaServicio.buscarPorId(id);
         if (tarea == null) {
-        	return "redirect:/index";
-        }
-        else {
-        model.addAttribute("tarea", tarea);
-        return "detalle_tarea";
+            return "redirect:/index";
+        } else {
+            model.addAttribute("tarea", tarea);
+            return "detalle_tarea";
         }
     }
-
-
 
     // Muestra la lista de tareas
     @GetMapping("/lista")
