@@ -1,15 +1,44 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+
     <body>
-        <div>TODO write content</div>
-    </body>
+        <header class="contenedor-header">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+        </header>
+        <div class="contenedor-tabla">
+            <div class="contenedor">
+                <section id="lista-usuarios">
+                        <h2>Lista de Usuarios</h2>
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th>Rol</th>
+                            </tr>
+                        </thead>
+                        <tbody th:each="usuario : ${usuarios}">
+                            <tr>
+                                <td th:text="${usuario.nombre}"></td>
+                                <td th:text="${usuario.apellido}"></td>
+                                <td th:text="${usuario.email}"></td>
+                                <td th:text="${usuario.telefono}"></td>
+                                <td th:text="${usuario.rol}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <div class="btn-volver">
+                    <a th:href="@{/inicio}">Volver</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace = "/fragments/footer :: footer"></footer>
+</body>
 </html>
+

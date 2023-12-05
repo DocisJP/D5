@@ -8,51 +8,67 @@
             <div th:replace = "/fragments/modelo :: div"></div>
         </header>
        <body>
-    <h1>Lista de Pendientes</h1>
+     <div class="contenedor-tabla">
+            <div class="contenedor-pendientes">
+                <section id="pendientes">
+                        <h2>Listado de Tareas</h2>
+                    <table class="tabla">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Estado</th>
+                                <th>Id Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Finalización</th>
+                                <th>Modificación</th>
+                                <th>Eliminación</th>
+                            </tr>
+                        </thead>
+                        <tbody th:each="tarea : ${tareas}">
+                            <tr>
+                                <th th:text="${tareas.id}"></th>
+                                <td th:text="${tareas.nombreTarea}"></td>
+                                <td>
+                                <a class="ver" th:href="@{/tarea/descripcion/__${tarea.id}__}"><i class="fa-regular fa-eye"></i>
+                                    Ver</a>
+                            </td>
+                                <td th:text="${tareas.estado}"></td>
+                                <td th:text="${tareas.proyecto.id}"></td>
+                                <td th:text="${tareas.fechaInicio}"></td>
+                                <td th:text="${tareas.fechaFinalizacion}"></td>
+                                <td>
+                                    <a
+                                        class="modificar"
+                                        th:href="@{/tarea/modificar/__${tarea.id}__}"
+                                        ><i class="fas fa-feather-alt"></i> Modificar</a
+                                    >
+                                </td>
+                                <td>
+                                    <a
+                                        class="eliminar"
+                                        th:href="@{/tarea/eliminar/__${tarea.id}__}"
+                                        ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Aquí va la tabla con proyectos y acciones para el Agente -->
+                </section>
 
-    <label for="nueva-tarea">Nueva Tarea:</label>
-    <input type="text" id="nueva-tarea" onkeyup="agregarConEnter(event)" />
-    <button onclick="agregarTarea()">Agregar</button>
-
-    <ul id="lista-pendientes"></ul>
-
-    <script>
-      function agregarTarea() {
-        var nuevaTarea = document.getElementById("nueva-tarea").value;
-        if (nuevaTarea !== "") {
-          var lista = document.getElementById("lista-pendientes");
-          var nuevoElemento = document.createElement("li");
-          nuevoElemento.innerHTML =
-            '<span class="verificar" onclick="marcarComoCompletada(this)">&#9898;</span>' +
-            nuevaTarea +
-            '<i class="fas fa-trash-alt" onclick="eliminarTarea(this)"></i>';
-          lista.appendChild(nuevoElemento);
-          document.getElementById("nueva-tarea").value = ""; // Limpiar el campo de entrada después de agregar la tarea
-        }
-      }
-
-      function marcarComoCompletada(elemento) {
-        // Cambiar el símbolo de círculo vacío a marca de verificación al hacer clic
-        if (elemento.textContent === "◯") {
-          elemento.textContent = "✔"; // Marca de verificación
-        } else {
-          elemento.textContent = "◯"; // Círculo vacío
-        }
-      }
-
-      function eliminarTarea(elemento) {
-        // Eliminar el elemento padre (li) al hacer clic en el ícono de eliminar
-        var tarea = elemento.parentNode;
-        tarea.parentNode.removeChild(tarea);
-      }
-
-      function agregarConEnter(event) {
-        // Agregar tarea si se presiona la tecla "Enter"
-        if (event.key === "Enter") {
-          agregarTarea();
-        }
-      }
-    </script>
+                <!-- Sección para crear un nuevo proyecto (visible para el Agente) -->
+                <section id="crear-proyecto">
+                    <a th:href="@{/tarea/registrar}" class="btn">Crear nueva Tarea</a>
+                    <!-- Metodo get return formulario_proyecto.html -->
+                    <!-- Formulario para crear un nuevo proyecto -->
+                </section>
+                <div class="btn-volver">
+                    <a th:href="@{/inicio}">Volver</a>
+                </div>
+            </div>
+        </div>
   </body>
     </main>
     <footer th:replace = "/fragments/footer :: footer"></footer>

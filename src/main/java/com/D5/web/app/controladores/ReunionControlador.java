@@ -13,6 +13,6 @@ public class ReunionControlador {
     @GetMapping("/panel")
     public String panelReunion(Model model)
     {
-        return "panel_reunion.html";
+        return "calendario_reuniones.html";
     }
 }

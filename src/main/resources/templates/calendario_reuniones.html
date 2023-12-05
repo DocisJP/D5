@@ -1,15 +1,85 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendario</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Dancing+Script:wght@500&family=Open+Sans:ital,wght@1,300&family=Playfair+Display:ital@1&family=Poppins:ital,wght@1,500&family=Shadows+Into+Light&family=Vina+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/calendario.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left">
+        <div class="calendar">
+          <div class="month">
+            <i class="fa fa-angle-left prev"></i>
+            <div class="date"></div>
+            <i class="fa fa-angle-right next"></i>
+          </div>
+          <div class="weekdays">
+            <div>domingo</div>
+            <div>lunes</div>
+            <div>martes</div>
+            <div>miercoles</div>
+            <div>jueves</div>
+            <div>viernes</div>
+            <div>sabado</div>
+          </div>
+          <div class="days"></div>
+          <div class="goto-today">
+            <div class="goto">
+              <input type="text" class="date-input" placeholder="mm/yyyy" />
+              <button class="goto-btn">Buscar</button>
+            </div>
+            <button class="today-btn">Hoy</button>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="today-date">
+          <div class="event-day"></div>
+          <div class="event-date"></div>
+        </div>
+        <div class="events"></div>
+        <div class="add-event-wrapper">
+          <div class="add-event-header">
+            <div class="title">Agregar Reunión</div>
+            <i class="fas fa-times close"></i>
+          </div>
+          <div class="add-event-body">
+            <div class="add-event-input">
+              <input
+                type="text"
+                placeholder="Nombre de la Reunión"
+                class="event-name"
+              />
+            </div>
+            <div class="add-event-input">
+              <input type="text" placeholder="Desde" class="event-time-from" />
+            </div>
+            <div class="add-event-input">
+              <input type="text" placeholder="Hasta" class="event-time-to" />
+            </div>
+          </div>
+          <div class="add-event-footer">
+            <button class="add-event-btn">Agregar Reunión</button>
+            <button class="add-event-btn">Agregar Nota</button>
+          </div>
+        </div>
+      </div>
+      <button class="add-event">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <script src="/js/script.js"></script>
+  </body>
 </html>
