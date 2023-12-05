@@ -18,8 +18,8 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.email = :email")
     public Usuario findByEmail(@Param("email") String email);
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol = :role")
-    public List<Usuario> findByRole(@Param("role") String role);
+    @Query("SELECT u FROM Usuario u WHERE u.rol = :rol")
+    public List<Usuario> findByRole(@Param("rol") String role);
 } 
  
  

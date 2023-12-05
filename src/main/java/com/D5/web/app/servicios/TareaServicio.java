@@ -4,6 +4,7 @@ package com.D5.web.app.servicios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Tarea;
+import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.TareaRepositorio;
 import java.time.Instant;
@@ -20,18 +21,22 @@ public class TareaServicio {
     @Autowired
     TareaRepositorio tareaRepositorio;
 
+    @Autowired
+    UsuarioServicio usuarioServicio;
+    
     @Transactional
-    public void agregar(String nombreTarea, String descripcion, Date fechaInicio, Date fechaFinalizacion) throws MyException {
-        Tarea tarea = new Tarea();
-    }
-    @Transactional
-    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario) throws MyException {
     	Tarea tarea = new Tarea();
-
-    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);   
+    	Usuario usuarioEncargado = usuario;
+    	
+    	
+    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
+    	tarea.setUsuario(usuarioEncargado);
         tarea.setDescripcion(descripcion);
-        tarea.setEstado(estado);
+        tarea.setEstado(true);
         tarea.setNombreTarea(nombreTarea);
+        tarea.setFechaInicio(fechaInicio);
+        tarea.setFechaFinalizacion(fechaFinalizacion);
         return tareaRepositorio.save(tarea);
     }
 
@@ -68,7 +73,7 @@ public class TareaServicio {
         }
     }
     
-    public void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
+    private void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
         if (estado == null) {
             throw new MyException("Estado invalido");
         }
@@ -94,4 +99,13 @@ public class TareaServicio {
 
         return detalles;
     }
+    
+    private void validarUsuario(Usuario usuario)
+    {
+    	if (usuario.getId() == null)
+    	{
+    		throw new IllegalArgumentException("El usuario no existe en la base de datos. Como vos.");
+    	}
+    }
+    
 }

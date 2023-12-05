@@ -25,6 +25,10 @@ public class ProyectoServicio {
 	@Transactional
 	public Proyecto crear(Proyecto proyecto) {
 	    try {
+	    	if(proyecto.getEstado()==null)
+	    	{
+	    		proyecto.setEstado(true);
+	    	}
 	        valida(proyecto); 
 	        establecerRelaciones(proyecto); 
 	        return proyectoRepositorio.save(proyecto);
@@ -35,6 +39,7 @@ public class ProyectoServicio {
 	    }
 	}
  
+
     @Transactional
     public Proyecto modificar(Proyecto proyecto) {
         Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
@@ -67,16 +72,11 @@ public class ProyectoServicio {
         }
     }
 
-
-    
+ 
     @Transactional
     public void eliminarPorId(String id) {
-        Proyecto proyecto = proyectoRepositorio.findById(id).orElse(null);
-        if (proyecto != null) {
-            proyectoRepositorio.delete(proyecto);
-        } else {
-            throw new IllegalArgumentException("Proyecto no encontrado con ID: " + id);
-        }
+        proyectoRepositorio.findById(id)
+            .ifPresent(proyectoRepositorio::delete);
     }
 
     
@@ -89,8 +89,6 @@ public class ProyectoServicio {
     }
 
 
-
-    
     public void registrar(Proyecto proyecto) {
         proyectoRepositorio.save(proyecto);
     }
@@ -122,7 +120,7 @@ public class ProyectoServicio {
 
 
     
-    public void accederPerfil(Proyecto proyecto) {
+    public void verDetalle(Proyecto proyecto) {
         proyectoRepositorio.findById(proyecto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
     }

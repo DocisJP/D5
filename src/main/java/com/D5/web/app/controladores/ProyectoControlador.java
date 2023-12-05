@@ -36,9 +36,8 @@ public class ProyectoControlador {
     ProyectoServicio proyectoServicio;
 
     @GetMapping("/panel")
-    public String panelControl(){
-        
-    return "panel_proyecto.html";
+    public String panelControl(){  
+        return "panel_proyecto.html";
     }
     
     
@@ -64,6 +63,8 @@ public class ProyectoControlador {
         model.addAttribute("proyecto", new Proyecto());
         return "formulario_proyecto.html"; 
     }
+
+
     @PostMapping("/registro")
     public String registrarProyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs) {
         System.out.print(redirectAttrs);
@@ -78,16 +79,15 @@ public class ProyectoControlador {
         }
     }
 
-    
-  
-    
     @GetMapping("/lista")
     public String listarProyectos(ModelMap model) {
         List<Proyecto> listado = proyectoServicio.listarProyectos();
         model.addAttribute("proyectos", listado);
         return "panel_proyecto";
+        
     }
     
+
     @GetMapping("/detalle/{id}")
     public String mostrarDetalles(@PathVariable String id, Model model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);

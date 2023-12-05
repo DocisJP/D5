@@ -40,10 +40,10 @@ public class Proyecto {
     private Date fechaFinalizacion;
 
     @OneToMany(mappedBy = "proyecto")
-    private List<Reunion> listaReuniones;
+    private List<Reunion> listaReuniones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "proyect")
-    private List<Tarea> tareas;
+    @OneToMany(mappedBy = "proyecto")
+    private List<Tarea> tareas = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

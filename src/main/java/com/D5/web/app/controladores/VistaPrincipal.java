@@ -2,6 +2,7 @@ package com.D5.web.app.controladores;
 
 
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
@@ -57,7 +58,7 @@ public class VistaPrincipal {
 
     }
 
-     @GetMapping("/login")
+    @GetMapping("/login")
     public String login(@RequestParam(required=false) String error,ModelMap modelo){
     
         if(error != null){
@@ -68,62 +69,17 @@ public class VistaPrincipal {
         return "login.html";
     }
     
-    @PreAuthorize("hasAnyRole('Role_USER', 'ROLE_ADMIN')")
+    
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session) {
-
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-
-        if (logueado.getRol().toString().equals("ADMIN")) {
+        if (logueado.getRol() == Rol.ADMIN) { 
             return "redirect:/admin/dashboard";
         }
-
         return "principal.html";
-
     }
+
     
-    //Agrego Perfil
-//      @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-//    @GetMapping("/perfil")
-//    public String perfil(ModelMap modelo , HttpSession session){
-//    
-//        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-//        
-//        modelo.put("usuario", usuario);
-//        return "usuario_modificar.html";
-//    }
-//    
-//     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-//    @GetMapping("/perfil/{id}")
-//    public String perfil(ModelMap modelo , HttpSession session,@PathVariable String id){
-//    
-//        Usuario usuario = usuarioService.getOne(id);
-//        modelo.addAttribute("usuario", usuario);
-//        
-//        return "usuario_modificar.html";
-//    }
-//    
-//    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-//    @PostMapping("/perfil/{id}")
-//    public String actualizar(MultipartFile archivo,@PathVariable String id,
-//            @RequestParam String nombre,@RequestParam String email,
-//            @RequestParam String password, @RequestParam String password2,ModelMap modelo){
-//    
-//        try {
-//            usuarioService.actualizar(archivo, id, nombre, email, password, password2);
-//            
-//            modelo.put("exito", "Usuario actualizado correctamente");
-//            
-//            return "inicio.html";
-//                  
-//        } catch (Exception e) {
-//            
-//            modelo.put("error", e.getMessage());
-//            modelo.put("nombre", nombre);
-//            modelo.put("email", email);
-//            
-//            return "usuario_modificar.html";
-//        }
-//    
-//    }
+    
 }

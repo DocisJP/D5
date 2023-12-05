@@ -137,6 +137,8 @@ public class UsuarioServicio implements UserDetailsService {
 //     usuario.setProyectoLista(proyectos);
 //     usuarioRepositorio.save(usuario);
 //    }
+
+
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -153,20 +155,17 @@ public class UsuarioServicio implements UserDetailsService {
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
-            GrantedAuthority p = new SimpleGrantedAuthority(usuario.getRol().toString());
-
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name());
             permisos.add(p);
 
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
             HttpSession session = attr.getRequest().getSession(true);
-
             session.setAttribute("usuariosession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
 
         } else {
-            return null;
+            throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
 }
