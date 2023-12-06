@@ -114,12 +114,41 @@ public class TareaControlador {
     //Agregue post y get para las vistas falta la logica
     @GetMapping("/modificar/{id}")
     public String modificarTarea(@PathVariable String id, Model model) {
+        Tarea tarea= tareaServicio.buscarPorId(id);
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("proyectos", proyectos);
+
         return "tarea_modificar.html";
     }
 
     @PostMapping("/modificar")
-    public String modificarProyecto(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs) {
+    public String modificarProyecto(
+            @RequestParam String id,
+            @RequestParam String nombreTarea,
+            @RequestParam String descripcion,
+            @RequestParam Boolean estado,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaInicio,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaFinalizacion,
+            @RequestParam String usuarioId,
+            @RequestParam String proyectoId,
+            ModelMap modelo
+    ) {
+        
+        Tarea aModificar = new Tarea();
+                aModificar.setId(id);
+                aModificar.setDescripcion(descripcion);
+                aModificar.setEstado(estado);
+                aModificar.setNombreTarea(nombreTarea);
+                aModificar.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
+                aModificar.setProyecto(proyectoServicio.buscarPorId(proyectoId));
+                aModificar.setFechaInicio(fechaInicio);
+                aModificar.setFechaFinalizacion(fechaFinalizacion);
+                
+        Tarea tarea = tareaServicio.modificar(aModificar);
 
-        return "redirect:/panel" + tarea.getId();
+        return "redirect:/tarea/detalle/" + tarea.getId();
     }
 }
