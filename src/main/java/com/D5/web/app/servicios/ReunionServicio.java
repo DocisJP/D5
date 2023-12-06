@@ -20,6 +20,8 @@ public class ReunionServicio {
     @Autowired
     private ReunionRepositorio reunionRepositorio;
 
+    @Autowired
+    private UsuarioServicio usuarioServicio;
     
     @Transactional
     public void crear(String nombre, Date horarioInicio, Boolean estado, List<Usuario> participantes, String detalle) 
@@ -100,7 +102,5 @@ public class ReunionServicio {
     public List<Reunion> listaReuniones() {
         return reunionRepositorio.findAll();
     }
-
-	
 
 }	

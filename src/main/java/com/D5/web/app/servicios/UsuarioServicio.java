@@ -168,4 +168,15 @@ public class UsuarioServicio implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
+
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepositorio.findAll();
+    }
+
+    public List<Usuario> listarUsuariosPorRol(String rol)
+    {
+        return usuarioRepositorio.findByRole(rol);
+    }
+    
+
 }
