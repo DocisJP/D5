@@ -1,6 +1,6 @@
 package com.D5.web.app.controladores;
 
-import com.D5.web.app.entidades.Proyecto;
+
 import com.D5.web.app.entidades.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
