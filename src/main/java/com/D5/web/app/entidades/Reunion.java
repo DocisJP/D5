@@ -36,6 +36,12 @@ public class Reunion {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date horarioDeInicio;
 
+    
+    //Agregue horario fin de la reunion
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date horarioDeFin;
+    
     private String detalle;
 
     private Boolean estado;
@@ -54,6 +60,16 @@ public class Reunion {
 
     public String getId() {
         return id;
+    }
+
+    
+    //Getter and setter
+    public Date getHorarioDeFin() {
+        return horarioDeFin;
+    }
+
+    public void setHorarioDeFin(Date horarioDeFin) {
+        this.horarioDeFin = horarioDeFin;
     }
 
     public void setId(String id) {

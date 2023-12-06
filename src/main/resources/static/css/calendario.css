@@ -387,7 +387,7 @@ body {
   transition: max-height 0.5s ease;
 }
 .add-event-wrapper.active {
-  max-height: 300px;
+  max-height: 500px;
 }
 .add-event-header {
   width: 100%;
@@ -457,6 +457,7 @@ body {
   font-size: 1rem;
   font-weight: 500;
   outline: none;
+  margin-left: 1rem;
   border: none;
   color: #fff;
   background-color: var(--primary-clr);
