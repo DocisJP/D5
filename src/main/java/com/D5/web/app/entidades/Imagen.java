@@ -10,12 +10,10 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
-@Table(name="imagen")
+@Table(name = "imagen")
 public class Imagen {
 
-       
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -62,5 +60,4 @@ public class Imagen {
         this.contenido = contenido;
     }
 
-        
 }
