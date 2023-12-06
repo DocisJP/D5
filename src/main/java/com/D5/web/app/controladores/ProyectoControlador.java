@@ -102,7 +102,7 @@ public class ProyectoControlador {
             return "redirect:/proyecto/lista";
         }
         model.addAttribute("proyecto", proyecto);
-        return "formulario_modificar_proyecto";
+        return "proyecto_modificar.html";
     }
 
     @PostMapping("/modificar")

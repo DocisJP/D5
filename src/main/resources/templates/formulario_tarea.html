@@ -52,16 +52,25 @@
                                    th:field="*{fechaFinalizacion}" class="form-control mb-3" />
                             <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}"
                                class="error-message" style="color: red; font-size: 0.9em;"> </p>
-                            <select name="usuarioId" class="form-select mb-3">
 
-                                <option>Seleccionar Usuario</option>
-
-                                <option th:each="elegido : ${usuarios}"
-                                        th:text="${elegido.nombre}"
-                                        th:value="${elegido.id}"
-                                        />
+                            <!-- Agrego select para usuarios -->
+                            <label for="usuarios">Seleccionar Usuarios</label>
+                            <select id="usuarios" name="usuarios" th:field="*{usuario}" class="form-control mb-3">
+                                <!-- Itera sobre la lista de usuarios -->
+                                <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}"></option>
                             </select>
-                            <select name="proyectoId" class="form-select mb-3">
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+                            <!-- Campo oculto para el estado -->
+                            <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
+
+                            <button type="submit" class="btn btn-primary">Guardar tarea</button>
+                            <a href="@{/inicio}" class="btn btn-secondary">Volver</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
 
                                 <option>Elije Proyecto</option>
 

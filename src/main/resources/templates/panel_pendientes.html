@@ -1,60 +1,91 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace = "/fragments/head :: head"></head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
+            rel="stylesheet"
+            />
+        <link rel="stylesheet" type="text/css" href="/css/globales.css" />
+        <link rel="stylesheet" type="text/css" href="/css/tablas.css" />
+        <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <title>D5 Design</title>
+    </head>
 
     <body>
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
-        </header>
-       <body>
-    <h1>Lista de Pendientes</h1>
+            <div class="contenedor-tabla">
+                <div class="contenedor-pendientes">
+                    <section id="pendientes">
+                        <h2>Listado de Tareas</h2>
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
+                                    <th>Estado</th>
+                                    <th>Id Proyecto</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Finalización</th>
+                                    <th>Modificación</th>
+                                    <th>Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="tarea : ${tareas}">
+                                <tr>
+                                    <th th:text="${tareas.id}"></th>
+                                    <td th:text="${tareas.nombreTarea}"></td>
+                                    <td>
+                                        <a class="ver" th:href="@{/tarea/descripcion/__${tarea.id}__}"><i class="fa-regular fa-eye"></i>
+                                            Ver</a>
+                                    </td>
+                                    <td th:text="${tareas.estado}"></td>
+                                    <td th:text="${tareas.proyecto.id}"></td>
+                                    <td th:text="${tareas.fechaInicio}"></td>
+                                    <td th:text="${tareas.fechaFinalizacion}"></td>
+                                    <td>
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/tarea/modificar/__${tarea.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/tarea/eliminar/__${tarea.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <div class="btn-volver">
+                        <a th:href="@{/inicio}">Volver</a>
+                    </div>
+                    </header>
 
-    <label for="nueva-tarea">Nueva Tarea:</label>
-    <input type="text" id="nueva-tarea" onkeyup="agregarConEnter(event)" />
-    <button onclick="agregarTarea()">Agregar</button>
-
-    <ul id="lista-pendientes"></ul>
-
-    <script>
-      function agregarTarea() {
-        var nuevaTarea = document.getElementById("nueva-tarea").value;
-        if (nuevaTarea !== "") {
-          var lista = document.getElementById("lista-pendientes");
-          var nuevoElemento = document.createElement("li");
-          nuevoElemento.innerHTML =
-            '<span class="verificar" onclick="marcarComoCompletada(this)">&#9898;</span>' +
-            nuevaTarea +
-            '<i class="fas fa-trash-alt" onclick="eliminarTarea(this)"></i>';
-          lista.appendChild(nuevoElemento);
-          document.getElementById("nueva-tarea").value = ""; // Limpiar el campo de entrada después de agregar la tarea
-        }
-      }
-
-      function marcarComoCompletada(elemento) {
-        // Cambiar el símbolo de círculo vacío a marca de verificación al hacer clic
-        if (elemento.textContent === "◯") {
-          elemento.textContent = "✔"; // Marca de verificación
-        } else {
-          elemento.textContent = "◯"; // Círculo vacío
-        }
-      }
-
-      function eliminarTarea(elemento) {
-        // Eliminar el elemento padre (li) al hacer clic en el ícono de eliminar
-        var tarea = elemento.parentNode;
-        tarea.parentNode.removeChild(tarea);
-      }
-
-      function agregarConEnter(event) {
-        // Agregar tarea si se presiona la tecla "Enter"
-        if (event.key === "Enter") {
-          agregarTarea();
-        }
-      }
-    </script>
-  </body>
-    </main>
-    <footer th:replace = "/fragments/footer :: footer"></footer>
-</body>
-</html>
+                    <footer th:replace = "/fragments/footer :: footer"></footer>
+                    </body>
+                    </html>

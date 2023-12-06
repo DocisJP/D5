@@ -540,7 +540,7 @@ a.eliminar {
   text-decoration: none;
   color: red;
 }
-.proyectos-agente {
+#proyectos-agente {
   display: flex;
   justify-content: center;
   align-items: center;

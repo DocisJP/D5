@@ -98,4 +98,16 @@ public class TareaControlador {
         return "lista_tareas";
     }
 
+    
+    //Agregue post y get para las vistas falta la logica
+      @GetMapping("/modificar/{id}")
+    public String modificarTarea(@PathVariable String id, Model model) {
+    return "tarea_modificar.html";
+    }
+      
+  @PostMapping("/modificar")
+    public String modificarProyecto(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs) {
+        
+         return "redirect:/panel" + tarea.getId();
+    }
 }
