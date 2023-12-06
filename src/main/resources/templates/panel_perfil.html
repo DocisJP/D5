@@ -37,28 +37,38 @@
 
 
             <div class="container mt-5">
-                <h2 class="mb-4">Perfil Usuario</h2>
+
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"  name="nombre">Nombre</h5>
-                        <h5 class="card-title" name="apellido">Apellido</h5>
-                        <p class="card-text" name="email" >Email</p>
-                        <p class="card-text" name="password" >Password</p>
-                        <p class="card-text" name="dni">Dni</p>
-                        <p class="card-text" name="telefono" >Telefono</p>
-                        <p class="card-text" name="direccion">Direccion</p>
-                        <p class="card-text" name="empresa" >Empresa</p>
-                        <p class="card-text" name="rol">Rol</p>
+
+                        <h2 class="mb-4">Perfil Usuario</h2>
+                        <div class="container-imagen">
+                            <a><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}" style="width: 13rem"></a>
+                        </div>
+                        <h5 class="card-text">Nombre: <span th:text="${nombre}"></span></h5>
+                        <h5 class="card-text">Apellido: <span th:text="${apellido}"></span></h5>
+                        <h5 class="card-text">Email: <span th:text="${email}"></span></h5>
+                        <h5 class="card-text">Password: <span th:text="${password}"></span></h5>
+                        <h5 class="card-text">Dni: <span th:text="${dni}"></span></h5>
+                        <h5 class="card-text">Telefono: <span th:text="${telefono}"></span></h5>
+                        <h5 class="card-text">Direccion: <span th:text="${direccion}"></span></h5>
+                        <h5 class="card-text">Empresa: <span th:text="${empresa}"></span></h5>
+                        <h5 class="card-text">Rol: <span th:text="${rol}"></span></h5>
                        
-                            <a href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
+                        <!-- Botones para modificar y eliminar -->
+                        <a th:href="@{'/modificar/' + ${session.usuariosession.id}}" class="btn btn-warning">Modificar</a>
+                        <a th:href="@{'/eliminar/' + ${session.usuariosession.id}}" class="btn btn-danger">Eliminar</a>      
+                        <div>
+                            <a th:href="@{/inicio}" class="btn btn-primary" style="margin-top: 1rem" >Volver al inicio</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <footer th:replace="/fragments/footer :: footer"></footer>
-    </body>
+    <footer th:replace="/fragments/footer :: footer"></footer>
+</body>
 
 </html>

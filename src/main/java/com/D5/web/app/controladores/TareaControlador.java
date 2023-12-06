@@ -31,10 +31,10 @@ public class TareaControlador {
     private UsuarioServicio usuarioServicio;
 
     @Autowired
-    private TareaServicio tareaServicio;
+    private ProyectoServicio proyectoServicio;
 
     @Autowired
-    private ProyectoServicio proyectoServicio;
+    private TareaServicio tareaServicio;
 
     @GetMapping("/panel")
     public String panel() {
