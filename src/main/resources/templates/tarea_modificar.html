@@ -33,52 +33,70 @@
             <nav th:replace = "/fragments/navbar :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
             <div class="contenedor-portada"></div>
-		<div th:replace="/fragments/modelo :: div"></div>
-	</header>
+            <div th:replace="/fragments/modelo :: div"></div>
+        </header>
 
-	<main class="contenedor-proyecto">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6">
-					<h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
-					<form th:action="@{/tarea/modificar}" method="post" th:object="${tarea}" class="form-group">
-						<!-- Campos del formulario -->
-						<label for="nombreTarea">Nombre de la tarea</label>
-						<input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
-							placeholder="Nombre" class="form-control mb-3" />
-						<p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
-							style="color: red; font-size: 0.9em;"></p>
+        <main class="contenedor-proyecto">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
+                        <form th:action="@{/tarea/modificar}" method="post" th:object="${tarea}" class="form-group">
+                            <!-- Campos del formulario -->
+                            <label for="nombreTarea">Nombre de la tarea</label>
+                            <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
+                                   placeholder="Nombre" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-						<label for="descripcion">Descripcion de la tarea</label>
-						<textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
-							placeholder="Descripcion" class="form-control mb-3"></textarea>
-						<p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
-							style="color: red; font-size: 0.9em;"></p>
+                            <label for="descripcion">Descripcion de la tarea</label>
+                            <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
+                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
+                            <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-						<!-- Campos de fecha de inicio y finalización -->
-						<label for="fechaInicio">Fecha de Inicio</label>
-						<input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
-							class="form-control mb-3" />
-						<p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
-							style="color: red; font-size: 0.9em;"></p>
+                            <!-- Campos de fecha de inicio y finalización -->
+                            <label for="fechaInicio">Fecha de Inicio</label>
+                            <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
+                                   class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-						<label for="fechaFinalizacion">Fecha de Finalización</label>
-						<input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion"
-							th:field="*{fechaFinalizacion}" class="form-control mb-3" />
-						<p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}"
-							class="error-message" style="color: red; font-size: 0.9em;"> </p>
+                            <label for="fechaFinalizacion">Fecha de Finalización</label>
+                            <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion"
+                                   th:field="*{fechaFinalizacion}" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}"
+                               class="error-message" style="color: red; font-size: 0.9em;"> </p>
+                            <label for="usuarios">Seleccionar Usuarios</label>
+                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                <!-- Itera sobre la lista de usuarios -->
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-						<!-- Campo oculto para el estado -->
-						<input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
+                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
 
-						<button type="submit" class="btn btn-primary">Actualizar</button>
-						<a href="@{/inicio}" class="btn btn-secondary">Volver</a>
-					</form>
-				</div>
-			</div>
-		</div>
-	</main>
+                                <option label="Elije Proyecto" value="''"></option>
 
-	<footer th:replace="/fragments/footer :: footer"></footer>
+                                <option th:each="asociado : ${proyectos}"
+                                        th:text="${asociado.nombre}"
+                                        th:value="${asociado.id}"
+                                        th:field="*{proyecto}"
+                                        />
+                            </select>
+                            <!-- Campo oculto para el estado -->
+                            <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
+                            <input type="hidden" name="id" th:field="*{id}"  />
+
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <a href="@{/inicio}" class="btn btn-secondary">Volver</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="/fragments/footer :: footer"></footer>
     </body>
 </html>
