@@ -106,8 +106,7 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
-    
-    
+
     @Transactional
     public List<Usuario> listarUsuarios() {
 
@@ -118,11 +117,6 @@ public class UsuarioServicio implements UserDetailsService {
     @Transactional
     public Usuario buscarporEmail(String email) {
         return usuarioRepositorio.findByEmail(email);
-    }
-
-    @Transactional
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepositorio.findAll();
     }
 
     @Transactional
