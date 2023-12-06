@@ -49,6 +49,7 @@
           <div class="event-day" name="fecha" th:value="${fecha}"></div>
           <div class="event-date"></div>
         </div>
+          <form  th:action="@{/reunion/registro}" th:object="${reunion}" method="POST">
         <div class="events"></div>
         <div class="add-event-wrapper">
           <div class="add-event-header">
@@ -82,10 +83,11 @@
             </div>
           </div>
           <div class="add-event-footer">
-            <button class="add-event-btn">Agregar Reunión</button>
+              <button class="add-event-btn" type="submit">Agregar Reunión</button>
             <button class="add-event-btn">Agregar Nota</button>
           </div>
         </div>
+        </form>
       </div>
       <button class="add-event">
         <i class="fas fa-plus"></i>

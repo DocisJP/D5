@@ -46,6 +46,8 @@
                                     <th>Email</th>
                                     <th>Telefono</th>
                                     <th>Rol</th>
+                                    <th>Modificación</th>
+                                    <th>Eliminación</th>
                                 </tr>
                             </thead>
                             <tbody th:each="usuario : ${usuarios}">
@@ -55,6 +57,20 @@
                                     <td th:text="${usuario.email}"></td>
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
+                                        <td>
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/modificar/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/perfil/eliminar/__${usuario.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

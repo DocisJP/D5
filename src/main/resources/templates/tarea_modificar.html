@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<head th:replace="/fragments/head :: head"></head>
-
-<body>
-	<header class="contenedor-header">
-		<nav class="navegacion">
-			<!-- Hamburguesa -->
-			<input type="checkbox" id="check" />
-			<label for="check" class="checkbtn">
-				<i class="fas fa-bars"></i>
-			</label>
-
-			<!-- Logo -->
-			<a href="#" class="enlace">
-				<img src="img/logo2.png" alt="" class="logo" />
-			</a>
-		</nav>
-		<div class="contenedor-portada"></div>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
+            rel="stylesheet"
+            />
+        <link rel="stylesheet" type="text/css" href="/css/globales.css" />
+        <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <title>D5 Design</title>
+    </head>
+    <body>
+        <header class="contenedor-header">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+            <div class="contenedor-portada"></div>
 		<div th:replace="/fragments/modelo :: div"></div>
 	</header>
 
@@ -26,7 +41,7 @@
 			<div class="row justify-content-center">
 				<div class="col-md-6">
 					<h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
-					<form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
+					<form th:action="@{/tarea/modificar}" method="post" th:object="${tarea}" class="form-group">
 						<!-- Campos del formulario -->
 						<label for="nombreTarea">Nombre de la tarea</label>
 						<input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
@@ -56,7 +71,7 @@
 						<!-- Campo oculto para el estado -->
 						<input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
 
-						<button type="submit" class="btn btn-primary">Guardar tarea</button>
+						<button type="submit" class="btn btn-primary">Actualizar</button>
 						<a href="@{/inicio}" class="btn btn-secondary">Volver</a>
 					</form>
 				</div>
@@ -65,6 +80,5 @@
 	</main>
 
 	<footer th:replace="/fragments/footer :: footer"></footer>
-</body>
-
+    </body>
 </html>

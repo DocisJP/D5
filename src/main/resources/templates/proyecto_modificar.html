@@ -37,7 +37,8 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <h1 class="text-center">Registro de Proyecto</h1>
-                        <form class="mt-4" th:action="@{/proyecto/registro}" th:object="${proyecto}" method="POST">
+                        <form class="mt-4" th:action="@{/proyecto/modificar}" th:object="${proyecto}" method="POST">
+                            <input hidden th:value="${id}" name="id">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre del Proyecto</label>
                                 <input type="text" class="form-control" id="nombre" th:field="*{nombre}" placeholder="Nombre">
@@ -58,7 +59,7 @@
                             </div>
                             <input type="hidden" th:field="*{estado}" value="true">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Registrar</button>
+                                <button type="submit" class="btn btn-primary">Actualizar</button>
                                 <a href="@{/principal}" class="btn btn-secondary">Volver</a>
                             </div>
                         </form>
