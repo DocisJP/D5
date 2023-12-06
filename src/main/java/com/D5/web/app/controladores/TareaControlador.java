@@ -114,7 +114,7 @@ public class TareaControlador {
     //Agregue post y get para las vistas falta la logica
     @GetMapping("/modificar/{id}")
     public String modificarTarea(@PathVariable String id, Model model) {
-        Tarea tarea= tareaServicio.buscarPorId(id);
+        Tarea tarea = tareaServicio.buscarPorId(id);
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         model.addAttribute("tarea", tarea);
@@ -136,19 +136,25 @@ public class TareaControlador {
             @RequestParam String proyectoId,
             ModelMap modelo
     ) {
-        
+
         Tarea aModificar = new Tarea();
-                aModificar.setId(id);
-                aModificar.setDescripcion(descripcion);
-                aModificar.setEstado(estado);
-                aModificar.setNombreTarea(nombreTarea);
-                aModificar.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
-                aModificar.setProyecto(proyectoServicio.buscarPorId(proyectoId));
-                aModificar.setFechaInicio(fechaInicio);
-                aModificar.setFechaFinalizacion(fechaFinalizacion);
-                
+        aModificar.setId(id);
+        aModificar.setDescripcion(descripcion);
+        aModificar.setEstado(estado);
+        aModificar.setNombreTarea(nombreTarea);
+        aModificar.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
+        aModificar.setProyecto(proyectoServicio.buscarPorId(proyectoId));
+        aModificar.setFechaInicio(fechaInicio);
+        aModificar.setFechaFinalizacion(fechaFinalizacion);
+
         Tarea tarea = tareaServicio.modificar(aModificar);
 
         return "redirect:/tarea/detalle/" + tarea.getId();
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarTarea(@PathVariable String id) {
+        tareaServicio.eliminar(tareaServicio.buscarPorId(id));
+        return "redirect:/tarea/panel";
     }
 }
