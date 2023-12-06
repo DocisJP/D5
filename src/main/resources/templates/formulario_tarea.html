@@ -61,6 +61,15 @@
                                         th:value="${elegido.id}"
                                         />
                             </select>
+                            <select name="proyectoId" class="form-select mb-3">
+
+                                <option>Elije Proyecto</option>
+
+                                <option th:each="asociado : ${proyectos}"
+                                        th:text="${asociado.nombre}"
+                                        th:value="${asociado.id}"
+                                        />
+                            </select>
                             <!-- Campo oculto para el estado -->
                             <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
 

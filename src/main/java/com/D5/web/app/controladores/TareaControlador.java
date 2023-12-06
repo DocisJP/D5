@@ -1,8 +1,10 @@
 package com.D5.web.app.controladores;
 
+import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
+import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.TareaServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import java.util.List;
@@ -28,6 +30,9 @@ public class TareaControlador {
     @Autowired
     private TareaServicio tareaServicio;
 
+    @Autowired
+    private ProyectoServicio proyectoServicio;
+
     @GetMapping("/panel")
     public String panel() {
 
@@ -38,16 +43,18 @@ public class TareaControlador {
     @GetMapping("/registrar")
     public String formularioRegistrar(Model model) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         model.addAttribute("tarea", new Tarea());
         model.addAttribute("usuarios", usuarios);
+        model.addAttribute("proyectos", proyectos);
         return "formulario_tarea";
     }
 
     // Procesa el formulario y registra una nueva tarea
     @PostMapping("/registro")
-    public String registrarTarea(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs, @RequestParam String usuarioId) {
+    public String registrarTarea(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs, @RequestParam String usuarioId, @RequestParam String proyectoId) {
         Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
-
+        Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
         try {
 
             Tarea tareaGuardada = tareaServicio.crear(
@@ -56,7 +63,8 @@ public class TareaControlador {
                     tarea.getEstado(),
                     tarea.getFechaInicio(),
                     tarea.getFechaFinalizacion(),
-                    usuarioEncargado);
+                    usuarioEncargado,
+                    proyectoAsociado);
 
             if (tareaGuardada != null && tareaGuardada.getId() != null) {
                 redirectAttrs.addFlashAttribute("exito", "Tarea creada con éxito!");
