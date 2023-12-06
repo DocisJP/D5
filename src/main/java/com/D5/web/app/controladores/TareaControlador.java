@@ -31,14 +31,14 @@ public class TareaControlador {
     private UsuarioServicio usuarioServicio;
 
     @Autowired
-    private TareaServicio tareaServicio;
-
-    @Autowired
     private ProyectoServicio proyectoServicio;
 
-    @GetMapping("/panel")
-    public String panel() {
+    @Autowired
+    private TareaServicio tareaServicio;
 
+    @GetMapping("/panel")
+    public String panel(Model model) {
+        model.addAttribute("tareas", tareaServicio.listarTareas());
         return "panel_pendientes.html";
     }
 

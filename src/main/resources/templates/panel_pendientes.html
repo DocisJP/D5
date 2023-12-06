@@ -43,26 +43,31 @@
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
-                                    <th>Estado</th>
-                                    <th>Id Proyecto</th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th>Modificación</th>
-                                    <th>Eliminación</th>
+                                    <th>Usuarios</th>
+                                    <th>Proyecto</th>
                                 </tr>
                             </thead>
                             <tbody th:each="tarea : ${tareas}">
                                 <tr>
-                                    <th th:text="${tareas.id}"></th>
-                                    <td th:text="${tareas.nombreTarea}"></td>
-                                    <td>
-                                        <a class="ver" th:href="@{/tarea/descripcion/__${tarea.id}__}"><i class="fa-regular fa-eye"></i>
-                                            Ver</a>
+                                    <th th:text="${tarea.id}"></th>
+                                    <td th:text="${tarea.nombreTarea}"></td>
+                                    <td th:text="${tarea.descripcion}"></td>
+                                    <td th:text="${tarea.fechaInicio}"></td>
+                                    <td th:text="${tarea.fechaFinalizacion}">
+
                                     </td>
-                                    <td th:text="${tareas.estado}"></td>
-                                    <td th:text="${tareas.proyecto.id}"></td>
-                                    <td th:text="${tareas.fechaInicio}"></td>
-                                    <td th:text="${tareas.fechaFinalizacion}"></td>
+                                    <td >
+                                        <ul th:each="elegidos:${tarea.usuario}">
+                                            <li th:text="${elegidos.nombre}"></li>
+                                        </ul>
+                                    </td>
+                                    <td >
+                                        <ul th:each="asociado:${tarea.proyecto}">
+                                            <li th:text="${asociado.nombre}"></li>
+                                        </ul>
+                                    </td>
                                     <td>
                                         <a
                                             class="modificar"

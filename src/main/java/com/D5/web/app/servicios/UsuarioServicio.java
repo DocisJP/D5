@@ -108,13 +108,15 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario buscarporEmail(String email) {
-        return usuarioRepositorio.findByEmail(email);
+    public List<Usuario> listarUsuarios() {
+
+        return usuarioRepositorio.findAll();
+
     }
 
     @Transactional
-    public List<Usuario> listarUsuarios() {
-        return usuarioRepositorio.findAll();
+    public Usuario buscarporEmail(String email) {
+        return usuarioRepositorio.findByEmail(email);
     }
 
     @Transactional
