@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head th:replace="/fragments/head :: head"></head>
+    <head th:replace="/fragments/head :: head">
+        <title>Provisorio</title>
+    </head>
 
     <body>
         <header class="contenedor-header">
@@ -55,33 +57,25 @@
 
                             <!-- Agrego select para usuarios -->
                             <label for="usuarios">Seleccionar Usuarios</label>
-                            <select id="usuarios" name="usuarios" th:field="*{usuario}" class="form-control mb-3">
+                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
                                 <!-- Itera sobre la lista de usuarios -->
-                                <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}"></option>
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
                             </select>
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
                             <!-- Campo oculto para el estado -->
-                            <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
+                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
 
-                            <button type="submit" class="btn btn-primary">Guardar tarea</button>
-                            <a href="@{/inicio}" class="btn btn-secondary">Volver</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </main>
+                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
 
-                                <option>Elije Proyecto</option>
+                                <option label="Elije Proyecto" value="''"></option>
 
                                 <option th:each="asociado : ${proyectos}"
                                         th:text="${asociado.nombre}"
                                         th:value="${asociado.id}"
+                                        th:field="*{proyecto}"
                                         />
                             </select>
-                            <!-- Campo oculto para el estado -->
-                            <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
-
 
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
                                class="error-message" style="color: red; font-size: 0.9em;"></p>
