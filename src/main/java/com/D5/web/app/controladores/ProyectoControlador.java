@@ -36,7 +36,9 @@ public class ProyectoControlador {
     ProyectoServicio proyectoServicio;
 
     @GetMapping("/panel")
-    public String panelControl(){  
+    public String panelControl(ModelMap model){ 
+        List<Proyecto> listado = proyectoServicio.listarProyectos();
+        model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
     

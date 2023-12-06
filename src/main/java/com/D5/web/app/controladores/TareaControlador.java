@@ -1,10 +1,13 @@
 package com.D5.web.app.controladores;
 
+import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
+import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.TareaServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
+import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,11 @@ public class TareaControlador {
 	@Autowired
 	private UsuarioServicio usuarioServicio;
 
-    @Autowired
-    private TareaServicio tareaServicio;
+        @Autowired
+        private ProyectoServicio proyectoServicio;
+        
+        @Autowired
+        private TareaServicio tareaServicio;
 
      @GetMapping("/panel")
     public String panel() {
@@ -35,20 +41,23 @@ public class TareaControlador {
     }
     
     // Muestra el formulario para agregar una nueva tarea
-    @GetMapping("/registrar")
+   @GetMapping("/registrar")
     public String formularioRegistrar(Model model) {
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         model.addAttribute("tarea", new Tarea());
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("proyectos", proyectos);
         return "formulario_tarea";
     }
 
     // Procesa el formulario y registra una nueva tarea
     @PostMapping("/registro")
-    public String registrarTarea(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs, @RequestParam String usuarioId) {
-       Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
+    public String registrarTarea(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs) {
+      
     	
     	try {
-    		tarea.setUsuario(usuarioEncargado);
+ 
             Tarea tareaGuardada = tareaServicio.crear(
                     tarea.getNombreTarea(), 
                     tarea.getDescripcion(), 
@@ -56,6 +65,7 @@ public class TareaControlador {
                     tarea.getFechaInicio(), 
                     tarea.getFechaFinalizacion(),
                     tarea.getUsuario());
+                    tarea.getProyecto();
 
             if (tareaGuardada != null && tareaGuardada.getId() != null) {
                 redirectAttrs.addFlashAttribute("exito", "Tarea creada con éxito!");

@@ -62,6 +62,15 @@
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
                             <!-- Campo oculto para el estado -->
+                            
+                               <label for="proyecto">Seleccionar Proyecto</label>
+                            <select id="proyecto" name="proyecto" th:field="*{proyecto}" class="form-control mb-3">
+                                <!-- Itera sobre la lista de proyectos -->
+                                <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('proyecto')}" th:errors="*{proyecto}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+                            
                             <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
 
                             <button type="submit" class="btn btn-primary">Guardar tarea</button>
