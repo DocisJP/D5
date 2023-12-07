@@ -32,28 +32,29 @@
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
- <div class="contenedor-portada"></div>
+            <div class="contenedor-portada"></div>
             <div class="contenedor-form-registrar">
                 <div class="bodyForm-registrar">
-                    <h1>Regístrate</h1>
+                    <h1>Perfil</h1>
                     <div class="form-registrar">
                         <div class="formLogin-registrar">
                             <form class="m-5" th:action= "@{/perfil/modificar}" method="POST" enctype="multipart/form-data">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="nombre" class="form-label" >Ingresa tu nombre</label>
+                                        <label for="nombre" class="form-label" >Nombre</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                             placeholder="Nombre"
                                             id="nombre"
                                             name="nombre"
-                                            th:value="${nombre}"
+                                            th:value="${usuario.nombre}"
+                                            th:readonly="${true}"
                                             />
                                     </div>
                                     <div class="col-md-6">
                                         <label for="apellido" class="form-label"
-                                               >Ingresa tu apellido</label
+                                               >Apellido</label
                                         >
                                         <input
                                             type="text"
@@ -61,14 +62,15 @@
                                             placeholder="Apellido"
                                             id="apellido"
                                             name="apellido"
-                                            th:value="${apellido}"
+                                            th:value="${usuario.apellido}"
+                                            th:readonly="${true}"
                                             />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="exampleInputEmail1" class="form-label"
-                                               >Ingresa tu E-mail</label
+                                               > E-mail</label
                                         >
                                         <input
                                             type="email"
@@ -77,46 +79,52 @@
                                             aria-describedby="emailHelp"
                                             placeholder="E-mail"
                                             name="email"
-                                            th:value="${email}"
+                                            th:value="${usuario.email}" 
+                                            th:readonly="${true}"
                                             />
                                     </div>
-                                    
+
                                     <div class="col-md-6">
                                         <label for="exampleInputPassword1" class="form-label"
-                                               >Ingresa tu DNI</label
+                                               >DNI</label
                                         >
                                         <input
                                             type="number"
-                                            class="form-control"
+                                            class="form-control" 
+                                            id="dni"
                                             placeholder="Número de Documento"
-                                            name="dni"
-                                            th:value="dni"
+                                            name="dni" 
+                                            th:value="${usuario.dni}" 
+                                            th:readonly="${true}"
                                             />
 
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="direccion" class="form-label" >Ingresa tu direccion</label>
+                                        <label for="direccion" class="form-label" >Direccion</label>
                                         <input
                                             type="text"
                                             class="form-control"
                                             placeholder="Direccion"
-                                            id="nombre"
+                                            id="direccion"
                                             name="direccion"
-                                            th:value="${direccion}"
+                                            th:value="${usuario.direccion}" 
+                                            th:readonly="${true}"
                                             />
                                     </div>
                                     <div class="col-md-6">
                                         <label for="empresa" class="form-label"
-                                               >Ingresa la empresa a la que pertenece</label
+                                               >Empresa a la que pertenece</label
                                         >
                                         <input
                                             type="text"
-                                            class="form-control"
+                                            class="form-control" 
+                                            id="empresa"
                                             placeholder="Empresa"
                                             name="empresa"
-                                            th:value="${empresa}"
+                                            th:value="${usuario.empresa}" 
+                                            th:readonly="${true}"
                                             />
                                     </div>
                                 </div>
@@ -149,31 +157,88 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="exampleInputPassword1" class="form-label"
-                                               >Ingresa tu teléfono</label
+                                               >Teléfono</label
                                         >
                                         <input
                                             type="number"
                                             class="form-control"
+                                            id="telefono"
                                             placeholder="Teléfono"
                                             name="telefono"
-                                            th:value="${telefono}"
+                                            th:value="${usuario.telefono}" 
+                                            th:readonly="${true}"
                                             />
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Ingresa tu foto de perfil</label>
-                                        <input class="form-control" type="file" name="archivo" /> 
+                                        <label class="form-label"> foto de perfil</label>
+                                        <div class="container-saludo">
+                                            <div class="container-imagen">
+                                                <a><img th:src="@{/imagen/perfil/__${usuario.id}__}" width="150" ></a>
+                                            </div>
+                                        </div>
+
+                                        <input class="form-control" type="file" name="archivo" id="archivo" th:disabled="${true}" /> 
                                     </div>
                                 </div>
-                                <div class="container-btn">
-                                    <button type="submit" class="btn btn-primary">
-                                        Actualizar
-                                    </button>
-                                    <div class="btn-volver">
-                                        <a th:href="@{/}">Volver</a>
+                                <div class="row mb-3" >
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword1" class="form-label"
+                                               >rol</label>
+                                        <select name="rol" id="selectRol" th:disabled="${true}">
+
+                                            <option  >seleccionar rol  </option>
+
+                                            <option th:each="rol : ${roles}"
+                                                    th:value="${rol}" 
+                                                    th:text="${rol}"
+                                                    th:selected="${rol == usuario.rol}"> </option> 
+                                        </select> 
+                                    </div>
+
+                                </div>
+                                <div >
+                                    <div class="col-md-6">
+
+                                    </div>
+                                    <div class="container-btn">
+                                        <button type="button" onclick="toggleEdicion()">Habilitar/Desactivar Edición</button>
+                                        
+                                        <button type="submit" class="btn btn-primary">
+                                            Actualizar
+                                        </button>
+                                         
+                                        <div class="btn-volver">
+                                            <a th:href="@{/inicio}">Volver</a>
+                                        </div>
                                     </div>
                                 </div>
                             </form>                           
                             </header>
                             <footer th:replace = "/fragments/footer :: footer"></footer>
-    </body>
-</html>
+                            <script th:inline="javascript">
+                                function toggleEdicion() {
+                                    var nombreInput = document.getElementById('nombre');
+                                    var apellidoInput = document.getElementById('apellido');
+                                    var emailInput = document.getElementById('exampleInputEmail1');
+                                    var dniInput = document.getElementById('dni');
+                                    var direccionInput = document.getElementById('direccion');
+                                    var empresaInput = document.getElementById('empresa');
+                                    var telefonoInput = document.getElementById('telefono');
+                                    var selectRolInput = document.getElementById('selectRol');
+                                    var archivoInput = document.getElementById('archivo');
+
+
+                                    nombreInput.readOnly = !nombreInput.readOnly;
+                                    apellidoInput.readOnly = !apellidoInput.readOnly;
+                                    emailInput.readOnly = !emailInput.readOnly;
+                                    dniInput.readOnly = !dniInput.readOnly;
+                                    direccionInput.readOnly = !direccionInput.readOnly;
+                                    empresaInput.readOnly = !empresaInput.readOnly;
+                                    telefonoInput.readOnly = !telefonoInput.readOnly;
+                                    selectRolInput.disabled = !selectRolInput.disabled;
+                                    archivoInput.disabled = !archivoInput.disabled;
+
+                                }
+                            </script>
+                            </body>
+                            </html>
