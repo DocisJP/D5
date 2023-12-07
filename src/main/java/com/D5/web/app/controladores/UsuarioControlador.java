@@ -2,6 +2,9 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Rol;
+import com.D5.web.app.servicios.UsuarioServicio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,22 +17,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/perfil")
 public class UsuarioControlador {
-    
-    @GetMapping("/panel")
-    public String panelPerfil(Model model){
+
+    @Autowired
+    UsuarioServicio usuarioServicio;
+
+    @GetMapping("/panel/{id}")
+    public String panelPerfil(@PathVariable String id, Model model) {
+        Usuario usuario = usuarioServicio.buscarUsuario(id);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("roles", Rol.values());
         return "panel_perfil.html";
-        
+
     }
 
-    //Agrego get y post para la muestra del html falta la logica
-    @GetMapping("/modificar/{id}")
-    public String modificarUsuario(@PathVariable String id, Model model) {
-    return "usuario_modificar.html";
-    }
-      
-  @PostMapping("/modificar")
-    public String modificarProyecto(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttrs) {
-        
-         return "redirect:/lista" + usuario.getId();
+    @PostMapping("/modificar")
+    public String modificarPerfil(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttrs) {
+
+        try {
+            usuarioServicio.modificar(usuario);
+            redirectAttrs.addFlashAttribute("exito", "Usuario actualizado con éxito");
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/perfil/panel/" + usuario.getId();
     }
 }

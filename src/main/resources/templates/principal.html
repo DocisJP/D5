@@ -38,7 +38,7 @@
                 <div class="myCard" id="calendario" sec:authorize ="isAuthenticated()">
                     <div class="innerCard">
                         <div class="frontSide">
-                            <h3 class="title">CALENDARIO</h3>
+                            <h3 class="title">REUNIONES</h3>
                             <img class="img-cards" src="img/calendario2.jpg" alt="calendario">
                         </div>
                         <div class="backSide">                       
@@ -82,7 +82,7 @@
                         </div>
                         <div class="backSide">
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                            <a class="botonLink" th:href="@{/panel}">CLICK AQUÍ</a>
+                            <a class="botonLink" th:href="@{/perfil/panel/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
                         </div>
                     </div>
                 </div>

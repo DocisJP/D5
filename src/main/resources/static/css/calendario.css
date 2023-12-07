@@ -361,6 +361,10 @@ body {
 .add-event:hover {
   opacity: 1;
 }
+.add-event input{
+   color:var(--fondo);
+   
+}
 .add-event i {
   pointer-events: none;
   color:var(--fondo);
