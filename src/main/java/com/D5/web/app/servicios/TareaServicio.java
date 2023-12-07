@@ -1,6 +1,7 @@
 package com.D5.web.app.servicios;
 
 
+import com.D5.web.app.entidades.Proyecto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Tarea;
@@ -25,10 +26,9 @@ public class TareaServicio {
     UsuarioServicio usuarioServicio;
     
     @Transactional
-    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario) throws MyException {
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario,Proyecto proyecto) throws MyException {
     	Tarea tarea = new Tarea();
     	Usuario usuarioEncargado = usuario;
-    	
     	
     	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
     	tarea.setUsuario(usuarioEncargado);
@@ -37,6 +37,7 @@ public class TareaServicio {
         tarea.setNombreTarea(nombreTarea);
         tarea.setFechaInicio(fechaInicio);
         tarea.setFechaFinalizacion(fechaFinalizacion);
+        tarea.setProyecto(proyecto);
         return tareaRepositorio.save(tarea);
     }
 
@@ -69,7 +70,7 @@ public class TareaServicio {
         if (resultado.isPresent()) {
             return resultado.get();
         } else {
-            throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
+            throw new IllegalArgumentException("Tarea no encontrada con el ID: " + id);
         }
     }
     

@@ -114,7 +114,7 @@
     margin-top: 12rem;
 }
 .contenedor-header {
-  height: 100vh;
+  height: 100%;
   background-image: url("/img/fondo_negro.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -144,10 +144,14 @@
     color: var(--blanco);
     margin-top: 5rem;
 }
+.contenedor-tabla li{
+    list-style: none;
+}
 .tabla {
   margin: 70px auto 50px auto;
   border-collapse: collapse;
   box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 th,
 td {
@@ -168,32 +172,7 @@ td a {
   font-size: 13px;
   cursor: pointer;
 }
-.lista-autor {
-  margin-bottom: 10px;
-  margin-right: 10px;
-  border-bottom: 2px groove darkseagreen;
-}
-.lista-autor i {
-  color: darkturquoise;
-}
-a.info {
-  outline: none;
-  text-decoration: none;
-  color: darkgreen;
-  font-size: 15px;
-}
-a.info:hover,
-a.ver:hover {
-  filter: brightness(1.5);
-  color: black;
-  font-weight: bold;
-}
-a.ver {
-  outline: none;
-  text-decoration: none;
-  color: darkblue;
-  font-size: 15px;
-}
+
 a.modificar {
   outline: none;
   text-decoration: none;
@@ -213,10 +192,7 @@ a.eliminar {
   text-align: center;
   padding: 4px 20px;
 }
-.isbn {
-  writing-mode: vertical-lr;
-  text-orientation: upright;
-}
+
 .btn-volver a {
   width: 60%;
   padding: 3px 40px;

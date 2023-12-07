@@ -18,7 +18,7 @@
             rel="stylesheet"
             />
         <link rel="stylesheet" type="text/css" href="/css/globales.css" />
-        <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="/css/tablas.css" />
         <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
         <script
             defer
@@ -29,10 +29,13 @@
         <title>D5 Design</title>
     </head>
     <body>
-        <header class="contenedor-header-proyecto">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
-
+        <header class="contenedor-header">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div class="contenedor-tabla">
                 <div class="contenedor-proyecto">
                     <section id="proyectos-agente">
@@ -73,29 +76,16 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- Aquí va la tabla con proyectos y acciones para el Agente -->
+                        <div th:replace = "/fragments/modelo :: div"></div>
+                        <a th:href="@{/proyecto/registro}" style="margin: 1rem" class="btn">Crear nuevo Proyecto</a>
+                        <a href="#" class="btn" style="margin: 1rem">Solicitar nuevo Proyecto</a>        
+                        <div class="btn-volver" style="margin: 1rem">
+                            <a th:href="@{/inicio}">Inicio</a>
+                        </div>
                     </section>
-
-                    <!-- Sección para crear un nuevo proyecto (visible para el Agente) -->
-                    <section id="crear-proyecto">
-                        <a th:href="@{/proyecto/registro}" class="btn">Crear nuevo Proyecto</a>
-                        <!-- Metodo get return formulario_proyecto.html -->
-                        <!-- Formulario para crear un nuevo proyecto -->
-                    </section>
-
-                    <!-- Sección para solicitar un proyecto (visible para el Cliente) -->
-                    <section id="solicitar-proyecto">
-                        <a href="#" class="btn">Solicitar nuevo Proyecto</a>
-                        <!-- Listado de Agentes disponibles y formulario de solicitud -->
-                    </section>
-
-                    <div class="btn-volver">
-                        <a th:href="@{/inicio}">Volver</a>
-                    </div>
                 </div>
             </div>
         </header>
-    </main>
-    <footer th:replace = "/fragments/footer :: footer"></footer>
-</body>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
 </html>

@@ -1,98 +1,100 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendario</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Dancing+Script:wght@500&family=Open+Sans:ital,wght@1,300&family=Playfair+Display:ital@1&family=Poppins:ital,wght@1,500&family=Shadows+Into+Light&family=Vina+Sans&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/calendario.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="left">
-        <div class="calendar">
-          <div class="month">
-            <i class="fa fa-angle-left prev"></i>
-            <div class="date"></div>
-            <i class="fa fa-angle-right next"></i>
-          </div>
-          <div class="weekdays">
-            <div>domingo</div>
-            <div>lunes</div>
-            <div>martes</div>
-            <div>miercoles</div>
-            <div>jueves</div>
-            <div>viernes</div>
-            <div>sabado</div>
-          </div>
-          <div class="days"></div>
-          <div class="goto-today">
-            <div class="goto">
-              <input type="text" class="date-input" placeholder="mm/yyyy" />
-              <button class="goto-btn">Buscar</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Calendario</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Dancing+Script:wght@500&family=Open+Sans:ital,wght@1,300&family=Playfair+Display:ital@1&family=Poppins:ital,wght@1,500&family=Shadows+Into+Light&family=Vina+Sans&display=swap"
+            rel="stylesheet"
+            />
+        <link rel="stylesheet" href="/css/calendario.css" />
+        <link rel="stylesheet" type="text/css" href="css/globales.css" />
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="left">
+                <div class="calendar">
+                    <div class="month">
+                        <i class="fa fa-angle-left prev"></i>
+                        <div class="date"></div>
+                        <i class="fa fa-angle-right next"></i>
+                    </div>
+                    <div class="weekdays">
+                        <div>domingo</div>
+                        <div>lunes</div>
+                        <div>martes</div>
+                        <div>miercoles</div>
+                        <div>jueves</div>
+                        <div>viernes</div>
+                        <div>sabado</div>
+                    </div>
+                    <div class="days"></div>
+                    <div class="goto-today">
+                        <div class="goto">
+                            <input type="text" class="date-input" placeholder="mm/yyyy" />
+                            <button class="goto-btn">Buscar</button>
+                        </div>
+                        <button class="today-btn">Hoy</button>
+                    </div>
+                </div>
             </div>
-            <button class="today-btn">Hoy</button>
-          </div>
+            <div class="right">
+                <div class="today-date">
+                    <div class="event-day" name="fecha" th:value="${fecha}"></div>
+                    <div class="event-date"></div>
+                </div>
+                <form  th:action="@{/reunion/registro}" th:object="${reunion}" method="POST">
+                    <div class="events"></div>
+                    <div class="add-event-wrapper">
+                        <div class="add-event-header">
+                            <div class="title">Agregar Reunión</div>
+                            <i class="fas fa-times close"></i>
+                        </div>
+                        <div class="add-event-body">
+                            <div class="add-event-input">
+                                <input
+                                    type="text"
+                                    placeholder="Nombre de la Reunión"
+                                    class="event-name"
+                                    name="nombre"
+                                    th:value="${nombre}"
+                                    />
+                            </div>
+                            <div class="add-event-input">
+                                <input
+                                    type="text"
+                                    placeholder="Detalle de la Reunión"
+                                    class="event-name"
+                                    name="detalle"
+                                    th:value="${detalle}"
+                                    />
+                            </div>
+                            <div class="add-event-input">
+                                <input type="text" name="horarioDeInicio" th:value="${horarioDeInicio}" placeholder="Desde" class="event-time-from" />
+                            </div>
+                            <div class="add-event-input">
+                                <input type="text" name="horarioDeFin" th:value="${horarioDeFin}" placeholder="Hasta" class="event-time-to" />
+                            </div>
+                        </div>
+                        <div class="add-event-footer">
+                            <button class="add-event-btn" type="submit">Agregar Reunión</button>
+                            <button class="add-event-btn">Agregar Nota</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button class="add-event">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
-      </div>
-      <div class="right">
-        <div class="today-date">
-          <div class="event-day" name="fecha" th:value="${fecha}"></div>
-          <div class="event-date"></div>
-        </div>
-          <form  th:action="@{/reunion/registro}" th:object="${reunion}" method="POST">
-        <div class="events"></div>
-        <div class="add-event-wrapper">
-          <div class="add-event-header">
-            <div class="title">Agregar Reunión</div>
-            <i class="fas fa-times close"></i>
-          </div>
-          <div class="add-event-body">
-            <div class="add-event-input">
-              <input
-                type="text"
-                placeholder="Nombre de la Reunión"
-                class="event-name"
-                name="nombre"
-                th:value="${nombre}"
-              />
-            </div>
-                <div class="add-event-input">
-              <input
-                type="text"
-                placeholder="Detalle de la Reunión"
-                class="event-name"
-                name="detalle"
-                th:value="${detalle}"
-              />
-            </div>
-            <div class="add-event-input">
-              <input type="text" name="horarioDeInicio" th:value="${horarioDeInicio}" placeholder="Desde" class="event-time-from" />
-            </div>
-            <div class="add-event-input">
-              <input type="text" name="horarioDeFin" th:value="${horarioDeFin}" placeholder="Hasta" class="event-time-to" />
-            </div>
-          </div>
-          <div class="add-event-footer">
-              <button class="add-event-btn" type="submit">Agregar Reunión</button>
-            <button class="add-event-btn">Agregar Nota</button>
-          </div>
-        </div>
-        </form>
-      </div>
-      <button class="add-event">
-        <i class="fas fa-plus"></i>
-      </button>
-    </div>
-    <script src="/js/script.js"></script>
-  </body>
+        <script src="/js/script.js"></script>
+    </body>
 </html>

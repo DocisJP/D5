@@ -47,23 +47,10 @@
                         </div>                    
                     </div>
                 </div>
-                <div class="myCard" id="pendientes">
-                    <div class="innerCard">
-                        <div class="frontSide">
-                            <h3 class="title">PENDIENTES</h3>
-                            <img class="img-cards" src="img/pendientes.jpg" alt="pendientes">
-                        </div>
-                        <div class="backSide">
-
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
-                            <a class="botonLink" th:href="@{/tarea/panel}">CLICK AQUÍ</a>
-                        </div>                   
-                    </div>
-                </div>
                 <div class="myCard" id="block-de-notas">
                     <div class="innerCard">
                         <div class="frontSide">
-                            <h3 class="title">TAREAS</h3>
+                            <h3 class="title">GUARDAR TAREAS</h3>
                             <img class="img-cards" src="img/block.jpg" alt="block de notas">
                         </div>
                         <div class="backSide">
@@ -74,6 +61,19 @@
                         </div>  
                     </div>
                 </div>
+                <div class="myCard" id="pendientes">
+                    <div class="innerCard">
+                        <div class="frontSide">
+                            <h3 class="title">TAREAS PENDIENTES</h3>
+                            <img class="img-cards" src="img/pendientes.jpg" alt="pendientes">
+                        </div>
+                        <div class="backSide">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <a class="botonLink" th:href="@{/tarea/panel}">CLICK AQUÍ</a>
+                        </div>                   
+                    </div>
+                </div>
+
                 <div class="myCard" id="perfil" sec:authorize ="isAuthenticated()">
                     <div class="innerCard">
                         <div class="frontSide">

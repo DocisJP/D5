@@ -7,12 +7,15 @@ import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.TareaServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
+import java.util.Date;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,23 +28,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/tarea")
 public class TareaControlador {
 
-	@Autowired
-	private UsuarioServicio usuarioServicio;
+    @Autowired
+    private UsuarioServicio usuarioServicio;
 
-        @Autowired
-        private ProyectoServicio proyectoServicio;
-        
-        @Autowired
-        private TareaServicio tareaServicio;
+    @Autowired
+    private ProyectoServicio proyectoServicio;
 
-     @GetMapping("/panel")
-    public String panel() {
-        
+    @Autowired
+    private TareaServicio tareaServicio;
+
+    @GetMapping("/panel")
+    public String panel(Model model) {
+     model.addAttribute("tareas", tareaServicio.listarTareas());
         return "panel_pendientes.html";
     }
-    
+
     // Muestra el formulario para agregar una nueva tarea
-   @GetMapping("/registrar")
+    @GetMapping("/registrar")
     public String formularioRegistrar(Model model) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
@@ -53,48 +56,54 @@ public class TareaControlador {
 
     // Procesa el formulario y registra una nueva tarea
     @PostMapping("/registro")
-    public String registrarTarea(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs) {
-      
-    	
-    	try {
- 
+    public String registrarTarea(
+            @RequestParam String nombreTarea,
+            @RequestParam String descripcion,
+            @RequestParam Boolean estado,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaInicio,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaFinalizacion,
+            @RequestParam String usuarioId,
+            @RequestParam String proyectoId,
+            ModelMap modelo
+    ) {
+        Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
+        Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
+        try {
+
             Tarea tareaGuardada = tareaServicio.crear(
-                    tarea.getNombreTarea(), 
-                    tarea.getDescripcion(), 
-                    tarea.getEstado(), 
-                    tarea.getFechaInicio(), 
-                    tarea.getFechaFinalizacion(),
-                    tarea.getUsuario());
-                    tarea.getProyecto();
+                    nombreTarea,
+                    descripcion,
+                    estado,
+                    fechaInicio,
+                    fechaFinalizacion,
+                    usuarioEncargado,
+                    proyectoAsociado);
 
             if (tareaGuardada != null && tareaGuardada.getId() != null) {
-                redirectAttrs.addFlashAttribute("exito", "Tarea creada con éxito!");
+                modelo.addAttribute("exito", "La tarea pudo ser creada.");
                 return "redirect:/tarea/detalle/" + tareaGuardada.getId();
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
-                redirectAttrs.addFlashAttribute("error", "La tarea no pudo ser creada.");
+                modelo.addAttribute("error", "La tarea no pudo ser creada.");
+
                 return "formulario_tarea";
             }
         } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("error", e.getMessage());
+            modelo.addAttribute("error", e.getMessage());
             return "formulario_tarea";
         }
     }
 
-    
     @GetMapping("/detalle/{id}")
     public String verDetalle(@PathVariable String id, Model model) throws MyException {
         Tarea tarea = tareaServicio.buscarPorId(id);
         if (tarea == null) {
-        	return "redirect:/index";
-        }
-        else {
-        model.addAttribute("tarea", tarea);
-        return "detalle_tarea";
+            return "redirect:/index";
+        } else {
+            model.addAttribute("tarea", tarea);
+            return "detalle_tarea";
         }
     }
-
-
 
     // Muestra la lista de tareas
     @GetMapping("/lista")
@@ -103,16 +112,50 @@ public class TareaControlador {
         return "lista_tareas";
     }
 
-    
     //Agregue post y get para las vistas falta la logica
-      @GetMapping("/modificar/{id}")
+    @GetMapping("/modificar/{id}")
     public String modificarTarea(@PathVariable String id, Model model) {
-    return "tarea_modificar.html";
+        Tarea tarea = tareaServicio.buscarPorId(id);
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+        model.addAttribute("tarea", tarea);
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("proyectos", proyectos);
+
+        return "tarea_modificar.html";
     }
-      
-  @PostMapping("/modificar")
-    public String modificarProyecto(@ModelAttribute Tarea tarea, RedirectAttributes redirectAttrs) {
-        
-         return "redirect:/panel" + tarea.getId();
+
+    @PostMapping("/modificar")
+    public String modificarProyecto(
+            @RequestParam String id,
+            @RequestParam String nombreTarea,
+            @RequestParam String descripcion,
+            @RequestParam Boolean estado,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaInicio,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaFinalizacion,
+            @RequestParam String usuarioId,
+            @RequestParam String proyectoId,
+            ModelMap modelo
+    ) {
+
+        Tarea aModificar = new Tarea();
+        aModificar.setId(id);
+        aModificar.setDescripcion(descripcion);
+        aModificar.setEstado(estado);
+        aModificar.setNombreTarea(nombreTarea);
+        aModificar.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
+        aModificar.setProyecto(proyectoServicio.buscarPorId(proyectoId));
+        aModificar.setFechaInicio(fechaInicio);
+        aModificar.setFechaFinalizacion(fechaFinalizacion);
+
+        Tarea tarea = tareaServicio.modificar(aModificar);
+
+        return "redirect:/tarea/detalle/" + tarea.getId();
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarTarea(@PathVariable String id) {
+        tareaServicio.eliminar(tareaServicio.buscarPorId(id));
+        return "redirect:/tarea/panel";
     }
 }
