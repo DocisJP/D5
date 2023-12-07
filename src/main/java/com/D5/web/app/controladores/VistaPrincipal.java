@@ -6,6 +6,8 @@ import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -46,19 +48,27 @@ public class VistaPrincipal {
     }
     
     @GetMapping("/registrar")
-    public String registrar() {
+    public String registrar(ModelMap model) {
 
+         model.addAttribute("roles", Rol.values());
         return "registro.html";
     }
 
     @PostMapping("/registro")
-    public String registro(@RequestParam String nombre, @RequestParam String apellido, @RequestParam String email,
-            @RequestParam String password, @RequestParam String password2, @RequestParam Long dni,
-            @RequestParam Long telefono, @RequestParam String direccion, @RequestParam String empresa,
+    public String registro(@RequestParam String nombre, 
+            @RequestParam String apellido,
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam String password2,
+            @RequestParam Long dni,
+            @RequestParam Long telefono,
+            @RequestParam String direccion,
+            @RequestParam(required = false) Rol rol,
+            @RequestParam String empresa,          
             MultipartFile archivo, ModelMap modelo) throws MyException {
 
         try {
-            usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion,
+            usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion,rol,
                     empresa, archivo);
             return "index.html";
         } catch (MyException e) {
@@ -88,7 +98,7 @@ public class VistaPrincipal {
     public String inicio(HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
         if (logueado.getRol() == Rol.ADMIN) { 
-            return "redirect:/admin/dashboard";
+            return "redirect:/";
         }
         return "principal.html";
     }

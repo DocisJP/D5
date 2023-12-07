@@ -38,8 +38,17 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, 
-            String direccion, String empresa, MultipartFile archivo) throws MyException {
+    public void agregarUsuario(String nombre,
+            String apellido,
+            String email,
+            String password,
+            String password2,
+            Long dni,
+            Long telefono, 
+            String direccion,
+            Rol rol,
+            String empresa,
+            MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -52,7 +61,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setTelefono(telefono);
         usuario.setDireccion(direccion);
         usuario.setEmpresa(empresa);
-        usuario.setRol(Rol.USER);
+        usuario.setRol(rol);
         usuario.setEstado(Boolean.TRUE);
 
         Imagen imagen = imagenServicio.guardar(archivo);
@@ -76,6 +85,7 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
         existente.setImagen(usuario.getImagen());
+        existente.setEstado(Boolean.TRUE);
         existente.setRol(usuario.getRol());
  
         usuarioRepositorio.save(existente);

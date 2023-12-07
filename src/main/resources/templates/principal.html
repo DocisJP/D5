@@ -29,7 +29,7 @@
                         </div>
                         <div class="backSide">
 
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p>
                             <a class="botonLink" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
                             <!--metodo get return panel_proyecto.html-->
                         </div>                   
@@ -39,15 +39,15 @@
                     <div class="innerCard">
                         <div class="frontSide">
                             <h3 class="title">REUNIONES</h3>
-                            <img class="img-cards" src="img/calendario2.jpg" alt="calendario">
+                            <img class="img-cards" src="img/calendario2.jpg" alt="calendarios">
                         </div>
                         <div class="backSide">                       
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <p>Desde aqui puedes visualizar las reuniones y agregar, modificar las reuniones</p>
                             <a class="botonLink" th:href="@{/reunion/panel}">CLICK AQUÍ</a>
                         </div>                    
                     </div>
                 </div>
-                <div class="myCard" id="block-de-notas">
+                <div class="myCard" id="block-de-notas" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                     <div class="innerCard">
                         <div class="frontSide">
                             <h3 class="title">GUARDAR TAREAS</h3>
@@ -55,20 +55,20 @@
                         </div>
                         <div class="backSide">
 
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <p>Desde aqui puedes crear y guardar nuevas Tareas</p>
                             <a class="botonLink" th:href="@{/tarea/registrar}" >CLICK AQUÍ</a>
                             <!-- Metodo get return block_notas.html -->
                         </div>  
                     </div>
                 </div>
-                <div class="myCard" id="pendientes">
+                <div class="myCard" id="pendientes" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                     <div class="innerCard">
                         <div class="frontSide">
                             <h3 class="title">TAREAS PENDIENTES</h3>
                             <img class="img-cards" src="img/pendientes.jpg" alt="pendientes">
                         </div>
                         <div class="backSide">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <p>Desde aqui puedes ver las tareas y su estado.Tambien modificar y eliminar</p>
                             <a class="botonLink" th:href="@{/tarea/panel}">CLICK AQUÍ</a>
                         </div>                   
                     </div>
@@ -81,7 +81,7 @@
                             <img class="img-cards" src="img/perfil.jpg" alt="perfil">
                         </div>
                         <div class="backSide">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <p>Desde aqui puedes acceder a tus datos de perfil y realizar modificaciones</p>
                             <a class="botonLink" th:href="@{/perfil/panel/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             <img class="img-cards" src="img/contactos.png" alt="agenda">
                         </div>
                         <div class="backSide">   
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis ullam totam esse eligendi obcaecati vero non dolorum natus ad recusandae illo dolor, rerum repellat fugiat</p>
+                            <p>Aqui puedes visualizar la agenda de contactos</p>
                             <a class="botonLink" th:href="@{/lista}">CLICK AQUÍ</a>
                         </div>
 
