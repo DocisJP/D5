@@ -2,8 +2,7 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
-import com.D5.web.app.servicios.UsuarioServicio;
-import jakarta.servlet.http.HttpSession;
+import com.D5.web.app.servicios.UsuarioServicio; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,19 +19,25 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-    
+
     @GetMapping("/panel/{id}")
-    public String panelPerfil( @PathVariable String id, Model model) { 
-        Usuario usuario= usuarioServicio.buscarUsuario(id);
+    public String panelPerfil(@PathVariable String id, Model model) {
+        Usuario usuario = usuarioServicio.buscarUsuario(id);
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", Rol.values());
-        return "panel_perfil2.html";
+        return "panel_perfil.html";
 
     }
-  
-    @PostMapping("/modificar")
-    public String modificarProyecto(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttrs) {
 
-        return "redirect:/lista" + usuario.getId();
+    @PostMapping("/modificar")
+    public String modificarPerfil(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttrs) {
+
+        try {
+            usuarioServicio.modificar(usuario);
+            redirectAttrs.addFlashAttribute("exito", "Usuario actualizado con éxito");
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/perfil/panel/" + usuario.getId();
     }
 }

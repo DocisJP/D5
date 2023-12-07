@@ -4,6 +4,7 @@ package com.D5.web.app.servicios;
 import org.springframework.stereotype.Service;
 
 import com.D5.web.app.entidades.Imagen;
+import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
@@ -11,8 +12,7 @@ import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.List; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -63,42 +63,21 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, MultipartFile archivo, String direccion, String empresa) throws MyException {
+    public void modificar(Usuario usuario) {
+        Usuario existente = usuarioRepositorio.findById(usuario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-        valida(password, password2);
-
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-
-        if (respuesta.isPresent()) {
-
-            Usuario usuario = respuesta.get();
-
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setDni(dni);
-            usuario.setTelefono(telefono);
-            usuario.setDireccion(direccion);
-            usuario.setEmpresa(empresa);
-
-            String idImagen = null;
-
-            if (usuario.getImagen() != null) {
-
-                idImagen = usuario.getImagen().getId();
-            }
-
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-
-            usuario.setImagen(imagen);
-
-            usuario.setRol(Rol.USER);
-            usuario.setEstado(Boolean.TRUE);
-
-            usuarioRepositorio.save(usuario);
-        }
-
+        existente.setNombre(usuario.getNombre());
+        existente.setApellido(usuario.getApellido());
+        existente.setEmail(usuario.getEmail());
+        existente.setDni(usuario.getDni());
+        existente.setDireccion(usuario.getDireccion());
+        existente.setEmpresa(usuario.getEmpresa());
+        existente.setTelefono(usuario.getTelefono());
+        existente.setImagen(usuario.getImagen());
+        existente.setRol(usuario.getRol());
+ 
+        usuarioRepositorio.save(existente);
     }
  
     public Usuario buscarUsuario(String id) {
