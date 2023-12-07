@@ -6,7 +6,7 @@
     </label>
 
     <!-- Logo -->
-    <a href="#" class="enlace">
+    <a th:href='@{/}' class="enlace">
         <img src="/img/logo2.png" alt="" class="logo"/>
     </a>
 
@@ -16,23 +16,25 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <a th:href="@{/}" th:if="${session.usuariosession == null}">Inicio</a>
-        <a href="#nosotros" th:if="${session.usuariosession == null}">Nosotros</a>
-        <a href="#contacto" th:if="${session.usuariosession == null}">Contacto</a>
-        <a href="#proyecto" th:if="${session.usuariosession != null}">Proyecto</a>
-        <a href="#calendario" th:if="${session.usuariosession != null}">Calendario</a>
-        <a href="#pendientes" th:if="${session.usuariosession != null}">Pendientes</a>
-        <a href="#block-de-notas" th:if="${session.usuariosession != null}">Tareas</a>
-        <a href="#agenda" th:if="${session.usuariosession != null}">Agenda</a>  
-        <a class="nav-link dropdown-toggle" href="#" th:if="${session.usuariosession != null}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Perfil
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
-            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" href="#perfil" >Ver más</a></li>
-        </ul>
+        <div class='enlaces' sec:authorize='!isAuthenticated()'>        <a>Inicio</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <div class='enlaces' sec:authorize="isAuthenticated()"><a th:href="@{/proyecto/panel}">Proyecto</a>
+            <a href="#calendario" >Calendario</a>
+            <a th:href="@{/tarea/panel}">Pendientes</a>
+            <a th:href="@{/tarea/panel}">Tareas</a>
+            <a href="#agenda">Agenda</a>  
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Perfil
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
+                <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'" href="#perfil" >Ver más</a></li>
+            </ul>
+        </div>
 
-        <a th:if="${session.usuariosession == null}" th:href="@{/login}" class="botonLink">Ingresar</a>
-        <a th:if="${session.usuariosession == null}" th:href="@{/registrar}" class="botonLink">Registrate</a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="botonLink">Ingresar</a>
+        <a sec:authorize="!isAuthenticated()" th:href="@{/registrar}" class="botonLink">Registrate</a>
     </div>
 </nav>

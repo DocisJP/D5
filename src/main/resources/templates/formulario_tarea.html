@@ -7,27 +7,16 @@
 
     <body>
         <header class="contenedor-header">
-            <nav class="navegacion">
-                <!-- Hamburguesa -->
-                <input type="checkbox" id="check" />
-                <label for="check" class="checkbtn">
-                    <i class="fas fa-bars"></i>
-                </label>
-
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="img/logo2.png" alt="" class="logo" />
-                </a>
-            </nav>
-            <div class="contenedor-portada"></div>
-            <div th:replace="/fragments/modelo :: div"></div>
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+            <h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
         </header>
 
         <main class="contenedor-proyecto">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
+
                         <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
                             <!-- Campos del formulario -->
                             <label for="nombreTarea">Nombre de la tarea</label>
