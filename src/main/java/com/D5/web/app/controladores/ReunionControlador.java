@@ -38,9 +38,18 @@ public class ReunionControlador {
     @GetMapping("/panel")
     public String panel(Model model) {
         List<Reunion> reuniones = reunionServicio.listaReuniones();
-        
+
         model.addAttribute("reuniones", reuniones);
         return "panel_reunion.html";
+    }
+
+    @GetMapping("/calendario")
+    public String mostrarCalendario(Model model) {
+        List<Reunion> reuniones = reunionServicio.listaReuniones();
+        Reunion reunion = new Reunion();
+        model.addAttribute("reuniones", reuniones);
+        model.addAttribute("reunion", reunion);
+        return "calendario_reuniones.html";
     }
 //    @GetMapping("/registro")
 //    public String mostrarFormularioRegistro(Model model) {

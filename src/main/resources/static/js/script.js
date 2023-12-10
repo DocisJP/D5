@@ -67,7 +67,8 @@ const months = [
   },
 ];*/
 
-const eventsArr = [];
+const eventsArr = [
+];
 getEvents();
 console.log(eventsArr);
 
@@ -516,3 +517,4 @@ function convertTime(time) {
   time = timeHour + ":" + timeMin + " " + timeFormat;
   return time;
 }
+
