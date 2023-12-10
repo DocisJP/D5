@@ -189,6 +189,7 @@ public class ReunionControlador {
             model.addAttribute("reunion", reunion);
             model.addAttribute("usuarios", usuarios);
             model.addAttribute("proyectos", proyectos);
+            model.addAttribute("error", e.getMessage());
 
             return "reunion_modificar.html";
         }

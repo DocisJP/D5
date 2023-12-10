@@ -41,6 +41,8 @@ public class ReunionServicio {
 
     @org.springframework.transaction.annotation.Transactional
     public Reunion modificar(Reunion algunaEntidad) {
+        validar(algunaEntidad);
+
         return reunionRepositorio.saveAndFlush(algunaEntidad);
     }
 
@@ -104,14 +106,20 @@ public class ReunionServicio {
     }
 
     private void validar(Reunion reunion) {
-        if (reunion.getNombre() == null || reunion.getNombre().trim().isEmpty()) {
+        if (reunion.getNombre() == null || reunion.getNombre().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la reunión es obligatorio.");
         }
-        if (reunion.getHorarioDeInicio() == null) {
+        if (reunion.getDetalle() == null || reunion.getDetalle().isEmpty()) {
+            throw new IllegalArgumentException("El detalle falta.");
+        }
+        if (reunion.getHorarioDeFin().before(reunion.getHorarioDeInicio())) {
+            throw new IllegalArgumentException("Debe ingresar un horario de finalización valido");
+        }
+        if (reunion.getHorarioDeInicio().after(reunion.getHorarioDeFin())) {
             throw new IllegalArgumentException("Debe ingresar un horario de inicio valido");
         }
-        if (reunion.getId() == null) {
-            throw new IllegalArgumentException("Esta reunion no existe");
+        if (reunion.getHorarioDeInicio() == null || reunion.getHorarioDeFin() == null) {
+            throw new IllegalArgumentException("Debe ingresar un horario valido");
         }
 
     }
