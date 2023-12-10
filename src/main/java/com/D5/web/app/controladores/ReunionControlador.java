@@ -2,26 +2,21 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
-import java.util.Arrays;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.ModelMap;
@@ -34,15 +29,17 @@ public class ReunionControlador {
     @Autowired
     ReunionServicio reunionServicio;
 
-     @Autowired
+    @Autowired
     ProyectoServicio proyectoServicio;
-    
+
     @Autowired
     UsuarioServicio usuarioServicio;
 
-        @GetMapping("/panel")
+    @GetMapping("/panel")
     public String panel(Model model) {
-     model.addAttribute("reunion", reunionServicio.listaReuniones());
+        List<Reunion> reuniones = reunionServicio.listaReuniones();
+        
+        model.addAttribute("reuniones", reuniones);
         return "panel_reunion.html";
     }
 //    @GetMapping("/registro")
@@ -79,7 +76,8 @@ public class ReunionControlador {
 //        }
 //    }
 ///Probando plan b
-      // Muestra el formulario para agregar una nueva tarea
+    // Muestra el formulario para agregar una nueva tarea
+
     @GetMapping("/registrar")
     public String formularioReunion(Model model) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
@@ -161,6 +159,42 @@ public class ReunionControlador {
         return "reunion_modificar.html";
     }
 
+    @PostMapping("/modificar")
+    public String modificarReunion(
+            @RequestParam String id,
+            @RequestParam String nombre,
+            @RequestParam String detalle,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeInicio,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
+            @RequestParam String usuarioId,
+            @RequestParam String proyectoId,
+            Model model
+    ) {
+        Reunion reunion = reunionServicio.buscarPorId(id);
+
+        reunion.setNombre(nombre);
+        reunion.setDetalle(detalle);
+        reunion.setHorarioDeInicio(horarioDeInicio);
+        reunion.setHorarioDeFin(horarioDeFin);
+        reunion.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
+        reunion.setProyecto(proyectoServicio.buscarPorId(proyectoId));
+        reunion.setEstado(Boolean.TRUE);
+
+        try {
+            reunionServicio.modificar(reunion);
+
+        } catch (Exception e) {
+            List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+            List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+            model.addAttribute("reunion", reunion);
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("proyectos", proyectos);
+
+            return "reunion_modificar.html";
+        }
+
+        return "redirect:/reunion/panel";
+    }
 
     @GetMapping("/eliminar/{id}")
     public String eliminarReunion(@PathVariable String id) {
@@ -168,4 +202,3 @@ public class ReunionControlador {
         return "redirect:/reunion/panel";
     }
 }
-

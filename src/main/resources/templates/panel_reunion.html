@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,10 +9,10 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
             />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
         <link
             href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
             rel="stylesheet"
@@ -40,7 +40,7 @@
                 <div class="contenedor-proyecto">
                     <section id="proyectos-agente">
                         <h2>Listado de Reuniones</h2>
-                        <table class="tabla">
+                        <table class="table-dark table-striped">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -54,22 +54,22 @@
                                     <th>Eliminación</th>
                                 </tr>
                             </thead>
-                            <tbody th:each="reunion : ${reuniones}">
-                                <tr>
+                            <tbody>
+                                <tr th:each="reunion : ${reuniones}">
                                     <th th:text="${reunion.id}"></th>
                                     <td th:text="${reunion.nombre}"></td>
                                     <td th:text="${reunion.detalle}"></td>
-                                    <td th:text="${reunion.fechaInicio}"></td>
-                                    <td th:text="${reunion.fechaFin}"></td>
-                                      <td >
-                                        <ul th:each="elegidos:${reunion.usuario}">
-                                            <li th:text="${elegidos.nombre}"></li>
-                                        </ul>
+                                    <td th:text="${reunion.horarioDeInicio}"></td>
+                                    <td th:text="${reunion.horarioDeFin}"></td>
+                                    <td >
+
+                                        <p th:text="${reunion.usuario.nombre}"></p>
+
                                     </td>
                                     <td >
-                                        <ul th:each="asociado:${reunion.proyecto}">
-                                            <li th:text="${asociado.nombre}"></li>
-                                        </ul>
+
+                                        <p th:text="${reunion.proyecto.nombre}"></p>
+
                                     </td>
                                     <td>
                                         <a

@@ -1,7 +1,6 @@
 package com.D5.web.app.servicios;
 
 import com.D5.web.app.entidades.Proyecto;
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +9,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.ReunionRepositorio;
 import jakarta.transaction.Transactional;
-import java.time.LocalDateTime;
 
 @Service
 public class ReunionServicio {
@@ -25,16 +22,15 @@ public class ReunionServicio {
 
     @Autowired
     private UsuarioServicio usuarioServicio;
-  
-    
+
     //plan b
     @org.springframework.transaction.annotation.Transactional
-    public Reunion crear(String nombre, String detalle, Boolean estado, Date horarioDeInicio, Date horarioDeFin, Usuario usuario,Proyecto proyecto) throws MyException {
-    	Reunion reunion = new Reunion();
-    	Usuario usuarioEncargado = usuario;
-    	
-    	reunion.setDetalle(detalle);
-    	reunion.setUsuario(usuario);
+    public Reunion crear(String nombre, String detalle, Boolean estado, Date horarioDeInicio, Date horarioDeFin, Usuario usuario, Proyecto proyecto) throws MyException {
+        Reunion reunion = new Reunion();
+        Usuario usuarioEncargado = usuario;
+
+        reunion.setDetalle(detalle);
+        reunion.setUsuario(usuario);
         reunion.setNombre(nombre);
         reunion.setEstado(true);
         reunion.setHorarioDeInicio(horarioDeInicio);
@@ -44,7 +40,7 @@ public class ReunionServicio {
     }
 
     @org.springframework.transaction.annotation.Transactional
-     public Reunion modificar(Reunion algunaEntidad) {
+    public Reunion modificar(Reunion algunaEntidad) {
         return reunionRepositorio.saveAndFlush(algunaEntidad);
     }
 
@@ -102,7 +98,7 @@ public class ReunionServicio {
         detalles.put("detalle", reunion.getDetalle());
         detalles.put("horarioDeInicio", reunion.getHorarioDeInicio());
         detalles.put("proyecto", reunion.getProyecto());
-        detalles.put("usuario",reunion.getUsuario() );
+        detalles.put("usuario", reunion.getUsuario());
 
         return detalles;
     }
@@ -119,7 +115,8 @@ public class ReunionServicio {
         }
 
     }
-@org.springframework.transaction.annotation.Transactional(readOnly = true)
+
+    @Transactional
     public List<Reunion> listaReuniones() {
         return reunionRepositorio.findAll();
     }
