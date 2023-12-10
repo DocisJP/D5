@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <head th:replace="/fragments/head :: head"></head>
 
@@ -13,21 +23,12 @@
             </nav>
         </header>
 
-        <main class="contenedor-proyecto">
-            <div class="container mt-5">
-                <h2 class="mb-4">Detalle de la Tarea</h2>
-
-                <!-- Mensaje de éxito -->
-                <div th:if="${exito}" class="alert alert-success" role="alert">
-                    <p th:text="${exito}"></p>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold" th:text="${tarea.nombreTarea}">Nombre de la Tarea</h5>
+                        <!-- Mensaje de éxito -->
+                        <div th:if="${exito}" class="alert alert-success" role="alert">
+                            <p th:text="${exito}"></p>
+                        </div>
+                        <h5 class="card-title" th:text="${tarea.nombreTarea}">Nombre de la Tarea</h5>
                         <p class="card-text" th:text="${tarea.descripcion}">Descripción de la Tarea</p>
-                        <p class="card-text" th:text="${'Usuario: ' + tarea.usuario.nombre}">Usuario</p>
-                        <p class="card-text" th:text="${'Proyecto: ' + tarea.proyecto.nombre}">El proyecto</p>
                         <p class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha
                                 Inicio</span></p>
                         <p class="card-text"><strong>Fecha de Finalización: </strong><span
@@ -35,12 +36,14 @@
                         <p class="card-text"><strong>Estado: </strong><span th:if="${tarea.estado}"
                                                                             th:text="'Completada'">Completada</span><span th:if="${!tarea.estado}"
                                                                             th:text="'Pendiente'">Pendiente</span></p>
-                        <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
+                        <div style="padding-bottom: 5rem">
+                            <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-
+                </div>
+            </main>
+        </header>
         <footer th:replace="/fragments/footer :: footer"></footer>
     </body>
 

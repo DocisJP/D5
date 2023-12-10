@@ -38,7 +38,7 @@ public class TareaControlador {
 
     @GetMapping("/panel")
     public String panel(Model model) {
-        model.addAttribute("tareas", tareaServicio.listarTareas());
+     model.addAttribute("tareas", tareaServicio.listarTareas());
         return "panel_pendientes.html";
     }
 

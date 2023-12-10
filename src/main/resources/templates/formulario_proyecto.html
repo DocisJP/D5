@@ -29,13 +29,18 @@
         <title>D5 Design</title>
     </head>
     <body>
-        <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
+        <header class="contenedor-header-formulario">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
 
-            <div class="container mt-5">
+            <div class="container mt-5 ">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-8 bodyForm-registrar">
                         <h1 class="text-center">Registro de Proyecto</h1>
                         <form class="mt-4" th:action="@{/proyecto/registro}" th:object="${proyecto}" method="POST">
                             <div class="mb-3">
@@ -57,9 +62,9 @@
                                 </div>
                             </div>
                             <input type="hidden" th:field="*{estado}" value="true">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Registrar</button>
-                                <a href="@{/inicio}" class="btn btn-secondary">Volver</a>
+                            <div class="text-center" style="padding-bottom: 5rem">
+                                <button type="submit" class="btn btn-primary" style="margin: 1rem">Registrar</button>
+                                <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                             </div>
                         </form>
                     </div>
