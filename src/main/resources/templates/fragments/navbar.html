@@ -29,8 +29,20 @@
                 Perfil
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
-                <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'" href="#perfil" >Ver más</a></li>
+                <li><a class="dropdown-item"
+                       onmouseover="this.style.color = 'var(--fondo)'" 
+                       th:href="@{/logout}" >
+                       Cerrar Sesión
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" 
+                       onmouseover="this.style.color = 'var(--fondo)'" 
+                       onmouseout="this.style.color = ''"
+                       th:href="@{/perfil/panel}">
+                       Perfil
+                    </a>
+                </li>
             </ul>
         </div>
 

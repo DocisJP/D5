@@ -35,9 +35,6 @@
     color: white;
     font-weight: 700;
 }
-.dropdown-menu{
-    background-color: var(--fondo);
-}
 
 #check {
     display: none;
