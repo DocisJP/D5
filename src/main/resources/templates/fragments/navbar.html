@@ -23,6 +23,9 @@
         <a href="#calendario" th:if="${session.usuariosession != null}">Reuniones</a>
         <a href="#pendientes" sec:authorize="hasAnyRole('ADMIN','AGENTE')">Tareas Pendientes</a>
         <a href="#block-de-notas" sec:authorize="hasAnyRole('ADMIN','AGENTE')">Guardar Tareas</a>
+        <a th:href="@{/inicio}" sec:authorize="hasAnyRole('ADMIN')" th:if="${session.usuariosession != null}">IR AL PANEL</a>
+        <a th:href="@{/proyecto/trabajo}" sec:authorize="hasAnyRole('AGENTE')" th:if="${session.usuariosession != null}">PANEL TRABAJO</a>
+       
         <a href="#agenda" th:if="${session.usuariosession != null}">Agenda</a>  
         
         <div th:if="${session.usuariosession != null}">

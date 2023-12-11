@@ -25,16 +25,15 @@ public class ReunionServicio {
 
     @Autowired
     private UsuarioServicio usuarioServicio;
-  
-    
+
     //plan b
     @org.springframework.transaction.annotation.Transactional
-    public Reunion crear(String nombre, String detalle, Boolean estado, Date horarioDeInicio, Date horarioDeFin, Usuario usuario,Proyecto proyecto) throws MyException {
-    	Reunion reunion = new Reunion();
-    	Usuario usuarioEncargado = usuario;
-    	
-    	reunion.setDetalle(detalle);
-    	reunion.setUsuario(usuario);
+    public Reunion crear(String nombre, String detalle, Boolean estado, Date horarioDeInicio, Date horarioDeFin, Usuario usuario, Proyecto proyecto) throws MyException {
+        Reunion reunion = new Reunion();
+        Usuario usuarioEncargado = usuario;
+
+        reunion.setDetalle(detalle);
+        reunion.setUsuario(usuario);
         reunion.setNombre(nombre);
         reunion.setEstado(true);
         reunion.setHorarioDeInicio(horarioDeInicio);
@@ -44,7 +43,7 @@ public class ReunionServicio {
     }
 
     @org.springframework.transaction.annotation.Transactional
-     public Reunion modificar(Reunion algunaEntidad) {
+    public Reunion modificar(Reunion algunaEntidad) {
         return reunionRepositorio.saveAndFlush(algunaEntidad);
     }
 
@@ -92,7 +91,7 @@ public class ReunionServicio {
         if (resultado.isPresent()) {
             return resultado.get();
         } else {
-            throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
+            throw new IllegalArgumentException("Reunion no encontrado con el ID: " + id);
         }
     }
 
@@ -102,7 +101,7 @@ public class ReunionServicio {
         detalles.put("detalle", reunion.getDetalle());
         detalles.put("horarioDeInicio", reunion.getHorarioDeInicio());
         detalles.put("proyecto", reunion.getProyecto());
-        detalles.put("usuario",reunion.getUsuario() );
+        detalles.put("usuario", reunion.getUsuario());
 
         return detalles;
     }
@@ -119,9 +118,16 @@ public class ReunionServicio {
         }
 
     }
-@org.springframework.transaction.annotation.Transactional(readOnly = true)
+
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<Reunion> listaReuniones() {
         return reunionRepositorio.findAll();
     }
-
+//
+//    //************Probando panel trabajo**********
+//    public List<Reunion> obtenerReunionesPorProyecto(String proyectoId) {
+//
+//        return reunionRepositorio.buscarPorIdProyecto(proyectoId);
+//    }
+//    //****************************************************
 }

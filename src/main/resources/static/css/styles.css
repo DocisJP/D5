@@ -261,7 +261,7 @@
     background-color: #081c2bd8;
     color: var(--blanco);
     text-align: center;
-
+    padding-bottom: 10rem;
     border-radius: 1rem;
 }
 .bodyForm-registrar h1 {

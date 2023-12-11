@@ -108,5 +108,12 @@ public class TareaServicio {
     		throw new IllegalArgumentException("El usuario no existe en la base de datos. Como vos.");
     	}
     }
-    
+
+//    
+//    //******************PROBANDO PANEL TRABAJO***************
+//    public List<Tarea> obtenerTareasPorProyecto(String proyectoId) {
+//     
+//        return tareaRepositorio.buscarPorIdProyecto(proyectoId);
+//    }
+//    //******************************************************
 }
