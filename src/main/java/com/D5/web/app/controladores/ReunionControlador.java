@@ -17,7 +17,6 @@ import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
-import java.time.ZoneId;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.ModelMap;
