@@ -31,10 +31,14 @@
 
     <body>
         <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div class="contenedor-tabla">
-                <div class="contenedor-pendientes">
+                <div class="contenedor-proyecto">
                     <section id="pendientes">
                         <h2>Listado de Tareas</h2>
                         <table class="tabla">
@@ -88,11 +92,13 @@
                             </tbody>
                         </table>
                     </section>
-                    <div class="btn-volver">
+                    <div class="btn-volver" style="padding-bottom: 5rem">
                         <a th:href="@{/inicio}">Volver</a>
                     </div>
-                    </header>
-
-                    <footer th:replace = "/fragments/footer :: footer"></footer>
-                    </body>
-                    </html>
+                </div>
+            </div>
+            <div th:replace = "/fragments/modelo :: div"></div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>

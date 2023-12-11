@@ -1,46 +1,164 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-            />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
-            rel="stylesheet"
-            />
-        <link rel="stylesheet" type="text/css" href="css/globales.css" />
-        <link rel="stylesheet" type="text/css" href="css/tablas.css" />
-        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <script
-            defer
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"
-        ></script>
-        <title>D5 Design</title>
-    </head>
+    <head th:replace = "/fragments/head :: head"></head>
 
     <body>
-        <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
+        <header class="contenedor-header-formulario">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
+            <div class="contenedor-portada"></div>
+            <div class="contenedor-form-registrar">
+                <div class="bodyForm-registrar">
+                    <h1>Perfil</h1>
+                    <div class="form">
 
+                        <form class="m-5" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" th:field="*{id}" name="id">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
 
+                                    <label for="nombre" class="form-label" >Nombre</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Nombre"
+                                        id="nombre"
+                                        name="nombre"
+                                        th:field="*{nombre}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="apellido" class="form-label"
+                                           >Apellido</label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Apellido"
+                                        id="apellido"
+                                        name="apellido"
+                                        th:field="*{apellido}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1" class="form-label"
+                                           > E-mail</label
+                                    >
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="exampleInputEmail1"
+                                        aria-describedby="emailHelp"
+                                        placeholder="E-mail"
+                                        name="email"
+                                        th:field="*{email}" 
+                                        th:readonly="${true}"
+                                        />
+                                </div>
 
-            <div class="container mt-5">
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >DNI</label
+                                    >
+                                    <input
+                                        type="number"
+                                        class="form-control" 
+                                        id="dni"
+                                        placeholder="Número de Documento"
+                                        name="dni" 
+                                        th:field="*{dni}" 
+                                        th:readonly="${true}"
+                                        />
 
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="direccion" class="form-label" >Direccion</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Direccion"
+                                        id="direccion"
+                                        name="direccion"
+                                        th:field="*{direccion}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="empresa" class="form-label"
+                                           >Empresa a la que pertenece</label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control" 
+                                        id="empresa"
+                                        placeholder="Empresa"
+                                        name="empresa"
+                                        th:field="*{empresa}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >Ingresa tu contraseña</label
+                                    >
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Ingresa la Contraseña"
+                                        name="password"
+                                        th:value="${password}"
 
-                <div class="card">
-                    <div class="card-body">
+                                        />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >Repita la contraseña</label
+                                    >
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Repite Contraseña"
+                                        name="password2"
+                                        th:value="${password2}"
+                                        />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >Teléfono</label
+                                    >
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        id="telefono"
+                                        placeholder="Teléfono"
+                                        name="telefono"
+                                        th:field="*{telefono}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                                <div class="col-md-6" >
+                                    <input type="hidden" th:field="*{estado}">
+                                    <input type="hidden" th:field="*{rol}" sec:authorize="!hasAnyRole('ADMIN')">
+                                </div>
+                                <div class="col-md-6" sec:authorize="hasAnyRole('ADMIN')">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >rol</label>
+                                    <select name="rol" class="form-select" id="selectRol" th:disabled="${true}">
 
                         <h2 class="mb-4">Perfil Usuario</h2>
                         <div class="container-imagen">
@@ -55,7 +173,7 @@
                         <h5 class="card-text">Direccion: <span th:text="${direccion}"></span></h5>
                         <h5 class="card-text">Empresa: <span th:text="${empresa}"></span></h5>
                         <h5 class="card-text">Rol: <span th:text="${rol}"></span></h5>
-                       
+
                         <!-- Botones para modificar y eliminar -->
                         <a th:href="@{'/modificar/' + ${session.usuariosession.id}}" class="btn btn-warning">Modificar</a>
                         <a th:href="@{'/eliminar/' + ${session.usuariosession.id}}" class="btn btn-danger">Eliminar</a>      
@@ -64,11 +182,33 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </header>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+        <script th:inline="javascript">
+            function toggleEdicion() {
+                var nombreInput = document.getElementById('nombre');
+                var apellidoInput = document.getElementById('apellido');
+                var emailInput = document.getElementById('exampleInputEmail1');
+                var dniInput = document.getElementById('dni');
+                var direccionInput = document.getElementById('direccion');
+                var empresaInput = document.getElementById('empresa');
+                var telefonoInput = document.getElementById('telefono');
+                var selectRolInput = document.getElementById('selectRol');
+                var archivoInput = document.getElementById('archivo');
 
-    <footer th:replace="/fragments/footer :: footer"></footer>
-</body>
 
+                nombreInput.readOnly = !nombreInput.readOnly;
+                apellidoInput.readOnly = !apellidoInput.readOnly;
+                emailInput.readOnly = !emailInput.readOnly;
+                dniInput.readOnly = !dniInput.readOnly;
+                direccionInput.readOnly = !direccionInput.readOnly;
+                empresaInput.readOnly = !empresaInput.readOnly;
+                telefonoInput.readOnly = !telefonoInput.readOnly;
+                selectRolInput.disabled = !selectRolInput.disabled;
+                archivoInput.disabled = !archivoInput.disabled;
+
+            }
+        </script>
+
+    </body>
 </html>

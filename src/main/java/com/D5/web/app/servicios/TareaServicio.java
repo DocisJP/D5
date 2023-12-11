@@ -70,7 +70,7 @@ public class TareaServicio {
         if (resultado.isPresent()) {
             return resultado.get();
         } else {
-            throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
+            throw new IllegalArgumentException("Tarea no encontrada con el ID: " + id);
         }
     }
     

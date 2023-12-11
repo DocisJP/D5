@@ -18,7 +18,7 @@
             rel="stylesheet"
             />
         <link rel="stylesheet" type="text/css" href="/css/globales.css" />
-        <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="/css/tablas.css" />
         <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
         <script
             defer
@@ -46,8 +46,8 @@
                                     <th>Detalle</th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th>Modificación</th>
-                                    <th>Eliminación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
                             </thead>
                             <tbody th:each="proyecto : ${proyectos}">
@@ -57,14 +57,14 @@
                                     <td th:text="${proyecto.detalleProyecto}"></td>
                                     <td th:text="${proyecto.fechaInicio}"></td>
                                     <td th:text="${proyecto.fechaFinalizacion}"></td>
-                                    <td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a
                                             class="modificar"
                                             th:href="@{/proyecto/modificar/__${proyecto.id}__}"
                                             ><i class="fas fa-feather-alt"></i> Modificar</a
                                         >
                                     </td>
-                                    <td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
                                             class="eliminar"
                                             th:href="@{/proyecto/eliminar/__${proyecto.id}__}"
@@ -74,7 +74,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- Aquí va la tabla con proyectos y acciones para el Agente -->
+                        <div th:replace = "/fragments/modelo :: div"></div>
+                        <a th:href="@{/proyecto/registro}" style="margin: 1rem" class="btn" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Crear nuevo Proyecto</a>
+                        <a href="#" class="btn" style="margin: 1rem">Solicitar nuevo Proyecto</a>        
+                        <div class="btn-volver" style="margin: 1rem">
+                            <a th:href="@{/inicio}">Inicio</a>
+                        </div>
                     </section>
                 </div>
                 <div class='row'>
@@ -97,7 +102,6 @@
                 </div>
             </div>
         </header>
-    </main>
-    <footer th:replace = "/fragments/footer :: footer"></footer>
-</body>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-        <head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
@@ -37,24 +37,31 @@
                 </a>
             </nav>
             <main class="container my-5">
-                <div class="detalle-proyecto card mx-auto" style="max-width: 600px;">
-                    <div class="bodyForm-registrar">
-                        <h1 class="card-title text-center">Detalle del Proyecto</h1>
-                        <p class="card-text"><strong>Nombre:</strong> <span th:text="${proyecto.nombre}">Nombre del Proyecto</span></p>
-                        <p class="card-text"><strong>Detalle:</strong> <span th:text="${proyecto.detalleProyecto}">Detalle del Proyecto</span></p>
-                        <p class="card-text"><strong>Fecha de Inicio:</strong> <span th:text="${proyecto.fechaInicio}">Fecha de Inicio</span></p>
-                        <p class="card-text"><strong>Fecha de Finalización:</strong> <span th:text="${proyecto.fechaFinalizacion}">Fecha de Finalización</span></p>
-                        <!-- Añade más detalles según necesites -->
+                <div class="container mt-5">
 
-                        <div class="text-center mt-4" style="padding-bottom: 5rem">
-                            <a th:href="@{/proyecto/modificar/__${proyecto.id}__}" class="btn btn-primary me-2">Modificar Proyecto</a>
-                            <a th:href="@{/proyecto/eliminar/__${proyecto.id}__}" class="btn btn-danger me-2">Eliminar Proyecto</a>
-                            <a href="/proyecto/lista" class="btn btn-secondary">Volver a la Lista</a>
+                    <div class="bodyForm-registrar">
+                        <h2 class="mb-4">Detalle de la Reunion</h2>
+
+                        <!-- Mensaje de éxito -->
+                        <div th:if="${exito}" class="alert alert-success" role="alert">
+                            <p th:text="${exito}"></p>
+                        </div>
+                        <h5 class="card-title" th:text="${reunion.nombre}">Nombre de la Reunion</h5>
+                        <p class="card-text" th:text="${reunion.detalle}">Detalle de la Reunion</p>
+                        <p class="card-text"><strong>Hora de Inicio: </strong><span th:text="${reunion.horarioDeInicio}">Fecha
+                                Inicio</span></p>
+                        <p class="card-text"><strong>Hora de Finalización: </strong><span
+                                th:text="${reunion.horarioDeFin}">Finalización</span></p>
+  
+                        <div style="padding-bottom: 5rem">
+                            <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
                         </div>
                     </div>
+                </div>
                 </div>
             </main>
         </header>
         <footer th:replace="/fragments/footer :: footer"></footer>
     </body>
+
 </html>

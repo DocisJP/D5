@@ -24,6 +24,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
@@ -36,8 +37,17 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono,
-            String direccion, String empresa, MultipartFile archivo) throws MyException {
+    public void agregarUsuario(String nombre,
+            String apellido,
+            String email,
+            String password,
+            String password2,
+            Long dni,
+            Long telefono, 
+            String direccion,
+            Rol rol,
+            String empresa,
+            MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -50,7 +60,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setTelefono(telefono);
         usuario.setDireccion(direccion);
         usuario.setEmpresa(empresa);
-        usuario.setRol(Rol.USER);
+        usuario.setRol(rol);
         usuario.setEstado(Boolean.TRUE);
 
         Imagen imagen = imagenServicio.guardar(archivo);
@@ -62,61 +72,43 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(String idUsuario, String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, MultipartFile archivo, String direccion, String empresa) throws MyException {
+    public void modificar(Usuario usuario) {
+        Usuario existente = usuarioRepositorio.findById(usuario.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
-        valida(password, password2);
-
-        Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
-
-        if (respuesta.isPresent()) {
-
-            Usuario usuario = respuesta.get();
-
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-            usuario.setDni(dni);
-            usuario.setTelefono(telefono);
-            usuario.setDireccion(direccion);
-            usuario.setEmpresa(empresa);
-
-            String idImagen = null;
-
-            if (usuario.getImagen() != null) {
-
-                idImagen = usuario.getImagen().getId();
-            }
-
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
-
-            usuario.setImagen(imagen);
-
-            usuario.setRol(Rol.USER);
-            usuario.setEstado(Boolean.TRUE);
-
-            usuarioRepositorio.save(usuario);
-        }
-
+        existente.setNombre(usuario.getNombre());
+        existente.setApellido(usuario.getApellido());
+        existente.setEmail(usuario.getEmail());
+        existente.setDni(usuario.getDni());
+        existente.setDireccion(usuario.getDireccion());
+        existente.setEmpresa(usuario.getEmpresa());
+        existente.setTelefono(usuario.getTelefono());
+        existente.setImagen(usuario.getImagen());
+        existente.setEstado(Boolean.TRUE);
+        existente.setRol(usuario.getRol());
+ 
+        usuarioRepositorio.save(existente);
     }
-
-    @Transactional
+ 
     public Usuario buscarUsuario(String id) {
 
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
-
-    @Transactional
+    
+  @Transactional
     public List<Usuario> listarUsuarios() {
 
         return usuarioRepositorio.findAll();
 
     }
-
-    @Transactional
+ 
     public Usuario buscarporEmail(String email) {
         return usuarioRepositorio.findByEmail(email);
+    }
+    
+    public List<Usuario> buscarPorRol(Rol rol) {
+        return usuarioRepositorio.findByRol(rol);
     }
 
     @Transactional

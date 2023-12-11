@@ -1,22 +1,19 @@
 package com.D5.web.app.entidades;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.List;
 
 
 @Entity
@@ -46,16 +43,18 @@ public class Reunion {
 
     private Boolean estado;
 
-    // Una reunión puede tener varios participantes
-    @ManyToMany
-    @JoinTable(
-            name = "reunion_participantes",
-            joinColumns = @JoinColumn(name = "reunion_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
- 
-    private List<Usuario> participantes = new ArrayList<Usuario>(); 
-    
+      @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     private String nombre;
 
     public String getId() {
@@ -108,14 +107,6 @@ public class Reunion {
         this.estado = estado;
     }
 
-	public List<Usuario> getParticipantes() {
-		return participantes;
-	}
-
-	public void setParticipantes(List<Usuario> participantes) {
-		this.participantes = participantes;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -124,7 +115,4 @@ public class Reunion {
 		this.nombre = nombre;
 	}
 
-   
-    
-    
 }
