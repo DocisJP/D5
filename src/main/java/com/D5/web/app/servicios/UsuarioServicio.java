@@ -168,4 +168,17 @@ public class UsuarioServicio implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
+    
+    //carga la lista de usuarios
+    
+    @Transactional
+    public List<Usuario> listaUsuarios(){
+        
+        List<Usuario> usuarios = new ArrayList();
+    
+        usuarios = usuarioRepositorio.findAll();
+        
+        return usuarios;
+    
+    }
 }

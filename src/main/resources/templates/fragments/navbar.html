@@ -19,17 +19,17 @@
         <a th:href="@{/}" th:if="${session.usuariosession == null}">Inicio</a>
         <a href="#nosotros" th:if="${session.usuariosession == null}">Nosotros</a>
         <a href="#contacto" th:if="${session.usuariosession == null}">Contacto</a>
-        <a href="#proyecto" th:if="${session.usuariosession != null}">Proyecto</a>
-        <a href="#calendario" th:if="${session.usuariosession != null}">Calendario</a>
-        <a href="#pendientes" th:if="${session.usuariosession != null}">Pendientes</a>
-        <a href="#block-de-notas" th:if="${session.usuariosession != null}">Tareas</a>
-        <a href="#agenda" th:if="${session.usuariosession != null}">Agenda</a>  
+        <a href="/proyecto/panel" th:if="${session.usuariosession != null}">Proyecto</a>
+        <a href="/reunion/panel" th:if="${session.usuariosession != null}">Calendario</a>
+        <a href="/tarea/panel" th:if="${session.usuariosession != null}">Pendientes</a>
+        <a href="/tarea/registrar" th:if="${session.usuariosession != null}">Tareas</a>
+        <a href="/lista" th:if="${session.usuariosession != null}">Agenda</a>  
         <a class="nav-link dropdown-toggle" href="#" th:if="${session.usuariosession != null}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Perfil
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
-            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" href="#perfil" >Ver más</a></li>
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" href="/panel" >Ver más</a></li>
         </ul>
 
         <a th:if="${session.usuariosession == null}" th:href="@{/login}" class="botonLink">Ingresar</a>
