@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,17 +36,8 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void agregarUsuario(String nombre,
-            String apellido,
-            String email,
-            String password,
-            String password2,
-            Long dni,
-            Long telefono, 
-            String direccion,
-            Rol rol,
-            String empresa,
-            MultipartFile archivo) throws MyException {
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono,
+            String direccion,Rol rol, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -72,7 +62,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(Usuario usuario) {
+    public void modificar(Usuario usuario, MultipartFile archivo) throws MyException {
         Usuario existente = usuarioRepositorio.findById(usuario.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
@@ -83,10 +73,19 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-        existente.setImagen(usuario.getImagen());
-        existente.setEstado(Boolean.TRUE);
-        existente.setRol(usuario.getRol());
- 
+
+        if (archivo == null || archivo.isEmpty()) {
+            existente.setImagen(usuario.getImagen());
+        } else {
+            Imagen imagen = imagenServicio.guardar(archivo);
+            existente.setImagen(imagen);
+        }
+
+        if(usuario.getRol()!= null){
+           existente.setRol(usuario.getRol()); 
+        }
+        
+
         usuarioRepositorio.save(existente);
     }
  

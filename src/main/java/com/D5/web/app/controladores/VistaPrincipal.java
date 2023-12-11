@@ -41,6 +41,7 @@ public class VistaPrincipal {
     
          @GetMapping("/panel")
     public String perfil(Model model){
+        
         return "panel_perfil.html";
         
     }

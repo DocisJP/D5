@@ -9,7 +9,7 @@ import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import java.util.List;
 
-@Repository 
+@Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     @Query("SELECT u FROM Usuario u WHERE u.dni = :dni")
@@ -20,6 +20,4 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     @Query("SELECT u FROM Usuario u WHERE u.rol = :rol")
     public List<Usuario> findByRol(@Param("rol") Rol rol);
-} 
- 
- 
+}

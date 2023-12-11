@@ -1,10 +1,8 @@
 package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Imagen;
-import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
-import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ImagenServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,11 +23,9 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-
-     @Autowired
+    @Autowired
     ImagenServicio imagenServicio;
-     
-     
+
     @GetMapping("/panel/{id}")
     public String panelPerfil(@PathVariable String id, Model model) {
         Usuario usuario = usuarioServicio.buscarUsuario(id);
@@ -41,45 +36,17 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/modificar")
-    public String modificarPerfil(@RequestParam String id,@RequestParam String nombre, 
-            @RequestParam String apellido,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String password2,
-            @RequestParam Long dni,
-            @RequestParam Long telefono,
-            @RequestParam String direccion, 
-            @RequestParam(required = false) Rol rol,
-            @RequestParam String empresa,          
-            MultipartFile archivo, ModelMap modelo) throws MyException {
-        
-        if(password==password2){
-            try {
-                
-                Usuario usuario = new Usuario();
-                usuario.setId(id);
-                usuario.setNombre(nombre);
-                usuario.setApellido(apellido);
-                usuario.setEmail(email);
-                usuario.setPassword(password);
-                usuario.setDni(dni);
-                usuario.setTelefono(telefono);
-                usuario.setDireccion(direccion);
-                usuario.setRol(rol);
-                usuario.setEmpresa(empresa);
-                Imagen imagen = imagenServicio.guardar(archivo);
-                usuario.setImagen(imagen);
-                
-                usuarioServicio.modificar(usuario);
-                
-                modelo.addAttribute("exito", "Usuario actualizado con éxito");
-                
-                return "redirect:/perfil/panel/" + id; 
-            } catch (MyException m) {
-                
-                modelo.addAttribute("error", m.getMessage());
-            }       
+    public String modificarPerfil(@ModelAttribute("usuario") Usuario usuario, MultipartFile archivo, RedirectAttributes redirectAttrs) {
+        System.out.println(usuario.getId());
+        System.out.println(usuario.getNombre()); 
+        try {
+            
+            usuarioServicio.modificar(usuario,archivo);
+            redirectAttrs.addFlashAttribute("exito", "Usuario actualizado con éxito");
+            return "redirect:/perfil/panel/" + usuario.getId();
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
         }
-        return "redirect:/";
+        return "redirect:/perfil/panel/" + usuario.getId();
     }
 }
