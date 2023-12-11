@@ -50,8 +50,8 @@
                                     <th>Horario Fin</th>
                                     <th>Usuarios</th>
                                     <th>Proyecto</th>
-                                    <th>Modificación</th>
-                                    <th>Eliminación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,14 +71,14 @@
                                         <p th:text="${reunion.proyecto.nombre}"></p>
 
                                     </td>
-                                    <td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a
                                             class="modificar"
                                             th:href="@{/reunion/modificar/__${reunion.id}__}"
                                             ><i class="fas fa-feather-alt"></i> Modificar</a
                                         >
                                     </td>
-                                    <td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
                                             class="eliminar"
                                             th:href="@{/reunion/eliminar/__${reunion.id}__}"
@@ -89,7 +89,7 @@
                             </tbody>
                         </table>
                         <div th:replace = "/fragments/modelo :: div"></div>
-                        <a th:href="@{/reunion/registrar}" style="margin: 1rem" class="btn">Crear nueva Reunion</a>
+                        <a th:href="@{/reunion/registrar}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="margin: 1rem" class="btn">Crear nueva Reunion</a>
                         <a href="#" class="btn" style="margin: 1rem">Solicitar una Reunion</a>        
                         <div class="btn-volver" style="margin: 1rem">
                             <a th:href="@{/inicio}">Inicio</a>

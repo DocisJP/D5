@@ -90,7 +90,7 @@ public class ReunionServicio {
         if (resultado.isPresent()) {
             return resultado.get();
         } else {
-            throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
+            throw new IllegalArgumentException("Reunion no encontrado con el ID: " + id);
         }
     }
 
@@ -128,5 +128,11 @@ public class ReunionServicio {
     public List<Reunion> listaReuniones() {
         return reunionRepositorio.findAll();
     }
-
+//
+//    //************Probando panel trabajo**********
+//    public List<Reunion> obtenerReunionesPorProyecto(String proyectoId) {
+//
+//        return reunionRepositorio.buscarPorIdProyecto(proyectoId);
+//    }
+//    //****************************************************
 }

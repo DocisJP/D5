@@ -3,9 +3,11 @@ package com.D5.web.app.controladores;
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
+import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
+import com.D5.web.app.servicios.UsuarioServicio;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -32,6 +35,9 @@ public class ProyectoControlador {
 
     @Autowired
     ProyectoServicio proyectoServicio;
+    
+     @Autowired
+    UsuarioServicio usuarioServicio;
 
     @GetMapping("/panel")
     public String panelControl(ModelMap model) {

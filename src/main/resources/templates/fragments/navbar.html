@@ -16,37 +16,35 @@
         <label for="check" class="checkbtn">
             <i class="fas fa-bars"></i>
         </label>
-        <div class='enlaces' sec:authorize='!isAuthenticated()'>        <a>Inicio</a>
-            <a href="#nosotros">Nosotros</a>
-            <a href="#contacto">Contacto</a>
-        </div>
-        <div class='enlaces' sec:authorize="isAuthenticated()"><a th:href="@{/proyecto/panel}">Proyecto</a>
-            <a href="#calendario" >Calendario</a>
-            <a th:href="@{/tarea/panel}">Pendientes</a>
-            <a th:href="@{/tarea/panel}">Tareas</a>
-            <a href="#agenda">Agenda</a>  
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Perfil
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item"
-                       onmouseover="this.style.color = 'var(--fondo)'" 
-                       th:href="@{/logout}" >
-                       Cerrar Sesión
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" 
-                       onmouseover="this.style.color = 'var(--fondo)'" 
-                       onmouseout="this.style.color = ''"
-                       th:href="@{/perfil/panel}">
-                       Perfil
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="botonLink">Ingresar</a>
-        <a sec:authorize="!isAuthenticated()" th:href="@{/registrar}" class="botonLink">Registrate</a>
+        <a th:href="@{/}" th:if="${session.usuariosession == null}">Inicio</a>
+        <a href="#nosotros" th:if="${session.usuariosession == null}">Nosotros</a>
+        <a href="#contacto" th:if="${session.usuariosession == null}">Contacto</a>
+        <a href="#proyecto" th:if="${session.usuariosession != null}">Proyecto</a>
+        <a href="#calendario" th:if="${session.usuariosession != null}">Reuniones</a>
+        <a href="#pendientes" sec:authorize="hasAnyRole('ADMIN','AGENTE')">Tareas Pendientes</a>
+        <a href="#block-de-notas" sec:authorize="hasAnyRole('ADMIN','AGENTE')">Guardar Tareas</a>
+        <a th:href="@{/inicio}" sec:authorize="hasAnyRole('ADMIN')" th:if="${session.usuariosession != null}">IR AL PANEL</a>
+        <a th:href="@{/proyecto/trabajo}" sec:authorize="hasAnyRole('AGENTE')" th:if="${session.usuariosession != null}">PANEL TRABAJO</a>
+       
+        <a href="#agenda" th:if="${session.usuariosession != null}">Agenda</a>  
+        
+        <div th:if="${session.usuariosession != null}">
+        <a class="nav-link dropdown-toggle" sec:authorize="hasAnyRole('ADMIN')" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Perfil
+        </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'"  th:href="@{/perfil/panel/__${session.usuariosession.id}__}" >Ver más</a></li>
+        </ul>
+        <a class="nav-link dropdown-toggle" sec:authorize="!hasAnyRole('ADMIN')" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Perfil
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
+            <li><a  class="dropdown-item" onmouseover="this.style.color='var(--fondo)'" th:href="@{/perfil/panel/__${session.usuariosession.id}__}" >Ver más</a></li>
+        </ul>
+</div>
+        <a th:if="${session.usuariosession == null}" th:href="@{/login}" class="botonLink">Ingresar</a>
+        <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/registrar}" class="botonLink">Registrar</a>
     </div>
 </nav>
