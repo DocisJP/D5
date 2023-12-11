@@ -6,6 +6,7 @@ import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class VistaPrincipal {
 
        @GetMapping("/lista")
     public String lista(Model model){
+        //agrego la lista para que cargue los usuarios
+         List<Usuario> usuarios = usuarioServicio.listaUsuarios();
+        model.addAttribute("usuarios", usuarios);
         return "lista_usuarios.html";
         
     }
