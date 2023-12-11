@@ -35,7 +35,7 @@
 
                 <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
                     <!-- Campos del formulario -->
-                    <label for="nombreTarea">Nombre de la tarea</label>
+                    
                     <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
                        style="color: red; font-size: 0.9em;"></p>
                     <div class="row justify-content-center">
@@ -94,7 +94,7 @@
 
 
                                 <button type="submit" class="btn btn-primary">Guardar tarea</button>
-                                <a href="@{/index}" class="btn btn-secondary">Volver</a>
+                                <a th:href="@{/inicio}" class="btn btn-secondary">Volver</a>
                             </form>
                         </div>
                     </div>
