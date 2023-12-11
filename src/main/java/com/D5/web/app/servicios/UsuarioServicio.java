@@ -1,10 +1,8 @@
 package com.D5.web.app.servicios;
 
-
 import org.springframework.stereotype.Service;
 
 import com.D5.web.app.entidades.Imagen;
-import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
@@ -12,7 +10,7 @@ import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,7 +35,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono, 
+    public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono,
             String direccion, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
@@ -63,7 +61,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void modificar(Usuario usuario) {
+    public void modificar(Usuario usuario, MultipartFile archivo) throws MyException {
         Usuario existente = usuarioRepositorio.findById(usuario.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
@@ -74,22 +72,32 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-        existente.setImagen(usuario.getImagen());
-        existente.setRol(usuario.getRol());
- 
+
+        if (archivo == null || archivo.isEmpty()) {
+            existente.setImagen(usuario.getImagen());
+        } else {
+            Imagen imagen = imagenServicio.guardar(archivo);
+            existente.setImagen(imagen);
+        }
+
+        if(usuario.getRol()!= null){
+           existente.setRol(usuario.getRol()); 
+        }
+        
+
         usuarioRepositorio.save(existente);
     }
- 
+
     public Usuario buscarUsuario(String id) {
 
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
- 
+
     public Usuario buscarporEmail(String email) {
-    	return usuarioRepositorio.findByEmail(email);
+        return usuarioRepositorio.findByEmail(email);
     }
-    
+
     public List<Usuario> buscarPorRol(Rol rol) {
         return usuarioRepositorio.findByRol(rol);
     }
@@ -100,11 +108,12 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.delete(usuario);
 
     }
-   public Usuario getOne(String id){
-    
+
+    public Usuario getOne(String id) {
+
         return usuarioRepositorio.getReferenceById(id);
     }
-    
+
     public void cambiarEstado(Usuario usuario) {
         usuario.setEstado(!usuario.getEstado());
         usuarioRepositorio.save(usuario);
@@ -118,8 +127,6 @@ public class UsuarioServicio implements UserDetailsService {
 //     usuario.setProyectoLista(proyectos);
 //     usuarioRepositorio.save(usuario);
 //    }
-
-
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -129,10 +136,10 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        
-    Usuario usuario = usuarioRepositorio.findByEmail(email);
-    
-      if (usuario != null) {
+
+        Usuario usuario = usuarioRepositorio.findByEmail(email);
+
+        if (usuario != null) {
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 

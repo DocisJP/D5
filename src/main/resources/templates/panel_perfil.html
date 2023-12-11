@@ -39,6 +39,10 @@
                     <div class="form-registrar">
                         <div class="formLogin-registrar">
                             <form class="m-5" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
+                                <input hidden th:value="${id}"  th:field="*{id}" name="id"><!-- comment -->
+                                <input hidden th:value="${estado}" th:field="*{estado}"  name="estado">
+                                <input hidden th:value="${imagen}" th:field="*{imagen}"  name="imagen">
+                                <input hidden th:value="${password}" th:field="*{password}"  name="password">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="nombre" class="form-label" >Nombre</label>
@@ -128,33 +132,7 @@
                                             />
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="exampleInputPassword1" class="form-label"
-                                               >Ingresa tu contraseña</label
-                                        >
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            placeholder="Ingresa la Contraseña"
-                                            name="password"
-                                            th:value="${password}"
-                                            
-                                            />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="exampleInputPassword1" class="form-label"
-                                               >Repita la contraseña</label
-                                        >
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            placeholder="Repite Contraseña"
-                                            name="password2"
-                                            th:value="${password2}"
-                                            />
-                                    </div>
-                                </div>
+                                 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="exampleInputPassword1" class="form-label"
@@ -185,10 +163,8 @@
                                     <div class="col-md-6">
                                         <label for="exampleInputPassword1" class="form-label"
                                                >rol</label>
-                                        <select name="rol" id="selectRol" th:disabled="${true}">
-
-                                            <option  >seleccionar rol  </option>
-
+                                        <select name="rol" id="selectRol"  disabled="${true}"> 
+                                            <option  >seleccionar rol  </option> 
                                             <option th:each="rol : ${roles}"
                                                     th:value="${rol}" 
                                                     th:text="${rol}"
@@ -207,40 +183,46 @@
                                         <button type="submit" class="btn btn-primary">
                                             Actualizar
                                         </button>
-                                         
+
                                         <div class="btn-volver">
                                             <a th:href="@{/inicio}">Volver</a>
                                         </div>
                                     </div>
                                 </div>
-                            </form>                           
-                            </header>
-                           
-                            <script th:inline="javascript">
-                                function toggleEdicion() {
-                                    var nombreInput = document.getElementById('nombre');
-                                    var apellidoInput = document.getElementById('apellido');
-                                    var emailInput = document.getElementById('exampleInputEmail1');
-                                    var dniInput = document.getElementById('dni');
-                                    var direccionInput = document.getElementById('direccion');
-                                    var empresaInput = document.getElementById('empresa');
-                                    var telefonoInput = document.getElementById('telefono');
-                                    var selectRolInput = document.getElementById('selectRol');
-                                    var archivoInput = document.getElementById('archivo');
+                            </form> 
 
 
-                                    nombreInput.readOnly = !nombreInput.readOnly;
-                                    apellidoInput.readOnly = !apellidoInput.readOnly;
-                                    emailInput.readOnly = !emailInput.readOnly;
-                                    dniInput.readOnly = !dniInput.readOnly;
-                                    direccionInput.readOnly = !direccionInput.readOnly;
-                                    empresaInput.readOnly = !empresaInput.readOnly;
-                                    telefonoInput.readOnly = !telefonoInput.readOnly;
-                                    selectRolInput.disabled = !selectRolInput.disabled;
-                                    archivoInput.disabled = !archivoInput.disabled;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-                                }
-                            </script>
-                             <footer th:replace = "/fragments/footer :: footer"></footer>
-                            </body>
-                            </html>
+        <script th:inline="javascript">
+            function toggleEdicion() {
+                var nombreInput = document.getElementById('nombre');
+                var apellidoInput = document.getElementById('apellido');
+                var emailInput = document.getElementById('exampleInputEmail1');
+                var dniInput = document.getElementById('dni');
+                var direccionInput = document.getElementById('direccion');
+                var empresaInput = document.getElementById('empresa');
+                var telefonoInput = document.getElementById('telefono');
+                var selectRolInput = document.getElementById('selectRol');
+                var archivoInput = document.getElementById('archivo');
+
+
+                nombreInput.readOnly = !nombreInput.readOnly;
+                apellidoInput.readOnly = !apellidoInput.readOnly;
+                emailInput.readOnly = !emailInput.readOnly;
+                dniInput.readOnly = !dniInput.readOnly;
+                direccionInput.readOnly = !direccionInput.readOnly;
+                empresaInput.readOnly = !empresaInput.readOnly;
+                telefonoInput.readOnly = !telefonoInput.readOnly;
+                selectRolInput.disabled = !selectRolInput.disabled;
+                archivoInput.disabled = !archivoInput.disabled;
+
+            }
+        </script>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>
