@@ -132,7 +132,7 @@ public class ProyectoControlador {
     }
 
     /*Mock para probar una cosa...*/
-    @GetMapping("/trabajos/")
+    @GetMapping("/trabajo")
     public String trabajosDeProyecto(ModelMap modelo) {
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         Reunion reunion = reunionServicio.buscarPorId("479bf6ed-2402-47ba-9b49-312854515942");
