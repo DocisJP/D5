@@ -12,9 +12,11 @@
                 <div class="bodyForm-registrar">
                     <h1>Perfil</h1>
                     <div class="form">
-
                         <form class="m-5" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" th:field="*{id}" name="id">
+                            <input type="hidden" th:field="*{imagen}"/>
+                            <input type="hidden" th:field="*{estado}"/>
+                            <input type="hidden" th:field="*{rol}"/>
                             <div class="row mb-3">
                                 <div class="col-md-6">
 
@@ -161,10 +163,9 @@
                                             <a th:href="@{/inicio}">Volver</a>
                                         </div>
                                     </div>
-                                    <input type="hidden" th:field="*{estado}"/>
-                                    <input type="hidden" th:field="*{rol}"/>
                                 </div>
                             </div>
+
                         </form>
                     </div>
                 </div>
