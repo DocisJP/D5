@@ -115,11 +115,11 @@ public class TareaServicio {
         }
     }
 
-//    
-//    //******************PROBANDO PANEL TRABAJO***************
-//    public List<Tarea> obtenerTareasPorProyecto(String proyectoId) {
-//     
-//        return tareaRepositorio.buscarPorIdProyecto(proyectoId);
-//    }
-//    //******************************************************
+    
+    //******************PROBANDO PANEL TRABAJO***************
+    public List<Tarea> obtenerTareasPorProyecto(String proyectoId) {
+     
+        return tareaRepositorio.findTareasByProyectoId(proyectoId);
+    }
+    //******************************************************
 }

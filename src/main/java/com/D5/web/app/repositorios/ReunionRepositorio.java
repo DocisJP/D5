@@ -17,8 +17,8 @@ public interface ReunionRepositorio extends JpaRepository<Reunion, String> {
     List<Reunion> findByNombre(String nombre);
 
     List<Reunion> findByHorarioDeInicioBetween(Date inicio, Date fin);
-//
-//    @Query("SELECT r FROM Reunion r WHERE r.proyecto_id = :idProyecto")
-//    List<Reunion> buscarPorIdProyecto(@Param("idProyecto") String idProyecto);
+    
+    @Query("SELECT r FROM Reunion r WHERE r.proyecto.id = :id")
+    List<Reunion> buscarPorIdProyecto(@Param("id") String id);
 
 }
