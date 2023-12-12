@@ -45,6 +45,7 @@ public class VistaPrincipal {
     
          @GetMapping("/panel")
     public String perfil(Model model){
+        
         return "panel_perfil.html";
         
     }
@@ -108,6 +109,6 @@ public class VistaPrincipal {
     public String solicitarRegistro(){
         return "solicitud_registro.html";
         
-    }
+}
     //Faltaria el metodo post que guarde esta informacion y se la muestre al admin 
 }

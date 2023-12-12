@@ -1,7 +1,6 @@
 package com.D5.web.app.servicios;
 
 import com.D5.web.app.entidades.Proyecto;
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +9,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.ReunionRepositorio;
 import jakarta.transaction.Transactional;
-import java.time.LocalDateTime;
 
 @Service
 public class ReunionServicio {
@@ -44,6 +41,8 @@ public class ReunionServicio {
 
     @org.springframework.transaction.annotation.Transactional
     public Reunion modificar(Reunion algunaEntidad) {
+        validar(algunaEntidad);
+
         return reunionRepositorio.saveAndFlush(algunaEntidad);
     }
 
@@ -107,19 +106,25 @@ public class ReunionServicio {
     }
 
     private void validar(Reunion reunion) {
-        if (reunion.getNombre() == null || reunion.getNombre().trim().isEmpty()) {
+        if (reunion.getNombre() == null || reunion.getNombre().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la reunión es obligatorio.");
         }
-        if (reunion.getHorarioDeInicio() == null) {
+        if (reunion.getDetalle() == null || reunion.getDetalle().isEmpty()) {
+            throw new IllegalArgumentException("El detalle falta.");
+        }
+        if (reunion.getHorarioDeFin().before(reunion.getHorarioDeInicio())) {
+            throw new IllegalArgumentException("Debe ingresar un horario de finalización valido");
+        }
+        if (reunion.getHorarioDeInicio().after(reunion.getHorarioDeFin())) {
             throw new IllegalArgumentException("Debe ingresar un horario de inicio valido");
         }
-        if (reunion.getId() == null) {
-            throw new IllegalArgumentException("Esta reunion no existe");
+        if (reunion.getHorarioDeInicio() == null || reunion.getHorarioDeFin() == null) {
+            throw new IllegalArgumentException("Debe ingresar un horario valido");
         }
 
     }
 
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    @Transactional
     public List<Reunion> listaReuniones() {
         return reunionRepositorio.findAll();
     }

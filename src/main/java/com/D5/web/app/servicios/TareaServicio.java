@@ -1,6 +1,5 @@
 package com.D5.web.app.servicios;
 
-
 import com.D5.web.app.entidades.Proyecto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +23,14 @@ public class TareaServicio {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-    
+
     @Transactional
-    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario,Proyecto proyecto) throws MyException {
-    	Tarea tarea = new Tarea();
-    	Usuario usuarioEncargado = usuario;
-    	
-    	valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
-    	tarea.setUsuario(usuarioEncargado);
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario, Proyecto proyecto) throws MyException {
+        Tarea tarea = new Tarea();
+        Usuario usuarioEncargado = usuario;
+
+        valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
+        tarea.setUsuario(usuarioEncargado);
         tarea.setDescripcion(descripcion);
         tarea.setEstado(true);
         tarea.setNombreTarea(nombreTarea);
@@ -42,7 +41,7 @@ public class TareaServicio {
     }
 
     @Transactional
-     public Tarea modificar(Tarea algunaEntidad) {
+    public Tarea modificar(Tarea algunaEntidad) {
         return tareaRepositorio.saveAndFlush(algunaEntidad);
     }
 
@@ -64,7 +63,7 @@ public class TareaServicio {
     public List<Tarea> listarTareas() {
         return tareaRepositorio.findAll();
     }
-    
+
     public Tarea buscarPorId(String id) {
         Optional<Tarea> resultado = tareaRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -73,7 +72,16 @@ public class TareaServicio {
             throw new IllegalArgumentException("Tarea no encontrada con el ID: " + id);
         }
     }
-    
+
+    public List<Tarea> buscarPorProyectoId(String id) {
+        List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
+        if (!resultado.isEmpty()) {
+            return resultado;
+        } else {
+            throw new IllegalArgumentException("Tarea no encontrada con el proyecto ID: " + id);
+        }
+    }
+
     private void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
         if (estado == null) {
             throw new MyException("Estado invalido");
@@ -88,7 +96,7 @@ public class TareaServicio {
             throw new MyException("Fecha de inicio no puede ser posterior a la de finalización");
         }
     }
-    
+
     public Map<String, Object> verDetalle(Tarea tarea) {
         Map<String, Object> detalles = new HashMap<>();
         detalles.put("nombre", tarea.getDescripcion());
@@ -100,13 +108,11 @@ public class TareaServicio {
 
         return detalles;
     }
-    
-    private void validarUsuario(Usuario usuario)
-    {
-    	if (usuario.getId() == null)
-    	{
-    		throw new IllegalArgumentException("El usuario no existe en la base de datos. Como vos.");
-    	}
+
+    private void validarUsuario(Usuario usuario) {
+        if (usuario.getId() == null) {
+            throw new IllegalArgumentException("El usuario no existe en la base de datos. Como vos.");
+        }
     }
 
 //    

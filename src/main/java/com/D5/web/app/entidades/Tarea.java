@@ -48,6 +48,8 @@ public class Tarea {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaFinalizacion;
 
+    
+    // La tarea la toma el usuario AGENTE
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
