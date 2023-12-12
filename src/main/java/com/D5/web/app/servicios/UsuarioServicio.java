@@ -62,7 +62,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setDireccion(direccion);
         usuario.setEmpresa(empresa);
         usuario.setRol(rol);
-        usuario.setEstado(Boolean.TRUE);
+        usuario.setEstado(Boolean.FALSE);
 
         Imagen imagen = imagenServicio.guardar(archivo);
 
@@ -150,7 +150,7 @@ public class UsuarioServicio implements UserDetailsService {
         
     Usuario usuario = usuarioRepositorio.findByEmail(email);
     
-      if (usuario != null ) {
+      if (usuario != null && usuario.getEstado().toString().equalsIgnoreCase("true")) {
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
