@@ -138,33 +138,6 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="exampleInputPassword1" class="form-label"
-                                           >Ingresa tu contraseña</label
-                                    >
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        placeholder="Ingresa la Contraseña"
-                                        name="password"
-                                        th:value="${password}"
-
-                                        />
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputPassword1" class="form-label"
-                                           >Repita la contraseña</label
-                                    >
-                                    <input
-                                        type="password"
-                                        class="form-control"
-                                        placeholder="Repite Contraseña"
-                                        name="password2"
-                                        th:value="${password2}"
-                                        />
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="exampleInputPassword1" class="form-label"
                                            >Teléfono</label
                                     >
                                     <input
@@ -179,7 +152,7 @@
                                 </div>
                                 <div class="col-md-6" >
                                     <input type="hidden" th:field="*{estado}">
-                                    <input type="hidden" th:field="*{rol}" sec:authorize="!hasAnyRole('ADMIN')">
+                                    <input type="hidden" th:field="*{rol}" >
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -190,7 +163,6 @@
                                 <div class="container-btn">
                                     <div class="row mb-3">
                                         <button type="button" class="btn btn-primary" onclick="toggleEdicion()">Habilitar/Desactivar Edición</button>
-                                        <button type="button" class="btn btn-primary" >cambiar contraseña</button>
                                         <button type="submit" class="btn btn-primary">
                                             Actualizar
                                         </button>

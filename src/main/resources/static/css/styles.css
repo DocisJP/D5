@@ -34,6 +34,7 @@
     font-size: large;
     color: white;
     font-weight: 700;
+    text-shadow: 1px 2px 6px var(--fondo);
 }
 .dropdown-menu{
     background-color: var(--fondo);
@@ -85,6 +86,7 @@
         margin: 80px 0;
         line-height: 50px;
         color: white;
+        
     }
     .botonLink {
         display: flex;
@@ -132,6 +134,13 @@
     color: var(--blanco);
     text-align: center;
     width: 90%;
+    border-radius: 1rem;
+}
+.mensaje-index{
+    margin-top: 5rem;
+    background-color: var(--fondo);
+    display: inline-block;
+    padding: 2rem;
     border-radius: 1rem;
 }
 @media (min-width: 768px) {
