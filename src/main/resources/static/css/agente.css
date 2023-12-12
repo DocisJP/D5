@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Agbalumo&family=Dancing+Script:wght@500&family=Open+Sans:ital,wght@1,300&family=Playfair+Display:ital@1&family=Poppins:ital,wght@0,200;0,300;0,400;0,700;1,200&family=Shadows+Into+Light&family=Vina+Sans&display=swap");
 /* HEADER */
 ::-webkit-scrollbar {
   width: 12px;
@@ -28,17 +27,13 @@
   flex-direction: row;
   align-items: center;
 }
-.enlaces a:not(.botonLink):not(.dropdown-item) {
+.enlaces a:not(.botonLink) {
   margin: 1rem;
   text-decoration: none;
   font-size: large;
   color: white;
   font-weight: 700;
 }
-.dropdown-menu{
-    background-color: var(--fondo);
-}
-
 #check {
   display: none;
 }
@@ -62,7 +57,7 @@
     color: white;
     font-size: 2rem;
   }
-  
+
   .enlaces {
     padding-top: 3rem;
     display: flex;
@@ -79,7 +74,7 @@
     transition: all 0.5s;
     z-index: 2;
   }
-  
+
   .enlaces a {
     display: block;
     margin: 80px 0;
@@ -87,12 +82,9 @@
     color: white;
   }
   .botonLink {
-    display: flex;
-    justify-content: center;
     background-color: var(--terciario);
     color: var(--fondo);
     width: 80%;
-    
   }
   .botonLink:hover {
     background-color: var(--blanco);
@@ -101,21 +93,12 @@
   #check:checked ~ .enlaces {
     left: 0;
   }
-   
 }
 /* portada */
-.contenedor-portada{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.contenedor-portada h1{
-    font-weight: 800;
-    margin-top: 12rem;
-}
 .contenedor-header {
   height: 100%;
-  background-image: url("/img/fondo_negro.jpg");
+  width: 100%;
+  background-image: url("/img/fondo-circulos.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -128,92 +111,32 @@
   height: auto;
 }
 .bodyForm {
-  background-color: #081c2bd8;
+  background-color: transparent;
   color: var(--blanco);
   text-align: center;
-  width: 90%;
+  width: 100%;
   border-radius: 1rem;
-}
-/*seccion*/
-
-.contenedor-tabla {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-content: center;
-    color: var(--blanco);
-    margin-top: 5rem;
-}
-.contenedor-tabla li{
-    list-style: none;
-}
-.tabla {
-  margin: 70px auto 50px auto;
-  border-collapse: collapse;
-  box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.5);
-  text-align: center;
-}
-th,
-td {
-  border: 2px double black;
-  padding: 10px 20px;
-}
-th {
-  background: black;
-  color: rgb(96, 136, 128);
-  font-size: 1rem;
-  border: 2px double gray;
-}
-td {
-  background: rgb(96, 136, 128);
-  color: rgb(9, 65, 67);
-}
-td a {
-  font-size: 13px;
-  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 5rem;
 }
 
-a.modificar {
-  outline: none;
-  text-decoration: none;
-  color: green;
-}
-a.modificar:hover,
-a.eliminar:hover {
-  filter: brightness(1.5);
-  color: black;
-}
-a.eliminar {
-  outline: none;
-  text-decoration: none;
-  color: red;
-}
-.btn-volver {
-  text-align: center;
-  padding: 4px 20px;
+.buscador select {
+  width: 30%;
+  border-radius: 1rem;
+  font-size: 2rem;
 }
 
-.btn-volver a {
-  width: 60%;
-  padding: 3px 40px;
-  border-radius: 20px;
-  background-color: rgb(14, 90, 85);
-  color: black;
-  font-size: 18px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-}
-.btn-volver a:hover {
-  background: rgb(96, 136, 128);
+.buscador button {
+  border-radius: 1rem;
+  font-size: 1.5rem;
 }
 /*footer*/
 .social {
   bottom: 0;
   right: 0;
   font-size: 2rem;
-  
+
   padding: 30px;
 }
 .container-footer {
@@ -226,3 +149,74 @@ a.eliminar {
   color: bisque;
   padding: 20px;
 }
+/*main*/
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+}
+.proyecto {
+  background-color: rgb(22, 106, 154);
+  width: 60%;
+  margin: 1rem;
+  border-radius: 2rem 5rem;
+  box-shadow: 3px 2px 6px rgb(227, 221, 221);
+}
+.proyecto h1,
+h3 {
+  line-height: 5rem;
+  padding: 0 1rem;
+}
+.tarea {
+  background-color: rgb(22, 152, 154);
+  width: 60%;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 6rem 3rem;
+  box-shadow: 3px 2px 6px rgb(227, 221, 221);
+}
+.tarea h1,
+h2,
+h5,
+p {
+  line-height: 2rem;
+  padding: 1rem;
+}
+.reunion {
+  background-color: rgb(72, 206, 150);
+  width: 35%;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 4rem 6rem;
+  box-shadow: 3px 2px 6px rgb(227, 221, 221);
+}
+.reunion h1,
+h5,
+p {
+  line-height: 2rem;
+  padding: 0 1rem;
+}
+.agenda {
+  background-color: rgb(64, 116, 139);
+  width: 35%;
+  margin: 1rem;
+  border-radius: 2rem 5rem;
+  padding: 4rem 1rem;
+  box-shadow: 3px 2px 6px rgb(227, 221, 221);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+th,
+td {
+  border: 3px groove #231e1e;
+  text-align: left;
+  padding: 8px;
+}
+

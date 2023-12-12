@@ -4,9 +4,11 @@ package com.D5.web.app.controladores;
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
+import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
+import com.D5.web.app.servicios.UsuarioServicio;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -34,13 +37,35 @@ public class ProyectoControlador {
 
     @Autowired
     ProyectoServicio proyectoServicio;
+    
+     @Autowired
+    UsuarioServicio usuarioServicio;
 
     @GetMapping("/panel")
-    public String panelControl(){  
+    public String panelControl(ModelMap model){ 
+        List<Proyecto> listado = proyectoServicio.listarProyectos();
+        model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
-    
-    
+//    //PROBANDO UN PANEL DE TRABAJO
+//  
+//    @GetMapping("/trabajo")
+//public String panelTrabajoAgente(@RequestParam("proyectoId") String proyectoId, ModelMap model) {
+//    // Obtener información del proyecto y otras entidades relacionadas usando el proyectoId
+//    Proyecto proyecto = proyectoServicio.buscarPorId(proyectoId);
+//    List<Reunion> reuniones = reunionServicio.obtenerReunionesPorProyecto(proyectoId);
+//    List<Tarea> tareas = tareaServicio.obtenerTareasPorProyecto(proyectoId);
+// 
+//    // Agregar entidades al modelo
+//    model.addAttribute("proyecto", proyecto);
+//    model.addAttribute("reuniones", reuniones);
+//    model.addAttribute("tareas", tareas);
+//
+//    return "panel_trabajo_agente";
+//}
+//
+//
+////***********************************************************************************************
     @GetMapping("/lista/tareas")
     public String listaTareas(ModelMap model) {
 
