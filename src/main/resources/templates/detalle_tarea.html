@@ -15,19 +15,14 @@
 
     <body>
         <header class="contenedor-header">
-            <nav class="navegacion">
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="img/logo2.png" alt="" class="logo" />
-                </a>
-            </nav>
-        </header>
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
 
-                        <!-- Mensaje de éxito -->
-                        <div th:if="${exito}" class="alert alert-success" role="alert">
-                            <p th:text="${exito}"></p>
-                        </div>
-                        <h5 class="card-title" th:text="${tarea.nombreTarea}">Nombre de la Tarea</h5>
+
+            <div class="container my-5">
+                <div class="detalle-proyecto card mx-auto">
+                    <div class="bodyForm-registrar">
+                        <h5 class="card-title fs-3 text-center" th:text="${tarea.nombreTarea}">Nombre de la Tarea</h5>
                         <p class="card-text" th:text="${tarea.descripcion}">Descripción de la Tarea</p>
                         <p class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha
                                 Inicio</span></p>
@@ -41,10 +36,10 @@
                         </div>
                     </div>
                 </div>
-                </div>
-            </main>
-        </header>
-        <footer th:replace="/fragments/footer :: footer"></footer>
-    </body>
+            </div>
+
+    </header>
+    <footer th:replace="/fragments/footer :: footer"></footer>
+</body>
 
 </html>
