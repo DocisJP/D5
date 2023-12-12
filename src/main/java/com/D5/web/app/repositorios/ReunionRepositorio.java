@@ -14,12 +14,11 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface ReunionRepositorio extends JpaRepository<Reunion, String> {
 
-    @Query("SELECT r FROM Reunion r WHERE r.nombre = :nombre")
-    List<Reunion> findByNombre(@Param("nombre") String nombre);
+    List<Reunion> findByNombre(String nombre);
 
-    @Query("SELECT r FROM Reunion r WHERE r.horarioDeInicio BETWEEN :inicio AND :fin")
-    List<Reunion> findByHorarioDeInicioBetween(@Param("inicio") Date inicio, @Param("fin") Date fin);
+    List<Reunion> findByHorarioDeInicioBetween(Date inicio, Date fin);
+//
+//    @Query("SELECT r FROM Reunion r WHERE r.proyecto_id = :idProyecto")
+//    List<Reunion> buscarPorIdProyecto(@Param("idProyecto") String idProyecto);
 
-    @Query("SELECT r.proyecto FROM Reunion r WHERE r = :reunion")
-    List<Proyecto> findByProyectosReunion(@Param("reunion") Reunion reunion);
 }
