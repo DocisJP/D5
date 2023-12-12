@@ -16,14 +16,6 @@ public interface TareaRepositorio extends JpaRepository<Tarea, String> {
     List<Tarea> findTareasByUsuarioId(@Param("id") String id);
     @Query("SELECT t FROM Tarea t WHERE t.proyecto.id = :id")
     List<Tarea> findTareasByProyectoId(@Param("id") String id);
-
     List<Tarea> findByNombreTarea(String nombreTarea);
 
-//    
-//    //************PROBANDO PANEL TRABAJO********
-//    
-//    @Query("SELECT t FROM Tarea t WHERE t.proyecto_id = :idProyecto")
-//    List<Tarea> buscarPorIdProyecto(@Param("idProyecto") String idProyecto);
-//    
-//    //******************************************
 }

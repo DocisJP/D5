@@ -21,6 +21,7 @@
     height: 8rem;
     margin: 0rem 4rem;
     z-index: 1;
+   
 }
 
 .enlaces {
@@ -34,6 +35,8 @@
     font-size: large;
     color: white;
     font-weight: 700;
+    text-shadow: 1px 2px 3px var(--fondo), 2px 3px 5px gray;
+     font-size: 1.4rem;
 }
 
 #check {
