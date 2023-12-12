@@ -13,6 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <nav th:replace="~{/fragments/navbar :: nav}"></nav> 
         <div></div>
         <div> 
+            <h2>Completados</h2>
             <table class="tabla">
                 <thead>
                     <tr>
@@ -26,7 +27,56 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </tr>
                 </thead>
                 <tbody th:each="tarea : ${tareas}">
+                    <tr th:unless="${tarea.estado}">
+                        <th th:text="${tarea.id}"></th>
+                        <td th:text="${tarea.nombreTarea}"></td>
+                        <td th:text="${tarea.descripcion}"></td>
+                        <td th:text="${tarea.fechaInicio}"></td>
+                        <td th:text="${tarea.fechaFinalizacion}">
+
+                        </td>
+                        <td >
+                            <ul th:each="elegidos:${tarea.usuario}">
+                                <li th:text="${elegidos.nombre}"></li>
+                            </ul>
+                        </td>
+                        <td >
+                            <ul th:each="asociado:${tarea.proyecto}">
+                                <li th:text="${asociado.nombre}"></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <a
+                                class="modificar"
+                                th:href="@{/tarea/modificar/__${tarea.id}__}"
+                                ><i class="fas fa-feather-alt"></i> Modificar</a
+                            >
+                        </td>
+                        <td>
+                            <a
+                                class="eliminar"
+                                th:href="@{/tarea/eliminar/__${tarea.id}__}"
+                                ><i class="fa-solid fa-trash"></i> Eliminar</a
+                            >
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Sin completar</h2>
+            <table class="tabla">
+                <thead>
                     <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Finalización</th>
+                        <th>Usuarios</th>
+                        <th>Proyecto</th>
+                    </tr>
+                </thead>
+                <tbody th:each="tarea : ${tareas}">
+                    <tr th:if="${tarea.estado}">
                         <th th:text="${tarea.id}"></th>
                         <td th:text="${tarea.nombreTarea}"></td>
                         <td th:text="${tarea.descripcion}"></td>
