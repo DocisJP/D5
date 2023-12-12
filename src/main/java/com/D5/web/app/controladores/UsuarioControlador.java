@@ -40,6 +40,7 @@ public class UsuarioControlador {
     public String modificarPerfil(@ModelAttribute("usuario") Usuario usuario, MultipartFile archivo, RedirectAttributes redirectAttrs) {
  
         try {
+            
             if (archivo != null &&  !archivo.isEmpty()) {
                 Imagen imagen = imagenServicio.guardar(archivo);
                 usuario.setImagen(imagen); 
