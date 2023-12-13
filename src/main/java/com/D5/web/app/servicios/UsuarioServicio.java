@@ -73,7 +73,7 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-
+        
         if (archivo == null || archivo.isEmpty()) {
             existente.setImagen(usuario.getImagen());
         } else {
@@ -83,6 +83,8 @@ public class UsuarioServicio implements UserDetailsService {
 
         if(usuario.getRol()!= null){
            existente.setRol(usuario.getRol()); 
+        }else{
+         throw new MyException("rol invalido");
         }
         
 

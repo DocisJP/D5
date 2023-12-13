@@ -1,15 +1,88 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head">
     <body>
-        <div>TODO write content</div>
+        <header class="contenedor-header-formulario">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
+            <div th:replace="/fragments/modelo :: div"></div>
+            <div class="contenedor-portada"></div>
+
+            <main class="container mt-5 ">
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                        <h2 class="text-center mb-5">Solicitar una reunion</h2>
+                        <form th:action="@{/reunion/solicitar}" method="post" th:object="${reunion}" class="form-group">
+                            <!-- Campos del formulario -->
+                            <label for="nombre">Nombre de la reunion</label>
+                            <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}"
+                                   placeholder="Nombre" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <label for="detalle">Descripcion de la reunion</label>
+                            <textarea id="detalle" name="detalle" th:field="*{detalle}" rows="4"
+                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
+                            <p th:if="${#fields.hasErrors('detalle')}" th:errors="*{detalle}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <!-- Campos de fecha de inicio y finalización -->
+                            <label for="horarioDeInicio">Hora de inicio</label>
+                            <input type="datetime-local" id="horarioDeInicio" name="horarioDeInicio" th:field="*{horarioDeInicio}"
+                                   class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('horarioDeInicio')}" th:errors="*{horarioDeInicio}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <label for="horarioDeFin">Horario de Finalización</label>
+                            <input type="datetime-local" id="horarioDeFin" name="horarioDeFin"
+                                   th:field="*{horarioDeFin}" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('horarioDeFin')}" th:errors="*{horarioDeFin}"
+                               class="error-message" style="color: red; font-size: 0.9em;"> </p>
+
+                            <!-- Agrego select para usuarios -->
+                            <label for="agentes">Seleccionar Agente</label>
+                            <select id="usuarios" name="usuario" class="form-select mb-3">
+                                <!-- Itera sobre la lista de agentes -->
+                                <option th:each="agente : ${agentes}" th:value="${agente.id}" th:text="${agente.nombre}">
+                                <p th:text="${agente.id + ' - ' + agente.nombre}"></p>
+                                </option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message" style="color: red; font-size: 0.9em;"></p>
+                            <!-- Campo oculto para el estado -->
+                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+
+                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
+
+                                <option label="Elije Proyecto" value="''"></option>
+
+                                <option th:each="asociado : ${proyectos}"
+                                        th:text="${asociado.nombre}"
+                                        th:value="${asociado.id}"
+                                        th:field="*{proyecto}"
+                                        />
+                            </select>
+
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+                               class="error-message" style="color: red; font-size: 0.9em;"></p>
+                            <div class='row'>
+                                <button type="submit" class="btn btn-primary">Solicitar reunion</button>
+                            </div>
+                            <div class='row'>
+                                <a th:href="@{/reunion/panel}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </main>
+        </header>
+        <footer th:replace="/fragments/footer :: footer"></footer>
     </body>
+
 </html>
