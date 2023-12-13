@@ -24,9 +24,7 @@
                                     <th>Detalle</th>
                                     <th>Fecha Inicio</th> 
                                     <th>Fecha Finalización</th> 
-                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th>  
-                                    <th>Fecha Finalización</th>
-                                    <th>Estado</th> 
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th>   
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
