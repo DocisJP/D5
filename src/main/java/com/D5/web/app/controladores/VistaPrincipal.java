@@ -103,12 +103,13 @@ public class VistaPrincipal {
         return "principal.html";
     }
   
+
     
-    //Agrego controlador para la solicitud de registro
          @GetMapping("/solicitar")
-    public String solicitarRegistro(){
+    public String solicitarRegistro(Model model){
+        
         return "solicitud_registro.html";
         
-}
-    //Faltaria el metodo post que guarde esta informacion y se la muestre al admin 
+    }
+
 }

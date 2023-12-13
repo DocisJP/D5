@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -130,18 +131,39 @@ public class ProyectoControlador {
         }
         return "redirect:/proyecto/lista";
     }
+    
 
     /*Mock para probar una cosa...*/
     @GetMapping("/trabajo")
     public String trabajosDeProyecto(ModelMap modelo) {
+           List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+           modelo.addAttribute("proyectos", proyectos);
+        return "panel_trabajo_agente.html";
+    }
+    /*Mock para probar una cosa...*/
+    @GetMapping("/buscar/{id}")
+    public String trabajosDeProyecto(ModelMap modelo, @PathVariable(required=false) String id) {
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
-        Reunion reunion = reunionServicio.buscarPorId("479bf6ed-2402-47ba-9b49-312854515942");
-        Tarea tarea = tareaServicio.buscarPorId("69ec72ac-d275-440d-929d-1f3e62e8ac5f");
+        Proyecto proyectoElegido;
+        if (id == null) {
+           proyectoElegido = new Proyecto();
+        } else {
+           proyectoElegido = proyectoServicio.buscarPorId(id);
+        }
+        
+        List<Reunion> reuniones = reunionServicio.obtenerReunionesPorProyecto(id);
+        List<Tarea> tareas = tareaServicio.obtenerTareasPorProyecto(id);
 
-        modelo.addAttribute("reunion", reunion);
+        modelo.addAttribute("reuniones", reuniones);
         modelo.addAttribute("proyectos", proyectos);
-        modelo.addAttribute("tarea", tarea);
-        return "panel_trabajo_agente";
+        modelo.addAttribute("proyectoElegido", proyectoElegido);
+        modelo.addAttribute("tareas", tareas);
+        return "panel_trabajo_agente.html";
     }
 
+    @PostMapping("/buscar")
+    public String trabajo(@RequestParam String proyectoId){
+    
+        return "redirect:/proyecto/buscar/" + proyectoId;
+    }
 }

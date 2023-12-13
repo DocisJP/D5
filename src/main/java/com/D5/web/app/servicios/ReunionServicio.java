@@ -128,11 +128,11 @@ public class ReunionServicio {
     public List<Reunion> listaReuniones() {
         return reunionRepositorio.findAll();
     }
-//
-//    //************Probando panel trabajo**********
-//    public List<Reunion> obtenerReunionesPorProyecto(String proyectoId) {
-//
-//        return reunionRepositorio.buscarPorIdProyecto(proyectoId);
-//    }
-//    //****************************************************
+
+    //************Probando panel trabajo**********
+    public List<Reunion> obtenerReunionesPorProyecto(String proyectoId) {
+
+        return reunionRepositorio.buscarPorIdProyecto(proyectoId);
+    }
+    //****************************************************
 }
