@@ -54,75 +54,81 @@
                     <button type="submit" class="btn btn-primary">Buscar</button>
                 </div>
             </form>
-            <main class="container">
-                <div class="proyecto" th:if="${proyectoElegido !=null}">
-                    <h1 class="card-title text-center">Detalle del Proyecto</h1>
-                    <h5 class="card-text">
-                        <strong>Nombre:</strong>
-                        <span th:text="${proyectoElegido.nombre}">Nombre del Proyecto</span>
-                    </h5>
-                    <h5 class="card-text">
-                        <strong>Detalle:</strong>
-                        <span th:text="${proyectoElegido.detalleProyecto}">Detalle del Proyecto</span>
-                    </h5>
-                    <h5 class="card-text">
-                        <strong>Fecha de Inicio:</strong>
-                        <span th:text="${proyectoElegido.fechaInicio}">Fecha de Inicio</span>
-                    </h5>
-                    <h5 class="card-text">
-                        <strong>Fecha de Finalización:</strong>
-                        <span th:text="${proyectoElegido.fechaFinalizacion}">Fecha de Finalización</span>
-                    </h5>
+            <main class="container-main">
+                <div class="container">
+                    <div class="proyecto" th:if="${proyectoElegido !=null}">
+                        <h1 class="card-title text-center">Detalle del Proyecto</h1>
+                        <h5 class="card-text">
+                            <strong>Nombre:</strong>
+                            <span th:text="${proyectoElegido.nombre}">Nombre del Proyecto</span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Detalle:</strong>
+                            <span th:text="${proyectoElegido.detalleProyecto}">Detalle del Proyecto</span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Fecha de Inicio:</strong>
+                            <span th:text="${proyectoElegido.fechaInicio}">Fecha de Inicio</span>
+                        </h5>
+                        <h5 class="card-text">
+                            <strong>Fecha de Finalización:</strong>
+                            <span th:text="${proyectoElegido.fechaFinalizacion}">Fecha de Finalización</span>
+                        </h5>
+                    </div>
                 </div>
-                <div class="reunion" th:if="${reuniones !=null}">
-                    <div th:if="${not #lists.isEmpty(reuniones)}" th:each="reunion : ${reuniones}" >
+                <div class="container">
+                    <div class="reunion" th:if="${reuniones !=null}">
                         <h1 class="mb-4">Reuniones para este proyecto</h1>
-                        <h5 class="card-text">
-                            <strong>Nombre: </strong>
-                            <span th:text="${reunion.nombre}">Nombre</span>
-                        </h5>
-                        <h5 class="card-text">
-                            <strong>Participantes de la Reunion:</strong> </h5>
-                        <p class="card-text" th:text="${reunion.usuario.nombre + ' ' + reunion.usuario.apellido}"></p>
-                        <h5 class="card-text">
-                            <strong>Detalle de la Reunion:</strong></h5>
-                        <p class="card-text" th:text="${reunion.detalle}"></p>
-                        <h5 class="card-text">
-                            <strong>Hora de Inicio: </strong>
-                            <span th:text="${reunion.horarioDeInicio}">Fecha Inicio</span>
-                        </h5>
-                        <h5 class="card-text">
-                            <strong>Hora de Finalización: </strong>
-                            <span th:text="${reunion.horarioDeFin}">Finalización</span>
-                        </h5>
-                    </div>
-                    <div th:if="${#lists.isEmpty(reuniones)}">
-                        <p>No hay reuniones para este proyecto.</p>
+                        <div th:if="${not #lists.isEmpty(reuniones)}" th:each="reunion : ${reuniones}" >
+                            <h5 class="card-text">
+                                <strong>Nombre: </strong>
+                                <span th:text="${reunion.nombre}">Nombre</span>
+                            </h5>
+                            <h5 class="card-text">
+                                <strong>Participantes de la Reunion:</strong> </h5>
+                            <p class="card-text" th:text="${reunion.usuario.nombre + ' ' + reunion.usuario.apellido}"></p>
+                            <h5 class="card-text">
+                                <strong>Detalle de la Reunion:</strong></h5>
+                            <p class="card-text" th:text="${reunion.detalle}"></p>
+                            <h5 class="card-text">
+                                <strong>Hora de Inicio: </strong>
+                                <span th:text="${reunion.horarioDeInicio}">Fecha Inicio</span>
+                            </h5>
+                            <h5 class="card-text">
+                                <strong>Hora de Finalización: </strong>
+                                <span th:text="${reunion.horarioDeFin}">Finalización</span>
+                            </h5>
+                            <p>*************************************</p>
+                        </div>
+                        <div th:if="${#lists.isEmpty(reuniones)}">
+                            <p>No hay reuniones para este proyecto.</p>
+                        </div>
+
                     </div>
                 </div>
-                </div>
-                <div class="tarea" th:if="${tareas != null}">
-                    <div th:if="${not #lists.isEmpty(tareas)}" th:each="tarea : ${tareas}">
+                <div class="container">
+                    <div class="tarea" th:if="${tareas != null}">
                         <h1 class="mb-4"> Tareas de este Proyecto</h1>
-                        <h5 class="card-title"><strong>Nombre: </strong><span th:text="${tarea.nombreTarea}">Nombre</span></h5>
-                        <h5 class="card-text"><strong> Descripción de la Tarea:</strong></h5>
-                        <p class="card-text" th:text="${tarea.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga repudiandae aliquam soluta quas quibusdam odit itaque reprehenderit consequatur ducimus, iure dolor officia provident!</p>
-                        <h5 class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha
-                                Inicio</span></h5>
-                        <h5 class="card-text"><strong>Fecha de Finalización: </strong><span
-                                th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></h5>
-                        <h5 class="card-text"><strong>Estado: </strong>
-                            <span th:if="${tarea.estado}"
-                                  th:text="'Completada'">Completada</span>
-                            <span th:if="${!tarea.estado}"
-                                  th:text="'Pendiente'">Pendiente</span>
-                        </h5>
-                    </div>
-                    <div th:if="${#lists.isEmpty(tareas)}">
-                        <p>No hay tareas para este proyecto.</p>
+                        <div th:if="${not #lists.isEmpty(tareas)}" th:each="tarea : ${tareas}">
+
+                            <h5 class="card-title"><strong>Nombre: </strong><span th:text="${tarea.nombreTarea}">Nombre</span></h5>
+                            <h5 class="card-text"><strong> Descripción de la Tarea:</strong></h5>
+                            <p class="card-text" th:text="${tarea.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga repudiandae aliquam soluta quas quibusdam odit itaque reprehenderit consequatur ducimus, iure dolor officia provident!</p>
+                            <h5 class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha
+                                    Inicio</span></h5>
+                            <h5 class="card-text"><strong>Fecha de Finalización: </strong><span
+                                    th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></h5>
+                            <h5 class="card-text"><strong>Estado: </strong>
+                                 <span th:text="${tarea.estado} ?'En Proceso':'Completado'"></span>  
+                            </h5>
+                            <p>*************************************</p>
+                        </div>
+                        <div th:if="${#lists.isEmpty(tareas)}">
+                            <p>No hay tareas para este proyecto.</p>
+                        </div>
                     </div>
                 </div>
-                </div>
+
             </main>
             <div class="btn-volver">
                 <a th:href="@{/inicio}">Volver</a>

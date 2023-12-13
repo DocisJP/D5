@@ -48,6 +48,7 @@ public class ProyectoControlador {
         return "panel_proyecto.html";
     }
  
+ 
     @GetMapping("/listaProyectos/{id}")
     public String listaProyectos(@PathVariable String id,ModelMap model) {
         List<Proyecto> listado = proyectoServicio.listarProyectosPorIdUsuario(id);
@@ -55,14 +56,16 @@ public class ProyectoControlador {
         return "panel_proyecto.html";
     }
  
-
-    @GetMapping("/lista/tareas")
-    public String listaTareas(ModelMap model) {
-
-        List<Tarea> listado = tareaServicio.listarTareas();
-        model.addAttribute("tareas", listado);
-        return "listado_tareas";
-    }
+ 
+//
+//    @GetMapping("/lista/tareas")
+//    public String listaTareas(ModelMap model) {
+//
+//        List<Tarea> listado = tareaServicio.listarTareas();
+//        model.addAttribute("tareas", listado);
+//        return "listado_tareas";
+//    }
+ 
 
     @GetMapping("/reuniones/{id}")
     public String verListaReuniones(@PathVariable String id, ModelMap model) {

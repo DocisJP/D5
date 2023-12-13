@@ -22,9 +22,11 @@
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Detalle</th>
-                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Inicio</th> 
                                     <th>Fecha Finalización</th> 
-                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th> 
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th>  
+                                    <th>Fecha Finalización</th>
+                                    <th>Estado</th> 
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
@@ -34,7 +36,7 @@
                                     <th th:text="${proyecto.id}"></th>
                                     <td th:text="${proyecto.nombre}"></td>
                                     <td th:text="${proyecto.detalleProyecto}"></td>
-                                    <td th:text="${proyecto.fechaInicio}"></td>
+                                    <td th:text="${proyecto.fechaInicio}"></td> 
                                     <td th:text="${proyecto.fechaFinalizacion}"></td> 
                                     <td sec:authorize = "hasAnyRole('CLIENTE')">
                                         <a
@@ -42,6 +44,11 @@
                                             th:href="@{/proyecto/contactar/__${proyecto.id}__}"
                                             ><i class="fas fa-feather-alt"></i> Contactar</a
                                         >
+                                    </td>  
+                                    <td th:text="${proyecto.fechaFinalizacion}"></td>
+                                    <td>
+                                        <span th:if="${proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
+                                        <span th:if="${!proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
                                     </td> 
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a
