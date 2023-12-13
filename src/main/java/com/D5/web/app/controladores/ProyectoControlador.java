@@ -2,13 +2,14 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea;
-import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.entidades.Tarea; 
+import com.D5.web.app.entidades.Usuario; 
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
-import com.D5.web.app.servicios.UsuarioServicio;
+import com.D5.web.app.servicios.UsuarioServicio; 
 import jakarta.servlet.http.HttpSession;
+ 
 
 import java.util.List;
 
@@ -46,12 +47,14 @@ public class ProyectoControlador {
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
+ 
     @GetMapping("/listaProyectos/{id}")
     public String listaProyectos(@PathVariable String id,ModelMap model) {
         List<Proyecto> listado = proyectoServicio.listarProyectosPorIdUsuario(id);
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
+ 
 
     @GetMapping("/lista/tareas")
     public String listaTareas(ModelMap model) {
@@ -68,6 +71,7 @@ public class ProyectoControlador {
         model.addAttribute("reuniones", listado);
         return "listado_reuniones";
     }
+ 
     
     @GetMapping("/contactar/{id}")
     public String contactar(@PathVariable String id, ModelMap model) {
@@ -89,6 +93,7 @@ public class ProyectoControlador {
             return "redirect:/proyecto/listaProyectos/" + logueado.getId();
          
     }
+ 
 
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {

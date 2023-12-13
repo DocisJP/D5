@@ -23,7 +23,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
@@ -37,7 +36,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Transactional
     public void agregarUsuario(String nombre, String apellido, String email, String password, String password2, Long dni, Long telefono,
-            String direccion,Rol rol, String empresa, MultipartFile archivo) throws MyException {
+            String direccion, Rol rol, String empresa, MultipartFile archivo) throws MyException {
 
         valida(password, password2);
 
@@ -81,31 +80,32 @@ public class UsuarioServicio implements UserDetailsService {
             existente.setImagen(imagen);
         }
 
-        if(usuario.getRol()!= null){
-           existente.setRol(usuario.getRol()); 
+        if (usuario.getRol() != null) {
+            existente.setRol(usuario.getRol());
+        } else {
+            throw new MyException("rol invalido");
         }
-        
 
         usuarioRepositorio.save(existente);
     }
- 
+
     public Usuario buscarUsuario(String id) {
 
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
-    
-  @Transactional
+
+    @Transactional
     public List<Usuario> listarUsuarios() {
 
         return usuarioRepositorio.findAll();
 
     }
- 
+
     public Usuario buscarporEmail(String email) {
         return usuarioRepositorio.findByEmail(email);
     }
-    
+
     public List<Usuario> buscarPorRol(Rol rol) {
         return usuarioRepositorio.findByRol(rol);
     }
@@ -164,17 +164,16 @@ public class UsuarioServicio implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
-    
+
     //carga la lista de usuarios
-    
     @Transactional
-    public List<Usuario> listaUsuarios(){
-        
+    public List<Usuario> listaUsuarios() {
+
         List<Usuario> usuarios = new ArrayList();
-    
+
         usuarios = usuarioRepositorio.findAll();
-        
+
         return usuarios;
-    
+
     }
 }

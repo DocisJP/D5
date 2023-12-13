@@ -49,7 +49,7 @@ public class VistaPrincipal {
         return "panel_perfil.html";
         
     }
-    
+ 
     @GetMapping("/registrar")
     public String registrar(ModelMap model) {
 
@@ -94,13 +94,19 @@ public class VistaPrincipal {
         
         return "login.html";
     }
-    
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
+ 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')") 
     @GetMapping("/inicio")
     public String inicio(HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
        
         return "principal.html";
     }
-  
+ 
+         @GetMapping("/solicitar")
+    public String solicitarRegistro(Model model){
+        
+        return "solicitud_registro.html";
+        
+    } 
 }

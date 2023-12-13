@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-     <head>
+    <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
@@ -30,9 +30,16 @@
     </head>
     <body>
         <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
+            <h1 class="text-center">Aquí puedes encontrar toda la información de tus proyectos</h1>
             <form th:action="@{/proyecto/buscar}" method="post" class="bodyForm">
+                <h2 class="card-title text-center">Selecciona un Proyecto</h2>                
                 <div class="buscador">
                     <select id="proyecto" name="proyectoId" >
 
@@ -50,71 +57,78 @@
             <main class="container">
                 <div class="proyecto" th:if="${proyectoElegido !=null}">
                     <h1 class="card-title text-center">Detalle del Proyecto</h1>
-                    <h3 class="card-text">
+                    <h5 class="card-text">
                         <strong>Nombre:</strong>
                         <span th:text="${proyectoElegido.nombre}">Nombre del Proyecto</span>
-                    </h3>
-                    <h3 class="card-text">
+                    </h5>
+                    <h5 class="card-text">
                         <strong>Detalle:</strong>
                         <span th:text="${proyectoElegido.detalleProyecto}">Detalle del Proyecto</span>
-                    </h3>
-                    <h3 class="card-text">
+                    </h5>
+                    <h5 class="card-text">
                         <strong>Fecha de Inicio:</strong>
                         <span th:text="${proyectoElegido.fechaInicio}">Fecha de Inicio</span>
-                    </h3>
-                    <h3 class="card-text">
+                    </h5>
+                    <h5 class="card-text">
                         <strong>Fecha de Finalización:</strong>
                         <span th:text="${proyectoElegido.fechaFinalizacion}">Fecha de Finalización</span>
-                    </h3>
+                    </h5>
                 </div>
-                <div th:if="${reuniones !=null}">
-                    <div class="reunion" th:each="reunion : ${reuniones}" >
+                <div class="reunion" th:if="${reuniones !=null}">
+                    <div th:if="${not #lists.isEmpty(reuniones)}" th:each="reunion : ${reuniones}" >
                         <h1 class="mb-4">Reuniones para este proyecto</h1>
                         <h5 class="card-text">
-                            <strong>Nombre: </strong
-                            ><span th:text="${reunion.nombre}">Nombre</span>
+                            <strong>Nombre: </strong>
+                            <span th:text="${reunion.nombre}">Nombre</span>
                         </h5>
-                        <h5 class="card-text">Participantes de la Reunion</h5>
-                        <p class="card-text" th:text="${reunion.usuario}"></p>
-                        <h5 class="card-text">Detalle de la Reunion</h5>
+                        <h5 class="card-text">
+                            <strong>Participantes de la Reunion:</strong> </h5>
+                        <p class="card-text" th:text="${reunion.usuario.nombre + ' ' + reunion.usuario.apellido}"></p>
+                        <h5 class="card-text">
+                            <strong>Detalle de la Reunion:</strong></h5>
                         <p class="card-text" th:text="${reunion.detalle}"></p>
                         <h5 class="card-text">
-                            <strong>Hora de Inicio: </strong
-                            ><span th:text="${reunion.horarioDeInicio}">Fecha Inicio</span>
+                            <strong>Hora de Inicio: </strong>
+                            <span th:text="${reunion.horarioDeInicio}">Fecha Inicio</span>
                         </h5>
                         <h5 class="card-text">
-                            <strong>Hora de Finalización: </strong
-                            ><span th:text="${reunion.horarioDeFin}">Finalización</span>
+                            <strong>Hora de Finalización: </strong>
+                            <span th:text="${reunion.horarioDeFin}">Finalización</span>
                         </h5>
                     </div>
+                    <div th:if="${#lists.isEmpty(reuniones)}">
+                        <p>No hay reuniones para este proyecto.</p>
+                    </div>
                 </div>
-                <div th:if="${tareas != null}">
-                    <div class="tarea"  th:each="tarea : ${tareas}">
+                </div>
+                <div class="tarea" th:if="${tareas != null}">
+                    <div th:if="${not #lists.isEmpty(tareas)}" th:each="tarea : ${tareas}">
                         <h1 class="mb-4"> Tareas de este Proyecto</h1>
                         <h5 class="card-title"><strong>Nombre: </strong><span th:text="${tarea.nombreTarea}">Nombre</span></h5>
-                        <h3 class="card-text"><strong> Descripción de la Tarea</strong></h3>
+                        <h5 class="card-text"><strong> Descripción de la Tarea:</strong></h5>
                         <p class="card-text" th:text="${tarea.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga repudiandae aliquam soluta quas quibusdam odit itaque reprehenderit consequatur ducimus, iure dolor officia provident!</p>
-                        <h3 class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha
-                                Inicio</span></h3>
-                        <h3 class="card-text"><strong>Fecha de Finalización: </strong><span
-                                th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></h3>
-                        <h3 class="card-text"><strong>Estado: </strong>
+                        <h5 class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha
+                                Inicio</span></h5>
+                        <h5 class="card-text"><strong>Fecha de Finalización: </strong><span
+                                th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></h5>
+                        <h5 class="card-text"><strong>Estado: </strong>
                             <span th:if="${tarea.estado}"
                                   th:text="'Completada'">Completada</span>
                             <span th:if="${!tarea.estado}"
                                   th:text="'Pendiente'">Pendiente</span>
-                        </h3>
+                        </h5>
+                    </div>
+                    <div th:if="${#lists.isEmpty(tareas)}">
+                        <p>No hay tareas para este proyecto.</p>
                     </div>
                 </div>
-            </main>
-        </header>
-        <footer>
-            <div class="container-footer">
-                <p>&copy; 2023 Argentina</p>
-                <div class="social">
-                    <img src="/img/social-icons.svg" />
                 </div>
+            </main>
+            <div class="btn-volver">
+                <a th:href="@{/inicio}">Volver</a>
             </div>
-        </footer>
+        </header>
+
+        <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>
 </html>

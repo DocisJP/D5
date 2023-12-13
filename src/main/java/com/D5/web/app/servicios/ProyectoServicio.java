@@ -11,6 +11,9 @@ import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
 import java.util.ArrayList;
+import com.D5.web.app.repositorios.ProyectoRepositorio;
+import jakarta.validation.ValidationException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -96,13 +99,13 @@ public class ProyectoServicio {
             throw new IllegalArgumentException("El detalle del producto no puede ser nulo ");
         }
         if (proyecto.getFechaInicio().before(Date.from(Instant.now())) || proyecto.getFechaInicio().equals(proyecto.getFechaFinalizacion())) {
-            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al dÃ­a de hoy");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al día de hoy");
         }
         if (proyecto.getFechaInicio().after(proyecto.getFechaFinalizacion())) {
-            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalizaciÃ³n");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalización");
         }
         if (proyecto.getFechaFinalizacion().before(proyecto.getFechaInicio())) {
-            throw new IllegalArgumentException("Fecha de finalizaciÃ³n no puede ser previa a la fecha de inicio");
+            throw new IllegalArgumentException("Fecha de finalización no puede ser previa a la fecha de inicio");
         }
     }
 
@@ -151,5 +154,7 @@ public class ProyectoServicio {
         }
         return agentes;
     }
+
+ 
 
 }

@@ -4,19 +4,29 @@
 
     <body>
         <header class="contenedor-header-formulario">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
 
             <div class="contenedor-portada"></div>
-            <div class="contenedor-form-registrar">
-                <div class="bodyForm-registrar">
-                    <h1>Perfil</h1>
-                    <div class="form">
-                        <form class="m-5" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
+
+            <main class="container mt-5 ">
+                <div class='row justify-content-center'>
+                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                        <h2 class="text-center mb-5">Perfil Usuario</h2>
+
+                        <form class="form-group" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
+                            <div class="row mb-3">
+                                <button type="button" class="btn btn-primary" onclick="toggleEdicion()">Habilitar/Desactivar Edición</button>
+                            </div>
                             <input type="hidden" th:field="*{id}" name="id">
                             <input type="hidden" th:field="*{imagen}"/>
                             <input type="hidden" th:field="*{estado}"/>
-                            <input type="hidden" th:field="*{rol}"/>
+                            <input type="hidden" th:field="*{rol}" sec:authorize="!hasAnyRole('ADMIN')"/>
                             <div class="row mb-3">
                                 <div class="col-md-6">
 
@@ -147,29 +157,45 @@
                                         th:readonly="${true}"
                                         />
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
+                                <div class="col-md-6" sec:authorize="hasAnyRole('ADMIN')">
+                                    <label for="exampleInputPassword1" class="form-label"
+                                           >rol</label>
+                                    <select name="rol" id="selectRol" class='form-select'>
+
+                                        <option  >seleccionar rol  </option>
+
+                                        <option th:each="rolAelegir : ${roles}"
+                                                th:field="*{rol}"
+                                                th:value="${rolAelegir}"
+                                                th:selected="${usuario.rol == rolAelegir}"
+                                                th:text="${rolAelegir}"
+                                                > </option>
+                                    </select>
+                                </div>
+                                <div class="row mb-3" style="margin-top: 4rem">
+                                    <div class="col-md-6" >
                                         <img th:src="@{/imagen/perfil/__${id}__}" style="width:12rem" > 
                                         <input class="form-control" type="file" name="archivo" style="margin-top: 3rem" id="archivo"  /> 
                                     </div>
-                                    <div class="container-btn">
-                                        <div class="row mb-3">
-                                            <button type="button" class="btn btn-primary" onclick="toggleEdicion()">Habilitar/Desactivar Edición</button>
-                                            <button type="submit" class="btn btn-primary">
-                                                Actualizar
-                                            </button>
-                                        </div>
-                                        <div class="btn-volver">
-                                            <a th:href="@{/inicio}">Volver</a>
-                                        </div>
-                                    </div>
                                 </div>
+                                <div class='row'>
+                                    <button type="submit" class="btn btn-primary">
+                                        Actualizar
+                                    </button>
+                                </div>
+                                <div class='row'>
+                                    <a th:href="@{/lista}" class="btn btn-primary">Volver</a>
+                                </div>
+
                             </div>
 
                         </form>
                     </div>
+
                 </div>
-            </div>
+            </main>
+
+
         </header>
         <footer th:replace = "/fragments/footer :: footer"></footer>
 
