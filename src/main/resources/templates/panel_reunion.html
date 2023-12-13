@@ -2,17 +2,19 @@
 <html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head th:replace = "/fragments/head :: head"></head>
     <body>
-        <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
+        <header class="contenedor-header-proyecto">
+            <nav class="navegacion" >
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
 
-            <div class="contenedor-proyecto">
-                <h2>Listado de Reuniones</h2>    
-
-                <section id="proyectos-agente">
-
-                    <div class="contenedor-tabla">
-
+            <div class="contenedor-tabla container">
+                <div class="contenedor-proyecto row">
+                    <h2>Listado de Reuniones</h2>    
+                    <section id="proyectos-agente">
 
                         <table class="tabla">
                             <thead>
@@ -53,17 +55,19 @@
                                 </tr>
                             </tbody>
                         </table>
+
+
+                    </section>
+                    <div class='row'>
+                        <a th:href="@{/reunion/registrar}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="margin: 1rem" class="btn">Crear nueva Reunion</a>
+                        <a href="#" class="btn" style="margin: 1rem">Solicitar una Reunion</a>        
                     </div>
-
-                </section>
-            </div>
-            <div class="btn-volver" style="margin: 1rem">
-                <a th:href="@{/reunion/registrar}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="margin: 1rem" class="btn">Crear nueva Reunion</a>
-                <a href="#" class="btn" style="margin: 1rem">Solicitar una Reunion</a>        
-
-                <a th:href="@{/inicio}">Inicio</a>
+                    <div class="btn-volver" style="margin: 1rem">
+                        <a th:href="@{/inicio}">Inicio</a>
+                    </div>
+                </div>
             </div>
         </header>
-        <footer th:replace = "/fragments/footer :: footer" class="container"></footer>
+        <footer th:replace = "/fragments/footer :: footer" ></footer>
     </body>
 </html>

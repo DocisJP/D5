@@ -21,6 +21,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/reunion")
@@ -107,7 +108,7 @@ public class ReunionControlador {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
             @RequestParam String usuarioId,
             @RequestParam String proyectoId,
-            ModelMap modelo
+            ModelMap modelo,RedirectAttributes redirectAttrs
     ) {
         Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
         Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
@@ -122,8 +123,8 @@ public class ReunionControlador {
                     usuarioEncargado,
                     proyectoAsociado);
 
-            if (reunionGuardada != null && reunionGuardada.getId() != null) {
-                modelo.addAttribute("exito", "La reunion pudo ser creada.");
+            if (reunionGuardada != null && reunionGuardada.getId() != null) {                
+                redirectAttrs.addFlashAttribute("exito", "La reunión fue creada con éxito");
                 return "redirect:/reunion/detalle/" + reunionGuardada.getId();
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
@@ -131,8 +132,8 @@ public class ReunionControlador {
 
                 return "formulario_reunion.html";
             }
-        } catch (Exception e) {
-            modelo.addAttribute("error", e.getMessage());
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
             return "formulario_reunion.html";
         }
     }

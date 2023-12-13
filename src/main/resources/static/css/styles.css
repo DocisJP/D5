@@ -21,7 +21,7 @@
     height: 8rem;
     margin: 0rem 4rem;
     z-index: 1;
-   
+
 }
 
 .enlaces {
@@ -36,7 +36,7 @@
     color: white;
     font-weight: 700;
     text-shadow: 1px 2px 3px var(--fondo), 2px 3px 5px gray;
-     font-size: 1.4rem;
+    font-size: 1.4rem;
 }
 
 #check {
@@ -250,6 +250,11 @@
     background-position: center;
     opacity: 0.9;
     padding-bottom: 5rem;
+}
+.contenedor-header-formulario h2{
+    margin-top: 2rem;
+    font-size: 3rem;
+    font-weight: 800;
 }
 .contenedor-form {
     display: flex;
@@ -468,18 +473,38 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    height: 100%;
     opacity: 0.9;
-    padding-bottom: 5rem;
+    padding-bottom: 5rem;    
 }
-.container-proyecto .btn {
+.contenedor-header-proyecto ul{
+    list-style: none;
+}
+
+.contenedor-header-proyecto h2{
+    margin-top: 2rem;
+    font-size: 3rem;
+    font-weight: 800;
+}
+.row .btn {
     background-color: var(--fondo);
     color: var(--blanco);
     border: 2px solid var(--terciario);
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 28rem;
+    width: 60%;
+    text-decoration: none;
+}
+.row .btn:hover{
+    background-color: var(--terciario);
+    color: var(--fondo);
+    border: 2px solid var(--blanco);
+}
+
+.row{
+    justify-content: center;
+    width: 100%;
 }
 .container-proyecto .btn:hover {
     background-color: var(--terciario);
@@ -505,6 +530,7 @@ section {
     width: 90%;
     margin-top: 10rem;
     border-radius: 1rem;
+    text-align: center;
 }
 .contenedor-tabla {
     display: flex;
@@ -595,4 +621,18 @@ a.eliminar {
 .error{
     background-color: red;
     width: 30%;
+}
+.contenedor-proyecto-usuarios {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #081b29ea;
+    color: white;
+    width: 90%;
+    margin-top: 10rem;
+    border-radius: 1rem;
+    text-align: center;
+    padding-bottom: 5rem;
 }
