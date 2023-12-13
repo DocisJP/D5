@@ -75,8 +75,8 @@
                     </h5>
                 </div>
                 <div class="reunion" th:if="${reuniones !=null}">
+                     <h1 class="mb-4">Reuniones para este proyecto</h1>
                     <div th:if="${not #lists.isEmpty(reuniones)}" th:each="reunion : ${reuniones}" >
-                        <h1 class="mb-4">Reuniones para este proyecto</h1>
                         <h5 class="card-text">
                             <strong>Nombre: </strong>
                             <span th:text="${reunion.nombre}">Nombre</span>
@@ -95,15 +95,18 @@
                             <strong>Hora de Finalización: </strong>
                             <span th:text="${reunion.horarioDeFin}">Finalización</span>
                         </h5>
+                         <p>*************************************</p>
                     </div>
                     <div th:if="${#lists.isEmpty(reuniones)}">
                         <p>No hay reuniones para este proyecto.</p>
                     </div>
+                    
                 </div>
                 </div>
                 <div class="tarea" th:if="${tareas != null}">
+                    <h1 class="mb-4"> Tareas de este Proyecto</h1>
                     <div th:if="${not #lists.isEmpty(tareas)}" th:each="tarea : ${tareas}">
-                        <h1 class="mb-4"> Tareas de este Proyecto</h1>
+                        
                         <h5 class="card-title"><strong>Nombre: </strong><span th:text="${tarea.nombreTarea}">Nombre</span></h5>
                         <h5 class="card-text"><strong> Descripción de la Tarea:</strong></h5>
                         <p class="card-text" th:text="${tarea.descripcion}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga repudiandae aliquam soluta quas quibusdam odit itaque reprehenderit consequatur ducimus, iure dolor officia provident!</p>
@@ -117,6 +120,7 @@
                             <span th:if="${!tarea.estado}"
                                   th:text="'Pendiente'">Pendiente</span>
                         </h5>
+                        <p>*************************************</p>
                     </div>
                     <div th:if="${#lists.isEmpty(tareas)}">
                         <p>No hay tareas para este proyecto.</p>

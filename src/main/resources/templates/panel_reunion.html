@@ -60,7 +60,7 @@
                     </section>
                     <div class='row'>
                         <a th:href="@{/reunion/registrar}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="margin: 1rem" class="btn">Crear nueva Reunion</a>
-                        <a href="#" class="btn" style="margin: 1rem">Solicitar una Reunion</a>        
+                        <a th:href="@{/reunion/solicitar}" class="btn" style="margin: 1rem">Solicitar una Reunion</a>        
                     </div>
                     <div class="btn-volver" style="margin: 1rem">
                         <a th:href="@{/inicio}">Inicio</a>

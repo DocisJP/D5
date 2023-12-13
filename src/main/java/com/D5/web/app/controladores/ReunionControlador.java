@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
+import java.util.ArrayList;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.ModelMap;
@@ -108,7 +110,7 @@ public class ReunionControlador {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
             @RequestParam String usuarioId,
             @RequestParam String proyectoId,
-            ModelMap modelo,RedirectAttributes redirectAttrs
+            ModelMap modelo, RedirectAttributes redirectAttrs
     ) {
         Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
         Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
@@ -123,7 +125,7 @@ public class ReunionControlador {
                     usuarioEncargado,
                     proyectoAsociado);
 
-            if (reunionGuardada != null && reunionGuardada.getId() != null) {                
+            if (reunionGuardada != null && reunionGuardada.getId() != null) {
                 redirectAttrs.addFlashAttribute("exito", "La reunión fue creada con éxito");
                 return "redirect:/reunion/detalle/" + reunionGuardada.getId();
             } else {
@@ -212,4 +214,25 @@ public class ReunionControlador {
         reunionServicio.eliminar(reunionServicio.buscarPorId(id));
         return "redirect:/reunion/panel";
     }
+
+    @GetMapping("/solicitar")
+    public String solicitarReunion(Model model) {
+
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        List<Usuario> agentes = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            Rol rolUsuario = usuario.getRol();
+            System.out.println("USUARIO: " + usuario.getNombre() + " - ROL: [" + rolUsuario + "]");
+
+            if (Rol.AGENTE.equals(rolUsuario)) {
+                agentes.add(usuario);
+            }
+        }
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+        model.addAttribute("reunion", new Reunion());
+        model.addAttribute("agentes", agentes);
+        model.addAttribute("proyectos", proyectos);
+        return "solicitud_reunion.html";
+    }
+    
 }
