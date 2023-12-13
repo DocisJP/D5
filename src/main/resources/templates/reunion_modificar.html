@@ -1,44 +1,61 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head th:replace = "/fragments/head :: head">
-        <title>Modifica Reunion</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="/fragments/head :: head">
     <body>
+        <header class="contenedor-header-formulario">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
+            <div th:replace="/fragments/modelo :: div"></div>
+            <div class="contenedor-portada"></div>
 
-        <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
-            <h1 class='display-1'>¡Ingrese sus cambios abajo!</h1>
-        </header>
+            <main class="container mt-5 ">
+                <div class='row justify-content-center'>
+                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                        <h2 class="text-center mb-5">Modificar reunion</h2>
 
-        <main class="container text-bg-dark">
-            <div class='row justify-content-center contenedor-form'>
+                        <form class="form-group" th:action="@{/reunion/modificar}" th:object="${reunion}" method="POST">
+                            <!-- Campos del formulario -->
+                            <label for="nombre">Nombre de la reunion</label>
+                            <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}"
+                                   placeholder="Nombre" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-                <form class="formulario row justify-contet-center border border-secondary-subtle rounded" th:action="@{/reunion/modificar}" method="POST">
+                            <label for="detalle">Descripcion de la reunion</label>
+                            <textarea id="detalle" name="detalle" th:field="*{detalle}" rows="4"
+                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
+                            <p th:if="${#fields.hasErrors('detalle')}" th:errors="*{detalle}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-                    <fieldset class="col-8">
-                        <legend>¡Modificar reunion!</legend>
-                        <input th:value="${reunion.id}" hidden="hidden" name="id" />
+                            <!-- Campos de fecha de inicio y finalización -->
+                            <label for="horarioDeInicio">Hora de inicio</label>
+                            <input type="datetime-local" id="horarioDeInicio" name="horarioDeInicio" th:field="*{horarioDeInicio}"
+                                   class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('horarioDeInicio')}" th:errors="*{horarioDeInicio}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
 
-                        <div class="input-group my-3">
-                            <input type="text" class="form-control text-bg-dark bg-gradient" name="nombre" placeholder="Nombre" th:value="${reunion.nombre}" />
-                        </div>
-                        <div class="input-group my-3">
-                            <input type="text" class="form-control" name="detalle" placeholder="Detalle" th:value="${reunion.detalle}" />
-                        </div>
-                        <div class="input-group my-3">
-                            <input type="datetime-local" class="form-control text-bg-dark" name="horarioDeInicio" placeholder="Horario de Inicio" th:value="${reunion.horarioDeInicio}" />
+                            <label for="horarioDeFin">Horario de Finalización</label>
+                            <input type="datetime-local" id="horarioDeFin" name="horarioDeFin"
+                                   th:field="*{horarioDeFin}" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('horarioDeFin')}" th:errors="*{horarioDeFin}"
+                               class="error-message" style="color: red; font-size: 0.9em;"> </p>
 
-                            <input type="datetime-local" class="form-control" name="horarioDeFin" placeholder="Horario de Finalización" th:value="${reunion.horarioDeFin}" />
-                        </div>
+                            <!-- Agrego select para usuarios -->
+                            <label for="usuarios">Seleccionar Usuarios</label>
+                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                <!-- Itera sobre la lista de usuarios -->
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+                            <!-- Campo oculto para el estado -->
+                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
 
-                        <div class="input-group my-3">
                             <select id="proyecto" name="proyectoId" class="form-select mb-3" >
 
                                 <option label="Elije Proyecto" value="''"></option>
@@ -46,31 +63,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                 <option th:each="asociado : ${proyectos}"
                                         th:text="${asociado.nombre}"
                                         th:value="${asociado.id}"
-                                        name="proyectoId"
-                                        th:selected="${asociado.id == reunion.proyecto.id}"
+                                        th:field="*{proyecto}"
                                         />
                             </select>
-                        </div>
 
-                        <div class="input-group my-3">
-                            <select id="usuario" name="usuarioId" class="form-select mb-3" >
-
-                                <option label="Elije usuario" value="''"></option>
-
-                                <option th:each="elegido : ${usuarios}"
-                                        th:text="${elegido.nombre}"
-                                        th:value="${elegido.id}"
-                                        name="usuarioId"
-                                        th:selected="${elegido.id == reunion.usuario.id}"
-                                        />
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary mt-3 botones">Registrar</button>
-                    </fieldset>
-                </form>
-            </div>
-        </main>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+                               class="error-message" style="color: red; font-size: 0.9em;"></p>
+                            <div class='row'>
+                                <button type="submit" class="btn btn-primary">Modificar reunion</button>
+                            </div>
+                            <div class='row'>
+                                <a th:href="@{/reunion/panel}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </header>
         <footer th:replace="/fragments/footer :: footer"></footer>
     </body>
 </html>

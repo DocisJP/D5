@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/tarea")
@@ -63,7 +64,7 @@ public class TareaControlador {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaFinalizacion,
             @RequestParam String usuarioId,
             @RequestParam String proyectoId,
-            ModelMap modelo
+            ModelMap modelo,RedirectAttributes redirectAttrs
     ) {
         Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
         Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
@@ -79,7 +80,7 @@ public class TareaControlador {
                     proyectoAsociado);
 
             if (tareaGuardada != null && tareaGuardada.getId() != null) {
-                modelo.addAttribute("exito", "La tarea pudo ser creada.");
+                redirectAttrs.addFlashAttribute("exito", "La tarea fue creada con éxito");
                 return "redirect:/tarea/detalle/" + tareaGuardada.getId();
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
@@ -87,8 +88,8 @@ public class TareaControlador {
 
                 return "formulario_tarea";
             }
-        } catch (Exception e) {
-            modelo.addAttribute("error", e.getMessage());
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
             return "formulario_tarea";
         }
     }

@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 
 <html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head th:insert="~{/fragments/head :: head}">
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </head>
+   <head th:replace = "/fragments/head :: head"></head>
+        
     <body>
-        <nav th:replace="~{/fragments/navbar :: nav}"></nav> 
+         <header class="contenedor-header-proyecto">
+                <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
 
-        <div class="contenedor-tabla"> 
-            <div class="contenedor-proyecto">
+        <div class="contenedor-tabla container"> 
+            <div class="contenedor-proyecto row" style="padding: 0 5rem">
                <h2>TAREAS COMPLETADAS</h2>
                 <table class="tabla">
                     <thead>
@@ -22,6 +26,8 @@
                             <th>Fecha Finalización</th>
                             <th>Usuarios</th>
                             <th>Proyecto</th>
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody th:each="tarea : ${tareas}">
@@ -62,8 +68,8 @@
                 </table>
             </div>
         </div>
-        <div class="contenedor-tabla">
-            <div class="contenedor-proyecto">
+        <div class="contenedor-tabla container">
+            <div class="contenedor-proyecto row" style="padding: 0 5rem">
           <h2>TAREAS SIN COMPLETAR</h2>
                 <table class="tabla">
                     <thead>
@@ -75,6 +81,8 @@
                             <th>Fecha Finalización</th>
                             <th>Usuarios</th>
                             <th>Proyecto</th>
+                            <th>Modificar</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody th:each="tarea : ${tareas}">
@@ -115,6 +123,7 @@
                 </table>
             </div>
         </div>
+         </header>
         <footer th:replace="~{/fragments/footer :: footer}"></footer>
     </body>
 </html>

@@ -50,6 +50,7 @@ public class VistaPrincipal {
         
     }
     
+    
     @GetMapping("/registrar")
     public String registrar(ModelMap model) {
 
@@ -103,4 +104,11 @@ public class VistaPrincipal {
         return "principal.html";
     }
   
+    
+         @GetMapping("/solicitar")
+    public String solicitarRegistro(Model model){
+        
+        return "solicitud_registro.html";
+        
+    }
 }

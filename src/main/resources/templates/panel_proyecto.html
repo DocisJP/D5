@@ -3,7 +3,12 @@
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-proyecto">
-            <nav th:replace = "/fragments/navbar :: nav"></nav>
+                <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
 
             <div class="contenedor-tabla container">
@@ -48,26 +53,15 @@
                             </tbody>
                         </table>
                     </section>
-                </div>
-                <div class='row'>
-                    <!-- Sección para crear un nuevo proyecto (visible para el Agente) -->
-                    <section id="crear-proyecto" class='col align-self-center'>
+                    <div class='row'>
                         <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Crear nuevo Proyecto</a>
-                        <!-- Metodo get return formulario_proyecto.html -->
-                        <!-- Formulario para crear un nuevo proyecto -->
-                    </section>
-
-                    <!-- Sección para solicitar un proyecto (visible para el Cliente) -->
-                    <section id="solicitar-proyecto" class='col align-self-center'>
-                        <a href="#" class="btn">Solicitar nuevo Proyecto</a>
-                        <!-- Listado de Agentes disponibles y formulario de solicitud -->
-                    </section>
-
+                        <a href="#" class="btn">Solicitar nuevo Proyecto</a>                      
+                    </div>
                     <div class="btn-volver col align-self-center">
                         <a th:href="@{/inicio}">Volver</a>
                     </div>
-                </div>
-            </div>
+                </div>                               
+            </div>           
         </header>
         <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>

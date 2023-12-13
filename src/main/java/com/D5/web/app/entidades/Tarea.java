@@ -35,7 +35,7 @@ public class Tarea {
     private String descripcion;
     
     
-    private Boolean estado;
+    private Boolean estado = false;
 
 
     @Future(message = "La fecha de iniciación debe ser valida")
