@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
+            rel="stylesheet"
+            />
+        <link rel="stylesheet" type="text/css" href="/css/globales.css" />
+        <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <title>D5 Design</title>
+    </head>
+    <body>
+        <header class="contenedor-header-formulario">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
+        
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 bodyForm-registrar">
+                            <h2 class="text-center mb-5" style="padding-top: 3rem">Modificar tarea</h2>
+                        <form th:action="@{/tarea/modificar}" method="post" th:object="${tarea}" class="form-group">
+                            <!-- Campos del formulario -->
+                            <label for="nombreTarea">Nombre de la tarea</label>
+                            <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
+                                   placeholder="Nombre" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <label for="descripcion">Descripcion de la tarea</label>
+                            <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
+                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
+                            <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <!-- Campos de fecha de inicio y finalización -->
+                            <label for="fechaInicio">Fecha de Inicio</label>
+                            <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
+                                   class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <label for="fechaFinalizacion">Fecha de Finalización</label>
+                            <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion"
+                                   th:field="*{fechaFinalizacion}" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}"
+                               class="error-message" style="color: red; font-size: 0.9em;"> </p>
+                            <label for="usuarios">Seleccionar Usuarios</label>
+                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                <!-- Itera sobre la lista de usuarios -->
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
+
+                                <option label="Elije Proyecto" value="''"></option>
+
+                                <option th:each="asociado : ${proyectos}"
+                                        th:text="${asociado.nombre}"
+                                        th:value="${asociado.id}"
+                                        th:field="*{proyecto}"
+                                        />
+                            </select>
+                            <!-- Campo oculto para el estado -->
+                            <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
+                            <input type="hidden" name="id" th:field="*{id}"  />
+
+                            <div style="padding-bottom: 5rem">
+                            <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>
+                            <a th:href="@{/tarea/panel}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+ 
+            <div th:replace = "/fragments/modelo :: div"></div>
+            <div class="contenedor-portada"></div>
+            <div th:replace="/fragments/modelo :: div"></div>
+        </header>
+
+        <main class="contenedor-proyecto">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
+                        <form th:action="@{/tarea/modificar}" method="post" th:object="${tarea}" class="form-group">
+                            <!-- Campos del formulario -->
+                            <label for="nombreTarea">Nombre de la tarea</label>
+                            <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
+                                   placeholder="Nombre" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <label for="descripcion">Descripcion de la tarea</label>
+                            <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
+                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
+                            <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <!-- Campos de fecha de inicio y finalización -->
+                            <label for="fechaInicio">Fecha de Inicio</label>
+                            <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
+                                   class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <label for="fechaFinalizacion">Fecha de Finalización</label>
+                            <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion"
+                                   th:field="*{fechaFinalizacion}" class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}"
+                               class="error-message" style="color: red; font-size: 0.9em;"> </p>
+                            <label for="usuarios">Seleccionar Usuarios</label>
+                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                <!-- Itera sobre la lista de usuarios -->
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
+
+                                <option label="Elije Proyecto" value="''"></option>
+
+                                <option th:each="asociado : ${proyectos}"
+                                        th:text="${asociado.nombre}"
+                                        th:value="${asociado.id}"
+                                        th:field="*{proyecto}"
+                                        />
+                            </select>
+                            <!-- Campo oculto para el estado -->
+                            <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
+                            <input type="hidden" name="id" th:field="*{id}"  />
+
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <a href="@{/inicio}" class="btn btn-secondary">Volver</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="/fragments/footer :: footer"></footer>
+    </body>
+</html>

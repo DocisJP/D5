@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
+            rel="stylesheet"
+            />
+        <link rel="stylesheet" type="text/css" href="/css/globales.css" />
+        <link rel="stylesheet" type="text/css" href="/css/tablas.css" />
+        <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <title>D5 Design</title>
+    </head>
+
+    <body>
+        <header class="contenedor-header">
+            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+                <!-- Logo -->
+                <a href="#" class="enlace">
+                    <img src="/img/logo2.png" alt="" class="logo"/>
+                </a>
+            </nav>
+            <div class="contenedor-tabla">
+                <div class="contenedor-proyecto">
+                    <section id="pendientes">
+                        <h2>Listado de Tareas</h2>
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Finalización</th>
+                                    <th>Usuarios</th>
+                                    <th>Proyecto</th>
+                                    <th>Modificar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="tarea : ${tareas}">
+                                <tr>
+                                    <th th:text="${tarea.id}"></th>
+                                    <td th:text="${tarea.nombreTarea}"></td>
+                                    <td th:text="${tarea.descripcion}"></td>
+                                    <td th:text="${tarea.fechaInicio}"></td>
+                                    <td th:text="${tarea.fechaFinalizacion}">
+
+                                    </td>
+                                    <td >
+                                        <ul th:each="elegidos:${tarea.usuario}">
+                                            <li th:text="${elegidos.nombre}"></li>
+                                        </ul>
+                                    </td>
+                                    <td >
+                                        <ul th:each="asociado:${tarea.proyecto}">
+                                            <li th:text="${asociado.nombre}"></li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/tarea/modificar/__${tarea.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/tarea/eliminar/__${tarea.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <div class="btn-volver" style="padding-bottom: 5rem">
+                        <a th:href="@{/inicio}">Volver</a>
+                    </div>
+                </div>
+            </div>
+            <div th:replace = "/fragments/modelo :: div"></div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>

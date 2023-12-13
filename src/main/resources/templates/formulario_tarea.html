@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="/fragments/head :: head">
+        <title>Provisorio</title>
+    </head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
+        rel="stylesheet"
+        />
+    <link rel="stylesheet" type="text/css" href="/css/globales.css" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"
+    ></script>
+    <title>D5 Design</title>
+</head>
+<body>
+    <header class="contenedor-header">
+        <nav th:replace = "/fragments/navbar :: nav"></nav>
+        <div th:replace = "/fragments/modelo :: div"></div>
+        <h2 class="text-center mb-5">Ingresa una tarea en tu block de notas</h2>
+    </header>
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-9">
+
+                <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
+                    <!-- Campos del formulario -->
+                    
+                    <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                       style="color: red; font-size: 0.9em;"></p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                            <h2 class="text-center mb-5">Ingresa una tarea</h2>
+                            <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
+                                <!-- Campos del formulario -->
+                                <label for="nombreTarea">Nombre de la tarea</label>
+                                <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
+                                       placeholder="Nombre" class="form-control mb-3" />
+                                <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+
+                                <label for="descripcion">Descripcion de la tarea</label>
+                                <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
+                                          placeholder="Descripcion" class="form-control mb-3"></textarea>
+                                <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+
+                                <!-- Campos de fecha de inicio y finalización -->
+                                <label for="fechaInicio">Fecha de Inicio</label>
+                                <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
+                                       class="form-control mb-3" />
+                                <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+                                <label for="fechaFinalizacion">Fecha de Finalización</label>
+                                <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion" th:field="*{fechaFinalizacion}"
+                                       class="form-control mb-3" />
+                                <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+
+                                <!-- Agrego select para usuarios -->
+                                <label for="usuarios">Seleccionar Usuarios</label>
+                                <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                    <!-- Itera sobre la lista de usuarios -->
+                                    <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+                                <!-- Campo oculto para el estado -->
+                                <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+
+                                <select id="proyecto" name="proyectoId" class="form-select mb-3" >
+
+                                    <option label="Elije Proyecto" value="''"></option>
+
+                                    <option th:each="asociado : ${proyectos}"
+                                            th:text="${asociado.nombre}"
+                                            th:value="${asociado.id}"
+                                            th:field="*{proyecto}"
+                                            />
+                                </select>
+
+                                <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+                                   class="error-message" style="color: red; font-size: 0.9em;"></p>
+
+
+                                <button type="submit" class="btn btn-primary">Guardar tarea</button>
+                                <a th:href="@{/inicio}" class="btn btn-secondary">Volver</a>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </main>
+    </header>
+    <footer th:replace="/fragments/footer :: footer"></footer>
+</body>
+
+</html>

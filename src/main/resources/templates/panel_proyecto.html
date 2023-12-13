@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header-proyecto">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+
+            <div class="contenedor-tabla container">
+                <div class="contenedor-proyecto row">
+                    <h2>Listado de Proyectos</h2>
+                    <section id="proyectos-agente">
+
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Detalle</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Finalización</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="proyecto : ${proyectos}">
+                                <tr>
+                                    <th th:text="${proyecto.id}"></th>
+                                    <td th:text="${proyecto.nombre}"></td>
+                                    <td th:text="${proyecto.detalleProyecto}"></td>
+                                    <td th:text="${proyecto.fechaInicio}"></td>
+                                    <td th:text="${proyecto.fechaFinalizacion}"></td>
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/contactar/__${proyecto.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Contactar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/modificar/__${proyecto.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/proyecto/eliminar/__${proyecto.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class='row'>
+                    <!-- Sección para crear un nuevo proyecto (visible para el Agente) -->
+                    <section id="crear-proyecto" class='col align-self-center'>
+                        <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Crear nuevo Proyecto</a>
+                        <!-- Metodo get return formulario_proyecto.html -->
+                        <!-- Formulario para crear un nuevo proyecto -->
+                    </section>
+
+                    <!-- Sección para solicitar un proyecto (visible para el Cliente) -->
+                    <section id="solicitar-proyecto" class='col align-self-center'>
+                        <a href="#" class="btn">Solicitar nuevo Proyecto</a>
+                        <!-- Listado de Agentes disponibles y formulario de solicitud -->
+                    </section>
+
+                    <div class="btn-volver col align-self-center">
+                        <a th:href="@{/inicio}">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>
