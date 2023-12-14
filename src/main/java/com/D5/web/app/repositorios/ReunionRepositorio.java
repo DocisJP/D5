@@ -1,6 +1,6 @@
 package com.D5.web.app.repositorios;
 
-import com.D5.web.app.entidades.Proyecto;
+
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
