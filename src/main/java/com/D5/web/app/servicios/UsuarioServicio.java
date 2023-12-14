@@ -73,11 +73,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     public void modificar(Usuario usuario, MultipartFile archivo) throws MyException {
 
         Usuario existente = usuarioRepositorio.findById(usuario.getId())
@@ -163,7 +158,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email)throws UsernameNotFoundException {
         
     Usuario usuario = usuarioRepositorio.findByEmail(email);
     

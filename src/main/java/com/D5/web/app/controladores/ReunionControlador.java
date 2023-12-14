@@ -166,7 +166,7 @@ public class ReunionControlador {
         return "lista_reuniones";
     }
 
-    //Agregue post y get para las vistas falta la logica
+   
     @GetMapping("/modificar/{id}")
     public String modificarReunion(@PathVariable String id, Model model) {
         Reunion reunion = reunionServicio.buscarPorId(id);
