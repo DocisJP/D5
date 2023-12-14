@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-proyecto">
@@ -15,7 +16,6 @@
                 <div class="contenedor-proyecto-usuarios">
                     <h2>Agenda</h2>
                     <section id="lista-usuarios">
-
                         <table class="tabla">
                             <thead>
                                 <tr>
@@ -62,6 +62,7 @@
                     </section>
                     <div class='row'>
                         <a th:href="@{/inicio}" class="btn btn-primary" >Volver</a>
+
                     </div>
                 </div>
             </div>
@@ -70,3 +71,4 @@
         <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>
 </html>
+

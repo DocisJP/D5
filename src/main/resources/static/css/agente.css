@@ -23,6 +23,7 @@
 }
 
 .enlaces {
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -61,6 +62,7 @@
   border: 2px solid var(--oscuro);
   border-radius: 10px 30px;
 } */
+
 /*main*/
 
 .container {
@@ -121,8 +123,6 @@ p {
   padding: 1rem;
 }
 
-
-
 @media (max-width: 768px) {
   .checkbtn {
     display: block;
@@ -165,6 +165,7 @@ p {
   #check:checked ~ .enlaces {
     left: 0;
   }
+
   .proyecto , .reunion , .tarea{
       width: 90%;
       margin: 1rem;
@@ -181,7 +182,7 @@ p {
   background-size: cover;
   background-position: center bottom;
   opacity: 0.7;
-}
+
 .contenedor-form {
   display: flex;
   justify-content: center;
@@ -204,12 +205,13 @@ p {
   width: 30%;
   border-radius: 1rem;
   font-size: 1.5rem;
-}
+
 
 .buscador button {
   border-radius: 1rem;
   font-size: 1.5rem;
 }
+
 .btn-volver {
     margin-top: 20px;
     display: flex;
@@ -250,7 +252,6 @@ p {
   color: bisque;
   padding: 20px;
 }
-
 
 /*modelo*/
 .container-modelo{

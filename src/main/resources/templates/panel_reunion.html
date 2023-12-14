@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-proyecto">
             <nav class="navegacion" >
+
                 <!-- Logo -->
                 <a href="#" class="enlace">
                     <img src="/img/logo2.png" alt="" class="logo"/>
@@ -15,7 +17,6 @@
                 <div class="contenedor-proyecto row">
                     <h2>Listado de Reuniones</h2>    
                     <section id="proyectos-agente">
-
                         <table class="tabla">
                             <thead>
                                 <tr>
@@ -55,8 +56,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
                     </section>
                     <div class='row'>
                         <a th:href="@{/reunion/registrar}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="margin: 1rem" class="btn">Crear nueva Reunion</a>

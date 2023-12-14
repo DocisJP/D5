@@ -1,6 +1,7 @@
 package com.D5.web.app.servicios;
 
 import com.D5.web.app.entidades.Proyecto;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +10,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Reunion;
+import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.ReunionRepositorio;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 public class ReunionServicio {
@@ -41,6 +44,7 @@ public class ReunionServicio {
 
     @org.springframework.transaction.annotation.Transactional
     public Reunion modificar(Reunion algunaEntidad) {
+
         validar(algunaEntidad);
 
         return reunionRepositorio.saveAndFlush(algunaEntidad);
@@ -78,8 +82,7 @@ public class ReunionServicio {
 
     @Transactional
     public Boolean cambiarEstado(Reunion reunion) {
-        Reunion existente = reunionRepositorio.findById(reunion.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Reunión no encontrada"));
+        Reunion existente = reunionRepositorio.findById(reunion.getId()).orElseThrow(() -> new IllegalArgumentException("Reunion no encontrada"));
         existente.setEstado(!existente.getEstado());
         reunionRepositorio.save(existente);
         return existente.getEstado();
@@ -95,7 +98,7 @@ public class ReunionServicio {
     }
 
     public Map<String, Object> verDetalle(Reunion reunion) {
-        Map<String, Object> detalles = new HashMap<>();
+        Map<String, Object> detalles = new HashMap();
         detalles.put("nombre", reunion.getNombre());
         detalles.put("detalle", reunion.getDetalle());
         detalles.put("horarioDeInicio", reunion.getHorarioDeInicio());
@@ -106,6 +109,7 @@ public class ReunionServicio {
     }
 
     private void validar(Reunion reunion) {
+
         if (reunion.getNombre() == null || reunion.getNombre().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la reunión es obligatorio.");
         }

@@ -64,6 +64,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setRol(rol);
         usuario.setEstado(Boolean.FALSE);
 
+
         Imagen imagen = imagenServicio.guardar(archivo);
 
         usuario.setImagen(imagen);
@@ -73,7 +74,12 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public void modificar(Usuario usuario, MultipartFile archivo) throws MyException {
+
         Usuario existente = usuarioRepositorio.findById(usuario.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
@@ -84,7 +90,7 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-        
+
         if (archivo == null || archivo.isEmpty()) {
             existente.setImagen(usuario.getImagen());
         } else {
@@ -97,7 +103,6 @@ public class UsuarioServicio implements UserDetailsService {
         }else{
          throw new MyException("rol invalido");
         }
-        
 
         usuarioRepositorio.save(existente);
     }
@@ -116,7 +121,9 @@ public class UsuarioServicio implements UserDetailsService {
     }
  
     public Usuario buscarporEmail(String email) {
+
         return usuarioRepositorio.findByEmail(email);
+
     }
     
     public List<Usuario> buscarPorRol(Rol rol) {
@@ -130,7 +137,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
    public Usuario getOne(String id){
-  
+
         return usuarioRepositorio.getReferenceById(id);
     }
 
@@ -147,8 +154,7 @@ public class UsuarioServicio implements UserDetailsService {
 //     usuario.setProyectoLista(proyectos);
 //     usuarioRepositorio.save(usuario);
 //    }
-    
-    
+
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -162,6 +168,7 @@ public class UsuarioServicio implements UserDetailsService {
     Usuario usuario = usuarioRepositorio.findByEmail(email);
     
       if (usuario != null && usuario.getEstado().toString().equalsIgnoreCase("true")) {
+
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
@@ -178,7 +185,7 @@ public class UsuarioServicio implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
-    
+
     //carga la lista de usuarios
     
     @Transactional
@@ -215,3 +222,4 @@ public class UsuarioServicio implements UserDetailsService {
     
     }
 }
+

@@ -5,7 +5,6 @@
     <body>
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
-
             <div class="contain" sec:authorize ="isAuthenticated()">
 
                 <!--agrego aviso al admin que hay usuarios sin activar-->
@@ -21,8 +20,6 @@
 
                     </div>
                 </div>
-
-
                 <div class="container-saludo">
                     <h2 th:text="'Hola de vuelta '"></h2>
                     <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>

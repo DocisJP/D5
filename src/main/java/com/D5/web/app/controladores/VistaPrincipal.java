@@ -39,13 +39,14 @@ public class VistaPrincipal {
         //agrego la lista para que cargue los usuarios
          List<Usuario> usuarios = usuarioServicio.listaUsuarios();
         model.addAttribute("usuarios", usuarios);
+
         return "lista_usuarios.html";
         
     }
     
          @GetMapping("/panel")
     public String perfil(Model model){
-        
+
         return "panel_perfil.html";
         
     }
@@ -95,6 +96,7 @@ public class VistaPrincipal {
         return "login.html";
     }
     
+
        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
@@ -117,3 +119,4 @@ public class VistaPrincipal {
     }
 
 }
+

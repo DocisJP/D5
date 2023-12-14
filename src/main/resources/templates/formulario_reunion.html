@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <head th:replace="/fragments/head :: head">
+
     <body>
         <header class="contenedor-header-formulario">
             <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
@@ -10,7 +11,9 @@
                     <img src="/img/logo2.png" alt="" class="logo"/>
                 </a>
             </nav>
+
             <div th:replace="/fragments/modelo :: div"></div>
+
             <div class="contenedor-portada"></div>
 
             <main class="container mt-5 ">

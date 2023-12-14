@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
    <head th:replace = "/fragments/head :: head"></head>
 
     <body>
         <header class="contenedor-header">
               <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+
                 <!-- Logo -->
                 <a href="#" class="enlace">
                     <img src="/img/logo2.png" alt="" class="logo"/>
                 </a>
             </nav>
+
             <div class="container my-5">
                 <div class="detalle-proyecto card mx-auto">
                     <div class="bodyForm-registrar"  style="padding: 3rem">
                           <h2 class="mb-4">Detalle de la Tarea</h2>
+
 
                         <!-- Mensaje de éxito -->
                         <div th:if="${exito}" class="alert alert-success" role="alert">
@@ -32,10 +36,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+          </div>
 
     </header>
     <footer th:replace="/fragments/footer :: footer"></footer>
 </body>
 
 </html>
+
