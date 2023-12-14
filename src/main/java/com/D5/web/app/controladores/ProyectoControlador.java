@@ -89,6 +89,7 @@ public class ProyectoControlador {
     @GetMapping("/contactar/{id}")
     public String contactar(@PathVariable String id, ModelMap model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
+        System.out.println("Proyecto "+ proyecto.getNombre());
         List<Usuario> agentes = proyectoServicio.getAgentes(proyecto);
         model.addAttribute("proyecto", proyecto);
         model.addAttribute("agentes", agentes);

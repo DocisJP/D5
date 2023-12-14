@@ -14,9 +14,9 @@
             </nav>
 
             <div class="contenedor-tabla container">
-                <div class="contenedor-proyecto row">
-                    <section id="pendientes">
+                <div class="contenedor-proyecto row">                
                         <h2>Listado de Tareas</h2>
+                            <section id="pendientes">
                         <table class="tabla">
                             <thead>
                                 <tr>
@@ -52,8 +52,8 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        <span th:if="${tarea.estado}" th:text="'Completada'">Completada</span>
-                                        <span th:if="${!tarea.estado}" th:text="'Pendiente'">Pendiente</span>
+                                        <span th:if="${!tarea.estado}" th:text="'Completada'">Completada</span>
+                                        <span th:if="${tarea.estado}" th:text="'Pendiente'">Pendiente</span>
                                     </td>
                                     <td style="text-align: center">
                                         <a

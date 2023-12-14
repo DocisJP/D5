@@ -28,8 +28,8 @@
                         <p class="card-text"><strong>Descripción: </strong><span th:text="${tarea.descripcion}">Descripción de la Tarea</span></p>
                         <p class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha Inicio</span></p>
                         <p class="card-text"><strong>Fecha de Finalización: </strong><span th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></p>
-                        <p class="card-text"><strong>Estado: </strong><span th:if="${tarea.estado}"
-                                                                            th:text="'Completada'">Completada</span><span th:if="${!tarea.estado}"
+                        <p class="card-text"><strong>Estado: </strong><span th:if="${!tarea.estado}"
+                                                                            th:text="'Completada'">Completada</span><span th:if="${tarea.estado}"
                                                                             th:text="'Pendiente'">Pendiente</span></p>
                         <div style="padding-bottom: 5rem">
                             <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>

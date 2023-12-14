@@ -26,11 +26,11 @@
                                     <th>Nombre</th>
                                     <th>Detalle</th>
                                     <th>Fecha Inicio</th> 
-                                    <th>Fecha Finalización</th> 
+                                    <th>Fecha FinalizaciÃ³n</th> 
                                     <th>Estado</th> 
-                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th>   
-                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
-                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">Agentes</th>   
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">ModificaciÃ³n</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">EliminaciÃ³n</th>
                                 </tr>
                             </thead>
                             <tbody th:each="proyecto : ${proyectos}">
@@ -45,7 +45,7 @@
                                         <span th:if="${!proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
                                         <span th:if="${proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
                                     </td> 
-                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                    <td sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">
                                         <a
                                             class="modificar"
                                             th:href="@{/proyecto/contactar/__${proyecto.id}__}"

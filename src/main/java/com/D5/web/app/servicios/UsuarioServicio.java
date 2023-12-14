@@ -83,7 +83,8 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-
+        existente.setEstado(usuario.getEstado());
+        
         if (archivo == null || archivo.isEmpty()) {
             existente.setImagen(usuario.getImagen());
         } else {
@@ -202,12 +203,9 @@ public class UsuarioServicio implements UserDetailsService {
         for (Usuario usuario : usuarios) {
             
             if (usuario.getEstado().toString().equalsIgnoreCase("FALSE")) {
-                contador++;
-                
-            }
-            
-        }
-    
+                contador++;                
+            }            
+        }    
         return contador;
     
     }

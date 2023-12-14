@@ -49,7 +49,7 @@
                             <label for="agentes">Seleccionar Agente</label>
                             <select id="usuarios" name="usuario" class="form-select mb-3">
                                 <!-- Itera sobre la lista de agentes -->
-                                <option th:each="agente : ${agentes}" th:value="${agente.id}" th:text="${agente.nombre}">
+                                <option th:each="agente : ${agentes}" th:value="${agente.id}" th:text="${agente.nombre+ ' ' + agente.apellido}">
                                 <p th:text="${agente.id + ' - ' + agente.nombre}"></p>
                                 </option>
                             </select>

@@ -61,4 +61,18 @@ public class UsuarioControlador {
         }
         return "redirect:/perfil/panel/" + usuario.getId();
     }
+    
+      @GetMapping("/eliminar/{id}")
+    public String eliminarUsuario(@PathVariable String id, RedirectAttributes redirectAttrs) {
+        try {
+            Usuario usuario = usuarioServicio.buscarUsuario(id);
+
+            usuarioServicio.cambiarEstado(usuario); 
+
+            redirectAttrs.addFlashAttribute("exito", "Usuario eliminado con éxito");
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/lista";
+    }
 }
