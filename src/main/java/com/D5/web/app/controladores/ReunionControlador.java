@@ -9,21 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RequestParam; 
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Usuario;
-import com.D5.web.app.enumerador.Rol;
+import com.D5.web.app.entidades.Usuario; 
+import com.D5.web.app.enumerador.Rol; 
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
-import com.D5.web.app.servicios.UsuarioServicio;
-import java.util.ArrayList;
+import com.D5.web.app.servicios.UsuarioServicio; 
+import java.util.ArrayList; 
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.PathVariable; 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
 @Controller
 @RequestMapping("/reunion")
@@ -109,8 +108,8 @@ public class ReunionControlador {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeInicio,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
             @RequestParam String usuarioId,
-            @RequestParam String proyectoId,
-            ModelMap modelo, RedirectAttributes redirectAttrs
+            @RequestParam String proyectoId, 
+            ModelMap modelo, RedirectAttributes redirectAttrs 
     ) {
         Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
         Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
@@ -125,14 +124,14 @@ public class ReunionControlador {
                     usuarioEncargado,
                     proyectoAsociado);
 
-            if (reunionGuardada != null && reunionGuardada.getId() != null) {
-                redirectAttrs.addFlashAttribute("exito", "La reuniÃ³n fue creada con Ã©xito");
-                return "redirect:/reunion/detalle/" + reunionGuardada.getId();
+             if (reunionGuardada != null && reunionGuardada.getId() != null) {
+                redirectAttrs.addFlashAttribute("exito", "La reunión fue creada con éxito");
+               return "redirect:/reunion/detalle/" + reunionGuardada.getId();
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
                 modelo.addAttribute("error", "La reunion no pudo ser creada.");
 
-                return "formulario_reunion.html";
+                 return "formulario_reunion.html";
             }
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
@@ -214,6 +213,7 @@ public class ReunionControlador {
         reunionServicio.eliminar(reunionServicio.buscarPorId(id));
         return "redirect:/reunion/panel";
     }
+ 
 
     @GetMapping("/solicitar")
     public String solicitarReunion(Model model) {
@@ -234,5 +234,5 @@ public class ReunionControlador {
         model.addAttribute("proyectos", proyectos);
         return "solicitud_reunion.html";
     }
-    
+ 
 }

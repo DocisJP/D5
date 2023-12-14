@@ -25,7 +25,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Service
 public class UsuarioServicio implements UserDetailsService {
 
@@ -84,7 +83,7 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-        
+
         if (archivo == null || archivo.isEmpty()) {
             existente.setImagen(usuario.getImagen());
         } else {
@@ -92,33 +91,32 @@ public class UsuarioServicio implements UserDetailsService {
             existente.setImagen(imagen);
         }
 
-        if(usuario.getRol()!= null){
-           existente.setRol(usuario.getRol()); 
-        }else{
-         throw new MyException("rol invalido");
+        if (usuario.getRol() != null) {
+            existente.setRol(usuario.getRol());
+        } else {
+            throw new MyException("rol invalido");
         }
-        
 
         usuarioRepositorio.save(existente);
     }
- 
+
     public Usuario buscarUsuario(String id) {
 
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
-    
-  @Transactional
+
+    @Transactional
     public List<Usuario> listarUsuarios() {
 
         return usuarioRepositorio.findAll();
 
     }
- 
+
     public Usuario buscarporEmail(String email) {
         return usuarioRepositorio.findByEmail(email);
     }
-    
+
     public List<Usuario> buscarPorRol(Rol rol) {
         return usuarioRepositorio.findByRol(rol);
     }
@@ -178,18 +176,17 @@ public class UsuarioServicio implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
-    
+
     //carga la lista de usuarios
-    
     @Transactional
-    public List<Usuario> listaUsuarios(){
-        
+    public List<Usuario> listaUsuarios() {
+
         List<Usuario> usuarios = new ArrayList();
-    
+
         usuarios = usuarioRepositorio.findAll();
-        
+
         return usuarios;
-    
+
     }
     
     //agrego metodo para detectar si hay usuarios sin activar    

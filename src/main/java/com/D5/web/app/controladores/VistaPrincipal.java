@@ -1,6 +1,5 @@
 package com.D5.web.app.controladores;
 
-
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
@@ -95,7 +94,7 @@ public class VistaPrincipal {
         return "login.html";
     }
     
-       @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+       @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");

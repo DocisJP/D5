@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
  
-
+ 
 
 @Entity
 @Table(name = "proyecto")
@@ -25,10 +25,10 @@ public class Proyecto {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
-    
+    private String id; 
+
     private String nombre;
-        
+ 
     private String detalleProyecto;
 
     @Temporal(TemporalType.DATE)
@@ -52,8 +52,7 @@ public class Proyecto {
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     private List<Usuario> usuarios = new ArrayList<>();
-    
-    private Boolean estado;
+private Boolean estado;
 
 	public String getId() {
 		return id;
