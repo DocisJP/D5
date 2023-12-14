@@ -2,14 +2,14 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea; 
-import com.D5.web.app.entidades.Usuario; 
+import com.D5.web.app.entidades.Tarea;
+import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.servicios.EmailServicio;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
-import com.D5.web.app.servicios.UsuarioServicio; 
+import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
- 
 
 import java.util.List;
 
@@ -41,22 +41,23 @@ public class ProyectoControlador {
     @Autowired
     UsuarioServicio usuarioServicio;
 
+    @Autowired
+    private EmailServicio emailServicio;
+
     @GetMapping("/panel")
     public String panelControl(ModelMap model) {
         List<Proyecto> listado = proyectoServicio.listarProyectos();
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
- 
- 
+
     @GetMapping("/listaProyectos/{id}")
-    public String listaProyectos(@PathVariable String id,ModelMap model) {
+    public String listaProyectos(@PathVariable String id, ModelMap model) {
         List<Proyecto> listado = proyectoServicio.listarProyectosPorIdUsuario(id);
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
- 
- 
+
 //
 //    @GetMapping("/lista/tareas")
 //    public String listaTareas(ModelMap model) {
@@ -65,8 +66,6 @@ public class ProyectoControlador {
 //        model.addAttribute("tareas", listado);
 //        return "listado_tareas";
 //    }
- 
-
     @GetMapping("/reuniones/{id}")
     public String verListaReuniones(@PathVariable String id, ModelMap model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
@@ -74,8 +73,7 @@ public class ProyectoControlador {
         model.addAttribute("reuniones", listado);
         return "listado_reuniones";
     }
- 
-    
+
     @GetMapping("/contactar/{id}")
     public String contactar(@PathVariable String id, ModelMap model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
@@ -84,19 +82,16 @@ public class ProyectoControlador {
         model.addAttribute("agentes", agentes);
         return "panel_contacto_agente";
     }
-    
+
     @PostMapping("/contactar")
-    public String contactarAgente(HttpSession session,@ModelAttribute Proyecto proyecto,String titulo,String detalle,String idAgente, RedirectAttributes redirectAttrs) {
-        System.out.println(titulo);
-        System.out.println(detalle);
-        System.out.println(idAgente);
-        System.out.println(proyecto.getId());
+    public String contactarAgente(HttpSession session, @ModelAttribute Proyecto proyecto, String asunto, String mensaje, String idAgente, RedirectAttributes redirectAttrs, ModelMap modelo) {
+
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-         
-            return "redirect:/proyecto/listaProyectos/" + logueado.getId();
-         
+
+        emailServicio.enviarCorreo(proyecto,idAgente,logueado,asunto,mensaje);
+        return "redirect:/proyecto/listaProyectos/" + logueado.getId();
+
     }
- 
 
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
@@ -168,26 +163,27 @@ public class ProyectoControlador {
         }
         return "redirect:/proyecto/lista";
     }
-    
+
 
     /*Mock para probar una cosa...*/
     @GetMapping("/trabajo")
     public String trabajosDeProyecto(ModelMap modelo) {
-           List<Proyecto> proyectos = proyectoServicio.listarProyectos();
-           modelo.addAttribute("proyectos", proyectos);
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+        modelo.addAttribute("proyectos", proyectos);
         return "panel_trabajo_agente.html";
     }
+
     /*Mock para probar una cosa...*/
     @GetMapping("/buscar/{id}")
-    public String trabajosDeProyecto(ModelMap modelo, @PathVariable(required=false) String id) {
+    public String trabajosDeProyecto(ModelMap modelo, @PathVariable(required = false) String id) {
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         Proyecto proyectoElegido;
         if (id == null) {
-           proyectoElegido = new Proyecto();
+            proyectoElegido = new Proyecto();
         } else {
-           proyectoElegido = proyectoServicio.buscarPorId(id);
+            proyectoElegido = proyectoServicio.buscarPorId(id);
         }
-        
+
         List<Reunion> reuniones = reunionServicio.obtenerReunionesPorProyecto(id);
         List<Tarea> tareas = tareaServicio.obtenerTareasPorProyecto(id);
 
@@ -199,8 +195,8 @@ public class ProyectoControlador {
     }
 
     @PostMapping("/buscar")
-    public String trabajo(@RequestParam String proyectoId){
-    
+    public String trabajo(@RequestParam String proyectoId) {
+
         return "redirect:/proyecto/buscar/" + proyectoId;
     }
 }

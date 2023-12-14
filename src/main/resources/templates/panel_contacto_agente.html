@@ -44,56 +44,24 @@
                                         />
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1" class="form-label"
-                                           > Fecha de inicio</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="fechaInicio"
-                                        aria-describedby="emailHelp"
-                                        placeholder="fechaInicio"
-                                        name="fechaInicio"
-                                        th:field="*{fechaInicio}" 
-                                        th:readonly="${true}"
-                                        />
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="exampleInputPassword1" class="form-label"
-                                           >Fecha de finalizacion</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control" 
-                                        id="fechaFinalizacion"
-                                        placeholder="fechaFinalizacion"
-                                        name="fechaFinalizacion" 
-                                        th:field="*{fechaFinalizacion}" 
-                                        th:readonly="${true}"
-                                        />
-
-                                </div>
-                            </div>
+                             
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="titulo" class="form-label"
-                                           >titulo del mensaje</label
+                                           >Asunto</label
                                     >
                                     <input
                                         type="text"
                                         class="form-control" 
-                                        name="titulo"  
+                                        name="asunto"  
                                         />
                                 </div>
                                 <div class="col-md-6">
                                     <label for="detalle" class="form-label"
-                                           >detalle del mensaje</label
+                                           >Mensaje</label
                                     >
-                                     <textarea  class="form-control" type="text" id="detalle" name="detalle" rows="4" cols="50"></textarea>
+                                     <textarea  class="form-control" type="text"  name="mensaje" rows="4" cols="50"></textarea>
                                      
                                 </div>
                             </div>
@@ -105,7 +73,7 @@
 
                                         <option th:each="agente : ${agentes}"
                                                 th:value="${agente.id}"
-                                                th:text="${agente.nombre}"
+                                                th:text="${agente.nombre  + '    -    ' + agente.email}"
                                                 />
                                     </select>
                                 </div>
