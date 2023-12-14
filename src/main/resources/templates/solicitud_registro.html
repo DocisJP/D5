@@ -13,7 +13,7 @@
             <div class="contenedor-form-registrar">
                 <div class="bodyForm-registrar">
                     <h1>Ingresa tus Datos</h1>
-                    <form class="m-5" th:action= "@{/guardar}" method="POST" enctype="multipart/form-data">
+                    <form class="m-5" th:action= "@{/registro}" method="POST" enctype="multipart/form-data">
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="nombre" class="form-label" >Ingresa tu nombre</label>
@@ -145,12 +145,13 @@
                                 <label for="rol" class="form-label"
                                        >Ingresa el rol con el que quiere registrarse</label
                                 >
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Rol"
-                                    name="rol"                                    
-                                    />
+                                <select id='rol'  class="form-select" name="rol">
+                                    <option th:each="rol : ${roles}"
+                                            th:if="${rol.toString() != 'ADMIN'}"
+                                                        th:text="${rol}"
+                                                        th:value="${rol}"
+                                                        ></option>
+                                </select>
                             </div>
                         </div>
                         <div class="mensaje-index" style="margin-top: 3rem">

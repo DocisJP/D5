@@ -5,8 +5,24 @@
     <body>
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
+
             <div class="contain" sec:authorize ="isAuthenticated()">
+
+                <!--agrego aviso al admin que hay usuarios sin activar-->
+                <div sec:authorize = "hasAnyRole('ADMIN')" >
+                    <div class="container-modelo">
+                        <div th:if="${aviso != null}" class="aviso">
+                            <div class="card-body">  
+                                <h4 class="card-title">Aviso</h4>
+                                <p class="card-text" th:text="${aviso}"></p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
                 <div class="container-saludo">
                     <h2 th:text="'Hola de vuelta '"></h2>
                     <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>
