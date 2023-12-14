@@ -44,14 +44,14 @@ public class ProyectoControlador {
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
-
-    @GetMapping("/lista/tareas")
-    public String listaTareas(ModelMap model) {
-
-        List<Tarea> listado = tareaServicio.listarTareas();
-        model.addAttribute("tareas", listado);
-        return "listado_tareas";
-    }
+//
+//    @GetMapping("/lista/tareas")
+//    public String listaTareas(ModelMap model) {
+//
+//        List<Tarea> listado = tareaServicio.listarTareas();
+//        model.addAttribute("tareas", listado);
+//        return "listado_tareas";
+//    }
 
     @GetMapping("/reuniones/{id}")
     public String verListaReuniones(@PathVariable String id, ModelMap model) {
