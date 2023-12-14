@@ -8,6 +8,7 @@ import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -150,4 +151,25 @@ public class ProyectoServicio {
     	return proyectoRepositorio.findAll();
     }
 
+     @Transactional
+    public Integer Inactivos(){
+    
+        Integer contador =0;
+        
+         List<Proyecto> proyectos = new ArrayList();
+    
+        proyectos = proyectoRepositorio.findAll();
+        
+        for (Proyecto proyecto : proyectos) {
+            
+            if (proyecto.getEstado().toString().equalsIgnoreCase("FALSE")) {
+                contador++;
+                
+            }
+            
+        }
+    
+        return contador;
+    
+    }
 }

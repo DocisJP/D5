@@ -35,9 +35,11 @@
                                     <input type="date" class="form-control" id="fechaFinalizacion" th:field="*{fechaFinalizacion}">
                                 </div>
                             </div>
-                             <input type="hidden" th:field="*{estado}"/>
-                             
-                              <div class='row' style="margin-top: 3rem">
+                            <div  sec:authorize="hasAnyRole('ADMIN')">
+                            <input type="checkbox" th:field="*{estado}" th:checked="*{estado}"><span th:text="${proyecto.estado} ?'Baja':'Alta'"></span>
+                            </div>  
+                            
+                            <div class='row' style="margin-top: 3rem">
                                 <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>
                             </div>
                             <div class='row'>

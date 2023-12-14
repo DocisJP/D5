@@ -24,22 +24,19 @@
                                     <th>Detalle</th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th>Estado</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
                             </thead>
                             <tbody th:each="proyecto : ${proyectos}">
-                                <tr>
+                                 <tr>
                                     <th th:text="${proyecto.id}"></th>
                                     <td th:text="${proyecto.nombre}"></td>
                                     <td th:text="${proyecto.detalleProyecto}"></td>
                                     <td th:text="${proyecto.fechaInicio}"></td>
                                     <td th:text="${proyecto.fechaFinalizacion}"></td>
-                                    <td>
-                                        <span th:if="${proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
-                                        <span th:if="${!proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
-                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${proyecto.estado}">
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a
                                             class="modificar"
@@ -60,7 +57,7 @@
                     </section>
                     <div class='row'>
                         <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Crear nuevo Proyecto</a>
-                        <a href="#" class="btn">Solicitar nuevo Proyecto</a>                      
+                        <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('CLIENTE')">Solicitar nuevo Proyecto</a>                      
                     </div>
                     <div class="btn-volver col align-self-center">
                         <a th:href="@{/inicio}">Volver</a>
