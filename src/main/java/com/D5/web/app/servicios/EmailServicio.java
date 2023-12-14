@@ -40,4 +40,17 @@ public class EmailServicio {
 
         javaMailSender.send(mailMessage);
     }
+    
+    public void enviarCorreo(String contactoEmail, String contactomensaje) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        
+        contactomensaje = "Saludos \n\nSe recibio un nuevo mensaje de contacto a responder al email: " + contactoEmail 
+                + "\n\n ------------------------\n \n" + contactomensaje + "\n\n ------------------------\n \n  Att: FiveDesign";
+        
+        mailMessage.setTo("fivedesignmedia@gmail.com");
+        mailMessage.setSubject("nuevo mensaje de contacto");
+        mailMessage.setText(contactomensaje);
+
+        javaMailSender.send(mailMessage);
+    }
 }

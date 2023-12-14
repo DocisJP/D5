@@ -52,10 +52,10 @@
                             están preseleccionados para poder brindarle a nuestros clientes la
                             mejor experiencia.
                         </p>
-                       <!-- <div class="card-footer d-flex justify-content-center">
-                            <p class="btn btn-primary">Conocer a nuestros Agentes</p>
-                            Este listado solo debe mostrar nombre foto y profesion
-                        </div>-->
+                        <!-- <div class="card-footer d-flex justify-content-center">
+                             <p class="btn btn-primary">Conocer a nuestros Agentes</p>
+                             Este listado solo debe mostrar nombre foto y profesion
+                         </div>-->
                     </div>
                 </div>
                 <div class="card custom-card m-4" style="width: 18rem">
@@ -87,9 +87,9 @@
                         <h1>Contacto</h1>
                         <div class="form">
                             <div class="formLogin">
-                                <form class="m-5">
+                                <form class="m-5" th:action="@{/contactar}" method="POST">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label"
+                                        <label for="exampleInputEmail1"  class="form-label"
                                                >Ingresa tu E-mail
                                         </label>
                                         <input
@@ -98,6 +98,7 @@
                                             id="exampleInputEmail1"
                                             aria-describedby="emailHelp"
                                             placeholder="E-mail"
+                                            name="contactoEmail"
                                             />
                                         <div class="mb-3">
                                             <label for="nota" class="form-label"
@@ -105,8 +106,8 @@
                                             </label>
                                             <textarea
                                                 class="form-control"
-                                                id="nota"
-                                                name="mensaje"
+                                                id="mensaje"
+                                                name="contactoMensaje"
                                                 th:value="${mensaje}"
                                                 rows="4"
                                                 cols="50"
@@ -123,7 +124,7 @@
                 <div class="contacto" id="contacto">
                     <h5>Contactanos</h5>
                     <h5>Telefono: 11342274647</h5>
-                    <h5>Email: fiveDesign@gmail.com</h5>
+                    <h5>Email: fiveDesignMedia@gmail.com</h5>
                 </div>
             </div>
         </main>

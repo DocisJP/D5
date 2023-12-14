@@ -73,7 +73,7 @@ public class ProyectoControlador {
     @GetMapping("/participantes/{id}")
     public String listadosUsuariosProyecto(@PathVariable String id, ModelMap model) {
         Proyecto listado = proyectoServicio.buscarPorId(id);
-        List<Usuario> participantes = listado.getUsuarios();
+        List<Usuario> participantes = usuarioServicio.listaUsuarios();
         model.addAttribute("participantes", participantes);
         model.addAttribute("proyecto", listado);
         return "agregar_participantes";
@@ -254,7 +254,4 @@ public class ProyectoControlador {
         return "redirect:/proyecto/buscar/" + proyectoId;
     }
 
-   
-    
-    
 }
