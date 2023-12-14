@@ -16,5 +16,8 @@ public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
 
     @Query("SELECT p FROM Proyecto p  WHERE p.estado = :estado")
     public List<Proyecto> findByEstado(@Param("estado") Boolean estado);
+
+    @Query("SELECT p FROM Proyecto p JOIN p.usuarios u WHERE u.id = :id")
+    List<Proyecto> listarProyectosPorIdUsuario(@Param("id") String id);
  
 }

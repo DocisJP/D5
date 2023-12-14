@@ -33,10 +33,8 @@ public class Tarea {
 
     @NotBlank(message="Este campo debe ser llenado")
     private String descripcion;
-    
+
     private Boolean estado;
-
-
 
     @Future(message = "La fecha de iniciacion debe ser valida")
     @Temporal(TemporalType.TIMESTAMP)

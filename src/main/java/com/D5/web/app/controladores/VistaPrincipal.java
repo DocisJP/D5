@@ -96,7 +96,6 @@ public class VistaPrincipal {
         return "login.html";
     }
     
-
        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
@@ -108,15 +107,13 @@ public class VistaPrincipal {
         }
                return "principal.html";
     }
-    
 
-    
+
          @GetMapping("/solicitar")
     public String solicitarRegistro(Model model){
         model.addAttribute("roles", Rol.values());
         return "solicitud_registro.html";
         
-    }
-
+    } 
 }
 

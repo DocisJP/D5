@@ -42,8 +42,9 @@
                         </div>
                         <div class="backSide">
 
-                            <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p>
-                            <a class="botonLink" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
+                            <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p> 
+                            <a class="botonLink" th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
+ 
                             <!--metodo get return panel_proyecto.html-->
                         </div>                   
                     </div>

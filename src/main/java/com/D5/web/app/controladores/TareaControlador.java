@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam; 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 
 @Controller
 @RequestMapping("/tarea")
@@ -47,7 +47,7 @@ public class TareaControlador {
     @GetMapping("/registrar")
     public String formularioRegistrar(Model model) {
 
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios().stream().filter(usuario -> usuario.getRol().equals(Rol.AGENTE)).collect(Collectors.toList());;
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios().stream().filter(usuario -> usuario.getRol().equals(Rol.AGENTE)).collect(Collectors.toList());
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         model.addAttribute("tarea", new Tarea());
         model.addAttribute("usuarios", usuarios);
@@ -64,8 +64,8 @@ public class TareaControlador {
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaInicio,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date fechaFinalizacion,
             @RequestParam String usuarioId,
-            @RequestParam String proyectoId,
-            ModelMap modelo,RedirectAttributes redirectAttrs
+            @RequestParam String proyectoId, 
+            ModelMap modelo,RedirectAttributes redirectAttrs 
     ) {
         Usuario usuarioEncargado = usuarioServicio.buscarUsuario(usuarioId);
         Proyecto proyectoAsociado = proyectoServicio.buscarPorId(proyectoId);
@@ -85,6 +85,7 @@ public class TareaControlador {
                 redirectAttrs.addFlashAttribute("exito", "La tarea fue creada con Exito");
 
                 return "redirect:/tarea/detalle/" + tareaGuardada.getId();
+
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
                 modelo.addAttribute("error", "La tarea no pudo ser creada.");
