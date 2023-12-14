@@ -27,7 +27,7 @@
 
                         <div class="text-center mt-4" style="padding-bottom: 5rem">
                             <a th:href="@{/proyecto/modificar/__${proyecto.id}__}" class="btn btn-primary me-2">Modificar Proyecto</a>
-                            <a th:href="@{/proyecto/eliminar/__${proyecto.id}__}" class="btn btn-danger me-2">Eliminar Proyecto</a>
+                            <a sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/proyecto/eliminar/__${proyecto.id}__}" class="btn btn-danger me-2">Eliminar Proyecto</a>
                             <a href="/proyecto/lista" class="btn btn-secondary">Volver a la Lista</a>
                         </div>
                     </div>
