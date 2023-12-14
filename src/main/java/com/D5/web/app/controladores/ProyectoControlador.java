@@ -32,22 +32,20 @@ public class ProyectoControlador {
     @Autowired
     TareaServicio tareaServicio;
 
-
     @Autowired
     ReunionServicio reunionServicio;
 
     @Autowired
     ProyectoServicio proyectoServicio;
 
-    
-     @Autowired
+    @Autowired
     UsuarioServicio usuarioServicio;
 
     @Autowired
     private EmailServicio emailServicio;
 
     @GetMapping("/panel")
-    public String panelControl(ModelMap model){ 
+    public String panelControl(ModelMap model) {
 
         List<Proyecto> listado = proyectoServicio.listarProyectos();
         model.addAttribute("proyectos", listado);
@@ -69,6 +67,38 @@ public class ProyectoControlador {
         return "panel_proyecto.html";
     }
 
+    @GetMapping("/participantes/{id}")
+    public String listadosUsuariosProyecto(@PathVariable String id, ModelMap model) {
+        Proyecto listado = proyectoServicio.buscarPorId(id);
+        List<Usuario> participantes = listado.getUsuarios();
+        model.addAttribute("participantes", participantes);
+        model.addAttribute("proyecto", listado);
+        return "agregar_participantes";
+    }
+
+    @PostMapping("/participantes")
+    public String agregaUsuarioAproyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs, @RequestParam String usuarioId) {
+
+        try {
+            if (proyecto == null) {
+                redirectAttrs.addAttribute("error", "no hay proyecto hablitado");
+                return "redirect:/proyecto/lista";
+            }
+            Usuario usuario = usuarioServicio.getOne(usuarioId);
+            List<Usuario> listado = proyecto.getUsuarios();
+            listado.add(usuario);
+            proyecto.setUsuarios(listado);
+            redirectAttrs.addAttribute("proyecto", proyecto);
+            proyectoServicio.modificar(proyecto);
+
+            redirectAttrs.addAttribute("exito", "Usuario agregado");
+            return "redirect:/proyecto/participantes/" + proyecto.getId();
+        } catch (Exception e) {
+            redirectAttrs.addAttribute("proyecto", proyecto);
+            redirectAttrs.addAttribute("error", "Operación no válida");
+            return "agregar_participantes";
+        }
+    }
 //
 //    @GetMapping("/lista/tareas")
 //    public String listaTareas(ModelMap model) {
@@ -89,7 +119,7 @@ public class ProyectoControlador {
     @GetMapping("/contactar/{id}")
     public String contactar(@PathVariable String id, ModelMap model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
-        System.out.println("Proyecto "+ proyecto.getNombre());
+        System.out.println("Proyecto " + proyecto.getNombre());
         List<Usuario> agentes = proyectoServicio.getAgentes(proyecto);
         model.addAttribute("proyecto", proyecto);
         model.addAttribute("agentes", agentes);
@@ -101,7 +131,7 @@ public class ProyectoControlador {
 
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
 
-        emailServicio.enviarCorreo(proyecto,idAgente,logueado,asunto,mensaje);
+        emailServicio.enviarCorreo(proyecto, idAgente, logueado, asunto, mensaje);
         return "redirect:/proyecto/listaProyectos/" + logueado.getId();
 
     }
@@ -110,16 +140,15 @@ public class ProyectoControlador {
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("proyecto", new Proyecto());
 
-        return "formulario_proyecto.html"; 
+        return "formulario_proyecto.html";
     }
-
 
     @PostMapping("/registro")
     public String registrarProyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs) {
         System.out.print(redirectAttrs);
         System.out.print(proyecto);
 
-    	try {
+        try {
 
             Proyecto proyectoGuardado = proyectoServicio.crear(proyecto);
             redirectAttrs.addFlashAttribute("exito", "El proyecto fue creado con éxito");
@@ -135,9 +164,8 @@ public class ProyectoControlador {
         List<Proyecto> listado = proyectoServicio.listarProyectos();
         model.addAttribute("proyectos", listado);
         return "panel_proyecto";
-        
-    }
 
+    }
 
     @GetMapping("/detalle/{id}")
     public String mostrarDetalles(@PathVariable String id, Model model) {
@@ -147,7 +175,7 @@ public class ProyectoControlador {
         }
         model.addAttribute("proyecto", proyecto);
 
-        return "detalle_proyecto"; 
+        return "detalle_proyecto";
 
     }
 
@@ -165,7 +193,7 @@ public class ProyectoControlador {
     @PostMapping("/modificar")
     public String modificarProyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs) {
         try {
-            proyectoServicio.modificar(proyecto); 
+            proyectoServicio.modificar(proyecto);
 
             redirectAttrs.addFlashAttribute("exito", "Proyecto actualizado con éxito");
         } catch (Exception ex) {
@@ -178,7 +206,7 @@ public class ProyectoControlador {
     public String eliminarProyecto(@PathVariable String id, RedirectAttributes redirectAttrs) {
         try {
 
-            proyectoServicio.eliminarPorId(id); 
+            proyectoServicio.eliminarPorId(id);
 
             redirectAttrs.addFlashAttribute("exito", "Proyecto eliminado con éxito");
         } catch (Exception ex) {
