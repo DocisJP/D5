@@ -8,13 +8,14 @@
             
             <div class="contain" sec:authorize ="isAuthenticated()">
 
-                <!--agrego aviso al admin que hay usuarios sin activar-->
+               <!--agrego aviso al admin que hay usuarios sin activar-->
                 <div sec:authorize = "hasAnyRole('ADMIN')" >
                     <div class="container-modelo">
-                        <div th:if="${aviso != null}" class="aviso">
+                        <div th:if="${Aviso != null or Registro != null}" class="aviso">
                             <div class="card-body">  
                                 <h4 class="card-title">Aviso</h4>
-                                <p class="card-text" th:text="${aviso}"></p>
+                                <p class="card-text" th:text="${Aviso}"></p>
+                                <p class="card-text" th:text="${Registro}"></p>
                             </div>
                         </div>
 

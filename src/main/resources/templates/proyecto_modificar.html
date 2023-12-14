@@ -30,6 +30,7 @@
                                     <input type="date" class="form-control" id="fechaFinalizacion" th:field="*{fechaFinalizacion}">
                                 </div>
                             </div>
+<!--
                             <div class="row justify-content-evenly">
                                 <input type="hidden" th:field="*{estado}" value="true" sec:authorize="!hasAnyRole('ADMIN','AGENTE')">
                                 <div class='form-check col-md-6 mb-3' style="margin-top: 3rem" sec:authorize="hasAnyRole('ADMIN','AGENTE')">
@@ -38,6 +39,12 @@
                                     </label>
                                 </div>
                             </div>
+-->
+
+                            <div  sec:authorize="hasAnyRole('ADMIN')">
+                            <input type="checkbox" th:field="*{estado}" th:checked="*{estado}"><span th:text="${proyecto.estado} ?'Baja':'Alta'"></span>
+                            </div>  
+                            
 
                             <div class='row' style="margin-top: 3rem">
                                 <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>

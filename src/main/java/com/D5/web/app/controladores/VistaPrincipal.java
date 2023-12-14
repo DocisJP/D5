@@ -4,6 +4,7 @@ import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.EmailServicio;
+import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -31,6 +33,9 @@ public class VistaPrincipal {
     @Autowired
     EmailServicio emailServicio;
 
+    @Autowired
+    ProyectoServicio proyectoServicio;
+    
     @GetMapping("/")
     public String index() {
 
@@ -106,12 +111,18 @@ public class VistaPrincipal {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
         //agrego metodo para dar aviso al loguear el admin
         int contador = usuarioServicio.Inactivos();
+        int contador2 = proyectoServicio.Inactivos();
         if (contador > 0) {
-            modelo.put("aviso", "Hay usuarios sin registrar");       
+            modelo.put("Aviso", "Usuarios: " + contador);
+          
         }
-               return "principal.html";
+       if (contador2 > 0) {
+            modelo.put("Registro", "Proyectos: " + contador2);
+          
+        }
+        return "principal.html";
     }
-    
+  
 
     
          @GetMapping("/solicitar")
