@@ -164,9 +164,7 @@ public class ProyectoServicio {
         return agentes;
     }
 
- 
-
-
+    
      @Transactional
     public Integer Inactivos(){
     
@@ -181,10 +179,8 @@ public class ProyectoServicio {
             if (proyecto.getEstado().toString().equalsIgnoreCase("FALSE")) {
                 contador++;
                 
-            }
-            
-        }
-    
+            }            
+        }    
         return contador;
     
     }
