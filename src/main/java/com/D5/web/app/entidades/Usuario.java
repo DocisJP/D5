@@ -19,8 +19,7 @@ import jakarta.validation.constraints.Email;
 @Table(name="usuario")
 public class Usuario {
 	
-	//Esto es parte del formulario
-
+	
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -52,7 +51,7 @@ public class Usuario {
     
     private String empresa;
 	
-	//Esto no es parte del formulario
+	
 	private Boolean estado;
 
 	@Enumerated(EnumType.STRING)

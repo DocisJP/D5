@@ -5,12 +5,7 @@
 
     <body>
         <header class="contenedor-header-formulario">
-            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="/img/logo2.png" alt="" class="logo"/>
-                </a>
-            </nav>
+         <nav th:replace = "/fragments/navbar2 :: nav"></nav>
 
             <div th:replace="/fragments/modelo :: div"></div>
 
