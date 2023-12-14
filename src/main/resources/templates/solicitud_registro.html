@@ -3,12 +3,7 @@
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-formulario">
-            <nav class="navegacion">
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="img/logo2.png" alt="" class="logo" />
-                </a>
-            </nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
             <div class="contenedor-portada"></div>
             <div class="contenedor-form-registrar">
                 <div class="bodyForm-registrar">
