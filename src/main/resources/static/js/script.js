@@ -67,8 +67,10 @@ const months = [
   },
 ];*/
 
+
 const eventsArr = [
 ];
+
 getEvents();
 console.log(eventsArr);
 
@@ -476,10 +478,12 @@ eventsContainer.addEventListener("click", (e) => {
               event.events.splice(index, 1);
             }
           });
+
           //remueve el dia si no hay eventos del eventsArr
           if (event.events.length === 0) {
             eventsArr.splice(eventsArr.indexOf(event), 1);
             //remueve el event class de day
+
             const activeDayEl = document.querySelector(".day.active");
             if (activeDayEl.classList.contains("event")) {
               activeDayEl.classList.remove("event");

@@ -33,12 +33,10 @@ public class Tarea {
 
     @NotBlank(message="Este campo debe ser llenado")
     private String descripcion;
-    
-    
-    private Boolean estado = false;
 
+    private Boolean estado;
 
-    @Future(message = "La fecha de iniciación debe ser valida")
+    @Future(message = "La fecha de iniciacion debe ser valida")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaInicio;
@@ -48,8 +46,6 @@ public class Tarea {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaFinalizacion;
 
-    
-    // La tarea la toma el usuario AGENTE
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

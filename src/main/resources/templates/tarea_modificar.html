@@ -3,12 +3,7 @@
     <head th:replace="/fragments/head :: head">
     <body>
         <header class="contenedor-header-formulario">
-            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="/img/logo2.png" alt="" class="logo"/>
-                </a>
-            </nav>
+         <nav th:replace = "/fragments/navbar2 :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
             <div class="contenedor-portada"></div>
             <div class="container mt-5">
@@ -62,7 +57,7 @@
                             <!-- Campo oculto para el estado -->
                             <input type="hidden" name="estado" th:field="*{estado}" th:value="true" />
                             <input type="hidden" name="id" th:field="*{id}"  />
-
+                            
                             <div class='row'>
                                 <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>
                             </div>

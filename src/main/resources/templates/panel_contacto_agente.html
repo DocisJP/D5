@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+
+    <body>
+        <header class="contenedor-header-formulario">
+            <nav th:replace = "/fragments/navbar :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+
+            <div class="container mt-5 ">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 bodyForm-registrar">
+                        <h1>contactar Agente</h1>
+                        <form class="m-5" th:action= "@{/proyecto/contactar}" th:object="${proyecto}" method="POST" enctype="multipart/form-data">
+
+                            <input type="hidden" th:field="*{id}" name="id">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+
+                                    <label for="nombre" class="form-label" >Nombre</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Nombre"
+                                        id="nombre"
+                                        name="nombre"
+                                        th:field="*{nombre}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="detalle" class="form-label"
+                                           >Detalle</label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="detalle"
+                                        id="detalle"
+                                        name="detalle"
+                                        th:field="*{detalleProyecto}"
+                                        th:readonly="${true}"
+                                        />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="titulo" class="form-label"
+                                       >Asunto</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control" 
+                                    name="asunto"  
+                                    />
+                            </div> 
+                            <div class="col-md-6" style="margin: 2rem 0 1rem" >
+                                <select name="idAgente" style="border-radius: 1rem">
+
+                                    <option>Seleccionar agente</option>
+
+                                    <option th:each="agente : ${agentes}"
+                                            th:value="${agente.id}"
+                                            th:text="${agente.nombre  + '    -    ' + agente.email}"
+                                            />
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="detalle" class="form-label"
+                                       >Mensaje</label
+                                >
+                                <textarea  class="form-control" type="text"  name="mensaje" rows="4" cols="50"></textarea>
+
+                            </div>
+
+                            <div class="container-btn">
+                                <div class="row mb-3">
+
+                                    <button type="submit" class="btn btn-primary">
+                                        enviar
+                                    </button>
+                                </div>
+                                <div class="row">
+                                    <a href="/proyecto/lista" class="btn btn-primary">Volver a la Lista</a>
+                                </div>
+                            </div>
+
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+
+    </script>
+</body>
+</html>

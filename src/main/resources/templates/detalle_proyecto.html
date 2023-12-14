@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
        <head th:replace = "/fragments/head :: head"></head>
+
     <body>
         <header class="contenedor-header-formulario">
-            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="/img/logo2.png" alt="" class="logo"/>
-                </a>
-            </nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
             <main class="container my-5">
                 <div class="detalle-proyecto card mx-auto" style="max-width: 600px;">
+
                     <div class="bodyForm-registrar" style="padding: 0 3rem">
                           <h2 class="mb-4">Detalle del Proyecto</h2>
 
@@ -18,15 +16,17 @@
                         <div th:if="${exito}" class="alert alert-success" role="alert">
                             <p th:text="${exito}"></p>
                         </div>
+
                         <p class="card-text"><strong>Nombre:</strong> <span th:text="${proyecto.nombre}">Nombre del Proyecto</span></p>
                         <p class="card-text"><strong>Detalle:</strong> <span th:text="${proyecto.detalleProyecto}">Detalle del Proyecto</span></p>
                         <p class="card-text"><strong>Fecha de Inicio:</strong> <span th:text="${proyecto.fechaInicio}">Fecha de Inicio</span></p>
                         <p class="card-text"><strong>Fecha de Finalización:</strong> <span th:text="${proyecto.fechaFinalizacion}">Fecha de Finalización</span></p>
+                        <p class="card-text"><strong>Estado Actual:</strong> <span th:text="${proyecto.estado}?'En proceso':'Completado'">Estado</span></p>
                         <!-- Añade más detalles según necesites -->
 
                         <div class="text-center mt-4" style="padding-bottom: 5rem">
                             <a th:href="@{/proyecto/modificar/__${proyecto.id}__}" class="btn btn-primary me-2">Modificar Proyecto</a>
-                            <a th:href="@{/proyecto/eliminar/__${proyecto.id}__}" class="btn btn-danger me-2">Eliminar Proyecto</a>
+                            <a sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/proyecto/eliminar/__${proyecto.id}__}" class="btn btn-danger me-2">Eliminar Proyecto</a>
                             <a href="/proyecto/lista" class="btn btn-secondary">Volver a la Lista</a>
                         </div>
                     </div>

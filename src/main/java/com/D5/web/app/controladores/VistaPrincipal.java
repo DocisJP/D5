@@ -38,18 +38,19 @@ public class VistaPrincipal {
     public String lista(Model model){
         //agrego la lista para que cargue los usuarios
          List<Usuario> usuarios = usuarioServicio.listaUsuarios();
+         
         model.addAttribute("usuarios", usuarios);
+
         return "lista_usuarios.html";
         
     }
     
          @GetMapping("/panel")
     public String perfil(Model model){
-        
+
         return "panel_perfil.html";
         
     }
-    
     
     @GetMapping("/registrar")
     public String registrar(ModelMap model) {
@@ -96,19 +97,23 @@ public class VistaPrincipal {
         return "login.html";
     }
     
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+       @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(HttpSession session) {
+    public String inicio(HttpSession session, ModelMap modelo) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-       
-        return "principal.html";
+        //agrego metodo para dar aviso al loguear el admin
+        int contador = usuarioServicio.Inactivos();
+        if (contador > 0) {
+            modelo.put("aviso", "Hay usuarios sin registrar");       
+        }
+               return "principal.html";
     }
-  
-    
          @GetMapping("/solicitar")
     public String solicitarRegistro(Model model){
-        
+        model.addAttribute("roles", Rol.values());
         return "solicitud_registro.html";
         
     }
+
 }
+

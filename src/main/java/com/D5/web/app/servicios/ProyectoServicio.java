@@ -6,6 +6,8 @@ import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Rol;  
+import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
@@ -19,8 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProyectoServicio {
 
-	@Autowired
+    @Autowired
     private ProyectoRepositorio proyectoRepositorio;
+
 
 	public List<String> findEmpresasByProjectName(String projectName) {
 	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
@@ -64,7 +67,6 @@ public class ProyectoServicio {
         return proyectoRepositorio.save(existente);
     }
 
-
     private void actualizarReuniones(Proyecto existente, List<Reunion> nuevasReuniones) {
         existente.getListaReuniones().clear();
         if (nuevasReuniones != null) {
@@ -79,14 +81,12 @@ public class ProyectoServicio {
         }
     }
 
- 
     @Transactional
     public void eliminarPorId(String id) {
         proyectoRepositorio.findById(id)
-            .ifPresent(proyectoRepositorio::delete);
+                .ifPresent(proyectoRepositorio::delete);
     }
 
-    
     public Boolean cambiarEstado(Proyecto proyecto) {
         Proyecto existente = proyectoRepositorio.findById(proyecto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
@@ -95,44 +95,36 @@ public class ProyectoServicio {
         return existente.getEstado();
     }
 
-
     public void registrar(Proyecto proyecto) {
         proyectoRepositorio.save(proyecto);
     }
 
-    
     private void valida(Proyecto proyecto) {
         if (proyecto.getNombre() == null || proyecto.getNombre().isEmpty() || proyecto.getNombre().isBlank()) {
             throw new IllegalArgumentException("El nombre del proyecto es requerido");
         }
         if (proyecto.getDetalleProyecto() == null) {
-        	throw new IllegalArgumentException("El detalle del producto no puede ser nulo ");
+            throw new IllegalArgumentException("El detalle del producto no puede ser nulo ");
         }
         if (proyecto.getFechaInicio().before(Date.from(Instant.now())) || proyecto.getFechaInicio().equals(proyecto.getFechaFinalizacion())) {
-        	throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al día de hoy");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al d�a de hoy");
         }
         if (proyecto.getFechaInicio().after(proyecto.getFechaFinalizacion())) {
-        	throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalización");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalizaci�n");
         }
         if (proyecto.getFechaFinalizacion().before(proyecto.getFechaInicio())) {
-        	throw new IllegalArgumentException("Fecha de finalización no puede ser previa a la fecha de inicio");
+            throw new IllegalArgumentException("Fecha de finalizaci�n no puede ser previa a la fecha de inicio");
         }
     }
 
-    
-    
     public List<Proyecto> visualizar() {
         return proyectoRepositorio.findAll();
     }
 
-
-    
     public void verDetalle(Proyecto proyecto) {
         proyectoRepositorio.findById(proyecto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Proyecto no encontrado"));
     }
-    
-
 
     private void establecerRelaciones(Proyecto proyecto) {
         for (Reunion reunion : proyecto.getListaReuniones()) {
@@ -141,9 +133,9 @@ public class ProyectoServicio {
         for (Tarea tarea : proyecto.getTareas()) {
             tarea.setProyecto(proyecto);
         }
-        
+
     }
-    
+
     public Proyecto buscarPorId(String id) {
         Optional<Proyecto> resultado = proyectoRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -152,9 +144,25 @@ public class ProyectoServicio {
             throw new IllegalArgumentException("Proyecto no encontrado con el ID: " + id);
         }
     }
-    
-    public List<Proyecto> listarProyectos(){
-    	return proyectoRepositorio.findAll();
+
+    public List<Proyecto> listarProyectos() {
+        return proyectoRepositorio.findAll();
     }
+
+    public List<Proyecto> listarProyectosPorIdUsuario(String id) {
+        return proyectoRepositorio.listarProyectosPorIdUsuario(id);
+    }
+
+    public List<Usuario> getAgentes(Proyecto proyecto) {
+        List<Usuario> agentes = new ArrayList<>();
+        for (Usuario usuario : proyecto.getUsuarios()) {
+            if (usuario.getRol().equals(Rol.AGENTE)) {
+                agentes.add(usuario);
+            }
+        }
+        return agentes;
+    }
+
+ 
 
 }

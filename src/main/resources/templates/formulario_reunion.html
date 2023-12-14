@@ -2,15 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <head th:replace="/fragments/head :: head">
+
     <body>
         <header class="contenedor-header-formulario">
-            <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
-                <!-- Logo -->
-                <a href="#" class="enlace">
-                    <img src="/img/logo2.png" alt="" class="logo"/>
-                </a>
-            </nav>
+         <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+
             <div th:replace="/fragments/modelo :: div"></div>
+
             <div class="contenedor-portada"></div>
 
             <main class="container mt-5 ">
@@ -49,7 +47,7 @@
                             <label for="usuarios">Seleccionar Usuarios</label>
                             <select id="usuarios" name="usuarioId" class="form-select mb-3">
                                 <!-- Itera sobre la lista de usuarios -->
-                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre + ' ' + elegido.apellido}"></option>
                             </select>
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
