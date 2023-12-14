@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 @RequestMapping("/")
 @SessionAttributes("usuario")
@@ -29,7 +28,7 @@ public class VistaPrincipal {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-    
+
     @Autowired
     EmailServicio emailServicio;
 
@@ -42,33 +41,34 @@ public class VistaPrincipal {
         return "index.html";
     }
 
-       @GetMapping("/lista")
-    public String lista(Model model){
+    @PreAuthorize("hasAnyRole('AGENTE','ADMIN')")
+    @GetMapping("/lista")
+    public String lista(Model model) {
         //agrego la lista para que cargue los usuarios
-         List<Usuario> usuarios = usuarioServicio.listaUsuarios();
-         
+        List<Usuario> usuarios = usuarioServicio.listaUsuarios();
+
         model.addAttribute("usuarios", usuarios);
 
         return "lista_usuarios.html";
-        
+
     }
-    
-         @GetMapping("/panel")
-    public String perfil(Model model){
+
+    @GetMapping("/panel")
+    public String perfil(Model model) {
 
         return "panel_perfil.html";
-        
+
     }
-    
+
     @GetMapping("/registrar")
     public String registrar(ModelMap model) {
 
-         model.addAttribute("roles", Rol.values());
+        model.addAttribute("roles", Rol.values());
         return "registro.html";
     }
 
     @PostMapping("/registro")
-    public String registro(@RequestParam String nombre, 
+    public String registro(@RequestParam String nombre,
             @RequestParam String apellido,
             @RequestParam String email,
             @RequestParam String password,
@@ -77,11 +77,11 @@ public class VistaPrincipal {
             @RequestParam Long telefono,
             @RequestParam String direccion,
             @RequestParam(required = false) Rol rol,
-            @RequestParam String empresa,          
+            @RequestParam String empresa,
             MultipartFile archivo, ModelMap modelo) throws MyException {
 
         try {
-            usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion,rol,
+            usuarioServicio.agregarUsuario(nombre, apellido, email, password, password2, dni, telefono, direccion, rol,
                     empresa, archivo);
             return "index.html";
         } catch (MyException e) {
@@ -95,17 +95,17 @@ public class VistaPrincipal {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required=false) String error,ModelMap modelo){
-    
-        if(error != null){
-        
+    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
+
+        if (error != null) {
+
             modelo.put("error", "Usuario o Contraseña inválidos");
         }
-        
+
         return "login.html";
     }
-    
-       @PreAuthorize("hasAnyRole('ADMIN')")
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
@@ -113,29 +113,23 @@ public class VistaPrincipal {
         int contador = usuarioServicio.Inactivos();
         int contador2 = proyectoServicio.Inactivos();
         if (contador > 0) {
-            modelo.put("Aviso", "Usuarios: " + contador);
-          
-        }
-       if (contador2 > 0) {
-            modelo.put("Registro", "Proyectos: " + contador2);
-          
+
+            modelo.put("aviso", "Hay usuarios sin registrar");
         }
         return "principal.html";
     }
-  
 
-    
-         @GetMapping("/solicitar")
-    public String solicitarRegistro(Model model){
+    @GetMapping("/solicitar")
+    public String solicitarRegistro(Model model) {
         model.addAttribute("roles", Rol.values());
         return "solicitud_registro.html";
-        
+
     }
 
     @PostMapping("/contactar")
-    public String contactar(@RequestParam String contactoEmail,@RequestParam String contactoMensaje) {
-        
-        emailServicio.enviarCorreo(contactoEmail,contactoMensaje); 
+    public String contactar(@RequestParam String contactoEmail, @RequestParam String contactoMensaje) {
+
+        emailServicio.enviarCorreo(contactoEmail, contactoMensaje);
         return "index";
 
     }

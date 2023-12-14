@@ -72,35 +72,41 @@ public class ProyectoControlador {
 
     @GetMapping("/participantes/{id}")
     public String listadosUsuariosProyecto(@PathVariable String id, ModelMap model) {
-        Proyecto listado = proyectoServicio.buscarPorId(id);
+        Proyecto proyecto = proyectoServicio.buscarPorId(id);
+
+        List<Usuario> listaActual = proyecto.getUsuarios();
         List<Usuario> participantes = usuarioServicio.listaUsuarios();
+        model.addAttribute("listaActual", listaActual);
         model.addAttribute("participantes", participantes);
-        model.addAttribute("proyecto", listado);
+        model.addAttribute("proyecto", proyecto);
         return "agregar_participantes";
     }
 
     @PostMapping("/participantes")
-    public String agregaUsuarioAproyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs, @RequestParam String usuarioId) {
+    public String agregaUsuarioAproyecto(@RequestParam String proyectoId, @RequestParam String usuarioId, ModelMap modelo) {
+
+        Usuario usuario = usuarioServicio.getOne(usuarioId);
+        Proyecto proyecto = proyectoServicio.buscarPorId(proyectoId);
 
         try {
-            if (proyecto == null) {
-                redirectAttrs.addAttribute("error", "no hay proyecto hablitado");
-                return "redirect:/proyecto/lista";
-            }
-            Usuario usuario = usuarioServicio.getOne(usuarioId);
+
             List<Usuario> listado = proyecto.getUsuarios();
             listado.add(usuario);
             proyecto.setUsuarios(listado);
-            redirectAttrs.addAttribute("proyecto", proyecto);
+            modelo.addAttribute("proyecto", proyecto);
             proyectoServicio.modificar(proyecto);
 
-            redirectAttrs.addAttribute("exito", "Usuario agregado");
-            return "redirect:/proyecto/participantes/" + proyecto.getId();
+            modelo.addAttribute("exito", "Usuario agregado");
+
         } catch (Exception e) {
-            redirectAttrs.addAttribute("proyecto", proyecto);
-            redirectAttrs.addAttribute("error", "Operación no válida");
+        List<Usuario> listaActual = proyecto.getUsuarios();
+        List<Usuario> participantes = usuarioServicio.listaUsuarios();
+        modelo.addAttribute("listaActual", listaActual);
+        modelo.addAttribute("participantes", participantes);
+        modelo.addAttribute("proyecto", proyecto);
             return "agregar_participantes";
         }
+        return "redirect:/proyecto/participantes/" + proyecto.getId();
     }
 //
 //    @GetMapping("/lista/tareas")
