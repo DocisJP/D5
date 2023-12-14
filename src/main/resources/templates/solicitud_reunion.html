@@ -13,7 +13,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
                         <h2 class="text-center mb-5">Solicitar una reunion</h2>
-                        <form th:action="@{/reunion/solicitar}" method="post" th:object="${reunion}" class="form-group">
+                        <form th:action="@{/reunion/registro}" method="post" th:object="${reunion}" class="form-group">
                             <!-- Campos del formulario -->
                             <label for="nombre">Nombre de la reunion</label>
                             <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}"
@@ -50,7 +50,7 @@
                             </select>
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message" style="color: red; font-size: 0.9em;"></p>
                             <!-- Campo oculto para el estado -->
-                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="false" />
 
                             <select id="proyecto" name="proyectoId" class="form-select mb-3" >
 

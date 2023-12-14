@@ -2,13 +2,11 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam; 
@@ -127,7 +125,7 @@ public class ReunionControlador {
                     proyectoAsociado);
 
              if (reunionGuardada != null && reunionGuardada.getId() != null) {
-                redirectAttrs.addFlashAttribute("exito", "La reunión fue creada con éxito");
+                redirectAttrs.addFlashAttribute("exito", "La reuniÃ³n fue creada con Ã©xito");
                return "redirect:/reunion/detalle/" + reunionGuardada.getId();
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
