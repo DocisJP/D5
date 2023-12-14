@@ -5,11 +5,38 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Agregar Participantes</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div th:replace = "/fragments/modelo :: div"></div>
+        <main>
+            <section> 
+                <h1>Lista participantes</h1>
+                <div>
+                    <ul th:each="usuarioLista : ${listaActual}">
+                        <li  th:text="${usuarioLista.nombre}">
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h1>Agrega participantes</h1>
+                <div>   
+                    <form th:action="@{/proyecto/participantes}" method="post">
+                        <input type="hidden" name="proyectoId" th:value="${proyecto.id}">
+                        <select name="usuarioId">
+                            <option th:each="elegido : ${participantes}"
+                                    th:text="${elegido.nombre +' '+ elegido.apellido}"
+                                    th:value="${elegido.id}">
+                                Opciones
+                            </option>
+                        </select>
+                        <button type="submit">Agregar</button>
+                    </form>
+                </div>
+            </section>    
+        </main>
     </body>
 </html>
