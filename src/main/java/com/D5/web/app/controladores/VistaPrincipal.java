@@ -4,6 +4,7 @@ package com.D5.web.app.controladores;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
+import com.D5.web.app.servicios.EmailServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -27,6 +28,9 @@ public class VistaPrincipal {
 
     @Autowired
     UsuarioServicio usuarioServicio;
+    
+    @Autowired
+    EmailServicio emailServicio;
 
     @GetMapping("/")
     public String index() {
@@ -115,5 +119,12 @@ public class VistaPrincipal {
         
     }
 
+    @PostMapping("/contactar")
+    public String contactar(@RequestParam String contactoEmail,@RequestParam String contactoMensaje) {
+        
+        emailServicio.enviarCorreo(contactoEmail,contactoMensaje); 
+        return "index";
+
+    }
 }
 
