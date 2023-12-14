@@ -636,3 +636,11 @@ a.eliminar {
     text-align: center;
     padding-bottom: 5rem;
 }
+
+/*agrego estilo para aviso*/ 
+
+.aviso{
+    background-color: red;
+    width: 40%;
+    border-color: black;
+}

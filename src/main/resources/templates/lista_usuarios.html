@@ -15,7 +15,7 @@
                 <div class="contenedor-proyecto-usuarios">
                     <h2>Agenda</h2>
                     <section id="lista-usuarios">
-                        
+
                         <table class="tabla">
                             <thead>
                                 <tr>
@@ -24,6 +24,9 @@
                                     <th>Email</th>
                                     <th>Telefono</th>
                                     <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
+                                    
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
@@ -35,6 +38,10 @@
                                     <td th:text="${usuario.email}"></td>
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
+                                    
+                                     <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
                                             class="modificar"
@@ -63,4 +70,3 @@
         <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>
 </html>
-

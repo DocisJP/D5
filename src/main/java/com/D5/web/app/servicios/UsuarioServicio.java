@@ -191,4 +191,27 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
     
     }
+    
+    //agrego metodo para detectar si hay usuarios sin activar    
+    @Transactional
+    public Integer Inactivos(){
+    
+        Integer contador =0;
+        
+         List<Usuario> usuarios = new ArrayList();
+    
+        usuarios = usuarioRepositorio.findAll();
+        
+        for (Usuario usuario : usuarios) {
+            
+            if (usuario.getEstado().toString().equalsIgnoreCase("FALSE")) {
+                contador++;
+                
+            }
+            
+        }
+    
+        return contador;
+    
+    }
 }
