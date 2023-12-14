@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
+import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,12 @@ public class ProyectoServicio {
 	@Autowired
     private ProyectoRepositorio proyectoRepositorio;
 
+	public List<String> findEmpresasByProjectName(String projectName) {
+	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
+	}
 
+    
+   
 	
 	@Transactional
 	public Proyecto crear(Proyecto proyecto) {
