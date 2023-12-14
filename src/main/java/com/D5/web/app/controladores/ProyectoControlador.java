@@ -46,6 +46,7 @@ public class ProyectoControlador {
     @Autowired
     private EmailServicio emailServicio;
 
+    
     @GetMapping("/panel")
     public String panelControl(ModelMap model){ 
 
