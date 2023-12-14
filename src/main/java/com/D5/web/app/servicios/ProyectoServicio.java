@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,21 +24,31 @@ public class ProyectoServicio {
     @Autowired
     private ProyectoRepositorio proyectoRepositorio;
 
-    @Transactional
-    public Proyecto crear(Proyecto proyecto) {
-        try {
-            if (proyecto.getEstado() == null) {
-                proyecto.setEstado(true);
-            }
-            valida(proyecto);
-            establecerRelaciones(proyecto);
-            return proyectoRepositorio.save(proyecto);
-        } catch (ValidationException e) {
-            throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
-        } catch (Exception e) {
-            throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
-        }
-    }
+
+	public List<String> findEmpresasByProjectName(String projectName) {
+	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
+	}
+
+    
+   
+	
+	@Transactional
+	public Proyecto crear(Proyecto proyecto) {
+	    try {
+	    	if(proyecto.getEstado()==null)
+	    	{
+	    		proyecto.setEstado(true);
+	    	}
+	        valida(proyecto); 
+	        establecerRelaciones(proyecto); 
+	        return proyectoRepositorio.save(proyecto);
+	    } catch (ValidationException e) {
+	        throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
+	    } catch (Exception e) {
+	        throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
+	    }
+	}
+ 
 
     @Transactional
     public Proyecto modificar(Proyecto proyecto) {
