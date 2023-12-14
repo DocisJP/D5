@@ -20,6 +20,7 @@
 
                         <form class="form-group" th:action="@{/reunion/modificar}" th:object="${reunion}" method="POST">
                             <!-- Campos del formulario -->
+                            <input hidden th:value="${id}" name="id">
                             <label for="nombre">Nombre de la reunion</label>
                             <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}"
                                    placeholder="Nombre" class="form-control mb-3" />

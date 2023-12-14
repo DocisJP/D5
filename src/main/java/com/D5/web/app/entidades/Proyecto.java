@@ -49,10 +49,10 @@ public class Proyecto {
     @JoinTable(
             name = "proyecto_usuarios",
             joinColumns = @JoinColumn(name = "proyecto_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
     private List<Usuario> usuarios = new ArrayList<>();
-private Boolean estado;
+    
+    private Boolean estado;
 
 	public String getId() {
 		return id;

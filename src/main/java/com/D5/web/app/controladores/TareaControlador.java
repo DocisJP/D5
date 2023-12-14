@@ -11,13 +11,13 @@ import com.D5.web.app.servicios.UsuarioServicio;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +46,8 @@ public class TareaControlador {
     // Muestra el formulario para agregar una nueva tarea
     @GetMapping("/registrar")
     public String formularioRegistrar(Model model) {
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios().stream().filter(usuario -> usuario.getRol().equals(Rol.AGENTE)).collect(Collectors.toList());;
+
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios().stream().filter(usuario -> usuario.getRol().equals(Rol.AGENTE)).collect(Collectors.toList());
         List<Proyecto> proyectos = proyectoServicio.listarProyectos();
         model.addAttribute("tarea", new Tarea());
         model.addAttribute("usuarios", usuarios);
@@ -79,9 +80,12 @@ public class TareaControlador {
                     usuarioEncargado,
                     proyectoAsociado);
 
-             if (tareaGuardada != null && tareaGuardada.getId() != null) {
-                redirectAttrs.addFlashAttribute("exito", "La tarea fue creada con éxito");
-               return "redirect:/tarea/detalle/" + tareaGuardada.getId();
+            if (tareaGuardada != null && tareaGuardada.getId() != null) {
+                
+                redirectAttrs.addFlashAttribute("exito", "La tarea fue creada con Exito");
+
+                return "redirect:/tarea/detalle/" + tareaGuardada.getId();
+
             } else {
                 // Manejar el caso de que tareaGuardada sea nula o no tenga ID
                 modelo.addAttribute("error", "La tarea no pudo ser creada.");
@@ -90,6 +94,7 @@ public class TareaControlador {
             }
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
+
             return "formulario_tarea";
         }
     }
@@ -159,3 +164,4 @@ public class TareaControlador {
         return "redirect:/tarea/panel";
     }
 }
+

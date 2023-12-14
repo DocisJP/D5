@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-proyecto">
                 <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
+
                 <!-- Logo -->
                 <a href="#" class="enlace">
                     <img src="/img/logo2.png" alt="" class="logo"/>
                 </a>
             </nav>
+
             <div th:replace = "/fragments/modelo :: div"></div>
 
             <div class="contenedor-tabla container">
@@ -25,7 +28,7 @@
                                     <th>Fecha Inicio</th> 
                                     <th>Fecha Finalización</th> 
                                     <th>Estado</th> 
-                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th>   
+                                    <th sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">Agentes</th>   
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
@@ -38,17 +41,17 @@
                                     <td th:text="${proyecto.fechaInicio}"></td> 
                                     <td th:text="${proyecto.fechaFinalizacion}"></td> 
                                     <td>
-                                        <span th:if="${proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
-                                        <span th:if="${!proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
+
+                                        <span th:if="${!proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
+                                        <span th:if="${proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
                                     </td> 
-                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                    <td sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">
                                         <a
                                             class="modificar"
                                             th:href="@{/proyecto/contactar/__${proyecto.id}__}"
                                             ><i class="bi bi-person-square"></i> Contactar</a
                                         >
                                     </td>  
-                                    
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a
                                             class="modificar"

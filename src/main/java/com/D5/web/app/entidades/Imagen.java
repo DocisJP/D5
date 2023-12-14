@@ -14,6 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "imagen")
 public class Imagen {
 
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")

@@ -32,23 +32,34 @@ public class ProyectoControlador {
     @Autowired
     TareaServicio tareaServicio;
 
+
     @Autowired
     ReunionServicio reunionServicio;
 
     @Autowired
     ProyectoServicio proyectoServicio;
 
-    @Autowired
+    
+     @Autowired
     UsuarioServicio usuarioServicio;
 
     @Autowired
     private EmailServicio emailServicio;
 
     @GetMapping("/panel")
-    public String panelControl(ModelMap model) {
+    public String panelControl(ModelMap model){ 
+
         List<Proyecto> listado = proyectoServicio.listarProyectos();
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
+    }
+
+    @GetMapping("/lista/tareas")
+    public String listaTareas(ModelMap model) {
+
+        List<Tarea> listado = tareaServicio.listarTareas();
+        model.addAttribute("tareas", listado);
+        return "listado_tareas";
     }
 
     @GetMapping("/listaProyectos/{id}")
@@ -66,6 +77,7 @@ public class ProyectoControlador {
 //        model.addAttribute("tareas", listado);
 //        return "listado_tareas";
 //    }
+
     @GetMapping("/reuniones/{id}")
     public String verListaReuniones(@PathVariable String id, ModelMap model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
@@ -77,6 +89,7 @@ public class ProyectoControlador {
     @GetMapping("/contactar/{id}")
     public String contactar(@PathVariable String id, ModelMap model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
+        System.out.println("Proyecto "+ proyecto.getNombre());
         List<Usuario> agentes = proyectoServicio.getAgentes(proyecto);
         model.addAttribute("proyecto", proyecto);
         model.addAttribute("agentes", agentes);
@@ -96,14 +109,18 @@ public class ProyectoControlador {
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("proyecto", new Proyecto());
-        return "formulario_proyecto.html";
+
+        return "formulario_proyecto.html"; 
     }
+
 
     @PostMapping("/registro")
     public String registrarProyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs) {
         System.out.print(redirectAttrs);
         System.out.print(proyecto);
-        try {
+
+    	try {
+
             Proyecto proyectoGuardado = proyectoServicio.crear(proyecto);
             redirectAttrs.addFlashAttribute("exito", "El proyecto fue creado con éxito");
             return "redirect:/proyecto/detalle/" + proyectoGuardado.getId();
@@ -118,8 +135,9 @@ public class ProyectoControlador {
         List<Proyecto> listado = proyectoServicio.listarProyectos();
         model.addAttribute("proyectos", listado);
         return "panel_proyecto";
-
+        
     }
+
 
     @GetMapping("/detalle/{id}")
     public String mostrarDetalles(@PathVariable String id, Model model) {
@@ -128,7 +146,9 @@ public class ProyectoControlador {
             return "redirect:/proyecto/lista";
         }
         model.addAttribute("proyecto", proyecto);
-        return "detalle_proyecto";
+
+        return "detalle_proyecto"; 
+
     }
 
     @GetMapping("/modificar/{id}")
@@ -145,7 +165,8 @@ public class ProyectoControlador {
     @PostMapping("/modificar")
     public String modificarProyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs) {
         try {
-            proyectoServicio.modificar(proyecto);
+            proyectoServicio.modificar(proyecto); 
+
             redirectAttrs.addFlashAttribute("exito", "Proyecto actualizado con éxito");
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
@@ -156,7 +177,9 @@ public class ProyectoControlador {
     @GetMapping("/eliminar/{id}")
     public String eliminarProyecto(@PathVariable String id, RedirectAttributes redirectAttrs) {
         try {
-            proyectoServicio.eliminarPorId(id);
+
+            proyectoServicio.eliminarPorId(id); 
+
             redirectAttrs.addFlashAttribute("exito", "Proyecto eliminado con éxito");
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());

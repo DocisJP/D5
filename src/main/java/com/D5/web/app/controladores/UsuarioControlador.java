@@ -44,16 +44,35 @@ public class UsuarioControlador {
 
     @PostMapping("/modificar")
     public String modificarPerfil(@ModelAttribute("usuario") Usuario usuario, MultipartFile archivo, RedirectAttributes redirectAttrs) {
-        System.out.println(usuario.getId());
-        System.out.println(usuario.getNombre()); 
+
+ 
         try {
             
-            usuarioServicio.modificar(usuario,archivo);
+            if (archivo != null &&  !archivo.isEmpty()) {
+                Imagen imagen = imagenServicio.guardar(archivo);
+                usuario.setImagen(imagen); 
+            }  
+            usuarioServicio.modificar(usuario, archivo);
+
             redirectAttrs.addFlashAttribute("exito", "Usuario actualizado con éxito");
             return "redirect:/perfil/panel/" + usuario.getId();
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
         }
         return "redirect:/perfil/panel/" + usuario.getId();
+    }
+    
+      @GetMapping("/eliminar/{id}")
+    public String eliminarUsuario(@PathVariable String id, RedirectAttributes redirectAttrs) {
+        try {
+            Usuario usuario = usuarioServicio.buscarUsuario(id);
+
+            usuarioServicio.cambiarEstado(usuario); 
+
+            redirectAttrs.addFlashAttribute("exito", "Usuario eliminado con éxito");
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
+        }
+        return "redirect:/lista";
     }
 }

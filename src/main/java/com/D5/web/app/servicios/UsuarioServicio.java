@@ -71,8 +71,8 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    @Transactional
     public void modificar(Usuario usuario, MultipartFile archivo) throws MyException {
+
         Usuario existente = usuarioRepositorio.findById(usuario.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
@@ -83,7 +83,8 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setDireccion(usuario.getDireccion());
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
-
+        existente.setEstado(usuario.getEstado());
+        
         if (archivo == null || archivo.isEmpty()) {
             existente.setImagen(usuario.getImagen());
         } else {
@@ -114,7 +115,9 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public Usuario buscarporEmail(String email) {
+
         return usuarioRepositorio.findByEmail(email);
+
     }
 
     public List<Usuario> buscarPorRol(Rol rol) {
@@ -128,7 +131,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
    public Usuario getOne(String id){
-  
         return usuarioRepositorio.getReferenceById(id);
     }
 
@@ -145,8 +147,7 @@ public class UsuarioServicio implements UserDetailsService {
 //     usuario.setProyectoLista(proyectos);
 //     usuarioRepositorio.save(usuario);
 //    }
-    
-    
+
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -202,13 +203,11 @@ public class UsuarioServicio implements UserDetailsService {
         for (Usuario usuario : usuarios) {
             
             if (usuario.getEstado().toString().equalsIgnoreCase("FALSE")) {
-                contador++;
-                
-            }
-            
-        }
-    
+                contador++;                
+            }            
+        }    
         return contador;
     
     }
 }
+

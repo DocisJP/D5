@@ -2,11 +2,13 @@ package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam; 
@@ -53,6 +55,7 @@ public class ReunionControlador {
         model.addAttribute("reunion", reunion);
         return "calendario_reuniones.html";
     }
+
 //    @GetMapping("/registro")
 //    public String mostrarFormularioRegistro(Model model) {
 //        model.addAttribute("reunion", new Reunion());
@@ -87,7 +90,6 @@ public class ReunionControlador {
 //        }
 //    }
 ///Probando plan b
-    // Muestra el formulario para agregar una nueva tarea
 
     @GetMapping("/registrar")
     public String formularioReunion(Model model) {
@@ -133,8 +135,10 @@ public class ReunionControlador {
 
                  return "formulario_reunion.html";
             }
+
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
+
             return "formulario_reunion.html";
         }
     }
@@ -157,7 +161,7 @@ public class ReunionControlador {
         return "lista_reuniones";
     }
 
-    //Agregue post y get para las vistas falta la logica
+   
     @GetMapping("/modificar/{id}")
     public String modificarReunion(@PathVariable String id, Model model) {
         Reunion reunion = reunionServicio.buscarPorId(id);
@@ -208,6 +212,7 @@ public class ReunionControlador {
         return "redirect:/reunion/panel";
     }
 
+
     @GetMapping("/eliminar/{id}")
     public String eliminarReunion(@PathVariable String id) {
         reunionServicio.eliminar(reunionServicio.buscarPorId(id));
@@ -215,11 +220,12 @@ public class ReunionControlador {
     }
  
 
+
     @GetMapping("/solicitar")
     public String solicitarReunion(Model model) {
 
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        List<Usuario> agentes = new ArrayList<>();
+        List<Usuario> agentes = new ArrayList();
         for (Usuario usuario : usuarios) {
             Rol rolUsuario = usuario.getRol();
             System.out.println("USUARIO: " + usuario.getNombre() + " - ROL: [" + rolUsuario + "]");
@@ -236,3 +242,4 @@ public class ReunionControlador {
     }
  
 }
+

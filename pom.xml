@@ -11,8 +11,8 @@
     </parent>
     <groupId>com.d5.springboot.app</groupId>
     <artifactId>D5</artifactId>
-    <version>0.0.1-SNAPSHOT</version> 
-    <name>D5-ramaSaul</name> 
+    <version>0.0.1-SNAPSHOT</version>
+    <name>D5-version4.0</name>
     <description>Pagina web para facilitar el trabajo en empresas de Publicidad</description>
     <properties>
         <java.version>17</java.version>

@@ -11,8 +11,11 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
 
-    @Query("SELECT p FROM Proyecto p WHERE p.estado = :estado")
-    List<Proyecto> findByEstado(@Param("estado") Boolean estado);
+    @Query("SELECT p FROM Proyecto p JOIN p.usuarios u WHERE u.email = :email")
+    public List<Proyecto> findProyectoByUsuario(@Param("email") String email);
+
+    @Query("SELECT p FROM Proyecto p  WHERE p.estado = :estado")
+    public List<Proyecto> findByEstado(@Param("estado") Boolean estado);
 
     @Query("SELECT p FROM Proyecto p JOIN p.usuarios u WHERE u.id = :id")
     List<Proyecto> listarProyectosPorIdUsuario(@Param("id") String id);

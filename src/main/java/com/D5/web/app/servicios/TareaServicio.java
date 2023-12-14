@@ -42,6 +42,7 @@ public class TareaServicio {
 
     @Transactional
     public Tarea modificar(Tarea algunaEntidad) {
+
         return tareaRepositorio.saveAndFlush(algunaEntidad);
     }
 
@@ -72,7 +73,7 @@ public class TareaServicio {
             throw new IllegalArgumentException("Tarea no encontrada con el ID: " + id);
         }
     }
-
+    
     public List<Tarea> buscarPorProyectoId(String id) {
         List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
         if (!resultado.isEmpty()) {
@@ -98,7 +99,7 @@ public class TareaServicio {
     }
 
     public Map<String, Object> verDetalle(Tarea tarea) {
-        Map<String, Object> detalles = new HashMap<>();
+        Map<String, Object> detalles = new HashMap();
         detalles.put("nombre", tarea.getDescripcion());
         detalles.put("detalle", tarea.getEstado());
         detalles.put("horarioDeInicio", tarea.getNombreTarea());
@@ -123,3 +124,4 @@ public class TareaServicio {
     }
     //******************************************************
 }
+

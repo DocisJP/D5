@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <head th:replace = "/fragments/head :: head"></head>
 
     <body>
         <header class="contenedor-header-proyecto">
+
             <nav class="navegacion" xmlns:th="http://www.thymeleaf.org">
                 <!-- Logo -->
                 <a href="#" class="enlace">
                     <img src="/img/logo2.png" alt="" class="logo"/>
                 </a>
             </nav>
+
             <div class="contenedor-tabla container">
-                <div class="contenedor-proyecto row">
-                    <section id="pendientes">
+                <div class="contenedor-proyecto row">                
                         <h2>Listado de Tareas</h2>
+                            <section id="pendientes">
                         <table class="tabla">
                             <thead>
                                 <tr>
@@ -49,8 +52,8 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        <span th:if="${tarea.estado}" th:text="'Completada'">Completada</span>
-                                        <span th:if="${!tarea.estado}" th:text="'Pendiente'">Pendiente</span>
+                                        <span th:if="${!tarea.estado}" th:text="'Completada'">Completada</span>
+                                        <span th:if="${tarea.estado}" th:text="'Pendiente'">Pendiente</span>
                                     </td>
                                     <td style="text-align: center">
                                         <a

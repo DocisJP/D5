@@ -11,7 +11,6 @@
                 </a>
             </nav>
             <div th:replace = "/fragments/modelo :: div"></div>
-
             <div class="contenedor-portada"></div>
 
             <main class="container mt-5 ">
@@ -25,7 +24,6 @@
                             </div>
                             <input type="hidden" th:field="*{id}" name="id">
                             <input type="hidden" th:field="*{imagen}"/>
-                            <input type="hidden" th:field="*{estado}"/>
                             <input type="hidden" th:field="*{rol}" sec:authorize="!hasAnyRole('ADMIN')"/>
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -178,13 +176,21 @@
                                         <input class="form-control" type="file" name="archivo" style="margin-top: 3rem" id="archivo"  /> 
                                     </div>
                                 </div>
+                                <div class="col-md-6" >
+                                  <input type="hidden" th:field="*{estado}" value="true" sec:authorize="!hasAnyRole('ADMIN')">
+                                <div class='form-check col-md-6 mb-3' style="margin-top: 3rem" sec:authorize="hasAnyRole('ADMIN')">
+                                    <input class="form-check-input" type="checkbox" th:field="*{estado}" th:value="*{estado}" id="flexCheckDefault">
+                                    <label class="form-check-label text-start" for="flexCheckDefault"> Dar Alta
+                                    </label>
+                                </div>
+                                </div>
                                 <div class='row'>
                                     <button type="submit" class="btn btn-primary">
                                         Actualizar
                                     </button>
                                 </div>
                                 <div class='row'>
-                                    <a th:href="@{/lista}" class="btn btn-primary">Volver</a>
+                                    <a th:href="@{/inicio}" class="btn btn-primary">Volver</a>
                                 </div>
 
                             </div>
@@ -200,6 +206,7 @@
         <footer th:replace = "/fragments/footer :: footer"></footer>
 
         <script onload="">
+            
             function toggleEdicion() {
                 var nombreInput = document.getElementById('nombre');
                 var apellidoInput = document.getElementById('apellido');
@@ -218,10 +225,20 @@
                 dniInput.readOnly = !dniInput.readOnly;
                 direccionInput.readOnly = !direccionInput.readOnly;
                 empresaInput.readOnly = !empresaInput.readOnly;
-                telefonoInput.readOnly = !telefonoInput.readOnly;
-                selectRolInput.disabled = !selectRolInput.disabled;
+                telefonoInput.readOnly = !telefonoInput.readOnly; 
                 archivoInput.disabled = !archivoInput.disabled;
+                toggleColor();
+
+                function toggleColor() {
+                    var button = document.querySelector('.btn.custom');
+
+                    button.classList.toggle('btn-success');
+                    button.classList.toggle('btn-danger');
+
+                }
             }
         </script>
+
     </body>
 </html>
+
