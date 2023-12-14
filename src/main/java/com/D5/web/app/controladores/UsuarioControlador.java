@@ -49,7 +49,7 @@ public class UsuarioControlador {
                 Imagen imagen = imagenServicio.guardar(archivo);
                 usuario.setImagen(imagen); 
             }  
-            usuarioServicio.modificar(usuario);
+            usuarioServicio.modificar(usuario, archivo);
 
             redirectAttrs.addFlashAttribute("exito", "Usuario actualizado con éxito");
             return "redirect:/perfil/panel/" + usuario.getId();
