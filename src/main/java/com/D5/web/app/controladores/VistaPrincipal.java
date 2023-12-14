@@ -107,13 +107,12 @@ public class VistaPrincipal {
         }
                return "principal.html";
     }
-
-
          @GetMapping("/solicitar")
     public String solicitarRegistro(Model model){
         model.addAttribute("roles", Rol.values());
         return "solicitud_registro.html";
         
-    } 
+    }
+
 }
 

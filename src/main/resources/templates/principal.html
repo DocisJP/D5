@@ -5,6 +5,7 @@
     <body>
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
+            
             <div class="contain" sec:authorize ="isAuthenticated()">
 
                 <!--agrego aviso al admin que hay usuarios sin activar-->

@@ -63,7 +63,6 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setRol(rol);
         usuario.setEstado(Boolean.FALSE);
 
-
         Imagen imagen = imagenServicio.guardar(archivo);
 
         usuario.setImagen(imagen);
@@ -131,7 +130,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
    public Usuario getOne(String id){
-
         return usuarioRepositorio.getReferenceById(id);
     }
 
@@ -157,12 +155,11 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email)throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
     Usuario usuario = usuarioRepositorio.findByEmail(email);
     
       if (usuario != null && usuario.getEstado().toString().equalsIgnoreCase("true")) {
-
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
