@@ -10,7 +10,7 @@
 
                <!--agrego aviso al admin que hay usuarios sin activar-->
                 <div sec:authorize = "hasAnyRole('ADMIN')" >
-                    <div class="container-modelo">
+                    <div class="container-modelo" style="">
                         <div th:if="${Aviso != null or Registro != null}" class="aviso">
                             <div class="card-body">  
                                 <h4 class="card-title">Aviso</h4>

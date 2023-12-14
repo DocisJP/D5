@@ -21,10 +21,9 @@
                                     <th>Detalle</th>
                                     <th>Fecha Inicio</th> 
                                     <th>Fecha Finalización</th> 
-                                    <th>Estado</th> 
-                                    <th sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">Agentes</th>   
-                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar Integrantes</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">Agentes</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar Integrantes</th>                                    
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
@@ -36,7 +35,7 @@
                                     <td th:text="${proyecto.detalleProyecto}"></td>
                                     <td th:text="${proyecto.fechaInicio}"></td> 
                                     <td th:text="${proyecto.fechaFinalizacion}"></td> 
-                                    <td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <span th:if="${!proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
                                         <span th:if="${proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
                                     </td> 
@@ -49,9 +48,9 @@
                                     </td>
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                           <a
-                                            class="modificar"
+                                              class="modificar" style="color: #59a5d8"
                                             th:href="@{/proyecto/participantes/__${proyecto.id}__}"
-                                            ><i class="fas fa-feather-alt"></i> Agregar Integrantes</a
+                                            ><i class="fa-regular fa-user"></i> Agregar Integrantes</a
                                         >
                                     </td>
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">

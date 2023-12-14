@@ -486,7 +486,7 @@
     background-position: center;
     height: 100%;
     opacity: 0.9;
-    padding-bottom: 5rem;    
+    padding-bottom: 5rem;
 }
 .contenedor-header-proyecto ul{
     list-style: none;
@@ -652,10 +652,12 @@ a.eliminar {
     padding-bottom: 5rem;
 }
 
-/*agrego estilo para aviso*/ 
+/*agrego estilo para aviso*/
 
 .aviso{
-    background-color: red;
+    background-color: var(--fondo);
+    color: var(--blanco);
     width: 100%;
- 
+    padding: 2rem;
+    margin-right: 2rem;
 }
