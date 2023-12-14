@@ -45,7 +45,7 @@
 
                             <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p> 
                             <a class="botonLink" sec:authorize = "!hasAnyRole('ADMIN')" th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
-                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN' ,'AGENTE')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
  
                             <!--metodo get return panel_proyecto.html-->
                         </div>                   

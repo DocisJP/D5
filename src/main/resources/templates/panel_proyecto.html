@@ -36,7 +36,6 @@
                                     <td th:text="${proyecto.fechaInicio}"></td> 
                                     <td th:text="${proyecto.fechaFinalizacion}"></td> 
                                     <td>
-
                                         <span th:if="${!proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
                                         <span th:if="${proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
                                     </td> 
