@@ -8,13 +8,14 @@
             
             <div class="contain" sec:authorize ="isAuthenticated()">
 
-                <!--agrego aviso al admin que hay usuarios sin activar-->
+               <!--agrego aviso al admin que hay usuarios sin activar-->
                 <div sec:authorize = "hasAnyRole('ADMIN')" >
-                    <div class="container-modelo">
-                        <div th:if="${aviso != null}" class="aviso">
+                    <div class="container-modelo" style="">
+                        <div th:if="${Aviso != null or Registro != null}" class="aviso">
                             <div class="card-body">  
                                 <h4 class="card-title">Aviso</h4>
-                                <p class="card-text" th:text="${aviso}"></p>
+                                <p class="card-text" th:text="${Aviso}"></p>
+                                <p class="card-text" th:text="${Registro}"></p>
                             </div>
                         </div>
 
@@ -45,7 +46,7 @@
 
                             <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p> 
                             <a class="botonLink" sec:authorize = "!hasAnyRole('ADMIN')" th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
-                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN' ,'AGENTE')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
  
                             <!--metodo get return panel_proyecto.html-->
                         </div>                   
