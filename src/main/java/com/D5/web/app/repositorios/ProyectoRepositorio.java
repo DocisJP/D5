@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.D5.web.app.entidades.Proyecto;
 
-
-
-
 @Repository
 public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
 
@@ -24,10 +21,8 @@ public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
 
     @Query("SELECT p FROM Proyecto p JOIN p.usuarios u WHERE u.id = :id")
     List<Proyecto> listarProyectosPorIdUsuario(@Param("id") String id);
- 
 
-	@Query("SELECT DISTINCT u.empresa FROM Proyecto p JOIN p.usuarios u WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
-	List<String> findEmpresasByProjectName(@Param("nombre") String nombre);
-
+    @Query("SELECT DISTINCT u.empresa FROM Proyecto p JOIN p.usuarios u WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
+    List<String> findEmpresasByProjectName(@Param("nombre") String nombre);
 
 }
