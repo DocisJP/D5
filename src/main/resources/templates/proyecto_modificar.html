@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header-formulario">
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+
+            <div class="container mt-5">
+                <div class="row justify-content-center ">
+                    <div class="col-md-8 bodyForm-registrar">
+                        <h1 class="text-center">Actualizar Proyecto</h1>  
+                        <form class="mt-4" th:action="@{/proyecto/modificar}" th:object="${proyecto}" method="POST">
+                            <input hidden th:value="${id}" name="id">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre del Proyecto</label>
+                                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" placeholder="Nombre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="detalle" class="form-label">Detalle del Proyecto</label>
+                                <input type="text" class="form-control" id="detalle" th:field="*{detalleProyecto}" placeholder="Detalle">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                                    <input type="date" class="form-control" id="fechaInicio" th:field="*{fechaInicio}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="fechaFinalizacion" class="form-label">Fecha de Finalización</label>
+                                    <input type="date" class="form-control" id="fechaFinalizacion" th:field="*{fechaFinalizacion}">
+                                </div>
+                            </div>
+                            <div class="row justify-content-evenly">
+                                <div  sec:authorize="hasAnyRole('ADMIN')">
+                                    <input type="checkbox" th:field="*{estado}" th:checked="*{estado}"><span th:text="${proyecto.estado} ?'Baja':'Alta'"></span>
+                                </div>  
+                            </div>
+
+                            <div class='row' style="margin-top: 3rem">
+                                <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>
+                            </div>
+                            <div class='row'>
+                                <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+    </body>
+</html>

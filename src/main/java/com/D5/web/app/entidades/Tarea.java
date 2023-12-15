@@ -14,6 +14,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
 
 
 
@@ -26,19 +28,22 @@ public class Tarea {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    @NotBlank(message="La tarea debe tener un nombre")
     private String nombreTarea;
+
+    @NotBlank(message="Este campo debe ser llenado")
     private String descripcion;
+
     private Boolean estado;
 
-    @ManyToOne
-    private Proyecto proyect;
-
+    @Future(message = "La fecha de iniciacion debe ser valida")
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaInicio;
 
+    @Future(message = "La fecha debe ser en el futuro")
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaFinalizacion;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,6 +55,8 @@ public class Tarea {
     @JoinColumn(name = "proyecto_id")
     private Proyecto proyecto;
 
+    
+    
     public String getId() {
         return id;
     }
@@ -82,14 +89,7 @@ public class Tarea {
         this.estado = estado;
     }
 
-    public Proyecto getProyect() {
-        return proyect;
-    }
-
-    public void setProyect(Proyecto proyect) {
-        this.proyect = proyect;
-    }
-
+   
     public Date getFechaInicio() {
         return fechaInicio;
     }

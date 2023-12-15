@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+   <head th:replace = "/fragments/head :: head"></head>
+
+    <body>
+        <header class="contenedor-header">
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+
+            <div class="container my-5">
+                <div class="detalle-proyecto card mx-auto">
+                    <div class="bodyForm-registrar"  style="padding: 3rem">
+                          <h2 class="mb-4">Detalle de la Tarea</h2>
+
+
+                        <!-- Mensaje de éxito -->
+                        <div th:if="${exito}" class="alert alert-success" role="alert">
+                            <p th:text="${exito}"></p>
+                        </div>
+                        
+                        <p class="card-text"><strong>Nombre: </strong><span th:text="${tarea.nombreTarea}">Nombre de la tarea</span></p>
+                        <p class="card-text"><strong>Descripción: </strong><span th:text="${tarea.descripcion}">Descripción de la Tarea</span></p>
+                        <p class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha Inicio</span></p>
+                        <p class="card-text"><strong>Fecha de Finalización: </strong><span th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></p>
+                        <p class="card-text"><strong>Estado: </strong><span th:if="${!tarea.estado}"
+                                                                            th:text="'Completada'">Completada</span><span th:if="${tarea.estado}"
+                                                                            th:text="'Pendiente'">Pendiente</span></p>
+                        <div style="padding-bottom: 5rem">
+                            <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
+                        </div>
+                    </div>
+                </div>
+          </div>
+
+    </header>
+    <footer th:replace="/fragments/footer :: footer"></footer>
+</body>
+
+</html>
+

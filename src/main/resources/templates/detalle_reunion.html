@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace = "/fragments/head :: head"></head>
+
+    <body>
+        <header class="contenedor-header-formulario">
+           <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <main class="container my-5">
+                <div class="container mt-5">
+
+                    <div class="bodyForm-registrar"  style="padding: 3rem">
+                        <h2 class="mb-4">Detalle de la Reunion</h2>
+
+                          <!-- Mensaje de éxito -->
+                        <div th:if="${exito}" class="alert alert-success" role="alert">
+                            <p th:text="${exito}"></p>
+                        </div>
+                          
+                        <p class="card-text"><strong>Nombre: </strong><span th:text="${reunion.nombre}">Nombre de la tarea</span></p>
+                        <p class="card-text"><strong>Descripción: </strong><span th:text="${reunion.detalle}">Descripción de la Tarea</span></p>
+
+                        <p class="card-text"><strong>Hora de Inicio: </strong><span th:text="${reunion.horarioDeInicio}">Fecha
+                                Inicio</span></p>
+                        <p class="card-text"><strong>Hora de Finalización: </strong><span
+                                th:text="${reunion.horarioDeFin}">Finalización</span></p>
+
+                        <div style="padding-bottom: 5rem">
+                            <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </main>
+        </header>
+        <footer th:replace="/fragments/footer :: footer"></footer>
+    </body>
+
+</html>

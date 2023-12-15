@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header-proyecto">
+          <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+
+            <div class="contenedor-tabla container">
+                <div class="contenedor-proyecto row">
+                    <h2>Listado de Reuniones</h2>    
+                    <section id="proyectos-agente">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Detalle</th>
+                                    <th>Horario Inicio</th>
+                                    <th>Horario Fin</th>
+                                    <th>Usuarios</th>
+                                    <th>Proyecto</th>
+                                    <th>Estado</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="reunion : ${reuniones}">
+                                    <th th:text="${reunion.id}"></th>
+                                    <td th:text="${reunion.nombre}"></td>
+                                    <td th:text="${reunion.detalle}"></td>
+                                    <td th:text="${reunion.horarioDeInicio}"></td>
+                                    <td th:text="${reunion.horarioDeFin}"></td>
+                                                                        <td >
+                                        <p th:text="${reunion.usuario.nombre}"></p>
+                                    </td>
+                                    <td >
+                                        <p th:text="${reunion.proyecto.nombre}"></p>
+                                    </td>
+                                    <td ><a th:text="${reunion.estado?'Aceptada':'En espera'}" th:href="@{/reunion/cambiarEstado/__${reunion.id}__}"></a></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                                        <a class="modificar"
+                                           th:href="@{/reunion/modificar/__${reunion.id}__}" ><i class="fas fa-feather-alt"></i> Modificar</a>
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a class="eliminar"
+                                           th:href="@{/reunion/eliminar/__${reunion.id}__}"><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <div class='row'>
+                        <a th:href="@{/reunion/registrar}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="margin: 1rem" class="btn">Crear nueva Reunion</a>
+                        <a th:href="@{/reunion/solicitar}" class="btn" style="margin: 1rem">Solicitar una Reunion</a>        
+                    </div>
+                    <div class="btn-volver" style="margin: 1rem">
+                        <a th:href="@{/inicio}">Inicio</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer" ></footer>
+    </body>
+</html>

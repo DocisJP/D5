@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header">
+            <div class="contenedor-portada">
+                <img th:src="@{/images/ERROR404_PANTALLA.png}" 
+                     style="width: 65rem" />
+                <div style="font-weight: bold">
+                    <h1 th:text="${'Estado es ' + status 
+                        + ', lo que significa : ' + error + '.'}"></h1>
+                    <h3>Problema en la página 
+                        (<span th:text="${path}"></span>).</h3>
+
+                    <h3 th:text="${'Detalle: ' + message + '.'}"></h3>
+                    <a class="btn" href="/">Back to home</a>
+                </div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+
+    </body>
+</html>

@@ -1,82 +1,89 @@
 package com.D5.web.app.servicios;
 
-
+import com.D5.web.app.entidades.Proyecto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import com.D5.web.app.entidades.Tarea;
+import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
-import com.D5.web.app.repositorios.IServicioGeneral;
 import com.D5.web.app.repositorios.TareaRepositorio;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
-public class TareaServicio implements IServicioGeneral<Tarea> {
+public class TareaServicio {
 
-	@Autowired
+    @Autowired
     TareaRepositorio tareaRepositorio;
 
-
-//    @Transactional
-//    public void agregar(String nombreTarea, String descripcion, Boolean estado) throws MyException {
-//    	Tarea tarea = new Tarea();
-//
-//    	valida(nombreTarea, descripcion, estado);
-//        
-//   
-//        tarea.setDescripcion(descripcion);
-//        tarea.setEstado(estado);
-//        tarea.setNombreTarea(nombreTarea);
-//
-//        tareaRepositorio.save(tarea);
-//
-//    }
+    @Autowired
+    UsuarioServicio usuarioServicio;
 
     @Transactional
-    @Override
-    public void modificar(Tarea algunaEntidad) {
-        tareaRepositorio.saveAndFlush(algunaEntidad);
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario, Proyecto proyecto) throws MyException {
+        Tarea tarea = new Tarea();
+        Usuario usuarioEncargado = usuario;
 
+        valida(nombreTarea, descripcion, estado, fechaInicio, fechaFinalizacion);
+        tarea.setUsuario(usuarioEncargado);
+        tarea.setDescripcion(descripcion);
+        tarea.setEstado(true);
+        tarea.setNombreTarea(nombreTarea);
+        tarea.setFechaInicio(fechaInicio);
+        tarea.setFechaFinalizacion(fechaFinalizacion);
+        tarea.setProyecto(proyecto);
+        return tareaRepositorio.save(tarea);
     }
 
     @Transactional
-    @Override
+    public Tarea modificar(Tarea algunaEntidad) {
+
+        return tareaRepositorio.saveAndFlush(algunaEntidad);
+    }
+
+    @Transactional
     public void eliminar(Tarea algunaEntidad) {
         tareaRepositorio.delete(algunaEntidad);
-
     }
 
-//    @Transactional
-//    @Override
-//    public void cambiarEstado(Tarea algunaEntidad) {
-//        Optional<Tarea> respuesta = tareaRepositorio.findById(algunaEntidad.getId());
-//
-//        if (respuesta.isPresent()) {
-//            if (respuesta.get().getEstado()) {
-//                respuesta.get().setEstado(Boolean.FALSE);
-//            } else {
-//                respuesta.get().setEstado(Boolean.TRUE);
-//            }
-//        }
-//
-//    }
+    @Transactional
+    public Boolean cambiarEstado(Tarea tarea) {
+        Tarea existente = tareaRepositorio.findById(tarea.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Tarea no encontrada"));
+        existente.setEstado(!existente.getEstado());
+        tareaRepositorio.save(existente);
+        return existente.getEstado();
+    }
 
     @Transactional(readOnly = true)
     public List<Tarea> listarTareas() {
         return tareaRepositorio.findAll();
     }
 
-    @Transactional
-    public Tarea getOne(String id) {
-        return tareaRepositorio.getReferenceById(id);
+    public Tarea buscarPorId(String id) {
+        Optional<Tarea> resultado = tareaRepositorio.findById(id);
+        if (resultado.isPresent()) {
+            return resultado.get();
+        } else {
+            throw new IllegalArgumentException("Tarea no encontrada con el ID: " + id);
+        }
+    }
+    
+    public List<Tarea> buscarPorProyectoId(String id) {
+        List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
+        if (!resultado.isEmpty()) {
+            return resultado;
+        } else {
+            throw new IllegalArgumentException("Tarea no encontrada con el proyecto ID: " + id);
+        }
     }
 
-    public void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
+    private void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
         if (estado == null) {
             throw new MyException("Estado invalido");
         }
@@ -89,44 +96,32 @@ public class TareaServicio implements IServicioGeneral<Tarea> {
         if (fechaInicio.after(fechaFinalizacion)) {
             throw new MyException("Fecha de inicio no puede ser posterior a la de finalización");
         }
-
     }
 
-    @Override
-    public void crear(Tarea algunaEntidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Map<String, Object> verDetalle(Tarea tarea) {
+        Map<String, Object> detalles = new HashMap();
+        detalles.put("nombre", tarea.getDescripcion());
+        detalles.put("detalle", tarea.getEstado());
+        detalles.put("horarioDeInicio", tarea.getNombreTarea());
+        detalles.put("proyecto", tarea.getProyecto());
+        detalles.put("participantes", tarea.getFechaInicio());
+        detalles.put("participantes", tarea.getFechaFinalizacion());
+
+        return detalles;
     }
 
-    @Override
-    public void registrar(Tarea algunaEntidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private void validarUsuario(Usuario usuario) {
+        if (usuario.getId() == null) {
+            throw new IllegalArgumentException("El usuario no existe en la base de datos. Como vos.");
+        }
     }
 
-    @Override
-    public void accederPerfil(Tarea algunClienteoAgente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+    //******************PROBANDO PANEL TRABAJO***************
+    public List<Tarea> obtenerTareasPorProyecto(String proyectoId) {
+     
+        return tareaRepositorio.findTareasByProyectoId(proyectoId);
     }
-
-    @Override
-    public void visualizar(Tarea dashBoardoProyectoReunion) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void agregar(Tarea algunaEntidad) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void valida(Tarea algunError) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-	@Override
-	public void cambiarEstado(Tarea algunaEntidad) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+    //******************************************************
 }
+

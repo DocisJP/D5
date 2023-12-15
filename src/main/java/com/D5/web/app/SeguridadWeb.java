@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.D5.web.app;
 
 import com.D5.web.app.servicios.UsuarioServicio;
@@ -14,10 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- *
- * @author pc
- */
 @Configuration
 @EnableWebSecurity
 public class SeguridadWeb {
@@ -45,7 +37,7 @@ public class SeguridadWeb {
                                                     .permitAll())
                                 .logout(autoriza -> autoriza
                                                     .logoutUrl("/logout")
-                                                    .logoutSuccessUrl("/login")
+                                                    .logoutSuccessUrl("/")
                                                     .permitAll())
                                 .csrf(csrfCustomizer -> csrfCustomizer
                                                     .disable())

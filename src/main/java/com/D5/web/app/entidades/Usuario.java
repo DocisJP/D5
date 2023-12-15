@@ -2,7 +2,7 @@ package com.D5.web.app.entidades;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.D5.web.app.enumerador.Role;
+import com.D5.web.app.enumerador.Rol;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,39 +12,37 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 
 
 @Entity
 @Table(name="usuario")
 public class Usuario {
 	
-	//Esto es parte del formulario
-
+	
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 
-	@NotBlank
+	
 	private String nombre;
 
-	@NotBlank
+	
 	private String apellido;
 
-	@NotBlank
+	
 	@Email
 	private String email;
 
-	@NotBlank
+	
 	private String password;
 
-	@NotNull
+	
 	private Long dni;
 
-	@NotNull
-	private Integer telefono;
+	
+	private Long telefono;
 	
     @OneToOne
 	private Imagen imagen;
@@ -53,12 +51,13 @@ public class Usuario {
     
     private String empresa;
 	
-	//Esto no es parte del formulario
+	
 	private Boolean estado;
 
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Rol rol;
 
+        
     public String getId() {
         return id;
     }
@@ -107,11 +106,11 @@ public class Usuario {
         this.dni = dni;
     }
 
-    public Integer getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Integer telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
 
@@ -131,12 +130,12 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public Role getRole() {
-        return role;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
 	public String getDireccion() {

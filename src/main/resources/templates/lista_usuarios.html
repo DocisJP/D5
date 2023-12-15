@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace = "/fragments/head :: head"></head>
+    <body>
+        <header class="contenedor-header-proyecto">
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <div th:replace = "/fragments/modelo :: div"></div>
+
+            <div class="contenedor-tabla container">
+                <div class="contenedor-proyecto-usuarios">
+                    <h2>Agenda</h2>
+                    <section id="lista-usuarios">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
+
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="usuario : ${usuarios}">
+                                <tr th:if="${usuario.estado}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                    <td th:text="${usuario.apellido}"></td>
+                                    <td th:text="${usuario.email}"></td>
+                                    <td th:text="${usuario.telefono}"></td>
+                                    <td th:text="${usuario.rol}"></td>
+
+                                    <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/panel/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/perfil/eliminar/__${usuario.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="contenedor-proyecto-usuarios" sec:authorize = "hasAnyRole('ADMIN')">
+                    <h2>Usuarios a Dar de Alta</h2>
+                    <section id="lista-usuarios">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
+
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="usuario : ${usuarios}">
+                                <tr th:if="${!usuario.estado}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                    <td th:text="${usuario.apellido}"></td>
+                                    <td th:text="${usuario.email}"></td>
+                                    <td th:text="${usuario.telefono}"></td>
+                                    <td th:text="${usuario.rol}"></td>
+
+                                    <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/panel/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class='row'>
+                    <a th:href="@{/inicio}" class="btn btn-primary" >Volver</a>
+
+                </div>
+            </div>
+        </header>
+
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+    </body>
+</html>

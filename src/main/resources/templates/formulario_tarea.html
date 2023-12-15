@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="/fragments/head :: head">
+        <body>
+            <header class="contenedor-header-formulario">
+                <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+                <div th:replace = "/fragments/modelo :: div"></div>
+                <div class="contenedor-portada"></div>
+
+                <main class="container mt-5">
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-12 bodyForm-registrar" style="padding: 6rem">
+                            <h2 class="text-center mb-5">Tareas</h2>
+
+                            <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
+                                <!-- Campos del formulario -->
+
+                                <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                                        <h2 class="text-center mb-5">Ingresa una tarea</h2>
+                                        <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
+                                            <!-- Campos del formulario -->
+                                            <label for="nombreTarea">Nombre de la tarea</label>
+                                            <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
+                                                   placeholder="Nombre" class="form-control mb-3" />
+                                            <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
+                                               style="color: red; font-size: 0.9em;"></p>
+
+                                            <label for="descripcion">Descripcion de la tarea</label>
+                                            <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
+                                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
+                                            <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
+                                               style="color: red; font-size: 0.9em;"></p>
+
+                                            <!-- Campos de fecha de inicio y finalización -->
+                                            <label for="fechaInicio">Fecha de Inicio</label>
+                                            <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
+                                                   class="form-control mb-3" />
+                                            <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
+                                               style="color: red; font-size: 0.9em;"></p>
+                                            <label for="fechaFinalizacion">Fecha de Finalización</label>
+                                            <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion" th:field="*{fechaFinalizacion}"
+                                                   class="form-control mb-3" />
+                                            <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}" class="error-message"
+                                               style="color: red; font-size: 0.9em;"></p>
+
+                                            <!-- Agrego select para usuarios -->
+                                            <label for="usuarios">Seleccionar Usuarios</label>
+                                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                                <!-- Itera sobre la lista de usuarios -->
+                                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                                            </select>
+                                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
+                                               style="color: red; font-size: 0.9em;"></p>
+                                            <!-- Campo oculto para el estado -->
+                                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+
+                                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
+
+                                                <option label="Elije Proyecto" value="''"></option>
+
+                                                <option th:each="asociado : ${proyectos}"
+                                                        th:text="${asociado.nombre}"
+                                                        th:value="${asociado.id}"
+                                                        th:field="*{proyecto}"
+                                                        />
+                                            </select>
+
+                                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+                                               class="error-message" style="color: red; font-size: 0.9em;"></p>
+
+                                            <div class='row'>
+                                                <button type="submit" class="btn btn-primary">Guardar tarea</button> 
+                                            </div>                 
+                                            <div class='row'>
+                                                <a th:href="@{/tarea/panel}" class="btn btn-secondary">Volver</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </main>
+            </header>
+            <footer th:replace="/fragments/footer :: footer"></footer>
+        </body>
+
+</html>
+
