@@ -194,7 +194,7 @@ public class UsuarioServicio implements UserDetailsService {
     @Transactional
     public Integer Inactivos(){
     
-        Integer contador =0;
+        Integer contador = 0;
         
          List<Usuario> usuarios = new ArrayList();
     

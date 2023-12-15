@@ -629,13 +629,22 @@ a.eliminar {
     text-align: center;
 }
 .exito{
-    background-color: green;
-    width: 30%;
+    background-color: darkgreen;
+    border-radius: 1rem;
+    color: black;
+    font-weight: 700;
+    text-shadow: 1px 2px 3px var(--blanco);
+    width: 70%;
+    opacity: .8;
 }
 .error{
-    background-color: red;
-    width: 30%;
-
+    background-color: darkred;
+    border-radius: 1rem;
+    color: black;
+    font-weight: 700;
+    text-shadow: 1px 2px 3px var(--blanco);
+    width: 70%;
+    opacity: .8;
 }
 .contenedor-proyecto-usuarios {
     display: flex;
@@ -657,9 +666,11 @@ a.eliminar {
 .aviso{
     background-color: var(--fondo);
     color: var(--blanco);
-    width: 100%;
-    padding: 2rem;
+    width: 60%;
+    padding: 1rem;
+    border-radius: 1rem;
     margin-right: 2rem;
+    opacity: .8;
 }
 .participantes{
     background-color: var(--terciario);

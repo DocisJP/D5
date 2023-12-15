@@ -5,28 +5,35 @@
     <body>
         <header class="contenedor-header">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
-            
-            <div class="contain" sec:authorize ="isAuthenticated()">
 
-               <!--agrego aviso al admin que hay usuarios sin activar-->
-                <div sec:authorize = "hasAnyRole('ADMIN')" >
-                    <div class="container-modelo" style="">
-                        <div th:if="${Aviso != null or Registro != null}" class="aviso">
-                            <div class="card-body">  
-                                <h4 class="card-title">Aviso</h4>
-                                <p class="card-text" th:text="${Aviso}"></p>
-                                <p class="card-text" th:text="${Registro}"></p>
-                            </div>
-                        </div>
+            <div class="contain" sec:authorize ="isAuthenticated()" border-radius="1rem" >
 
-
-                    </div>
-                </div>
-                <div class="container-saludo">
+                 <div class="container-saludo">
                     <h2 th:text="'Hola de vuelta '"></h2>
                     <h2 th:if="${session.usuariosession != null}" th:text="${session.usuariosession.nombre}"></h2>
                     <div class="container-imagen">
                         <a><img th:src="@{/imagen/perfil/__${session.usuariosession.id}__}"></a>
+                    </div>
+                </div>
+                <!--agrego aviso al admin que hay usuarios sin activar-->
+                <div sec:authorize = "hasAnyRole('ADMIN')" >
+                    <div class="container-modelo" style="margin-left: 1rem">
+                        <div th:if="${avisoUsuario != null}" class="aviso">
+                            <div class="card-body">  
+                                <p class="card-text" th:text="${avisoUsuario}"></p>
+
+                            </div>
+                        </div>
+                        <div th:if="${avisoProyecto != null}" class="aviso">
+                            <div class="card-body">  
+                                <p class="card-text" th:text="${avisoProyecto}"></p>
+                            </div>
+                        </div>
+                        <div th:if="${avisoReunion != null}" class="aviso">
+                            <div class="card-body">  
+                                <p class="card-text" th:text="${avisoReunion}"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,7 +54,7 @@
                             <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p> 
                             <a class="botonLink" sec:authorize = "!hasAnyRole('ADMIN')" th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
                             <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN' ,'AGENTE')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
- 
+
                             <!--metodo get return panel_proyecto.html-->
                         </div>                   
                     </div>

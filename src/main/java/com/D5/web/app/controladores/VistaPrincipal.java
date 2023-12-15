@@ -5,6 +5,7 @@ import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.EmailServicio;
 import com.D5.web.app.servicios.ProyectoServicio;
+import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
@@ -34,6 +35,9 @@ public class VistaPrincipal {
 
     @Autowired
     ProyectoServicio proyectoServicio;
+    
+    @Autowired
+    ReunionServicio reunionServicio;
     
     @GetMapping("/")
     public String index() {
@@ -110,12 +114,25 @@ public class VistaPrincipal {
     public String inicio(HttpSession session, ModelMap modelo) {
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
         //agrego metodo para dar aviso al loguear el admin
-        int contador = usuarioServicio.Inactivos();
-        int contador2 = proyectoServicio.Inactivos();
-        if (contador > 0) {
+        int contadorUsuariosInactivos = usuarioServicio.Inactivos();
+        int contadorProyectosPendientes = proyectoServicio.Inactivos();
+        int contadorReunionesPendientes = reunionServicio.Inactivos();
+        
+        if (contadorUsuariosInactivos > 0) {
 
-            modelo.put("aviso", "Hay usuarios sin registrar");
+            modelo.put("avisoUsuario", "Hay usuarios sin registrar");
         }
+        if (contadorProyectosPendientes > 0) {
+
+            modelo.put("avisoProyecto", "Hay proyectos para revisar");
+        }
+         if (contadorReunionesPendientes > 0) {
+
+            modelo.put("avisoReunion", "Hay reuniones para agendar");
+        }
+         
+         modelo.put("usuario", logueado);
+        
         return "principal.html";
     }
 
