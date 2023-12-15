@@ -13,6 +13,7 @@ import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.ReunionRepositorio;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 
 @Service
 public class ReunionServicio {
@@ -136,4 +137,24 @@ public class ReunionServicio {
         return reunionRepositorio.buscarPorIdProyecto(proyectoId);
     }
     //****************************************************
+
+    @Transactional
+    public int Inactivos() {
+
+        Integer contador = 0;
+
+        List<Reunion> reuniones = new ArrayList();
+
+        reuniones = reunionRepositorio.findAll();
+
+        for (Reunion reunion : reuniones) {
+
+            if (!reunion.getEstado()) {
+                contador++;
+            }
+        }
+        return contador;
+
+    }
+
 }

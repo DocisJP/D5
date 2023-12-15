@@ -5,12 +5,15 @@
     <body>
         <header class="contenedor-header-formulario">
         <nav th:replace = "/fragments/navbar2 :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
+            
             <div class="contenedor-portada"></div>
 
             <main class="container mt-5 ">
+                 
                 <div class='row justify-content-center'>
+                    
                     <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                       <div th:replace = "/fragments/modelo :: div"></div>
                         <h2 class="text-center mb-5">Perfil Usuario</h2>
 
                         <form class="form-group" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">

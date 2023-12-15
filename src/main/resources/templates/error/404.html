@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html>
-    <head>
-        <title>Página no disponible</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+    <head th:replace = "/fragments/head :: head"></head>
     <body>
-        <div class="container" >
-            <h1>Hubo un error</h1>
-            <img th:src="@{/images/error-icon.png}" 
-                 width="100px" height="100px" />
-            <p>Problema en la página 
-                (<span th:text="${path}"></span>).</p>
-            <p th:text="${'Estado es ' + status 
-               + ', lo que significa : ' + error + '.'}"></p>
-            <p th:text="${'Detalle: ' + message + '.'}"></p>
-            <a class="btn" href="/">Back to home</a>
-        </div>
+        <header class="contenedor-header">
+            <div class="contenedor-portada">
+                <img th:src="@{/img/ERROR404_PANTALLA.png}" 
+                     style="width: 65rem"                    
+                     />
+                <div style="font-weight: bold">
+                    <h1 th:text="${'Estado ' + status 
+                        + ', lo que significa : ' + error + '.'}"></h1>
+                    <h3>Problema en la página 
+                        (<span th:text="${path}"></span>).</h3>
+                    <h3 th:text="${'Detalle: ' + message + '.'}"></h3>
+                    <a class="btn" href="/">Inicio</a>
+                </div>
+            </div>
+        </header>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>
 </html>
