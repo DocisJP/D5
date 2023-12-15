@@ -661,3 +661,18 @@ a.eliminar {
     padding: 2rem;
     margin-right: 2rem;
 }
+.participantes{
+    background-color: var(--terciario);
+    border: 2px solid var(--fondo);
+    width:60%;
+    padding: 2rem;
+
+}
+.participantes li{
+    font-size: 1.2rem;
+    color: var(--fondo);
+}
+.text-center{
+    display: flex;
+    justify-content: center;
+}
