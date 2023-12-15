@@ -1,7 +1,6 @@
 package com.D5.web.app.servicios;
 
 import com.D5.web.app.entidades.Proyecto;
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,12 +9,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Reunion;
-import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.ReunionRepositorio;
 import jakarta.transaction.Transactional;
-import java.time.LocalDateTime;
 
 @Service
 public class ReunionServicio {
@@ -35,7 +32,7 @@ public class ReunionServicio {
         reunion.setDetalle(detalle);
         reunion.setUsuario(usuario);
         reunion.setNombre(nombre);
-        reunion.setEstado(true);
+        reunion.setEstado(estado);
         reunion.setHorarioDeInicio(horarioDeInicio);
         reunion.setHorarioDeFin(horarioDeFin);
         reunion.setProyecto(proyecto);

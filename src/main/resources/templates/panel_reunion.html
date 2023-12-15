@@ -21,6 +21,7 @@
                                     <th>Horario Fin</th>
                                     <th>Usuarios</th>
                                     <th>Proyecto</th>
+                                    <th>Estado</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
@@ -32,12 +33,13 @@
                                     <td th:text="${reunion.detalle}"></td>
                                     <td th:text="${reunion.horarioDeInicio}"></td>
                                     <td th:text="${reunion.horarioDeFin}"></td>
-                                    <td >
+                                                                        <td >
                                         <p th:text="${reunion.usuario.nombre}"></p>
                                     </td>
                                     <td >
                                         <p th:text="${reunion.proyecto.nombre}"></p>
                                     </td>
+                                    <td ><a th:text="${reunion.estado?'Aceptada':'En espera'}" th:href="@{/reunion/cambiarEstado/__${reunion.id}__}"></a></td>
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a class="modificar"
                                            th:href="@{/reunion/modificar/__${reunion.id}__}" ><i class="fas fa-feather-alt"></i> Modificar</a>
