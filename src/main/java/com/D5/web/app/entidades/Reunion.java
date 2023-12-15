@@ -1,6 +1,5 @@
 package com.D5.web.app.entidades;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -15,9 +14,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.List;
-
-
 
 @Entity
 @Table(name = "reunion")
@@ -27,28 +23,26 @@ public class Reunion {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    private String nombre;
+    private String detalle;
 
-    
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date horarioDeInicio;
+
+    //Agregue horario fin de la reunion
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date horarioDeFin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @ManyToOne
     private Proyecto proyecto;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date horarioDeInicio;
-
-    
-    //Agregue horario fin de la reunion
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date horarioDeFin;
-    
-    private String detalle;
-
     private Boolean estado;
-
-      @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
 
     public Usuario getUsuario() {
         return usuario;
@@ -58,13 +52,10 @@ public class Reunion {
         this.usuario = usuario;
     }
 
-    private String nombre;
-
     public String getId() {
         return id;
     }
 
-    
     //Getter and setter
     public Date getHorarioDeFin() {
         return horarioDeFin;
@@ -110,12 +101,12 @@ public class Reunion {
         this.estado = estado;
     }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
 }

@@ -4,7 +4,7 @@
     <head th:replace="/fragments/head :: head">
     <body>
         <header class="contenedor-header-formulario">
-           <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
             <div th:replace="/fragments/modelo :: div"></div>
             <div class="contenedor-portada"></div>
 
@@ -15,15 +15,15 @@
 
                         <form class="form-group" th:action="@{/reunion/modificar}" th:object="${reunion}" method="POST">
                             <!-- Campos del formulario -->
-                            <input hidden th:value="${id}" name="id">
+                            <input hidden thfield="*{id}" th:value="*{id}" name="id">
                             <label for="nombre">Nombre de la reunion</label>
-                            <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}"
+                            <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}" th:value="*{nombre}"
                                    placeholder="Nombre" class="form-control mb-3" />
                             <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
 
                             <label for="detalle">Descripcion de la reunion</label>
-                            <textarea id="detalle" name="detalle" th:field="*{detalle}" rows="4"
+                            <textarea id="detalle" name="detalle" th:field="*{detalle}" th:value="*{detalle}" rows="4"
                                       placeholder="Descripcion" class="form-control mb-3"></textarea>
                             <p th:if="${#fields.hasErrors('detalle')}" th:errors="*{detalle}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
@@ -31,13 +31,13 @@
                             <!-- Campos de fecha de inicio y finalización -->
                             <label for="horarioDeInicio">Hora de inicio</label>
                             <input type="datetime-local" id="horarioDeInicio" name="horarioDeInicio" th:field="*{horarioDeInicio}"
-                                   class="form-control mb-3" />
+                                   th:value="*{horarioDeInicio}" class="form-control mb-3" />
                             <p th:if="${#fields.hasErrors('horarioDeInicio')}" th:errors="*{horarioDeInicio}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
 
                             <label for="horarioDeFin">Horario de Finalización</label>
                             <input type="datetime-local" id="horarioDeFin" name="horarioDeFin"
-                                   th:field="*{horarioDeFin}" class="form-control mb-3" />
+                                   th:field="*{horarioDeFin}" th:value="*{horarioDeInicio}" class="form-control mb-3" />
                             <p th:if="${#fields.hasErrors('horarioDeFin')}" th:errors="*{horarioDeFin}"
                                class="error-message" style="color: red; font-size: 0.9em;"> </p>
 
@@ -50,7 +50,6 @@
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
                             <!-- Campo oculto para el estado -->
-                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
 
                             <select id="proyecto" name="proyectoId" class="form-select mb-3" >
 
@@ -63,8 +62,12 @@
                                         />
                             </select>
 
-                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+                            <p th:if="${#fields.hasErrors('proyecto')}" th:errors="*{proyecto}"
                                class="error-message" style="color: red; font-size: 0.9em;"></p>
+
+                            <input hidden="hidden" type="checkbox" name="estado" th:checked="true"/>
+                            <label for="estadoReunion"> Aceptada </label>
+
                             <div class='row'>
                                 <button type="submit" class="btn btn-primary">Modificar reunion</button>
                             </div>
