@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Método no permitido</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+       <div class="container" >
+            <h1>Hubo un error</h1>
+            <img th:src="@{/images/error-icon.png}" 
+                 width="100px" height="100px" />
+            <p>Problema en la página 
+                (<span th:text="${path}"></span>).</p>
+            <p th:text="${'Estado es ' + status 
+               + ', lo que significa : ' + error + '.'}"></p>
+            <p th:text="${'Detalle: ' + message + '.'}"></p>
+            <a class="btn" href="/">Back to home</a>
+        </div>
+    </body>
+</html>
