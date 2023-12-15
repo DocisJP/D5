@@ -1,12 +1,9 @@
 package com.D5.web.app.controladores;
 
-
 import com.D5.web.app.entidades.Imagen;
-import com.D5.web.app.entidades.Proyecto;
 
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
-import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ImagenServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,11 +23,10 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-    
+
     @Autowired
     ImagenServicio imagenServicio;
 
-    
     @GetMapping("/panel/{id}")
     public String panelPerfil(@PathVariable String id, Model model) {
         Usuario usuario = usuarioServicio.buscarUsuario(id);
@@ -44,13 +39,12 @@ public class UsuarioControlador {
     @PostMapping("/modificar")
     public String modificarPerfil(@ModelAttribute("usuario") Usuario usuario, MultipartFile archivo, RedirectAttributes redirectAttrs) {
 
- 
         try {
-            
-            if (archivo != null &&  !archivo.isEmpty()) {
+
+            if (archivo != null && !archivo.isEmpty()) {
                 Imagen imagen = imagenServicio.guardar(archivo);
-                usuario.setImagen(imagen); 
-            }  
+                usuario.setImagen(imagen);
+            }
             usuarioServicio.modificar(usuario, archivo);
 
             redirectAttrs.addFlashAttribute("exito", "Usuario actualizado con éxito");
@@ -60,13 +54,13 @@ public class UsuarioControlador {
         }
         return "redirect:/perfil/panel/" + usuario.getId();
     }
-    
-      @GetMapping("/eliminar/{id}")
+
+    @GetMapping("/eliminar/{id}")
     public String eliminarUsuario(@PathVariable String id, RedirectAttributes redirectAttrs) {
         try {
             Usuario usuario = usuarioServicio.buscarUsuario(id);
 
-            usuarioServicio.cambiarEstado(usuario); 
+            usuarioServicio.cambiarEstado(usuario);
 
             redirectAttrs.addFlashAttribute("exito", "Usuario eliminado con éxito");
         } catch (Exception ex) {

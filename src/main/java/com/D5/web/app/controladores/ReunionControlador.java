@@ -54,40 +54,6 @@ public class ReunionControlador {
         return "calendario_reuniones.html";
     }
 
-//    @GetMapping("/registro")
-//    public String mostrarFormularioRegistro(Model model) {
-//        model.addAttribute("reunion", new Reunion());
-//        model.addAttribute("usuarios", usuarioServicio.listarUsuarios());
-//        return "formulario_reunion.html";
-//    }
-//
-//    @PostMapping("/registro")
-//    public String registrarReunion(@ModelAttribute("reunion") Reunion reunion,
-//            @RequestParam String[] participantes,
-//            RedirectAttributes redirectAttributes) {
-//        System.out.println("Participantes seleccionados: " + Arrays.toString(participantes));
-//
-//        try {
-//            // Convertir los IDs de los usuarios en objetos Usuario
-//            List<Usuario> usuariosParticipantes = Arrays.stream(participantes)
-//                    .map(id -> usuarioServicio.buscarUsuario(id))
-//                    .collect(Collectors.toList());
-//
-//            reunion.setParticipantes(usuariosParticipantes);
-//            reunionServicio.crear(reunion.getNombre(),
-//                    reunion.getHorarioDeInicio(),
-//                    reunion.getEstado(),
-//                    usuariosParticipantes,
-//                    reunion.getDetalle());
-//
-//            redirectAttributes.addFlashAttribute("exito", "Reunión creada con éxito");
-//            return "redirect:/reunion/calendario_reuniones";
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "Error al crear la reunión: " + e.getMessage());
-//            return "redirect:/reunion/registro";
-//        }
-//    }
-///Probando plan b
     @GetMapping("/registrar")
     public String formularioReunion(Model model) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
@@ -234,8 +200,6 @@ public class ReunionControlador {
         List<Usuario> agentes = new ArrayList();
         for (Usuario usuario : usuarios) {
             Rol rolUsuario = usuario.getRol();
-            System.out.println("USUARIO: " + usuario.getNombre() + " - ROL: [" + rolUsuario + "]");
-
             if (Rol.AGENTE.equals(rolUsuario)) {
                 agentes.add(usuario);
             }

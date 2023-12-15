@@ -35,10 +35,10 @@ public class VistaPrincipal {
 
     @Autowired
     ProyectoServicio proyectoServicio;
-    
+
     @Autowired
     ReunionServicio reunionServicio;
-    
+
     @GetMapping("/")
     public String index() {
 
@@ -117,7 +117,7 @@ public class VistaPrincipal {
         int contadorUsuariosInactivos = usuarioServicio.Inactivos();
         int contadorProyectosPendientes = proyectoServicio.Inactivos();
         int contadorReunionesPendientes = reunionServicio.Inactivos();
-        
+
         if (contadorUsuariosInactivos > 0) {
 
             modelo.put("avisoUsuario", "Hay usuarios sin registrar");
@@ -126,13 +126,13 @@ public class VistaPrincipal {
 
             modelo.put("avisoProyecto", "Hay proyectos para revisar");
         }
-         if (contadorReunionesPendientes > 0) {
+        if (contadorReunionesPendientes > 0) {
 
             modelo.put("avisoReunion", "Hay reuniones para agendar");
         }
-         
-         modelo.put("usuario", logueado);
-        
+
+        modelo.put("usuario", logueado);
+
         return "principal.html";
     }
 
