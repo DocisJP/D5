@@ -8,8 +8,9 @@
             <div th:replace = "/fragments/modelo :: div"></div>
 
             <div class="contenedor-tabla container">
-                <div class="contenedor-proyecto-usuarios">
-                    <h2>Agenda</h2>
+                <h1>Agenda de Contactos</h1>
+                <div class="contenedor-proyecto-usuarios" sec:authorize = "hasAnyRole('ADMIN')">
+                    <h2>Administradores</h2>
                     <section id="lista-usuarios">
                         <table class="tabla">
                             <thead>
@@ -26,7 +27,7 @@
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
                             </thead>
-                            <tbody th:each="usuario : ${usuarios}">
+                            <tbody th:each="usuario : ${administradores}">
                                 <tr th:if="${usuario.estado}">
                                     <td th:text="${usuario.nombre}"></td>
                                     <td th:text="${usuario.apellido}"></td>
@@ -37,6 +38,205 @@
                                     <!--agrego columna de estado a la tabla-->
                                     <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
 
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/panel/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/perfil/eliminar/__${usuario.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="contenedor-proyecto-usuarios" sec:authorize = "hasAnyRole('ADMIN')">
+                    <h2>Agentes</h2>
+                    <section id="lista-usuarios">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
+
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="usuario : ${agentes}">
+                                <tr th:if="${usuario.estado}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                    <td th:text="${usuario.apellido}"></td>
+                                    <td th:text="${usuario.email}"></td>
+                                    <td th:text="${usuario.telefono}"></td>
+                                    <td th:text="${usuario.rol}"></td>
+
+                                    <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/panel/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/perfil/eliminar/__${usuario.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="contenedor-proyecto-usuarios" sec:authorize = "hasAnyRole('ADMIN')">
+                    <h2>Clientes</h2>
+                    <section id="lista-usuarios">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
+
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="usuario : ${clientes}">
+                                <tr th:if="${usuario.estado}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                    <td th:text="${usuario.apellido}"></td>
+                                    <td th:text="${usuario.email}"></td>
+                                    <td th:text="${usuario.telefono}"></td>
+                                    <td th:text="${usuario.rol}"></td>
+
+                                    <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/panel/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/perfil/eliminar/__${usuario.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="contenedor-proyecto-usuarios" sec:authorize = "hasAnyRole('AGENTE','CLIENTE')">
+                    <h2>Agentes Vinculados a sus proyectos</h2>
+                    <section id="lista-usuarios">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
+                                    <th>Nombre Del Proyecto</th>  
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="usuario : ${agentesVinculados}">
+                                <tr th:if="${usuario.estado}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                    <td th:text="${usuario.apellido}"></td>
+                                    <td th:text="${usuario.email}"></td>
+                                    <td th:text="${usuario.telefono}"></td>
+                                    <td th:text="${usuario.rol}"></td>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td>
+                                        <ul>
+                                            <li th:each="proyecto : ${usuario.proyectos}" th:text="${proyecto.nombre}" style="list-style: square"></li>
+                                           
+                                        </ul>
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/perfil/panel/__${usuario.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/perfil/eliminar/__${usuario.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="contenedor-proyecto-usuarios" sec:authorize = "hasAnyRole('AGENTE','CLIENTE')">
+                    <h2>Clientes Vinculados a sus proyectos</h2>
+                    <section id="lista-usuarios">
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Rol</th>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th> 
+                                    <th>Nombre Del Proyecto</th>  
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="usuario : ${clientesVinculados}">
+                                <tr th:if="${usuario.estado}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                    <td th:text="${usuario.apellido}"></td>
+                                    <td th:text="${usuario.email}"></td>
+                                    <td th:text="${usuario.telefono}"></td>
+                                    <td th:text="${usuario.rol}"></td>
+                                    <!--agrego columna de estado a la tabla-->
+                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td>
+                                        <ul>
+                                            <li th:each="proyecto : ${usuario.proyectos}" th:text="${proyecto.nombre}" style="list-style: square"></li>
+                                        </ul>
+                                    </td>
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
                                             class="modificar"
@@ -69,7 +269,6 @@
                                     <th>Rol</th>
                                     <!--agrego columna de estado a la tabla-->
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>  
-
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Modificación</th>
                                 </tr>
                             </thead>
@@ -80,7 +279,6 @@
                                     <td th:text="${usuario.email}"></td>
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
-
                                     <!--agrego columna de estado a la tabla-->
                                     <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
 

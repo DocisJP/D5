@@ -47,7 +47,7 @@ public class EmailServicio {
         contactomensaje = "Saludos \n\nSe recibio un nuevo mensaje de contacto a responder al email: " + contactoEmail 
                 + "\n\n ------------------------\n \n" + contactomensaje + "\n\n ------------------------\n \n  Att: FiveDesign";
         
-        mailMessage.setTo("fivedesignmedia@gmail.com");
+        mailMessage.setTo("julidrz@hotmail.com.ar");
         mailMessage.setSubject("nuevo mensaje de contacto");
         mailMessage.setText(contactomensaje);
 

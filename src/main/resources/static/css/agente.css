@@ -11,6 +11,46 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--fondo);
 }
+/*footer*/
+#container-footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5rem;
+  background-color: var(--fondo);
+  color: bisque;
+  padding: 20px;
+}
+#social {
+  bottom: 0;
+  right: 0;
+  font-size: 2rem;
+  padding: 30px;
+}
+.volver{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    margin-top: 3rem;
+    padding-bottom: 1rem;
+}
+.volver .btn{
+    background-color: var(--fondo);
+    color: var(--blanco);
+    border: 2px solid var(--terciario);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    text-decoration: none;
+}
+.volver .btn:hover{
+    background-color: var(--terciario);
+    color: var(--fondo);
+    border: 2px solid var(--blanco);
+}
 /*Barra de navegación*/
 .navegacion {
   display: flex;
@@ -75,29 +115,28 @@
   background-color: var(--fondo);
   color: var(--blanco);
   width: 60%;
-  max-height: 30rem;
+  max-height: 50rem;
   margin: 1rem;
   padding: 1.5rem;
   border-radius: 2rem 5rem;
   box-shadow: 3px 2px 6px rgb(227, 221, 221);
+  transform: translateX(30rem);
 }
 .proyecto h1,
 h3 {
-  line-height: 5rem;
-  
+  line-height: 5rem;  
   padding:1rem;
 }
 .tarea {
   background-color: var(--fondo);
   color: var(--blanco);
-  width: 40%;
+  width: 60%;
   max-height: fit-content;
-  margin: 1rem 6rem;
+  margin:4rem 8rem 1rem 0;
   padding: 1.5rem;
   border-radius: 6rem 3rem;
   box-shadow: 3px 2px 6px rgb(227, 221, 221);
-  transform: translateX(40rem);
-  transform: translate
+  transform: translateX(30rem);
 }
 .tarea h1,
 h2,
@@ -109,9 +148,9 @@ p {
 .reunion {
   background-color: var(--fondo);
   color: var(--blanco);
-  width: 40%;
+  width: 60%;
+  margin:4rem 0 1rem 1rem;
   padding: 1.5rem;
-  margin: 1rem;
   border-radius: 4rem 6rem;
   box-shadow: 3px 2px 6px rgb(227, 221, 221);
 }
@@ -211,46 +250,6 @@ p {
   font-size: 1.5rem;
 }
 
-.btn-volver {
-    margin-top: 20px;
-    display: flex;
-        justify-content: center;
-        
-}
-.btn-volver a {
-    margin-top: 20px;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--terciario);
-    text-decoration: none;
-    display: inline-block;
-    background-color: var(--fondo);
-    padding: .5rem;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-.btn-volver a:hover {
-    background-color: var(--terciario);
-    color: var(--fondo);
-}
-/*footer*/
-.social {
-  bottom: 0;
-  right: 0;
-  font-size: 2rem;
-
-  padding: 30px;
-}
-.container-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.5rem;
-  background-color: var(--fondo);
-  color: bisque;
-  padding: 20px;
-}
 
 /*modelo*/
 .container-modelo{

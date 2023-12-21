@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/head :: head"></head>
 <body>
-    <header th:replace="fragments/navbar :: nav"></header>
-    <main class="mt-5">
+    <header class="contenedor-header-formulario">
+        <nav th:replace = "/fragments/navbar2 :: nav"></nav>
         <div class="container">
             <div th:replace="fragments/modelo :: div"></div>
             <section class="text-center">
                 
                 <form th:action="@{/buscar}" method="get" class="form-inline justify-content-center mb-2">
-                    <input type="text" th:value="${nombreProyecto}" name="nombreProyecto" class="form-control mr-2" placeholder="Buscar por nombre del proyecto o empresa...">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <input type="text" th:value="${nombreProyecto}" name="nombreProyecto" class="form-control input-empresa" placeholder="Buscar por nombre del proyecto o empresa...">
+                    <button type="submit" class="btn-buscar">Buscar</button>
                 </form>
             </section>
             <div class="resultados mt-4">
@@ -22,7 +22,7 @@
                         <li th:each="empresa : ${empresas}" th:text="${empresa}">Nombre de la Empresa</li>
                     </ul>
                 </div>
-                <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info">
+                <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
                     No se encontraron empresas o usuarios asociados al proyecto.
                 </div>
             </div>
@@ -30,7 +30,7 @@
         <div class="text-center mt-4">
             <a th:href="@{/inicio}" class="btn btn-secondary">Volver</a>
         </div>
-    </main>
+        </header>
     <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

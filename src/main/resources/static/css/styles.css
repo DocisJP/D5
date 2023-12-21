@@ -143,6 +143,18 @@
     border-radius: 1rem;
 }
 
+.subir{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-right: 3rem;
+    position:sticky;
+}
+.subir a{
+    font-size: 3rem;
+    color: var(--fondo);
+}
+
 @media (min-width: 768px) {
     .bodyForm{
         width: 60%;
@@ -299,6 +311,11 @@
 .btn-volver {
     margin-top: 20px;
 }
+.container-btn-volver{
+    display: flex;
+    justify-content: center;
+}
+
 .btn-volver a {
     margin-top: 20px;
     font-size: 1rem;
@@ -372,6 +389,10 @@
         display: grid;
         grid-template-columns: 1fr;
     }
+    .participantes .c-btn{
+    transform: translateY(-2rem);
+    
+}
 
 }
 .main{
@@ -532,6 +553,23 @@
 section {
     margin-bottom: 20px;
 }
+.check-estado{
+    font-size: 1.5rem;
+    background-color: var(--blanco);
+    color: var(--fondo);
+    display: inline-block;
+    width: 60%;
+    padding: .5rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+.mi-check{
+   width: 20px;
+   height: 20px;
+   color:red;
+   margin-right: 1rem;
+}
+
 
 /* Estilos para la tabla de proyectos */
 .contenedor-proyecto {
@@ -623,6 +661,7 @@ a.eliminar {
     justify-items: center;
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 3rem;
 }
 .card-body{
     justify-items: center;
@@ -675,7 +714,7 @@ a.eliminar {
 .participantes{
     background-color: var(--terciario);
     border: 2px solid var(--fondo);
-    width:60%;
+    width:100%;
     padding: 2rem;
 
 }
@@ -683,7 +722,40 @@ a.eliminar {
     font-size: 1.2rem;
     color: var(--fondo);
 }
+.participantes .c-btn{
+    transform: translateY(-2.5rem);
+    margin-left: 3rem;
+    
+}
 .text-center{
     display: flex;
     justify-content: center;
+}
+.input-empresa{
+    width: 35rem;
+    background-color: var(--secundario);
+    border: 2px solid var(--fondo);
+    padding: 1rem;
+    color:var(--fondo);
+    font-size: 1.2rem;
+}
+.input-empresa::placeholder{
+    color:var(--fondo);
+}
+.alert-info{
+    color: var(--fondo);
+    margin-top: 2rem;
+}
+.btn-buscar{
+    width: 20rem;
+    background-color: var(--fondo);
+    border: 2px solid var(--terciario);
+    border-radius: 1rem;
+    color:var(--blanco);
+    margin-top: 2rem;
+}
+.btn-buscar:hover{
+    background-color: var(--terciario);
+    border: 2px solid var(--fondo);
+    color:var(--fondo);
 }

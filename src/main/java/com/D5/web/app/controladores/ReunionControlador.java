@@ -17,8 +17,10 @@ import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -228,19 +230,25 @@ public class ReunionControlador {
     }
 
     @GetMapping("/solicitar")
-    public String solicitarReunion(Model model) {
+    public String solicitarReunion(Model model, HttpSession session) {
+        Usuario usuarioEnSession = (Usuario) session.getAttribute("usuariosession");
 
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        List<Usuario> agentes = new ArrayList();
-        for (Usuario usuario : usuarios) {
-            Rol rolUsuario = usuario.getRol();
-            System.out.println("USUARIO: " + usuario.getNombre() + " - ROL: [" + rolUsuario + "]");
+        // Obtener los proyectos del usuario en sesión
+        List<Proyecto> proyectos = proyectoServicio.listarProyectosPorIdUsuario(usuarioEnSession.getId());
 
-            if (Rol.AGENTE.equals(rolUsuario)) {
-                agentes.add(usuario);
-            }
+        // Obtener los agentes vinculados a los proyectos del usuario en sesión
+        List<Usuario> agentes = new ArrayList<>();
+        for (Proyecto proyecto : proyectos) {
+            List<Usuario> buscarAgentes = usuarioServicio.listarUsuariosPorIdProyecto(proyecto.getId());
+
+            // Filtro los agentes según el rol
+            List<Usuario> agentesDelProyecto = buscarAgentes.stream()
+                    .filter(u -> u.getRol() == Rol.AGENTE)
+                    .collect(Collectors.toList());
+
+            agentes.addAll(agentesDelProyecto);
         }
-        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+
         model.addAttribute("reunion", new Reunion());
         model.addAttribute("agentes", agentes);
         model.addAttribute("proyectos", proyectos);

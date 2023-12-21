@@ -11,24 +11,38 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 bodyForm-registrar">
 
-                        <h1>Agregar Participantes</h1>
+                        <h1 sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar Participantes</h1>
                         <section > 
                             <h1>Lista participantes</h1>
                             <div class="text-center">
                                 <div class="participantes">
                                     <ul th:each="usuarioLista : ${listaActual}" class="list-group">
-                                        <li th:text="${usuarioLista.nombre + ' ' + usuarioLista.apellido + ' (' + usuarioLista.email + ')'}" class="list-item" style="list-style: none">text</li>
+                                        <li  style="list-style: none">
+                                            <div class="d-flex">
+                                                <span th:text="${usuarioLista.nombre + ' ' + usuarioLista.apellido + ' (' + usuarioLista.email + ')' + ' (' + usuarioLista.rol + ')'}" class="list-item" ></span>
+                                                <form th:action="@{/proyecto/eliminar-participante}" method="post" class="d-inline" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">     
+                                                    <div class="c-btn">
+                                                        <button type="submit" class="btn text-danger">
+                                                            <!-- Puedes usar cualquier ícono de eliminación aquí -->
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>    
+                                                    <input type="hidden" name="proyectoId" th:value="${proyecto.id}" />
+                                                    <input type="hidden" name="usuarioId" th:value="${usuarioLista.id}" />
+                                                </form>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </section>
-                        <form th:action="@{/proyecto/participantes}" method="post">
+                        <form th:action="@{/proyecto/participantes}" method="post" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                             <input type="hidden" name="proyectoId" th:value="${proyecto.id}">
                             <select name="usuarioId">
                                 <option th:each="elegido : ${participantes}"
                                         th:if="${elegido.rol.toString() == 'AGENTE'}"
                                         th:value="${elegido.id}">
-                                <span class="class" th:text="${elegido.nombre +' '+ elegido.apellido}">text</span>
+                                <span class="class" th:text="${elegido.nombre +' '+ elegido.apellido}">Agentes</span>
                                 </option>
                             </select>                  
                             <div class="container-btn">
@@ -40,13 +54,13 @@
                                 </div>
                             </div>
                         </form>
-                        <form th:action="@{/proyecto/participantes}" method="post">
+                        <form th:action="@{/proyecto/participantes}" method="post" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                             <input type="hidden" name="proyectoId" th:value="${proyecto.id}">
                             <select name="usuarioId">
                                 <option th:each="elegido : ${participantes}"
                                         th:if="${elegido.rol.toString() == 'CLIENTE'}"
                                         th:value="${elegido.id}">
-                                <span class="class" th:text="${elegido.nombre +' '+ elegido.apellido}">text</span>
+                                <span class="class" th:text="${elegido.nombre +' '+ elegido.apellido}">Clientes</span>
                                 </option>
                             </select>                  
                             <div class="container-btn">
@@ -55,12 +69,15 @@
                                     <button type="submit" class="btn btn-primary">
                                         Guardar Integrante
                                     </button>
-                                </div>
-                                <div class="row">
-                                    <a href="/proyecto/lista" class="btn btn-primary">Volver a la Lista</a>
-                                </div>
+                                </div>                               
                             </div>
                         </form>
+                        <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
+                            <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                        </div>
+                        <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                            <a th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                        </div>
                     </div>
                 </div>
             </div>
