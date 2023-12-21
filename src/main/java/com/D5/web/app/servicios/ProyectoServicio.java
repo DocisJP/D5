@@ -6,7 +6,7 @@ import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
-import com.D5.web.app.enumerador.Rol;  
+import com.D5.web.app.enumerador.Rol;
 import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
@@ -25,31 +25,29 @@ public class ProyectoServicio {
     @Autowired
     private ProyectoRepositorio proyectoRepositorio;
 
+    public List<String> findEmpresasByProjectName(String projectName) {
+        return proyectoRepositorio.findEmpresasByProjectName(projectName);
+    }
 
-	public List<String> findEmpresasByProjectName(String projectName) {
-	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
-	}
+    public List<String> buscaProyectos(String empresa) {
+        return proyectoRepositorio.findProjectNameByEmpresa(empresa);
+    }
 
-    
-   
-	
-	@Transactional
-	public Proyecto crear(Proyecto proyecto) {
-	    try {
-	    	if(proyecto.getEstado()==null)
-	    	{
-	    		proyecto.setEstado(true);
-	    	}
-	        valida(proyecto); 
-	        establecerRelaciones(proyecto); 
-	        return proyectoRepositorio.save(proyecto);
-	    } catch (ValidationException e) {
-	        throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
-	    } catch (Exception e) {
-	        throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
-	    }
-	}
- 
+    @Transactional
+    public Proyecto crear(Proyecto proyecto) {
+        try {
+            if (proyecto.getEstado() == null) {
+                proyecto.setEstado(true);
+            }
+            valida(proyecto);
+            establecerRelaciones(proyecto);
+            return proyectoRepositorio.save(proyecto);
+        } catch (ValidationException e) {
+            throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
+        }
+    }
 
     @Transactional
     public Proyecto modificar(Proyecto proyecto) {
@@ -164,25 +162,23 @@ public class ProyectoServicio {
         return agentes;
     }
 
-    
-     @Transactional
-    public Integer Inactivos(){
-    
-        Integer contador =0;
-        
-         List<Proyecto> proyectos = new ArrayList();
-    
+    @Transactional
+    public Integer Inactivos() {
+
+        Integer contador = 0;
+
+        List<Proyecto> proyectos = new ArrayList();
+
         proyectos = proyectoRepositorio.findAll();
-        
+
         for (Proyecto proyecto : proyectos) {
-            
+
             if (proyecto.getEstado().toString().equalsIgnoreCase("FALSE")) {
                 contador++;
-                
-            }            
-        }    
+
+            }
+        }
         return contador;
-    
+
     }
 }
-
