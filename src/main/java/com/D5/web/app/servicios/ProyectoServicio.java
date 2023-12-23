@@ -7,16 +7,13 @@ import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
-import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
-import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,13 +104,13 @@ public class ProyectoServicio {
             throw new IllegalArgumentException("El detalle del producto no puede ser nulo ");
         }
         if (proyecto.getFechaInicio().before(Date.from(Instant.now())) || proyecto.getFechaInicio().equals(proyecto.getFechaFinalizacion())) {
-            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al d�a de hoy");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al día de hoy");
         }
         if (proyecto.getFechaInicio().after(proyecto.getFechaFinalizacion())) {
-            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalizaci�n");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalización");
         }
         if (proyecto.getFechaFinalizacion().before(proyecto.getFechaInicio())) {
-            throw new IllegalArgumentException("Fecha de finalizaci�n no puede ser previa a la fecha de inicio");
+            throw new IllegalArgumentException("Fecha de finalización no puede ser previa a la fecha de inicio");
         }
     }
 
