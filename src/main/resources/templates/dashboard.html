@@ -4,10 +4,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"> 
-    <head>
-        <title>Panel de Administración</title>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <head th:replace="fragments/head :: head">
+        <title>Algo</title>
     </head>
     <body>
         <header>
@@ -22,6 +20,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     Este elemento de allá
                 </section>
             </aside>
+
+            <form th:action="@{/admin/buscar}" method="get" class="form-inline justify-content-center mb-2">
+                <input type="text" th:value="${busqueda}" name="busqueda" class="form-control input-empresa" placeholder="Buscar por nombre del proyecto o empresa..."/>
+                <button type="submit" class="btn-buscar">Buscar</button>
+            </form>
+
+            <div class="resultados mt-4">
+                <h2>Resultados Asociados</h2>
+
+                <div th:if="${empresas != null and !empresas.isEmpty()}">
+                    <ul>
+                        <!-- Lista de empresas -->
+                        <li th:each="empresa : ${empresas}" th:text="${empresa}">resultados</li>
+                    </ul>
+                </div>
+                <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                    No se encontraron empresas o usuarios asociados a la busqueda.
+                </div>
+                <div th:if="${listaUsuarios != null and !listaUsuarios.isEmpty()}">
+                    <ul>
+                        <!-- Lista de usuarios -->
+                        <li th:each="usuarioLista : ${listaUsuarios}" th:text="${usuarioLista.nombre}">resultados</li>
+                    </ul>
+                </div>
+                <div th:if="${listaUsuarios == null or listaUsuarios.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                    No se encontraron empresas o usuarios asociados a la busqueda.
+                </div>
+                <div th:if="${listaProyectos != null and !listaProyectos.isEmpty()}">
+                    <ul>
+                        <!-- Lista de proyectos -->
+                        <li th:each="proyectoLista : ${listaProyectos}" th:text="${proyectoLista}">resultados</li>
+                    </ul>
+                </div>
+                <div th:if="${listaProyectos == null or listaProyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                    No se encontraron empresas o usuarios asociados a la busqueda.
+                </div>
+            </div>
         </main>
         <footer th:replace="fragments/footer :: footer">
         </footer>
