@@ -24,15 +24,17 @@ public class BusquedaController {
     @GetMapping("/buscar")
     public String buscarEmpresasByProjectName(@RequestParam(required = false) String nombreProyecto, Model model) {
         List<String> empresas = Collections.emptyList();
+        List<String> proyectosEmpresa = Collections.emptyList();
         if (nombreProyecto != null && !nombreProyecto.isEmpty()) {
             empresas = proyectoServicio.findEmpresasByProjectName(nombreProyecto);
-            System.out.println("Termino de busqueda: '" + nombreProyecto + "'");
-            System.out.println("Empresas encontradas: " + empresas);
+            String busqueda = nombreProyecto;
+            proyectosEmpresa = proyectoServicio.buscaProyectos(busqueda);
         } else {
             System.out.println("No hay nombre de proyecto.");
         }
         model.addAttribute("nombreProyecto", nombreProyecto);
         model.addAttribute("empresas", empresas);
+        model.addAttribute("proyectosEmpresa", proyectosEmpresa);
         return "lista_empresas";
     }
 
