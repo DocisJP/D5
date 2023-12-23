@@ -3,12 +3,12 @@ package com.D5.web.app.repositorios;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository; 
+import org.springframework.stereotype.Repository;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import java.util.List;
- 
-@Repository 
+
+@Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     @Query("SELECT u FROM Usuario u WHERE u.dni = :dni")
@@ -20,5 +20,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.rol = :rol")
     public List<Usuario> findByRol(@Param("rol") Rol rol);
 
-}
+    @Query("SELECT u FROM Usuario u WHERE u.empresa = :empresa")
+    public List<Usuario> buscarUsuarioPorNombreEmpresa(@Param("empresa") String empresa);
 
+    @Query("SELECT u FROM Usuario u JOIN u.proyectos p WHERE p.id = :proyectoId")
+    List<Usuario> listarUsuariosPorProyectoId(@Param("proyectoId") String proyectoId);
+
+}

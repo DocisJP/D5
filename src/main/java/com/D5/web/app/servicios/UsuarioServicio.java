@@ -106,6 +106,9 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
+       public List<Usuario> buscarUsuarioPorNombreEmpresa(String empresa) {
+	    return usuarioRepositorio.buscarUsuarioPorNombreEmpresa(empresa);
+	}
 
     @Transactional
     public List<Usuario> listarUsuarios() {
@@ -208,6 +211,10 @@ public class UsuarioServicio implements UserDetailsService {
         }    
         return contador;
     
+    }
+
+    public List<Usuario> listarUsuariosPorIdProyecto(String id) {
+      return usuarioRepositorio.listarUsuariosPorProyectoId(id);
     }
 }
 

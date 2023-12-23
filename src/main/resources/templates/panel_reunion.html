@@ -14,7 +14,7 @@
                         <table class="tabla">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Id</th>
                                     <th>Nombre</th>
                                     <th>Detalle</th>
                                     <th>Horario Inicio</th>
@@ -28,18 +28,19 @@
                             </thead>
                             <tbody>
                                 <tr th:each="reunion : ${reuniones}">
-                                    <th th:text="${reunion.id}"></th>
+                                    <th th:text="${reunion.id}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')"></th>
                                     <td th:text="${reunion.nombre}"></td>
                                     <td th:text="${reunion.detalle}"></td>
                                     <td th:text="${reunion.horarioDeInicio}"></td>
                                     <td th:text="${reunion.horarioDeFin}"></td>
                                                                         <td >
-                                        <p th:text="${reunion.usuario.nombre}"></p>
+                                        <p th:text="${reunion.usuario.nombre + ' ' + reunion.usuario.apellido + '(' + reunion.usuario.rol + ')' }"></p>
                                     </td>
                                     <td >
                                         <p th:text="${reunion.proyecto.nombre}"></p>
                                     </td>
-                                    <td ><a th:text="${reunion.estado?'Aceptada':'En espera'}" th:href="@{/reunion/cambiarEstado/__${reunion.id}__}"></a></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')"><a class="modificar" style="color:var(--secundario)" th:text="${reunion.estado?'Aceptada':'En espera'}" th:href="@{/reunion/cambiarEstado/__${reunion.id}__}"></a></td>
+                                    <td th:text="${reunion.estado?'Aceptada':'En espera'}" sec:authorize = "hasAnyRole('CLIENTE')"></td>
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
                                         <a class="modificar"
                                            th:href="@{/reunion/modificar/__${reunion.id}__}" ><i class="fas fa-feather-alt"></i> Modificar</a>

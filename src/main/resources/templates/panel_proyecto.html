@@ -4,10 +4,11 @@
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-proyecto">
-          <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
 
-            <div th:replace = "/fragments/modelo :: div"></div>
-
+            <div th:if="${exito}" class="alert alert-success" role="alert">
+                <p th:text="${exito}"></p>
+            </div>
             <div class="contenedor-tabla container">
                 <div class="contenedor-proyecto row">
                     <h2>Listado de Proyectos</h2>
@@ -20,26 +21,29 @@
                                     <th>Nombre</th>
                                     <th>Detalle</th>
                                     <th>Fecha Inicio</th> 
-                                    <th>Fecha Finalización</th> 
+                                    <th>Fecha Finalización</th>
+                                    <th>Progreso</th> 
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>
-                                    <th sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">Agentes</th> 
-                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar Integrantes</th>                                    
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar y Ver Integrantes</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Ver Integrantes</th>                                    
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
                                 </tr>
                             </thead>
                             <tbody th:each="proyecto : ${proyectos}">
-                                 <tr>
+                                <tr th:if="${proyecto.estado}">
                                     <th th:text="${proyecto.id}"></th>
                                     <td th:text="${proyecto.nombre}"></td>
                                     <td th:text="${proyecto.detalleProyecto}"></td>
                                     <td th:text="${proyecto.fechaInicio}"></td> 
                                     <td th:text="${proyecto.fechaFinalizacion}"></td> 
+                                    <td th:text="${proyecto.progreso}"></td> 
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
-                                        <span th:if="${!proyecto.estado}" th:text="'Finalizado'">Finalizado</span>
-                                        <span th:if="${proyecto.estado}" th:text="'En Proceso'">En Proceso</span>
+                                        <span th:if="${!proyecto.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${proyecto.estado}" th:text="'Alta'">Alta</span>
                                     </td> 
-                                    <td sec:authorize = "hasAnyRole('CLIENTE','AGENTE')">
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
                                         <a
                                             class="modificar"
                                             th:href="@{/proyecto/contactar/__${proyecto.id}__}"
@@ -47,10 +51,17 @@
                                         >
                                     </td>
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
-                                          <a
-                                              class="modificar" style="color: #59a5d8"
+                                        <a
+                                            class="modificar" style="color: #59a5d8"
                                             th:href="@{/proyecto/participantes/__${proyecto.id}__}"
-                                            ><i class="fa-regular fa-user"></i> Agregar Integrantes</a
+                                            ><i class="fa-regular fa-user"></i> Agregar y Ver Integrantes</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <a
+                                            class="modificar" style="color: #59a5d8"
+                                            th:href="@{/proyecto/participantes/__${proyecto.id}__}"
+                                            ><i class="fa-regular fa-user"></i>Ver Integrantes</a
                                         >
                                     </td>
                                     <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
@@ -70,16 +81,162 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </section>
-                    <div class='row'>
-                        <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Crear nuevo Proyecto</a>
-                        <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('CLIENTE')">Solicitar nuevo Proyecto</a>                      
-                    </div>
-                    <div class="btn-volver col align-self-center">
-                        <a th:href="@{/inicio}">Volver</a>
-                    </div>
-                </div>                               
-            </div>           
+                    </section> 
+                </div>  
+                <div class="contenedor-proyecto row" sec:authorize = "hasAnyRole('ADMIN')">
+                    <h2>Proyectos a Dar de Alta</h2>
+                    <section id="proyectos-agente">
+
+                        <table class="tabla">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Detalle</th>
+                                    <th>Fecha Inicio</th> 
+                                    <th>Fecha Finalización</th> 
+                                    <th>Progreso</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar y Ver Integrantes</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Ver Integrantes</th>                                    
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="proyecto : ${proyectos}">
+                                <tr th:if="${!proyecto.estado}">
+                                    <th th:text="${proyecto.id}"></th>
+                                    <td th:text="${proyecto.nombre}"></td>
+                                    <td th:text="${proyecto.detalleProyecto}"></td>
+                                    <td th:text="${proyecto.fechaInicio}"></td> 
+                                    <td th:text="${proyecto.fechaFinalizacion}"></td> 
+                                    <td th:text="${proyecto.progreso}"></td> 
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!proyecto.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${proyecto.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/contactar/__${proyecto.id}__}"
+                                            ><i class="bi bi-person-square"></i> Contactar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                                        <a
+                                            class="modificar" style="color: #59a5d8"
+                                            th:href="@{/proyecto/participantes/__${proyecto.id}__}"
+                                            ><i class="fa-regular fa-user"></i> Agregar y Ver Integrantes</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <a
+                                            class="modificar" style="color: #59a5d8"
+                                            th:href="@{/proyecto/participantes/__${proyecto.id}__}"
+                                            ><i class="fa-regular fa-user"></i>Ver Integrantes</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/modificar/__${proyecto.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/proyecto/eliminar/__${proyecto.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section> 
+                </div>  
+                <div class="contenedor-proyecto row" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                    <h2>Proyectos Finalizados</h2>
+                    <section id="proyectos-agente">
+
+                        <table class="tabla" th:debug>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Detalle</th>
+                                    <th>Fecha Inicio</th> 
+                                    <th>Fecha Finalización</th> 
+                                    <th>Progreso</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Estado</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Agentes</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar y Ver Integrantes</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Ver Integrantes</th> 
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
+                                </tr>
+                            </thead>
+                            <tbody th:each="proyecto : ${proyectos}">
+                                <tr th:if="${proyecto.progreso == T(com.D5.web.app.enumerador.Progreso).FINALIZADO}">
+                                    <th th:text="${proyecto.id}"></th>
+                                    <td th:text="${proyecto.nombre}"></td>
+                                    <td th:text="${proyecto.detalleProyecto}"></td>
+                                    <td th:text="${proyecto.fechaInicio}"></td> 
+                                    <td th:text="${proyecto.fechaFinalizacion}"></td> 
+                                    <td th:text="${proyecto.progreso}"></td> 
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!proyecto.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${proyecto.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/contactar/__${proyecto.id}__}"
+                                            ><i class="bi bi-person-square"></i> Contactar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                                        <a
+                                            class="modificar" style="color: #59a5d8"
+                                            th:href="@{/proyecto/participantes/__${proyecto.id}__}"
+                                            ><i class="fa-regular fa-user"></i> Agregar y Ver Integrantes</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <a
+                                            class="modificar" style="color: #59a5d8"
+                                            th:href="@{/proyecto/participantes/__${proyecto.id}__}"
+                                            ><i class="fa-regular fa-user"></i>Ver Integrantes</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
+                                        <a
+                                            class="modificar"
+                                            th:href="@{/proyecto/modificar/__${proyecto.id}__}"
+                                            ><i class="fas fa-feather-alt"></i> Modificar</a
+                                        >
+                                    </td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <a
+                                            class="eliminar"
+                                            th:href="@{/proyecto/eliminar/__${proyecto.id}__}"
+                                            ><i class="fa-solid fa-trash"></i> Eliminar</a
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section> 
+                </div>  
+            </div>  
+            <div class='row'>
+                <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Crear nuevo Proyecto</a>
+                <a th:href="@{/proyecto/registro}" class="btn" sec:authorize = "hasAnyRole('CLIENTE')">Solicitar nuevo Proyecto</a>                      
+            </div>
+            <div class='row'>
+                <a th:href="@{/inicio}" class="btn" style="width: 30%">Volver</a>
+            </div>
         </header>
         <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>

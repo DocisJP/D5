@@ -5,7 +5,9 @@
     <body>
         <header class="contenedor-header-formulario">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
+            <div th:if="${exito}" class="alert alert-success" role="alert">
+                <p th:text="${exito}"></p>
+            </div>
 
             <div class="container mt-5 ">
                 <div class="row justify-content-center">
@@ -79,8 +81,11 @@
                                         enviar
                                     </button>
                                 </div>
-                                <div class="row">
-                                    <a href="/proyecto/lista" class="btn btn-primary">Volver a la Lista</a>
+                                <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
+                                    <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                                </div>
+                                <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                                    <a th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                                 </div>
                             </div>
 

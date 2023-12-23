@@ -4,12 +4,15 @@ import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Progreso;
+import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.servicios.EmailServicio;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -46,11 +49,11 @@ public class ProyectoControlador {
     @Autowired
     private EmailServicio emailServicio;
 
-    
     @GetMapping("/panel")
     public String panelControl(ModelMap model) {
 
         List<Proyecto> listado = proyectoServicio.listarProyectos();
+
         model.addAttribute("proyectos", listado);
         return "panel_proyecto.html";
     }
@@ -64,10 +67,86 @@ public class ProyectoControlador {
     }
 
     @GetMapping("/listaProyectos/{id}")
-    public String listaProyectos(@PathVariable String id, ModelMap model) {
+    public String listaProyectos(@PathVariable String id, ModelMap model, RedirectAttributes redirectAttrs) {
         List<Proyecto> listado = proyectoServicio.listarProyectosPorIdUsuario(id);
         model.addAttribute("proyectos", listado);
+        System.out.println("Correo enviado correctamente");
+        redirectAttrs.addFlashAttribute("exitoMensaje", "El correo se envió correctamente.");
+
         return "panel_proyecto.html";
+    }
+
+//
+//    @GetMapping("/lista/tareas")
+//    public String listaTareas(ModelMap model) {
+//
+//        List<Tarea> listado = tareaServicio.listarTareas();
+//        model.addAttribute("tareas", listado);
+//        return "listado_tareas";
+//    }
+    @GetMapping("/reuniones/{id}")
+    public String verListaReuniones(@PathVariable String id, ModelMap model) {
+        Proyecto proyecto = proyectoServicio.buscarPorId(id);
+        List<Reunion> listado = proyecto.getListaReuniones();
+        model.addAttribute("reuniones", listado);
+        return "listado_reuniones";
+    }
+
+    @GetMapping("/contactar/{id}")
+    public String contactar(@PathVariable String id, ModelMap model) {
+        Proyecto proyecto = proyectoServicio.buscarPorId(id);
+        List<Usuario> agentes = proyectoServicio.getAgentes(proyecto);
+        model.addAttribute("proyecto", proyecto);
+        model.addAttribute("agentes", agentes);
+        return "panel_contacto_agente";
+    }
+
+    @PostMapping("/contactar")
+    public String contactarAgente(HttpSession session, @ModelAttribute Proyecto proyecto, String asunto, String mensaje, String idAgente, RedirectAttributes redirectAttrs, ModelMap modelo) {
+
+        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+
+        emailServicio.enviarCorreo(proyecto, idAgente, logueado, asunto, mensaje);
+        System.out.println("Correo enviado correctamente");
+        redirectAttrs.addFlashAttribute("exitoMensaje", "El correo se envió correctamente.");
+
+        return "redirect:/proyecto/contactar/" + proyecto.getId();
+
+    }
+
+    @GetMapping("/registro")
+    public String mostrarFormularioRegistro(Model model) {
+        Proyecto nuevoProyecto = new Proyecto();
+        nuevoProyecto.setEstado(Boolean.FALSE);
+        nuevoProyecto.setProgreso(Progreso.PENDIENTE);
+
+        model.addAttribute("proyecto", nuevoProyecto);
+        model.addAttribute("progresos", Progreso.values());
+        return "formulario_proyecto.html";
+    }
+
+    @PostMapping("/registro")
+    public String registrarProyecto(@ModelAttribute Proyecto proyecto, HttpSession session, RedirectAttributes redirectAttrs) {
+        try {
+
+            Usuario usuarioEnSession = (Usuario) session.getAttribute("usuariosession");
+
+            // Si el usuario en sesión no es un "ADMIN", agregarlo como participante
+            if (!Rol.ADMIN.equals(usuarioEnSession.getRol())) {
+                List<Usuario> usuarios = new ArrayList<>();
+                usuarios.add(usuarioEnSession);
+                proyecto.setUsuarios(usuarios);
+            }
+
+            // Guardar el proyecto
+            Proyecto proyectoGuardado = proyectoServicio.crear(proyecto);
+
+            redirectAttrs.addFlashAttribute("exito", "El proyecto fue creado con éxito");
+            return "redirect:/proyecto/detalle/" + proyectoGuardado.getId();
+        } catch (Exception ex) {
+            redirectAttrs.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/proyecto/registro";
+        }
     }
 
     @GetMapping("/participantes/{id}")
@@ -87,85 +166,54 @@ public class ProyectoControlador {
 
         Usuario usuario = usuarioServicio.getOne(usuarioId);
         Proyecto proyecto = proyectoServicio.buscarPorId(proyectoId);
-
+        
         try {
-
             List<Usuario> listado = proyecto.getUsuarios();
-            listado.add(usuario);
-            proyecto.setUsuarios(listado);
+            
+            if (!listado.contains(usuario)) {
+                listado.add(usuario);
+                proyecto.setUsuarios(listado);
+                
+                // Resto del código...  
+            }
+            else{
+                proyecto.setUsuarios(proyecto.getUsuarios());
+            }
+            
             modelo.addAttribute("proyecto", proyecto);
+            // Actualizar la lista de participantes después de agregar el usuario
+            List<Usuario> listaActual = proyecto.getUsuarios();
+            modelo.addAttribute("listaActual", listaActual);
+
             proyectoServicio.modificar(proyecto);
 
             modelo.addAttribute("exito", "Usuario agregado");
 
         } catch (Exception e) {
-        List<Usuario> listaActual = proyecto.getUsuarios();
-        List<Usuario> participantes = usuarioServicio.listaUsuarios();
-        modelo.addAttribute("listaActual", listaActual);
-        modelo.addAttribute("participantes", participantes);
-        modelo.addAttribute("proyecto", proyecto);
+            List<Usuario> listaActual = proyecto.getUsuarios();
+            List<Usuario> participantes = usuarioServicio.listaUsuarios();
+            modelo.addAttribute("listaActual", listaActual);
+            modelo.addAttribute("participantes", participantes);
+            modelo.addAttribute("proyecto", proyecto);
             return "agregar_participantes";
         }
         return "redirect:/proyecto/participantes/" + proyecto.getId();
     }
-//
-//    @GetMapping("/lista/tareas")
-//    public String listaTareas(ModelMap model) {
-//
-//        List<Tarea> listado = tareaServicio.listarTareas();
-//        model.addAttribute("tareas", listado);
-//        return "listado_tareas";
-//    }
 
-    @GetMapping("/reuniones/{id}")
-    public String verListaReuniones(@PathVariable String id, ModelMap model) {
-        Proyecto proyecto = proyectoServicio.buscarPorId(id);
-        List<Reunion> listado = proyecto.getListaReuniones();
-        model.addAttribute("reuniones", listado);
-        return "listado_reuniones";
-    }
+    @PostMapping("/eliminar-participante")
+    public String eliminarParticipante(@RequestParam String proyectoId, @RequestParam String usuarioId) {
+        // Lógica para eliminar al usuario de la lista de participantes en el proyecto
+        Proyecto proyecto = proyectoServicio.buscarPorId(proyectoId);
+        Usuario usuario = usuarioServicio.getOne(usuarioId);
 
-    @GetMapping("/contactar/{id}")
-    public String contactar(@PathVariable String id, ModelMap model) {
-        Proyecto proyecto = proyectoServicio.buscarPorId(id);
-        System.out.println("Proyecto " + proyecto.getNombre());
-        List<Usuario> agentes = proyectoServicio.getAgentes(proyecto);
-        model.addAttribute("proyecto", proyecto);
-        model.addAttribute("agentes", agentes);
-        return "panel_contacto_agente";
-    }
+        List<Usuario> listaActual = proyecto.getUsuarios();
+        listaActual.remove(usuario);
 
-    @PostMapping("/contactar")
-    public String contactarAgente(HttpSession session, @ModelAttribute Proyecto proyecto, String asunto, String mensaje, String idAgente, RedirectAttributes redirectAttrs, ModelMap modelo) {
+        proyecto.setUsuarios(listaActual);
+        proyectoServicio.modificar(proyecto);
 
-        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
-
-        emailServicio.enviarCorreo(proyecto, idAgente, logueado, asunto, mensaje);
-        return "redirect:/proyecto/listaProyectos/" + logueado.getId();
-
-    }
-
-    @GetMapping("/registro")
-    public String mostrarFormularioRegistro(Model model) {
-        model.addAttribute("proyecto", new Proyecto());
-
-        return "formulario_proyecto.html";
-    }
-
-    @PostMapping("/registro")
-    public String registrarProyecto(@ModelAttribute Proyecto proyecto, RedirectAttributes redirectAttrs) {
-        System.out.print(redirectAttrs);
-        System.out.print(proyecto);
-
-        try {
-
-            Proyecto proyectoGuardado = proyectoServicio.crear(proyecto);
-            redirectAttrs.addFlashAttribute("exito", "El proyecto fue creado con éxito");
-            return "redirect:/proyecto/detalle/" + proyectoGuardado.getId();
-        } catch (Exception ex) {
-            redirectAttrs.addFlashAttribute("error", ex.getMessage());
-            return "redirect:/proyecto/registro";
-        }
+        // Redirige a la página de participantes actualizada
+        return "redirect:/proyecto/participantes/" + proyecto.getId();
     }
 
     @GetMapping("/lista")
@@ -191,6 +239,7 @@ public class ProyectoControlador {
     @GetMapping("/modificar/{id}")
     public String mostrarFormularioModificar(@PathVariable String id, Model model) {
         Proyecto proyecto = proyectoServicio.buscarPorId(id);
+        model.addAttribute("progresos", Progreso.values());
         if (proyecto == null) {
             // Manejar el caso en que el proyecto no se encuentre
             return "redirect:/proyecto/lista";
@@ -227,16 +276,30 @@ public class ProyectoControlador {
 
     /*Mock para probar una cosa...*/
     @GetMapping("/trabajo")
-    public String trabajosDeProyecto(ModelMap modelo) {
-        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+    public String trabajosDeProyecto(ModelMap modelo, HttpSession session) {
+        List<Proyecto> proyectosTodos = proyectoServicio.listarProyectos();
+        Usuario usuarioEnSession = (Usuario) session.getAttribute("usuariosession");
+
+        List<Proyecto> proyectos = proyectoServicio.listarProyectosPorIdUsuario(usuarioEnSession.getId());
+
         modelo.addAttribute("proyectos", proyectos);
         return "panel_trabajo_agente.html";
     }
 
+    @PostMapping("/buscar")
+    public String trabajo(@RequestParam String proyectoId) {
+
+        return "redirect:/proyecto/buscar/" + proyectoId;
+    }
+
     /*Mock para probar una cosa...*/
     @GetMapping("/buscar/{id}")
-    public String trabajosDeProyecto(ModelMap modelo, @PathVariable(required = false) String id) {
-        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+    public String trabajosDeProyecto(ModelMap modelo, @PathVariable(required = false) String id, HttpSession session) {
+        List<Proyecto> proyectosTodos = proyectoServicio.listarProyectos();
+        Usuario usuarioEnSession = (Usuario) session.getAttribute("usuariosession");
+
+        List<Proyecto> proyectos = proyectoServicio.listarProyectosPorIdUsuario(usuarioEnSession.getId());
+
         Proyecto proyectoElegido;
         if (id == null) {
             proyectoElegido = new Proyecto();
@@ -252,12 +315,6 @@ public class ProyectoControlador {
         modelo.addAttribute("proyectoElegido", proyectoElegido);
         modelo.addAttribute("tareas", tareas);
         return "panel_trabajo_agente.html";
-    }
-
-    @PostMapping("/buscar")
-    public String trabajo(@RequestParam String proyectoId) {
-
-        return "redirect:/proyecto/buscar/" + proyectoId;
     }
 
 }

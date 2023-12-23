@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace = "/fragments/head :: head"></head>
     <body>
-        <header class="contenedor-header">
+        <header class="contenedor-header"  id="arriba">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
             <div class="contenedor-portada">
@@ -19,6 +19,9 @@
                     colaboradores. Eficiencia y Perfeccionismo serían nuestras mejores
                     cualidades.
                 </h4>
+            </div>
+            <div class="subir">
+                <a th:href="@{#arriba}"><i class="fa-regular fa-hand-point-up"></i></a>
             </div>
             <section class="container-cards">
                 <div class="card custom-card m-4" style="width: 18rem">
@@ -77,6 +80,9 @@
                     </div>
                 </div>
             </section>
+            <div class="subir">
+                <a th:href="@{#arriba}"><i class="fa-regular fa-hand-point-up"></i></a>
+            </div>
             <div class="container-contacto">
                 <div class="info">
                     <h4>Más de Nosotros</h4>

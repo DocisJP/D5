@@ -9,6 +9,7 @@ import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
+import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class ProyectoServicio {
         existente.setFechaInicio(proyecto.getFechaInicio());
         existente.setFechaFinalizacion(proyecto.getFechaFinalizacion());
         existente.setEstado(proyecto.getEstado());
-
+        existente.setProgreso(proyecto.getProgreso());
         actualizarReuniones(existente, proyecto.getListaReuniones());
         actualizarTareas(existente, proyecto.getTareas());
 

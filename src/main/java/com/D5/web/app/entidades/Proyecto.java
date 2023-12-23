@@ -1,11 +1,14 @@
 package com.D5.web.app.entidades;
 
+import com.D5.web.app.enumerador.Progreso;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -54,6 +57,17 @@ public class Proyecto {
     
     private Boolean estado;
 
+    @Enumerated(EnumType.STRING)
+    private Progreso progreso;
+
+    public Progreso getProgreso() {
+        return progreso;
+    }
+
+    public void setProgreso(Progreso progreso) {
+        this.progreso = progreso;
+    }
+    
 	public String getId() {
 		return id;
 	}
