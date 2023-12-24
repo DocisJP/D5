@@ -36,7 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </ul>
                 </div>
                 <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                    No se encontraron empresas o usuarios asociados a la busqueda.
+                    No se encontraron proyectos.
                 </div>
                 <div th:if="${listaUsuarios != null and !listaUsuarios.isEmpty()}">
                     <ul>
@@ -45,7 +45,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </ul>
                 </div>
                 <div th:if="${listaUsuarios == null or listaUsuarios.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                    No se encontraron empresas o usuarios asociados a la busqueda.
+                    No se encontraron usuarios asociados a la busqueda.
                 </div>
                 <div th:if="${listaProyectos != null and !listaProyectos.isEmpty()}">
                     <ul>
@@ -54,7 +54,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </ul>
                 </div>
                 <div th:if="${listaProyectos == null or listaProyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                    No se encontraron empresas o usuarios asociados a la busqueda.
+                    No se encontraron empresas asociadas a la busqueda.
                 </div>
             </div>
         </main>
