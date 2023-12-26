@@ -20,10 +20,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.rol = :rol")
     public List<Usuario> findByRol(@Param("rol") Rol rol);
 
-    @Query("SELECT u FROM Usuario u WHERE u.empresa = :empresa")
+    @Query("SELECT u FROM Usuario u WHERE LOWER( u.empresa) LIKE LOWER(CONCAT('%',:empresa, '%'))")
     public List<Usuario> buscarUsuarioPorNombreEmpresa(@Param("empresa") String empresa);
 
     @Query("SELECT u FROM Usuario u JOIN u.proyectos p WHERE p.id = :proyectoId")
-    List<Usuario> listarUsuariosPorProyectoId(@Param("proyectoId") String proyectoId);
+    public List<Usuario> listarUsuariosPorProyectoId(@Param("proyectoId") String proyectoId);
 
 }

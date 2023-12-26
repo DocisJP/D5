@@ -4,12 +4,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"> 
-    <head th:replace="fragments/head :: head">
+    <head th:replace="~{/fragments/head :: head}">
         <title>Algo</title>
     </head>
     <body>
         <header>
-            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <nav th:replace = "~{/fragments/navbar2 :: nav}"></nav>
         </header>
         <main>
             <aside>
@@ -39,9 +39,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     No se encontraron proyectos.
                 </div>
                 <div th:if="${listaUsuarios != null and !listaUsuarios.isEmpty()}">
-                    <ul>
+                    <ul type='square'>
                         <!-- Lista de usuarios -->
-                        <li th:each="usuarioLista : ${listaUsuarios}" th:text="${usuarioLista.nombre}">resultados</li>
+                        <li th:each="usuarioLista : ${listaUsuarios}" th:text="|${usuarioLista.apellido}, ${usuarioLista.nombre}|">resultados</li>
                     </ul>
                 </div>
                 <div th:if="${listaUsuarios == null or listaUsuarios.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
@@ -58,7 +58,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
             </div>
         </main>
-        <footer th:replace="fragments/footer :: footer">
+        <footer th:replace="~{fragments/footer :: footer}">
         </footer>
 
     </body>
