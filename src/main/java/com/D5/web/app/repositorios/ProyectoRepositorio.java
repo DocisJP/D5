@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.D5.web.app.entidades.Proyecto;
+import com.D5.web.app.enumerador.Progreso;
 
 @Repository
 public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
@@ -28,4 +29,5 @@ public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
     @Query("SELECT DISTINCT p.nombre FROM Proyecto p JOIN p.usuarios u WHERE LOWER(u.empresa) LIKE LOWER(CONCAT('%', :empresa, '%'))")
     List<String> findProjectNameByEmpresa(@Param("empresa") String empresa);
 
+    List<Proyecto> findProyectoByProgreso(@Param("progreso") Progreso actual);
 }

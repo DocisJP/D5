@@ -6,6 +6,7 @@ import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
@@ -144,6 +145,10 @@ public class ProyectoServicio {
 
     public List<Proyecto> listarProyectos() {
         return proyectoRepositorio.findAll();
+    }
+
+    public List<Proyecto> listarProyectosEnProgreso() {
+        return proyectoRepositorio.findProyectoByProgreso(Progreso.PENDIENTE);
     }
 
     public List<Proyecto> listarProyectosPorIdUsuario(String id) {
