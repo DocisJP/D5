@@ -11,51 +11,60 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <header>
             <nav th:replace = "~{/fragments/navbar2 :: nav}"></nav>
         </header>
-        <main>
-            <aside>
-                <section>
-                    Este elemento de aqui
-                </section>
-                <section>
-                    Este elemento de allá
-                </section>
-            </aside>
+        <main class="container">
+            <div class="row justify-content-evenly">  
+                <aside class="col col-2">
+                    <section class='row'>
+                        Este elemento de aqui
+                    </section>
+                    <section class='row'>
+                        Este elemento de allá
+                    </section>
+                </aside>
 
-            <form th:action="@{/admin/buscar}" method="get" class="form-inline justify-content-center mb-2">
-                <input type="text" th:value="${busqueda}" name="busqueda" class="form-control input-empresa" placeholder="Buscar por nombre del proyecto o empresa..."/>
-                <button type="submit" class="btn-buscar">Buscar</button>
-            </form>
 
-            <div class="resultados mt-4">
-                <h2>Resultados Asociados</h2>
+                <div class="col col-10">
+                    <form th:action="@{/admin/buscar}" method="get" class="form-inline justify-content-center mb-2">
+                        <input type="text" th:value="${busqueda}" name="busqueda" class="form-control input-empresa" placeholder="Buscar por nombre del proyecto o empresa..."/>
+                        <button type="submit" class="btn-buscar">Buscar</button>
+                    </form>
 
-                <div th:if="${empresas != null and !empresas.isEmpty()}">
-                    <ul>
-                        <!-- Lista de empresas -->
-                        <li th:each="empresa : ${empresas}" th:text="${empresa}">resultados</li>
-                    </ul>
+
+                    <div class="row">
+                        <div class="resultados mt-4">
+                            <h2>Resultados Asociados</h2>
+
+                            <div th:if="${empresas != null and !empresas.isEmpty()}">
+                                <ul class="list-group list-group-flush">
+                                    <!-- Lista de empresas -->
+                                    <li class="list-group-item" th:each="empresa : ${empresas}" th:text="${empresa}">resultados</li>
+                                </ul>
+                            </div>
+                            <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                                No se encontraron proyectos.
+                            </div>
+                            <div th:if="${listaUsuarios != null and !listaUsuarios.isEmpty()}">
+                                <ul type='square' class="list-group list-group-flush">
+                                    <!-- Lista de usuarios -->
+                                    <li class="list-group-item" th:each="usuarioLista : ${listaUsuarios}" th:text="|${usuarioLista.apellido}, ${usuarioLista.nombre}|">resultados</li>
+                                </ul>
+                            </div>
+                            <div th:if="${listaUsuarios == null or listaUsuarios.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                                No se encontraron usuarios asociados a la busqueda.
+                            </div>
+                            <div th:if="${listaProyectos != null and !listaProyectos.isEmpty()}">
+                                <ul class="list-group">
+                                    <!-- Lista de proyectos -->
+                                    <li class="list-group-item" th:each="proyectoLista : ${listaProyectos}" th:text="${proyectoLista}">resultados</li>
+                                </ul>
+                            </div>
+                            <div th:if="${listaProyectos == null or listaProyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                                No se encontraron empresas asociadas a la busqueda.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                    No se encontraron proyectos.
-                </div>
-                <div th:if="${listaUsuarios != null and !listaUsuarios.isEmpty()}">
-                    <ul type='square'>
-                        <!-- Lista de usuarios -->
-                        <li th:each="usuarioLista : ${listaUsuarios}" th:text="|${usuarioLista.apellido}, ${usuarioLista.nombre}|">resultados</li>
-                    </ul>
-                </div>
-                <div th:if="${listaUsuarios == null or listaUsuarios.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                    No se encontraron usuarios asociados a la busqueda.
-                </div>
-                <div th:if="${listaProyectos != null and !listaProyectos.isEmpty()}">
-                    <ul>
-                        <!-- Lista de proyectos -->
-                        <li th:each="proyectoLista : ${listaProyectos}" th:text="${proyectoLista}">resultados</li>
-                    </ul>
-                </div>
-                <div th:if="${listaProyectos == null or listaProyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                    No se encontraron empresas asociadas a la busqueda.
-                </div>
+
             </div>
         </main>
         <footer th:replace="~{fragments/footer :: footer}">
