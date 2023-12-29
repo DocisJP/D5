@@ -105,7 +105,7 @@
                                 <strong>Hora de Finalización: </strong>
                                 <span th:text="${reunion.horarioDeFin}">Finalización</span>
                             </h5>
-                            <p>*************************************</p>
+                            <hr/>
                         </div>
                         <div th:if="${#lists.isEmpty(reuniones)}">
                             <p>No hay reuniones para este proyecto.</p>
@@ -128,7 +128,7 @@
                             <h5 class="card-text"><strong>Estado: </strong>
                                 <span th:text="${tarea.estado} ?'En Proceso':'Completado'"></span>  
                             </h5>
-                            <p>*************************************</p>
+                            <hr/>
                         </div>
                         <div th:if="${#lists.isEmpty(tareas)}">
                             <p>No hay tareas para este proyecto.</p>
@@ -138,7 +138,7 @@
 
             </main>
             <div class="volver">
-                    <a th:href="@{/inicio}" class="btn">Volver</a>
+                <a th:href="@{/inicio}" class="btn">Volver</a>
             </div>
         </header>
         <footer>
