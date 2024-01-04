@@ -1,24 +1,27 @@
 package com.D5.web.app.controladores;
 
+import com.D5.web.app.entidades.Nota;
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.enumerador.Rol;
+import com.D5.web.app.repositorios.ProyectoRepositorio;
 import com.D5.web.app.servicios.EmailServicio;
+import com.D5.web.app.servicios.NotaServicio;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
 import com.D5.web.app.servicios.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -38,6 +41,9 @@ public class ProyectoControlador {
     TareaServicio tareaServicio;
 
     @Autowired
+    NotaServicio notaServicio;
+
+    @Autowired
     ReunionServicio reunionServicio;
 
     @Autowired
@@ -52,9 +58,18 @@ public class ProyectoControlador {
     @GetMapping("/panel")
     public String panelControl(ModelMap model) {
 
-        List<Proyecto> listado = proyectoServicio.listarProyectos();
-
-        model.addAttribute("proyectos", listado);
+        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+        
+        for (Proyecto proyecto : proyectos) {
+            if(proyecto.getFechaFinalizacion().before(new Date())){
+            proyecto.setProgreso(Progreso.FINALIZADO);
+            }else{
+            proyecto.setProgreso(Progreso.PENDIENTE);
+            }
+        }
+        //Ordeno los proyectos por fecha inicio
+        Collections.sort(proyectos);
+        model.addAttribute("proyectos", proyectos);
         return "panel_proyecto.html";
     }
 
@@ -67,11 +82,23 @@ public class ProyectoControlador {
     }
 
     @GetMapping("/listaProyectos/{id}")
+
     public String listaProyectos(@PathVariable String id, ModelMap model, RedirectAttributes redirectAttrs) {
-        List<Proyecto> listado = proyectoServicio.listarProyectosPorIdUsuario(id);
-        model.addAttribute("proyectos", listado);
-        System.out.println("Correo enviado correctamente");
-        redirectAttrs.addFlashAttribute("exitoMensaje", "El correo se envió correctamente.");
+        List<Proyecto> proyectos = proyectoServicio.listarProyectosPorIdUsuario(id);
+
+        for (Proyecto proyect : proyectos) {
+            if (proyect.getFechaFinalizacion().before(new Date())) {
+                proyect.setProgreso(Progreso.FINALIZADO);
+            } else {
+                proyect.setProgreso(Progreso.PENDIENTE);
+            }
+        }
+
+        //Ordeno las reuniones por fecha inicio
+        Collections.sort(proyectos);
+        model.addAttribute("proyectos", proyectos);
+
+        redirectAttrs.addFlashAttribute("exitoMensaje", "Proyectos cargados correctamente.");
 
         return "panel_proyecto.html";
     }
@@ -141,7 +168,7 @@ public class ProyectoControlador {
             // Guardar el proyecto
             Proyecto proyectoGuardado = proyectoServicio.crear(proyecto);
 
-            redirectAttrs.addFlashAttribute("exito", "El proyecto fue creado con éxito");
+            redirectAttrs.addFlashAttribute("exito", "El proyecto fue guardado con éxito");
             return "redirect:/proyecto/detalle/" + proyectoGuardado.getId();
         } catch (Exception ex) {
             redirectAttrs.addFlashAttribute("error", ex.getMessage());
@@ -166,20 +193,19 @@ public class ProyectoControlador {
 
         Usuario usuario = usuarioServicio.getOne(usuarioId);
         Proyecto proyecto = proyectoServicio.buscarPorId(proyectoId);
-        
+
         try {
             List<Usuario> listado = proyecto.getUsuarios();
-            
+
             if (!listado.contains(usuario)) {
                 listado.add(usuario);
                 proyecto.setUsuarios(listado);
-                
+
                 // Resto del código...  
-            }
-            else{
+            } else {
                 proyecto.setUsuarios(proyecto.getUsuarios());
             }
-            
+
             modelo.addAttribute("proyecto", proyecto);
             // Actualizar la lista de participantes después de agregar el usuario
             List<Usuario> listaActual = proyecto.getUsuarios();
@@ -307,13 +333,21 @@ public class ProyectoControlador {
             proyectoElegido = proyectoServicio.buscarPorId(id);
         }
 
+        List<Nota> notas = notaServicio.listarNotasPorIdProyecto(id);
         List<Reunion> reuniones = reunionServicio.obtenerReunionesPorProyecto(id);
         List<Tarea> tareas = tareaServicio.obtenerTareasPorProyecto(id);
 
+        // Ordenar las listas por fecha de inicio
+        Collections.sort(notas);
+        Collections.sort(reuniones);
+        Collections.sort(tareas);
+
         modelo.addAttribute("reuniones", reuniones);
+        modelo.addAttribute("notas", notas);
         modelo.addAttribute("proyectos", proyectos);
         modelo.addAttribute("proyectoElegido", proyectoElegido);
         modelo.addAttribute("tareas", tareas);
+
         return "panel_trabajo_agente.html";
     }
 

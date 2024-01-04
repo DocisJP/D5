@@ -19,7 +19,11 @@
             />
         <link rel="stylesheet" type="text/css" th:href="@{/css/globales.css}" />
         <link rel="stylesheet" type="text/css" th:href="@{/css/agente.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/notas.css}" />
+
         <script
+            <script
             defer
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -35,7 +39,7 @@
                     <img src="/img/logo2.png" alt="" class="logo"/>
                 </a>
             </nav>
-            <h1 class="text-center">Aquí puedes encontrar toda la información de tus proyectos</h1>
+            <h1 class="text-center" style="text-shadow: 1px 2px 3px var(--blanco), 2px 3px 5px gray">Aquí puedes encontrar toda la información de tus proyectos</h1>
             <form th:action="@{/proyecto/buscar}" method="POST" class="bodyForm">
                 <h2 class="card-title text-center">Selecciona un Proyecto</h2>                
                 <div class="buscador">
@@ -93,7 +97,13 @@
                             </h5>
                             <h5 class="card-text">
                                 <strong>Participantes de la Reunion:</strong> </h5>
-                            <p class="card-text" th:text="${reunion.usuario.nombre + ' ' + reunion.usuario.apellido}"></p>
+                            <!-- Iterar sobre la lista de participantes -->
+                            <ul>
+                                <li th:each="participante : ${reunion.usuarios}" style="list-style: none">
+                                    <span th:text="${participante.nombre + ' ' + participante.apellido}"></span>
+                                </li>
+                            </ul>
+
                             <h5 class="card-text">
                                 <strong>Detalle de la Reunion:</strong></h5>
                             <p class="card-text" th:text="${reunion.detalle}"></p>
@@ -135,10 +145,41 @@
                         </div>
                     </div>
                 </div>
+                <div class="container" id="container">
+                    <div class="notas" th:if="${proyectoElegido != null}">
+                        <h1 class="card-title text-center" style="margin-bottom: 2rem">Block de Notas</h1>
+                        <div class="book-content">
+                            <div th:each="nota, notaStat : ${notas}" class="book">
+                                <!-- Cara Frontal -->
+                                <div class="face-front" th:attr="id='portada-${notaStat.index}'">
+                                    <!-- Agrega el estilo para la imagen de portada -->
+                                    <div class="cover-image face-front" style="background-image: url('/img/Notas.jpeg');"></div>
+                                </div>
+                                <!-- Cara Posterior -->
+                                <div class="face-back" th:attr="id='trsf-${notaStat.index}'">
+                                    <p th:text="${nota.fecha}"></p>
+                                    <h5 th:text="${nota.detalleNota}"></h5> 
+                                    <div class="eliminar">
+                                        <a 
+                                            th:href="@{/nota/eliminar/__${nota.id}__}"
+                                            ><i class="fa-solid fa-trash"></i></a
+                                        >
+                                    </div>                                  
+                                </div>
+                            </div>
+                            <!-- Tapa posterior del libro -->
+                            <div class="back-cover rotated"></div>
+                        </div>
+                        <div class="volver-nota">
+                            <a th:href="@{/nota/registrar/__${proyectoElegido.id}__}" class="btn">Agregar Nota</a>
+                        </div>
+                    </div>
+                </div>
 
             </main>
+
             <div class="volver">
-                    <a th:href="@{/inicio}" class="btn">Volver</a>
+                <a th:href="@{/inicio}" class="btn">Volver</a>
             </div>
         </header>
         <footer>
@@ -149,5 +190,46 @@
                 </div>
             </div>
         </footer>
+        <script>
+            var contZindex = 1;
+            var uno = document.querySelectorAll(".book");
+            var flip = document.querySelector(".book-content");
+
+            uno.forEach(function (page, index) {
+                page.addEventListener("click", function (e) {
+                    var tgt = e.target;
+                    var unoThis = this;
+
+                    unoThis.style.zIndex = contZindex;
+                    contZindex++;
+
+                    if (tgt.classList.contains("face-front")) {
+                        unoThis.style.zIndex = contZindex;
+                        contZindex += 20;
+                        setTimeout(function () {
+                            unoThis.style.transform = "rotateY(-180deg)";
+                        }, 50);
+                    } else if (tgt.classList.contains("face-back")) {
+                        unoThis.style.zIndex = contZindex;
+                        contZindex += 20;
+                        setTimeout(function () {
+                            unoThis.style.transform = "rotateY(0deg)";
+                        }, 50);
+                    } else if (tgt.getAttribute('id') && tgt.getAttribute('id').startsWith('trsf')) {
+                        flip.classList.remove("trnsf-reset");
+                        flip.classList.add("trnsf");
+                    }
+                });
+
+                // Manejar la tapa posterior
+                if (index === uno.length - 1) {
+                    page.querySelector(".back-cover").addEventListener("click", function () {
+                        flip.classList.remove("trnsf");
+                        flip.classList.add("trnsf-reset");
+                    });
+                }
+            });
+        </script>
+
     </body>
 </html>

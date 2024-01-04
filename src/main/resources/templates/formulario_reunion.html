@@ -5,7 +5,7 @@
 
     <body>
         <header class="contenedor-header-formulario">
-         <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
 
             <div th:replace="/fragments/modelo :: div"></div>
 
@@ -17,6 +17,7 @@
                     <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
                         <h2 class="text-center mb-5">Ingresa una reunion</h2>
                         <form th:action="@{/reunion/registro}" method="post" th:object="${reunion}" class="form-group">
+
                             <!-- Campos del formulario -->
                             <label for="nombre">Nombre de la reunion</label>
                             <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}"
@@ -30,6 +31,10 @@
                             <p th:if="${#fields.hasErrors('detalle')}" th:errors="*{detalle}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
 
+                            <!-- Campo oculto para el estado -->
+                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+                            <input hidden="hidden" type="text" id="progreso" name="progreso" th:value="${reunion.progreso}" />
+
                             <!-- Campos de fecha de inicio y finalización -->
                             <label for="horarioDeInicio">Hora de inicio</label>
                             <input type="datetime-local" id="horarioDeInicio" name="horarioDeInicio" th:field="*{horarioDeInicio}"
@@ -42,36 +47,41 @@
                                    th:field="*{horarioDeFin}" class="form-control mb-3" />
                             <p th:if="${#fields.hasErrors('horarioDeFin')}" th:errors="*{horarioDeFin}"
                                class="error-message" style="color: red; font-size: 0.9em;"> </p>
-
-                            <!-- Agrego select para usuarios -->
-                            <label for="usuarios">Seleccionar Usuarios</label>
-                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
-                                <!-- Itera sobre la lista de usuarios -->
-                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre + ' ' + elegido.apellido}"></option>
-                            </select>
-                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
-                               style="color: red; font-size: 0.9em;"></p>
-                            <!-- Campo oculto para el estado -->
-                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
-
-                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
-
-                                <option label="Elije Proyecto" value="''"></option>
-
-                                <option th:each="asociado : ${proyectos}"
-                                        th:text="${asociado.nombre}"
-                                        th:value="${asociado.id}"
-                                        th:field="*{proyecto}"
-                                        />
+                            <!-- Select para proyectos -->
+                            <label for="proyecto">Seleccionar Proyecto</label>
+                            <select id="proyecto" name="proyectoId" class="form-select mb-3">
+                                <option label="Elije Proyecto" value=""></option>
+                                <option th:each="proyecto : ${proyectos}" th:text="${proyecto.nombre}" th:value="${proyecto.id}"></option>
                             </select>
 
-                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
-                               class="error-message" style="color: red; font-size: 0.9em;"></p>
+                            <!-- Select para usuarios -->
+                            <div class="select-container">
+                                <label for="usuarios">Seleccionar Usuarios</label>
+                                <select id="usuarios" name="usuarioDestinatarioId" class="form-select mb-3" onchange="mostrarProyectos(this)">
+                                    <option label="Elije Usuario" value=""></option>
+                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" class="select-usuarios" th:text="${usuario.nombre + ' ' + usuario.apellido + '(' + usuario.rol + ')' + 'Empresa(' + usuario.empresa + ')'}"></option>
+                                </select>
+
+                            </div>
+                            <!-- Divs con la lista de proyectos, utiliza Thymeleaf para establecer el estilo -->
+                            <div th:each="usuario : ${usuarios}" th:id="'proyectosList_' + ${usuario.id}" class="proyectosList" style="display:none;">
+                                <ul>
+                                    <!-- Itera sobre la lista de proyectos dentro de cada usuario -->
+                                    <p style="border-bottom: 2px dotted #081b29; font-size: 1.7rem">Proyectos del Usuario</p>
+                                    <li th:each="proyecto : ${usuario.proyectos}" th:text="${proyecto.nombre}" style="list-style: none; border-bottom: 3px double #081b29ea; text-align: left"></li>
+                                </ul>
+                            </div>
+                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message" style="color: red; font-size: 0.9em;"></p>
+
+
                             <div class='row'>
                                 <button type="submit" class="btn btn-primary">Guardar reunion</button>
                             </div>
-                            <div class='row'>
-                                <a th:href="@{/reunion/panel}" class="btn btn-secondary">Volver</a>
+                            <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
+                                <a href="/reunion/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                            </div>
+                            <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                                <a th:href="@{/reunion/listaReuniones/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                             </div>
                         </form>
                     </div>
@@ -80,6 +90,24 @@
             </main>
         </header>
         <footer th:replace="/fragments/footer :: footer"></footer>
-    </body>
 
+    </body>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function mostrarProyectos(select) {
+            // Oculta todos los divs de proyectos
+            var proyectosDivs = document.querySelectorAll('.proyectosList');
+            proyectosDivs.forEach(function (div) {
+                div.style.display = 'none';
+            });
+
+            // Muestra el div correspondiente al usuario seleccionado
+            var selectedUserId = select.value;
+            var proyectosDiv = document.getElementById('proyectosList_' + selectedUserId);
+            if (proyectosDiv) {
+                proyectosDiv.style.display = 'block';
+            }
+        }
+        /*]]>*/
+    </script>
 </html>

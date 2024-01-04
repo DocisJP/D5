@@ -4,7 +4,7 @@
     <head th:replace = "/fragments/head :: head"></head>
     <body>
         <header class="contenedor-header-proyecto">
-          <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
 
             <div class="contenedor-tabla container">
@@ -14,13 +14,16 @@
                         <table class="tabla">
                             <thead>
                                 <tr>
-                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Id</th>
+                                    <th hidden="hidden">Id</th>
                                     <th>Nombre</th>
                                     <th>Detalle</th>
                                     <th>Horario Inicio</th>
                                     <th>Horario Fin</th>
-                                    <th>Usuarios</th>
+                                    <th>Usuario Organizador</th>
+                                    <th sec:authorize = "hasAnyRole('CLIENTE')">Participantes</th>
+                                    <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar y Ver Participantes</th>
                                     <th>Proyecto</th>
+                                    <th>Progreso</th>                                   
                                     <th>Estado</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Modificación</th>
                                     <th sec:authorize = "hasAnyRole('ADMIN')">Eliminación</th>
@@ -28,30 +31,52 @@
                             </thead>
                             <tbody>
                                 <tr th:each="reunion : ${reuniones}">
-                                    <th th:text="${reunion.id}" sec:authorize = "hasAnyRole('ADMIN','AGENTE')"></th>
+                                    <th th:text="${reunion.id}" hidden="hidden"></th>
                                     <td th:text="${reunion.nombre}"></td>
                                     <td th:text="${reunion.detalle}"></td>
                                     <td th:text="${reunion.horarioDeInicio}"></td>
                                     <td th:text="${reunion.horarioDeFin}"></td>
-                                                                        <td >
-                                        <p th:text="${reunion.usuario.nombre + ' ' + reunion.usuario.apellido + '(' + reunion.usuario.rol + ')' }"></p>
+                                    <td>
+                                        <p th:text="${reunion.getUsuario().nombre + ' ' + reunion.getUsuario().apellido + '(' + reunion.getUsuario().rol + ')' }"></p>
                                     </td>
-                                    <td >
+                                    <td sec:authorize = "hasAnyRole('CLIENTE')">
+                                        <ul>
+                                            <li th:each="participante : ${reunion.usuarios}" th:text="${participante.nombre + ' ' + participante.apellido + '(' + participante.rol + ')' }" style="list-style: square"></li>
+                                        </ul>
+                                    </td>
+                                    <td sec:authorize="hasAnyRole('ADMIN','AGENTE')">
+                                        <a class="modificar" style="color: #59a5d8" th:href="@{/reunion/participantes/__${reunion.id}__}">
+                                            <i class="fa-regular fa-user"></i> Agregar y Ver Participantes
+                                        </a>
+                                    </td>
+                                    <td>
                                         <p th:text="${reunion.proyecto.nombre}"></p>
                                     </td>
-                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')"><a class="modificar" style="color:var(--secundario)" th:text="${reunion.estado?'Aceptada':'En espera'}" th:href="@{/reunion/cambiarEstado/__${reunion.id}__}"></a></td>
-                                    <td th:text="${reunion.estado?'Aceptada':'En espera'}" sec:authorize = "hasAnyRole('CLIENTE')"></td>
-                                    <td sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
-                                        <a class="modificar"
-                                           th:href="@{/reunion/modificar/__${reunion.id}__}" ><i class="fas fa-feather-alt"></i> Modificar</a>
+                                    <td>
+                                        <p th:text="${reunion.progreso}"></p>
                                     </td>
-                                    <td sec:authorize = "hasAnyRole('ADMIN')">
-                                        <a class="eliminar"
-                                           th:href="@{/reunion/eliminar/__${reunion.id}__}"><i class="fa-solid fa-trash"></i> Eliminar</a
-                                        >
+                                    <td>
+                                        <a class="modificar" style="color:var(--secundario)" 
+                                           th:if="${reunion.usuarioDestinatario != null and reunion.usuarioDestinatario.getEmail() == nombreUsuario}"
+                                           th:text="${reunion.estado ? 'Aceptada' : 'En espera'}" th:href="@{/reunion/cambiarEstado/__${reunion.id}__}"></a>
+                                        <span th:if="${reunion.usuarioDestinatario == null or reunion.usuarioDestinatario.getEmail() != nombreUsuario}"
+                                              th:text="${reunion.estado ? 'Aceptada' : 'En espera'}"></span>
+                                    </td>
+
+                                    <td sec:authorize="hasAnyRole('ADMIN','AGENTE')">
+                                        <a class="modificar" th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''AGENTE'')')}" th:href="@{/reunion/modificar/__${reunion.id}__}">
+                                            <i class="fas fa-feather-alt"></i> Modificar
+                                        </a>
+                                    </td>
+
+                                    <td sec:authorize="hasAnyRole('ADMIN')">
+                                        <a class="eliminar" th:href="@{/reunion/eliminar/__${reunion.id}__}">
+                                            <i class="fa-solid fa-trash"></i> Eliminar
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
+
                         </table>
                     </section>
                     <div class='row'>

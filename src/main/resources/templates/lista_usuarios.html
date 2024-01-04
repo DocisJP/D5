@@ -35,8 +35,10 @@
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
 
-                                    <!--agrego columna de estado a la tabla-->
-                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!usuario.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${usuario.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
 
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
@@ -84,7 +86,10 @@
                                     <td th:text="${usuario.rol}"></td>
 
                                     <!--agrego columna de estado a la tabla-->
-                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!usuario.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${usuario.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
 
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
@@ -132,7 +137,10 @@
                                     <td th:text="${usuario.rol}"></td>
 
                                     <!--agrego columna de estado a la tabla-->
-                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!usuario.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${usuario.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
 
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a
@@ -179,11 +187,14 @@
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
                                     <!--agrego columna de estado a la tabla-->
-                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!usuario.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${usuario.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
                                     <td>
                                         <ul>
                                             <li th:each="proyecto : ${usuario.proyectos}" th:text="${proyecto.nombre}" style="list-style: square"></li>
-                                           
+
                                         </ul>
                                     </td>
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
@@ -231,7 +242,10 @@
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
                                     <!--agrego columna de estado a la tabla-->
-                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!usuario.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${usuario.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
                                     <td>
                                         <ul>
                                             <li th:each="proyecto : ${usuario.proyectos}" th:text="${proyecto.nombre}" style="list-style: square"></li>
@@ -279,8 +293,10 @@
                                     <td th:text="${usuario.email}"></td>
                                     <td th:text="${usuario.telefono}"></td>
                                     <td th:text="${usuario.rol}"></td>
-                                    <!--agrego columna de estado a la tabla-->
-                                    <td sec:authorize = "hasAnyRole('ADMIN')" th:text="${usuario.estado}"></td>
+                                    <td sec:authorize = "hasAnyRole('ADMIN')">
+                                        <span th:if="${!usuario.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${usuario.estado}" th:text="'Alta'">Alta</span>
+                                    </td> 
 
                                     <td sec:authorize = "hasAnyRole('ADMIN')">
                                         <a

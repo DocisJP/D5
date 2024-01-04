@@ -6,6 +6,7 @@ import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.enumerador.Rol;  
 import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
@@ -32,7 +33,11 @@ public class ProyectoServicio {
 	public List<String> findEmpresasByProjectName(String projectName) {
 	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
 	}
-	
+	 public List<String> findNombresProyectosByQuery(String query) {
+        // Realiza una búsqueda en el repositorio de proyectos por nombres que coincidan con la consulta
+        return proyectoRepositorio.findNombresByNombreContainingIgnoreCase(query);
+    }
+        
 	@Transactional
 	public Proyecto crear(Proyecto proyecto) {
 	    try {
@@ -147,7 +152,20 @@ public class ProyectoServicio {
     }
 
     public List<Proyecto> listarProyectos() {
-        return proyectoRepositorio.findAll();
+        
+         List<Proyecto> proyectos = proyectoRepositorio.findAll();
+        for (Proyecto proyect : proyectos) {
+            if (proyect.getFechaFinalizacion().before(new Date())) {
+                System.out.println("fecha fin IF" + proyect.getFechaFinalizacion()+ proyect.getProgreso());
+                proyect.setProgreso(Progreso.FINALIZADO);
+            } else {
+                proyect.setProgreso(Progreso.PENDIENTE);
+                System.out.println("fecha fin ELSE" + proyect.getFechaFinalizacion()+ proyect.getProgreso());
+            }
+            proyectoRepositorio.save(proyect);
+        }
+                
+        return proyectos;
     }
 
     public List<Proyecto> listarProyectosPorIdUsuario(String id) {

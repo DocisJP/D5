@@ -9,7 +9,7 @@
 
             <div class="container my-5">
                 <div class="detalle-proyecto card mx-auto">
-                    <div class="bodyForm-registrar"  style="padding: 3rem">
+                    <div class="bodyForm-registrar"  style="padding: 2rem">
                           <h2 class="mb-4">Detalle de la Tarea</h2>
 
 
@@ -22,9 +22,10 @@
                         <p class="card-text"><strong>Descripción: </strong><span th:text="${tarea.descripcion}">Descripción de la Tarea</span></p>
                         <p class="card-text"><strong>Fecha de Inicio: </strong><span th:text="${tarea.fechaInicio}">Fecha Inicio</span></p>
                         <p class="card-text"><strong>Fecha de Finalización: </strong><span th:text="${tarea.fechaFinalizacion}">Fecha Finalización</span></p>
+                        <p class="card-text"><strong>Progreso: </strong><span th:text="${tarea.progreso}">Progreso</span></p>
                         <p class="card-text"><strong>Estado: </strong><span th:if="${!tarea.estado}"
-                                                                            th:text="'Completada'">Completada</span><span th:if="${tarea.estado}"
-                                                                            th:text="'Pendiente'">Pendiente</span></p>
+                                                                            th:text="'Baja'">Baja</span><span th:if="${tarea.estado}"
+                                                                            th:text="'Alta'">Alta</span></p>
                         <div style="padding-bottom: 5rem">
                             <a th:href="@{/inicio}" class="btn btn-primary">Volver al inicio</a>
                         </div>

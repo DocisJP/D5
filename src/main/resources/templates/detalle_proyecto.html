@@ -10,7 +10,9 @@
                 <div class="detalle-proyecto card mx-auto" style="max-width: 600px;">
 
                     <div class="bodyForm-registrar" style="padding: 0 3rem">
-                        <h2 class="mb-4">Detalle del Proyecto</h2>
+                        <h2 class="mb-4" sec:authorize="hasAnyRole('ADMIN')">Detalle del Proyecto</h2>
+                        <h2 class="mb-4" th:if="${!proyecto.estado}" sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">El proyecto se enviará al administrador para verificación</h2>
+                        <h2 class="mb-4" th:if="${proyecto.estado}" sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">Detalle del Proyecto</h2>
 
                         <!-- Mensaje de éxito -->
                         <div th:if="${exito}" class="alert alert-success" role="alert">

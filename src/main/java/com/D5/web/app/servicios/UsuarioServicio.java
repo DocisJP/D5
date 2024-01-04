@@ -143,14 +143,6 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-//    public void agregarProyecto(Proyecto proyecto, Usuario usuario){
-//    
-//     List<Proyecto> proyectos = usuario.getProyectoLista();
-//     proyectos.add(proyecto);
-//     usuario.setProyectoLista(proyectos);
-//     usuarioRepositorio.save(usuario);
-//    }
-
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
             throw new MyException("los passwords deben ser iguales ");
@@ -216,5 +208,10 @@ public class UsuarioServicio implements UserDetailsService {
     public List<Usuario> listarUsuariosPorIdProyecto(String id) {
       return usuarioRepositorio.listarUsuariosPorProyectoId(id);
     }
+
+    public List<String> findNombresEmpresasByQuery(String query) {
+       return usuarioRepositorio.findNombresEmpresasByQuery(query);
+    }
+ 
 }
 

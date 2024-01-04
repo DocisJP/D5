@@ -11,7 +11,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 bodyForm-registrar">
 
-                        <h1 sec:authorize = "hasAnyRole('ADMIN','AGENTE')">Agregar Participantes</h1>
+                        <h1 sec:authorize = "hasAnyRole('ADMIN','AGENTE')" style="padding: 1rem 0">Agregar Participantes</h1>
                         <section > 
                             <h1 style="padding: 1rem 0">Lista participantes</h1>
                             <div class="text-center">
@@ -20,14 +20,14 @@
                                         <li  style="list-style: none">
                                             <div class="d-flex">
                                                 <span th:text="${usuarioLista.nombre + ' ' + usuarioLista.apellido + ' (' + usuarioLista.email + ')' + ' (' + usuarioLista.rol + ')'}" class="list-item" ></span>
-                                                <form th:action="@{/proyecto/eliminar-participante}" method="post" class="d-inline" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">     
+                                                <form th:action="@{/reunion/eliminar-participante}" method="post" class="d-inline" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">     
                                                     <div class="c-btn">
                                                         <button type="submit" class="btn text-danger">
-                                                            <!-- Puedes usar cualquier ícono de eliminación aquí -->
+                                                          
                                                             <i class="fas fa-times"></i>
                                                         </button>
                                                     </div>    
-                                                    <input type="hidden" name="proyectoId" th:value="${proyecto.id}" />
+                                                    <input type="hidden" name="reunionId" th:value="${reunion.id}" />
                                                     <input type="hidden" name="usuarioId" th:value="${usuarioLista.id}" />
                                                 </form>
                                             </div>
@@ -36,49 +36,44 @@
                                 </div>
                             </div>
                         </section>
-                        <form th:action="@{/proyecto/participantes}" method="post" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
-                            <input type="hidden" name="proyectoId" th:value="${proyecto.id}">
+                        <form th:action="@{/reunion/participantes}" method="post" sec:authorize="hasAnyRole('ADMIN','AGENTE')">
+                            <input type="hidden" name="reunionId" th:value="${reunion.id}">
                             <label for="agentes" class="partTitulo">Seleccionar Agente :</label>
                             <select  class="part" id="agentes" name="usuarioId">
-                                <option class="part" th:each="elegido : ${participantes}"
-                                        th:if="${elegido.rol.toString() == 'AGENTE'}"
-                                        th:value="${elegido.id}">
+                                <option  class="part" th:each="elegido : ${participantes}" th:if="${elegido.rol.toString() == 'AGENTE'}" th:value="${elegido.id}">
                                 <span class="part" th:text="${elegido.nombre +' '+ elegido.apellido}">Agentes</span>
                                 </option>
-                            </select>                  
+                            </select>
                             <div class="container-btn">
-                                <div class="row mb-3">
-
+                                <div class="row mb-5">
                                     <button type="submit" class="btn btn-primary">
                                         Guardar Agente
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <form th:action="@{/proyecto/participantes}" method="post" sec:authorize = "hasAnyRole('ADMIN','AGENTE')">
-                            <input type="hidden" name="proyectoId" th:value="${proyecto.id}">
-                           <label for="clientes" class="partTitulo">Seleccionar Cliente:</label>
+
+                        <form th:action="@{/reunion/participantes}" method="post" sec:authorize="hasAnyRole('ADMIN','AGENTE')">
+                            <input type="hidden" name="reunionId" th:value="${reunion.id}">
+                            <label for="clientes" class="partTitulo">Seleccionar Cliente:</label>
                             <select  class="part" id="clientes" name="usuarioId">
-                                <option class="part" th:each="elegido : ${participantes}"
-                                        th:if="${elegido.rol.toString() == 'CLIENTE'}"
-                                        th:value="${elegido.id}">
+                                <option class="part" th:each="elegido : ${participantes}" th:if="${elegido.rol.toString() == 'CLIENTE'}" th:value="${elegido.id}">
                                 <span class="part" th:text="${elegido.nombre +' '+ elegido.apellido}">Clientes</span>
                                 </option>
-                            </select>                  
+                            </select>
                             <div class="container-btn">
-                                <div class="row mb-3">
-
+                                <div class="row mb-5">
                                     <button type="submit" class="btn btn-primary">
                                         Guardar Cliente
                                     </button>
-                                </div>                               
+                                </div>
                             </div>
                         </form>
                         <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
-                            <a href="/proyecto/lista" class="btn btn-secondary" style="width: 30%">Volver</a>
+                            <a th:href="@{/reunion/lista}" class="btn btn-secondary" style="width: 30%">Volver</a>
                         </div>
                         <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
-                            <a th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}" class="btn btn-secondary" style="width: 30%">Volver</a>
+                            <a th:href="@{/reunion/listaReuniones/__${session.usuariosession.id}__}" class="btn btn-secondary" style="width: 30%">Volver</a>
                         </div>
                     </div>
                 </div>

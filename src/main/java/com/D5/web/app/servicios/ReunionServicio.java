@@ -10,33 +10,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.ReunionRepositorio;
+import com.D5.web.app.repositorios.UsuarioRepositorio;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import org.hibernate.Hibernate;
+import org.springframework.ui.Model;
 
 @Service
 public class ReunionServicio {
 
     @Autowired
     private ReunionRepositorio reunionRepositorio;
+    @Autowired
+    private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
     private UsuarioServicio usuarioServicio;
 
+    @Autowired
+    private ProyectoServicio proyectoServicio;
+
     //plan b
     @org.springframework.transaction.annotation.Transactional
-    public Reunion crear(String nombre, String detalle, Boolean estado, Date horarioDeInicio, Date horarioDeFin, Usuario usuario, Proyecto proyecto) throws MyException {
+    public Reunion crear(String nombre, String detalle, Boolean estado,Progreso progreso, Date horarioDeInicio, Date horarioDeFin, Usuario usuarioDestinatario, Usuario usuario, List<Usuario> usuariosParticipantes, Proyecto proyecto) throws MyException {
+
         Reunion reunion = new Reunion();
-        Usuario usuarioEncargado = usuario;
 
         reunion.setDetalle(detalle);
-        reunion.setUsuario(usuario);
         reunion.setNombre(nombre);
-        reunion.setEstado(estado);
+        reunion.setEstado(false);
+        reunion.setProgreso(Progreso.PENDIENTE);
         reunion.setHorarioDeInicio(horarioDeInicio);
         reunion.setHorarioDeFin(horarioDeFin);
+        reunion.setUsuarioDestinatario(usuarioDestinatario);
+        reunion.setUsuario(usuario);
+        reunion.setUsuarios(usuariosParticipantes);
         reunion.setProyecto(proyecto);
+
         return reunionRepositorio.save(reunion);
     }
 
@@ -52,31 +68,6 @@ public class ReunionServicio {
     public void eliminar(Reunion algunaEntidad) {
         reunionRepositorio.delete(algunaEntidad);
     }
-//    @Transactional
-//    public void crear(String nombre, Date horarioInicio, Boolean estado, List<Usuario> participantes, String detalle) {
-//        Reunion reunion = new Reunion();
-//        reunion.setNombre(nombre);
-//        reunion.setDetalle(detalle);
-//        reunion.setHorarioDeInicio(horarioInicio);
-//        reunion.setParticipantes(participantes);
-//        reunion.setEstado(true);
-//
-//        System.out.println("Reunión a guardar: " + reunion);  // Imprime información para depuración
-//
-//        validar(reunion);
-//        reunionRepositorio.save(reunion);
-//    }
-//
-//    @Transactional
-//    public Reunion modificar(Reunion reunion) {
-//        validar(reunion);
-//        return reunionRepositorio.save(reunion);
-//    }
-//
-//    @Transactional
-//    public void eliminar(Reunion reunion) {
-//        reunionRepositorio.delete(reunion);
-//    }
 
     @Transactional
     public Boolean cambiarEstado(Reunion reunion) {
@@ -140,21 +131,25 @@ public class ReunionServicio {
 
     @Transactional
     public int Inactivos() {
-
-        Integer contador = 0;
-
-        List<Reunion> reuniones = new ArrayList();
-
+        Integer contador =0;
+        
+         List<Reunion> reuniones = new ArrayList();
+    
         reuniones = reunionRepositorio.findAll();
-
+        
         for (Reunion reunion : reuniones) {
-
-            if (!reunion.getEstado()) {
+            
+            if (reunion.getEstado().toString().equalsIgnoreCase("FALSE")) {
                 contador++;
-            }
-        }
+                
+            }            
+        }    
         return contador;
+    
+    }
 
+    public List<Reunion> listarReunionesPorIdUsuario(String id) {
+        return reunionRepositorio.listarReunionesPorIdUsuario(id);
     }
 
 }

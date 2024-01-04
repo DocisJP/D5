@@ -7,9 +7,10 @@ import org.springframework.stereotype.Repository;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
-public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
+public interface UsuarioRepositorio extends JpaRepository<Usuario, String>, UsuarioCustomRepository {
 
     @Query("SELECT u FROM Usuario u WHERE u.dni = :dni")
     public Usuario buscarPorDni(@Param("dni") Integer dni);
@@ -26,4 +27,14 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u JOIN u.proyectos p WHERE p.id = :proyectoId")
     List<Usuario> listarUsuariosPorProyectoId(@Param("proyectoId") String proyectoId);
 
+    @Override
+    default List<String> findNombresEmpresasByQuery(String query) {
+        return findAllByEmpresaContainingIgnoreCase(query)
+                .stream()
+                .map(Usuario::getEmpresa)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    List<Usuario> findAllByEmpresaContainingIgnoreCase(String empresa);
 }

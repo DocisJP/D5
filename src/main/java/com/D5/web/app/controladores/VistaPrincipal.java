@@ -1,6 +1,7 @@
 package com.D5.web.app.controladores;
 
 import com.D5.web.app.entidades.Proyecto;
+import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
@@ -72,7 +73,7 @@ public class VistaPrincipal {
                 .collect(Collectors.toList());
         List<Usuario> agentesVinculados = new ArrayList<>();
         List<Usuario> clientesVinculados = new ArrayList<>();
-          // Obtener los proyectos del usuario en sesión
+        // Obtener los proyectos del usuario en sesión
         List<Proyecto> proyectos = proyectoServicio.listarProyectosPorIdUsuario(enSession.getId());
 //
 //            // Obtener los agentes y clientes vinculados a los proyectos del usuario en sesión
@@ -98,7 +99,7 @@ public class VistaPrincipal {
             clientesVinculados = new ArrayList<>(clientesVinculadosSet);
 
         }
-          
+
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("agentes", agentes);
         model.addAttribute("clientes", clientes);
@@ -167,30 +168,61 @@ public class VistaPrincipal {
         return "login.html";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap modelo) {
+
         Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        List<Reunion> listaReunion = reunionServicio.listarReunionesPorIdUsuario(logueado.getId());
+        Reunion reunion = new Reunion();
+        List<Reunion> listado = new ArrayList();
         //agrego metodo para dar aviso al loguear el admin
         int contadorUsuariosInactivos = usuarioServicio.Inactivos();
         int contadorProyectosPendientes = proyectoServicio.Inactivos();
         int contadorReunionesPendientes = reunionServicio.Inactivos();
 
-        if (contadorUsuariosInactivos > 0) {
+        if (logueado.getRol().equals(Rol.ADMIN)) {
+            if (contadorUsuariosInactivos > 0) {
 
-            modelo.put("avisoUsuario", "Hay usuarios sin registrar");
+                modelo.put("avisoUsuario", "Hay usuarios sin registrar");
+            }
+            if (contadorProyectosPendientes > 0) {
+
+                modelo.put("avisoProyecto", "Hay proyectos para revisar");
+            }
         }
-        if (contadorProyectosPendientes > 0) {
+        System.out.println("contador " + contadorReunionesPendientes);
 
-            modelo.put("avisoProyecto", "Hay proyectos para revisar");
+        if (contadorReunionesPendientes == 1) {
+            for (Reunion reunion1 : listaReunion) {
+                if (reunion1.getEstado().equals(false)) {
+                    reunion = reunion1;
+                }
+            }
+        } else if (contadorReunionesPendientes > 1) {
+            for (Reunion reunion1 : listaReunion) {
+                if (reunion1.getEstado().equals(false)) {
+                    listado.add(reunion1);
+                }
+            }
         }
-        if (contadorReunionesPendientes > 0) {
 
-            modelo.put("avisoReunion", "Hay reuniones para agendar");
+        if (reunion != null && reunion.getUsuarioDestinatario() != null) {
+            if (reunion.getUsuarioDestinatario().getId().equals(logueado.getId())) {
+                modelo.put("avisoReunion", "Hay reuniones pendientes de aprobación");
+            } else if (reunion.getUsuario() != null && reunion.getUsuario().getId().equals(logueado.getId())) {
+                modelo.put("avisoReunion", "Hay reuniones a la espera de aprobación");
+            }
         }
-
+        if (!listado.isEmpty()) {
+            for (Reunion reunion1 : listado) {
+                if (reunion1.getUsuarioDestinatario().getId().equals(logueado.getId())) {
+                    modelo.put("avisoReunion", "Hay reuniones pendientes de aprobación");
+                } else if (reunion1.getUsuario().getId().equals(logueado.getId())) {
+                    modelo.put("avisoReunion", "Hay reuniones a la espera de aprobación");
+                }
+            }
+        }
         modelo.put("usuario", logueado);
-
         return "principal.html";
     }
 

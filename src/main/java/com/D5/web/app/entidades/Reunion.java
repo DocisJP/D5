@@ -13,14 +13,19 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reunion")
-public class Reunion {
+public class Reunion implements Comparable<Reunion>{
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -42,7 +47,19 @@ public class Reunion {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_destinatario_id")
+    private Usuario usuarioDestinatario;
+    
+    @ManyToMany
+    @JoinTable(
+            name = "reunion_usuarios",
+            joinColumns = @JoinColumn(name = "reunion_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private List<Usuario> usuarios = new ArrayList<>();
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proyecto_id")
     private Proyecto proyecto;
 
     private Boolean estado;
@@ -64,6 +81,14 @@ public class Reunion {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     public String getId() {
@@ -121,6 +146,25 @@ public class Reunion {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Usuario getUsuarioDestinatario() {
+        return usuarioDestinatario;
+    }
+
+    public void setUsuarioDestinatario(Usuario usuarioDestinatario) {
+        this.usuarioDestinatario = usuarioDestinatario;
+    }
+    
+
+    @Override
+    public String toString() {
+        return "Reunion{" + "id=" + id + ", nombre=" + nombre + ", detalle=" + detalle + ", horarioDeInicio=" + horarioDeInicio + ", horarioDeFin=" + horarioDeFin + ", usuario=" + usuario + ", usuarios=" + usuarios + ", proyecto=" + proyecto + ", estado=" + estado + ", progreso=" + progreso + '}';
+    }
+
+    @Override
+     public int compareTo(Reunion otraReunion) {
+        return this.horarioDeInicio.compareTo(otraReunion.getHorarioDeInicio());
     }
 
 }

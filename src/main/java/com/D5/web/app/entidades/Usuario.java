@@ -10,11 +10,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "usuario")
@@ -51,7 +54,16 @@ public class Usuario {
     private Rol rol;
 
     @ManyToMany(mappedBy = "usuarios")
-    private List<Proyecto> proyectos = new ArrayList<>();
+    private List<Proyecto> proyectos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Nota> notas;
+
+    @ManyToMany(mappedBy = "usuarios")
+    private List<Reunion> reuniones;
+
+    @ManyToOne
+    private Reunion reunion;
 
     public List<Proyecto> getProyectos() {
         return proyectos;
@@ -59,6 +71,22 @@ public class Usuario {
 
     public void setProyectos(List<Proyecto> proyectos) {
         this.proyectos = proyectos;
+    }
+
+    public List<Reunion> getReuniones() {
+        return reuniones;
+    }
+
+    public void setReuniones(List<Reunion> reuniones) {
+        this.reuniones = reuniones;
+    }
+
+    public Reunion getReunion() {
+        return reunion;
+    }
+
+    public void setReunion(Reunion reunion) {
+        this.reunion = reunion;
     }
 
     public String getId() {
@@ -155,6 +183,21 @@ public class Usuario {
 
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
+    }
+
+    public List<Nota> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
+    }
+
+ 
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", password=" + password + ", dni=" + dni + ", telefono=" + telefono + ", imagen=" + imagen + ", direccion=" + direccion + ", empresa=" + empresa + ", estado=" + estado + ", rol=" + rol + ", proyectos=" + proyectos + ", notas=" + notas + ", reunion=" + reunion + '}';
     }
 
 }

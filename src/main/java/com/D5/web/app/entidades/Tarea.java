@@ -22,7 +22,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tarea")
-public class Tarea {
+public class Tarea implements Comparable<Tarea>{
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -129,6 +129,11 @@ public class Tarea {
 
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
+    }
+
+    @Override
+     public int compareTo(Tarea otraTarea) {
+        return this.fechaInicio.compareTo(otraTarea.getFechaInicio());
     }
 
 }

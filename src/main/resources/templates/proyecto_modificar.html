@@ -42,7 +42,7 @@
                                 <label for="estado"> El Proyecto está dado de <p th:text="${proyecto.estado} ? 'Alta':'Baja'"></p></label><br>
                                 <input type="checkbox" id="estado" class="mi-check" th:field="*{estado}" th:checked="*{estado}"><span>Modificar Estado</span>
                             </div> 
-
+                            <input sec:authorize="hasAnyRole('AGENTE','CLIENTE')" hidden th:field="*{estado}" th:value="*{estado}" name="estado">
                             <div class='row' style="margin-top: 3rem">
                                 <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>
                             </div>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+    <head th:replace="/fragments/head :: head">
+        <body>
+            <header class="contenedor-header-formulario">
+                <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+                <div th:replace = "/fragments/modelo :: div"></div>
+                <div class="contenedor-portada"></div>
+                <div class="row justify-content-center">
+
+                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                        <h2 class="text-center mb-5">Ingresa una Nota</h2>
+                        <form th:action="@{/nota/registro}" method="post" th:object="${nota}" class="form-group">
+
+                            <label for="detalleNota">Escriba su nota</label>
+                            <textarea id="detalleNota" name="detalleNota" th:field="*{detalleNota}" rows="4"
+                                      placeholder="Descripción" class="form-control mb-3"></textarea>
+                            <p th:if="${#fields.hasErrors('detalleNota')}" th:errors="*{detalleNota}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <!-- Campos de fecha de inicio y finalización -->
+                            <label for="fecha">Fecha</label>
+                            <input type="datetime-local" id="fechaInicio" name="fecha" th:field="*{fecha}"
+                                   class="form-control mb-3" />
+                            <p th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}" class="error-message"
+                               style="color: red; font-size: 0.9em;"></p>
+
+                            <input hidden="hidden" type="checkbox" id='usuario' name="usuario" />
+                            <input type="hidden" id='usuarioId' th:value="${nota.usuario.id}" name="usuarioId" />
+                            <input type="hidden" id='proyectoId' th:value="${nota.proyecto.id}" name="proyectoId" />
+                            <input type="text" th:value="${nota.proyecto.nombre}" readonly="readonly" />
+                            <input type="text" th:value="${nota.usuario.nombre}" readonly="readonly" />
+
+                            <div class='row'>
+                                <button type="submit" class="btn btn-primary">Guardar Nota</button> 
+                            </div>                 
+                            <div class='row'>
+                                <a th:href="@{/proyecto/trabajo}" class="btn btn-secondary">Volver</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+                </main>
+        </body>
+</html>
