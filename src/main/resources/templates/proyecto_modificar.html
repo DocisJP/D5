@@ -40,7 +40,7 @@
                             </div>      
                             <div  sec:authorize="hasAnyRole('ADMIN')" class="check-estado">
                                 <label for="estado"> El Proyecto está dado de <p th:text="${proyecto.estado} ? 'Alta':'Baja'"></p></label><br>
-                                <input type="checkbox" id="estado" class="mi-check" th:field="*{estado}" th:checked="*{estado}"><span>Modificar Estado</span>
+                                <input type="checkbox" id="estado" class="mi-check" th:field="*{estado}" th:checked="*{estado}" value="false"><span>Modificar Estado</span>
                             </div> 
                             <input sec:authorize="hasAnyRole('AGENTE','CLIENTE')" hidden th:field="*{estado}" th:value="*{estado}" name="estado">
                             <div class='row' style="margin-top: 3rem">

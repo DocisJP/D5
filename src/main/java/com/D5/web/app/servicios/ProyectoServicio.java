@@ -10,14 +10,12 @@ import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.enumerador.Rol;  
 import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
-import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +25,9 @@ public class ProyectoServicio {
     @Autowired
     private ProyectoRepositorio proyectoRepositorio;
 
-    @Autowired 
-    private UsuarioRepositorio usuarioRepositorio;
+    public List<String> findEmpresasByProjectName(String projectName) {
+        return proyectoRepositorio.findEmpresasByProjectName(projectName);
+    }
 
 	public List<String> findEmpresasByProjectName(String projectName) {
 	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
@@ -113,13 +112,13 @@ public class ProyectoServicio {
             throw new IllegalArgumentException("El detalle del producto no puede ser nulo ");
         }
         if (proyecto.getFechaInicio().before(Date.from(Instant.now())) || proyecto.getFechaInicio().equals(proyecto.getFechaFinalizacion())) {
-            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al d�a de hoy");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser anterior al día de hoy");
         }
         if (proyecto.getFechaInicio().after(proyecto.getFechaFinalizacion())) {
-            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalizaci�n");
+            throw new IllegalArgumentException("Fecha de inicio no puede ser posterior a la de finalización");
         }
         if (proyecto.getFechaFinalizacion().before(proyecto.getFechaInicio())) {
-            throw new IllegalArgumentException("Fecha de finalizaci�n no puede ser previa a la fecha de inicio");
+            throw new IllegalArgumentException("Fecha de finalización no puede ser previa a la fecha de inicio");
         }
     }
 
@@ -168,6 +167,10 @@ public class ProyectoServicio {
         return proyectos;
     }
 
+    public List<Proyecto> listarProyectosEnProgreso() {
+        return proyectoRepositorio.findProyectoByProgreso(Progreso.PENDIENTE);
+    }
+
     public List<Proyecto> listarProyectosPorIdUsuario(String id) {
         return proyectoRepositorio.listarProyectosPorIdUsuario(id);
     }
@@ -182,25 +185,23 @@ public class ProyectoServicio {
         return agentes;
     }
 
-    
-     @Transactional
-    public Integer Inactivos(){
-    
-        Integer contador =0;
-        
-         List<Proyecto> proyectos = new ArrayList();
-    
+    @Transactional
+    public Integer Inactivos() {
+
+        Integer contador = 0;
+
+        List<Proyecto> proyectos = new ArrayList();
+
         proyectos = proyectoRepositorio.findAll();
-        
+
         for (Proyecto proyecto : proyectos) {
-            
+
             if (proyecto.getEstado().toString().equalsIgnoreCase("FALSE")) {
                 contador++;
-                
-            }            
-        }    
+
+            }
+        }
         return contador;
-    
+
     }
 }
-

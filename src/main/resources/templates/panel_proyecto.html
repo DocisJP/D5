@@ -178,7 +178,7 @@
                                 </tr>
                             </thead>
                             <tbody th:each="proyecto : ${proyectos}">
-                                <tr th:if="${proyecto.progreso == T(com.D5.web.app.enumerador.Progreso).FINALIZADO}">
+                                <tr th:if="${proyecto.progreso.toString() == 'FINALIZADO'}">
                                     <th th:text="${proyecto.id}"></th>
                                     <td th:text="${proyecto.nombre}"></td>
                                     <td th:text="${proyecto.detalleProyecto}"></td>

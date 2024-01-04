@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.D5.web.app.entidades.Proyecto;
+import com.D5.web.app.enumerador.Progreso;
 
 @Repository
 public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
