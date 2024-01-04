@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-       <head th:replace = "/fragments/head :: head"></head>
+    <head th:replace = "/fragments/head :: head"></head>
 
     <body>
         <header class="contenedor-header-formulario">
@@ -10,7 +10,9 @@
                 <div class="detalle-proyecto card mx-auto" style="max-width: 600px;">
 
                     <div class="bodyForm-registrar" style="padding: 0 3rem">
-                          <h2 class="mb-4">Detalle del Proyecto</h2>
+                        <h2 class="mb-4" sec:authorize="hasAnyRole('ADMIN')">Detalle del Proyecto</h2>
+                        <h2 class="mb-4" th:if="${!proyecto.estado}" sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">El proyecto se enviará al administrador para verificación</h2>
+                        <h2 class="mb-4" th:if="${proyecto.estado}" sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">Detalle del Proyecto</h2>
 
                         <!-- Mensaje de éxito -->
                         <div th:if="${exito}" class="alert alert-success" role="alert">
@@ -21,11 +23,15 @@
                         <p class="card-text"><strong>Detalle:</strong> <span th:text="${proyecto.detalleProyecto}">Detalle del Proyecto</span></p>
                         <p class="card-text"><strong>Fecha de Inicio:</strong> <span th:text="${proyecto.fechaInicio}">Fecha de Inicio</span></p>
                         <p class="card-text"><strong>Fecha de Finalización:</strong> <span th:text="${proyecto.fechaFinalizacion}">Fecha de Finalización</span></p>
-                        <p class="card-text"><strong>Estado Actual:</strong> <span th:text="${proyecto.estado}?'En proceso':'Completado'">Estado</span></p>
-                        <!-- Añade más detalles según necesites -->
+                        <p class="card-text"><strong>Estado Actual:</strong> <span th:text="${proyecto.estado}?'Alta':'Baja'">Estado</span></p>
+                        <p class="card-text"><strong>Progreso:</strong> <span th:text="${proyecto.progreso}">Progreso</span></p>
 
-                        <div class="text-center mt-4" style="padding-bottom: 5rem">
-                            <a href="/proyecto/lista" class="btn btn-secondary">Volver a la Lista</a>
+                        <!-- Añade más detalles según necesites -->
+                        <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
+                            <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                        </div>
+                        <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                            <a th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                         </div>
                     </div>
                 </div>

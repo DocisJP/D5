@@ -106,6 +106,9 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
+       public List<Usuario> buscarUsuarioPorNombreEmpresa(String empresa) {
+	    return usuarioRepositorio.buscarUsuarioPorNombreEmpresa(empresa);
+	}
 
     @Transactional
     public List<Usuario> listarUsuarios() {
@@ -139,14 +142,6 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
 
     }
-
-//    public void agregarProyecto(Proyecto proyecto, Usuario usuario){
-//    
-//     List<Proyecto> proyectos = usuario.getProyectoLista();
-//     proyectos.add(proyecto);
-//     usuario.setProyectoLista(proyectos);
-//     usuarioRepositorio.save(usuario);
-//    }
 
     public void valida(String password, String password2) throws MyException {
         if (!password.equals(password2)) {
@@ -209,5 +204,14 @@ public class UsuarioServicio implements UserDetailsService {
         return contador;
     
     }
+
+    public List<Usuario> listarUsuariosPorIdProyecto(String id) {
+      return usuarioRepositorio.listarUsuariosPorProyectoId(id);
+    }
+
+    public List<String> findNombresEmpresasByQuery(String query) {
+       return usuarioRepositorio.findNombresEmpresasByQuery(query);
+    }
+ 
 }
 

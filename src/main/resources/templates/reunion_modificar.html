@@ -15,7 +15,7 @@
 
                         <form class="form-group" th:action="@{/reunion/modificar}" th:object="${reunion}" method="POST">
                             <!-- Campos del formulario -->
-                            <input hidden thfield="*{id}" th:value="*{id}" name="id">
+                            <input hidden th:field="*{id}" th:value="*{id}" name="id">
                             <label for="nombre">Nombre de la reunion</label>
                             <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}" th:value="*{nombre}"
                                    placeholder="Nombre" class="form-control mb-3" />
@@ -45,6 +45,7 @@
                             <label for="usuarios">Seleccionar Usuarios</label>
                             <select id="usuarios" name="usuarioId" class="form-select mb-3">
                                 <!-- Itera sobre la lista de usuarios -->
+                                
                                 <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
                             </select>
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
@@ -52,8 +53,6 @@
                             <!-- Campo oculto para el estado -->
 
                             <select id="proyecto" name="proyectoId" class="form-select mb-3" >
-
-                                <option label="Elije Proyecto" value="''"></option>
 
                                 <option th:each="asociado : ${proyectos}"
                                         th:text="${asociado.nombre}"
@@ -71,8 +70,11 @@
                             <div class='row'>
                                 <button type="submit" class="btn btn-primary">Modificar reunion</button>
                             </div>
-                            <div class='row'>
-                                <a th:href="@{/reunion/panel}" class="btn btn-secondary">Volver</a>
+                            <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
+                                <a href="/reunion/panel" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                            </div>
+                            <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                                <a th:href="@{/reunion/listaReuniones/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                             </div>
                         </form>
                     </div>

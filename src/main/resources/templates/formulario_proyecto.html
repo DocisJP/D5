@@ -5,13 +5,13 @@
 
     <body>
         <header class="contenedor-header-formulario">
-          <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
             <div th:replace = "/fragments/modelo :: div"></div>
 
             <div class="container mt-5 ">
                 <div class="row justify-content-center">
                     <div class="col-md-8 bodyForm-registrar">
-                        <h1 class="text-center">Registro de Proyecto</h1>
+                        <h1 class="text-center">Registro o Solicitud de Proyecto</h1>
                         <form class="mt-4" th:action="@{/proyecto/registro}" th:object="${proyecto}" method="POST">
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre del Proyecto</label>
@@ -31,16 +31,24 @@
                                     <input type="date" class="form-control" id="fechaFinalizacion" th:field="*{fechaFinalizacion}">
                                 </div>
                             </div>
-                            <div  sec:authorize="hasAnyRole('ADMIN','AGENTE')">
-                            <input type="checkbox" th:field="*{estado}" th:checked="*{estado}"><span th:text="${proyecto.estado} ?'Baja':'Alta'"></span>
-                            </div>  
-
+                            <div class="col-md-6" sec:authorize="hasAnyRole('ADMIN', 'AGENTE')">
+                                <label for="exampleInputPassword1" class="form-label"
+                                       >Progreso</label>
+                                <select th:field="*{progreso}" class="form-select" sec:authorize="hasAnyRole('ADMIN', 'AGENTE')">
+                                    <option value="" disabled selected>Seleccionar progreso del Proyecto</option>
+                                    <option th:each="progreso : ${progresos}" th:value="${progreso}" th:text="${progreso}"></option>
+                                </select>
+                            </div> 
+                            <input sec:authorize="hasAnyRole('CLIENTE')" type="hidden"th:field="*{progreso}" class="mi-check" th:value="${progreso}" />   
+                            <input type="hidden" th:field="*{estado}" class="mi-check" th:value="${proyecto.estado}" />   
                             <div class='row' style="margin-top: 3rem">
                                 <button type="submit" class="btn btn-primary" style="margin: 1rem">Registrar</button>
                             </div>
-                            <div class='row'>
-
+                            <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
                                 <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                            </div>
+                            <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                                <a th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                             </div>
                         </form>
                     </div>

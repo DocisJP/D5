@@ -30,6 +30,7 @@ public class UsuarioControlador {
     @GetMapping("/panel/{id}")
     public String panelPerfil(@PathVariable String id, Model model) {
         Usuario usuario = usuarioServicio.buscarUsuario(id);
+        
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", Rol.values());
         return "panel_perfil.html";

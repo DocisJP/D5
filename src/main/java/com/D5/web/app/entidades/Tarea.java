@@ -1,11 +1,14 @@
 package com.D5.web.app.entidades;
 
+import com.D5.web.app.enumerador.Progreso;
 import java.util.Date;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,24 +20,25 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 
-
-
 @Entity
 @Table(name = "tarea")
-public class Tarea {
+public class Tarea implements Comparable<Tarea>{
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @NotBlank(message="La tarea debe tener un nombre")
+    @NotBlank(message = "La tarea debe tener un nombre")
     private String nombreTarea;
 
-    @NotBlank(message="Este campo debe ser llenado")
+    @NotBlank(message = "Este campo debe ser llenado")
     private String descripcion;
 
     private Boolean estado;
+
+    @Enumerated(EnumType.STRING)
+    private Progreso progreso;
 
     @Future(message = "La fecha de iniciacion debe ser valida")
     @Temporal(TemporalType.TIMESTAMP)
@@ -55,8 +59,14 @@ public class Tarea {
     @JoinColumn(name = "proyecto_id")
     private Proyecto proyecto;
 
-    
-    
+    public Progreso getProgreso() {
+        return progreso;
+    }
+
+    public void setProgreso(Progreso progreso) {
+        this.progreso = progreso;
+    }
+
     public String getId() {
         return id;
     }
@@ -89,7 +99,6 @@ public class Tarea {
         this.estado = estado;
     }
 
-   
     public Date getFechaInicio() {
         return fechaInicio;
     }
@@ -121,6 +130,10 @@ public class Tarea {
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
     }
-    
-    
+
+    @Override
+     public int compareTo(Tarea otraTarea) {
+        return this.fechaInicio.compareTo(otraTarea.getFechaInicio());
+    }
+
 }

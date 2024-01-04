@@ -30,17 +30,27 @@
                                     <input type="date" class="form-control" id="fechaFinalizacion" th:field="*{fechaFinalizacion}">
                                 </div>
                             </div>
-                            <div class="row justify-content-evenly">
-                                <div  sec:authorize="hasAnyRole('ADMIN')">
-                                    <input type="checkbox" th:field="*{estado}" th:checked="*{estado}"><span th:text="${proyecto.estado} ?'Baja':'Alta'"></span>
-                                </div>  
-                            </div>
-
+                            <div class="col-md-6" sec:authorize="hasAnyRole('ADMIN', 'AGENTE')">
+                                <label for="exampleInputPassword1" class="form-label"
+                                       >Progreso</label>
+                                <select th:field="*{progreso}" class="form-select">
+                                    <option value="" disabled selected>Seleccionar progreso del Proyecto</option>
+                                    <option th:each="progreso : ${progresos}" th:value="${progreso}" th:text="${progreso}"></option>
+                                </select>
+                            </div>      
+                            <div  sec:authorize="hasAnyRole('ADMIN')" class="check-estado">
+                                <label for="estado"> El Proyecto está dado de <p th:text="${proyecto.estado} ? 'Alta':'Baja'"></p></label><br>
+                                <input type="checkbox" id="estado" class="mi-check" th:field="*{estado}" th:checked="*{estado}"><span>Modificar Estado</span>
+                            </div> 
+                            <input sec:authorize="hasAnyRole('AGENTE','CLIENTE')" hidden th:field="*{estado}" th:value="*{estado}" name="estado">
                             <div class='row' style="margin-top: 3rem">
                                 <button type="submit" class="btn btn-primary" style="margin: 1rem">Actualizar</button>
                             </div>
-                            <div class='row'>
+                            <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
                                 <a href="/proyecto/lista" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                            </div>
+                            <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                                <a th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
                             </div>
                         </form>
                     </div>

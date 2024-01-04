@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
+import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.TareaRepositorio;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +27,7 @@ public class TareaServicio {
     UsuarioServicio usuarioServicio;
 
     @Transactional
-    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion, Usuario usuario, Proyecto proyecto) throws MyException {
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado,Progreso progreso, Date fechaInicio, Date fechaFinalizacion, Usuario usuario, Proyecto proyecto) throws MyException {
         Tarea tarea = new Tarea();
         Usuario usuarioEncargado = usuario;
 
@@ -33,6 +35,7 @@ public class TareaServicio {
         tarea.setUsuario(usuarioEncargado);
         tarea.setDescripcion(descripcion);
         tarea.setEstado(true);
+        tarea.setProgreso(Progreso.PENDIENTE);
         tarea.setNombreTarea(nombreTarea);
         tarea.setFechaInicio(fechaInicio);
         tarea.setFechaFinalizacion(fechaFinalizacion);
@@ -74,14 +77,10 @@ public class TareaServicio {
         }
     }
     
-    public List<Tarea> buscarPorProyectoId(String id) {
-        List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
-        if (!resultado.isEmpty()) {
-            return resultado;
-        } else {
-            throw new IllegalArgumentException("Tarea no encontrada con el proyecto ID: " + id);
-        }
-    }
+  public List<Tarea> buscarPorProyectoId(String id) {
+    List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
+    return resultado != null ? resultado : Collections.emptyList();
+}
 
     private void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
         if (estado == null) {

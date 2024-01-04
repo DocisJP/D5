@@ -3,7 +3,7 @@
     <head th:replace = "/fragments/head :: head"></head>
 
     <body>
-        <header class="contenedor-header">
+        <header class="contenedor-header-formulario" id="arriba">
             <nav th:replace = "/fragments/navbar :: nav"></nav>
 
             <div class="contain" sec:authorize ="isAuthenticated()" border-radius="1rem" >
@@ -20,23 +20,30 @@
                     <div class="container-modelo" style="margin-left: 1rem">
                         <div th:if="${avisoUsuario != null}" class="aviso">
                             <div class="card-body">  
-                                <p class="card-text" th:text="${avisoUsuario}"></p>
-
+                                <a th:href="@{/lista}" class="card-text" th:text="${avisoUsuario}" style="text-decoration: none"></a>
                             </div>
                         </div>
                         <div th:if="${avisoProyecto != null}" class="aviso">
                             <div class="card-body">  
-                                <p class="card-text" th:text="${avisoProyecto}"></p>
+                                <a th:href="@{/proyecto/panel}" class="card-text" th:text="${avisoProyecto}" style="text-decoration: none"></a>
                             </div>
                         </div>
                         <div th:if="${avisoReunion != null}" class="aviso">
                             <div class="card-body">  
-                                <p class="card-text" th:text="${avisoReunion}"></p>
+                                <a th:href="@{/reunion/panel}" class="card-text" th:text="${avisoReunion}" style="text-decoration: none"></a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div sec:authorize = "hasAnyRole('AGENTE','CLIENTE')" >
+                    <div class="container-modelo" style="margin-left: 1rem">
+                        <div th:if="${avisoReunion != null}" class="aviso">
+                            <div class="card-body">  
+                                <a th:href="@{/reunion/listaReuniones/__${session.usuariosession.id}__}" class="card-text" th:text="${avisoReunion}" style="text-decoration: none"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </header>
 
         <!-- CONTENEDOR PRINCIPAL-->
@@ -53,7 +60,7 @@
 
                             <p>Desde aqui puedes visualizar la lista de Proyectos y crear, modificar y eliminar</p> 
                             <a class="botonLink" sec:authorize = "!hasAnyRole('ADMIN')" th:href="@{/proyecto/listaProyectos/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
-                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN' ,'AGENTE')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/proyecto/panel}">CLICK AQUÍ</a>
 
                             <!--metodo get return panel_proyecto.html-->
                         </div>                   
@@ -67,7 +74,8 @@
                         </div>
                         <div class="backSide">                       
                             <p>Desde aqui puedes visualizar las reuniones y agregar, modificar las reuniones</p>
-                            <a class="botonLink" th:href="@{/reunion/panel}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "!hasAnyRole('ADMIN')" th:href="@{/reunion/listaReuniones/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/reunion/panel}">CLICK AQUÍ</a>
                         </div>                    
                     </div>
                 </div>
@@ -75,12 +83,12 @@
                     <div class="innerCard">
                         <div class="frontSide">
                             <h3 class="title">GUARDAR TAREAS</h3>
-                            <img class="img-cards" src="img/block.jpg" alt="block de notas">
+                            <img class="img-cards" src="img/block.jpg" alt="Guardar tareas">
                         </div>
                         <div class="backSide">
 
                             <p>Desde aqui puedes crear y guardar nuevas Tareas</p>
-                            <a class="botonLink" th:href="@{/tarea/registrar}" >CLICK AQUÍ</a>
+                            <a class="botonLink" th:href="@{/tarea/registrar/__${session.usuariosession.id}__}" >CLICK AQUÍ</a>
                             <!-- Metodo get return block_notas.html -->
                         </div>  
                     </div>
@@ -89,15 +97,15 @@
                     <div class="innerCard">
                         <div class="frontSide">
                             <h3 class="title">TAREAS PENDIENTES</h3>
-                            <img class="img-cards" src="img/pendientes.jpg" alt="pendientes">
+                            <img class="img-cards" src="img/pendientes.jpg" alt="Tareas Pendientes">
                         </div>
                         <div class="backSide">
                             <p>Desde aqui puedes ver las tareas y su estado.Tambien modificar y eliminar</p>
-                            <a class="botonLink" th:href="@{/tarea/panel}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "!hasAnyRole('ADMIN')" th:href="@{/tarea/lista/__${session.usuariosession.id}__}">CLICK AQUÍ</a>
+                            <a class="botonLink" sec:authorize = "hasAnyRole('ADMIN')" th:href="@{/tarea/panel}">CLICK AQUÍ</a>
                         </div>                   
                     </div>
                 </div>
-
                 <div class="myCard" id="perfil" sec:authorize ="isAuthenticated()">
                     <div class="innerCard">
                         <div class="frontSide">
@@ -124,7 +132,11 @@
                     </div>
                 </div>
             </div>
+            <div class="subir">
+                <a th:href="@{#arriba}"><i class="fa-regular fa-hand-point-up"></i></a>
+            </div>
         </main>
+
         <footer th:replace = "/fragments/footer :: footer"></footer>
     </body>
 </html>

@@ -1,0 +1,166 @@
+
+.container,
+.book-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-content {
+    width: 100%;
+    min-width: 450px;
+    max-width: 1000px;
+    height: 530px;
+    margin-right: 2rem;
+    position: relative;
+    perspective: 1000px;
+    transition: 1s;
+}
+.book {
+    position: absolute;
+    width: 65%;
+    height: 100%;
+    transition: 1s;
+    transform-style: preserve-3d;
+    transform-origin: left;
+    cursor: pointer;
+}
+.face-front,
+.face-back {
+    width: 100%;
+    height: 100%;
+    background: white;
+    color: var(--fondo);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.face-front {
+    box-shadow: inset 3px 0px 20px -7px black;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.face-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateZ(-1px) rotateY(180deg);
+    box-shadow: inset -3px 1px 20px -7px black;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+#portada {
+    background: url("/img/Notas.jpeg");
+}
+#portada-back{
+    background: blue;
+}
+#portada,
+#portada-back {
+    background-size: 100% 100%;
+}
+
+/*Clases que se agregaran con javascript*/
+
+.trnsf{
+    transform: translateX(80px);
+}
+.trnsf-reset{
+    transform: translateX(0px);
+}
+/* @Media para hacer el texto responsive*/
+
+.cover-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.face-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateZ(-1px) rotateY(180deg);
+    box-shadow: inset -3px 1px 20px -7px black;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    overflow: hidden;
+}
+
+.back-cover {
+    position: absolute;
+    top: 0;
+    width: 65%;
+    height: 100%;
+    background-color: var(--terciario); /* Color de fondo de la tapa */
+    z-index: -3; /* Asegúrate de que esté detrás de las páginas del libro */
+}
+.volver-nota{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    margin-top: 3rem;
+
+    padding-bottom: 1rem;
+}
+.volver-nota .btn{
+    background-color: var(--fondo);
+    color: var(--blanco);
+    border: 2px solid var(--terciario);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-right: 13rem;
+    text-decoration: none;
+}
+.volver-nota .btn:hover{
+    background-color: var(--terciario);
+    color: var(--fondo);
+    border: 2px solid var(--blanco);
+}
+.rotated {
+    transform: rotateY(-180deg);
+}
+.eliminar{
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+}
+.eliminar a{
+    color: darkred;
+    font-size: 1.2rem;
+}
+
+@media  screen and (max-width:1400px) {
+    .book-content {
+        width: 100%;
+        min-width: 400px;
+        max-width: 600px;
+        height: 430px;
+        margin-right: 1rem;
+        position: relative;
+        perspective: 1000px;
+        transition: 1s;
+    }
+}
+
+@media  screen and (max-width:800px) {
+    h5 {
+        font-size: 1.5rem;
+    }
+
+    .book-content {
+        width: 100%;
+        min-width: 250px;
+        max-width: 500px;
+        height: 330px;
+        margin-right: 1rem;
+        position: relative;
+        perspective: 1000px;
+        transition: 1s;
+    }
+}
+

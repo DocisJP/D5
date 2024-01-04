@@ -1,11 +1,14 @@
 package com.D5.web.app.entidades;
 
+import com.D5.web.app.enumerador.Progreso;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -15,20 +18,18 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
- 
- 
 
 @Entity
 @Table(name = "proyecto")
-public class Proyecto {
+public class Proyecto implements Comparable<Proyecto> {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id; 
+    private String id;
 
     private String nombre;
- 
+
     private String detalleProyecto;
 
     @Temporal(TemporalType.DATE)
@@ -45,86 +46,112 @@ public class Proyecto {
     @OneToMany(mappedBy = "proyecto")
     private List<Tarea> tareas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "proyecto")
+    private List<Nota> notas = new ArrayList<>();
+
     @ManyToMany
     @JoinTable(
             name = "proyecto_usuarios",
             joinColumns = @JoinColumn(name = "proyecto_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id"))
     private List<Usuario> usuarios = new ArrayList<>();
-    
+
     private Boolean estado;
 
-	public String getId() {
-		return id;
-	}
+    @Enumerated(EnumType.STRING)
+    private Progreso progreso;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public Progreso getProgreso() {
+        return progreso;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public void setProgreso(Progreso progreso) {
+        this.progreso = progreso;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public List<Nota> getNotas() {
+        return notas;
+    }
 
-	public String getDetalleProyecto() {
-		return detalleProyecto;
-	}
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
+    }
 
-	public void setDetalleProyecto(String detalleProyecto) {
-		this.detalleProyecto = detalleProyecto;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public Date getFechaInicio() {
-		return fechaInicio;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public Date getFechaFinalizacion() {
-		return fechaFinalizacion;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setFechaFinalizacion(Date fechaFinalizacion) {
-		this.fechaFinalizacion = fechaFinalizacion;
-	}
+    public String getDetalleProyecto() {
+        return detalleProyecto;
+    }
 
-	public List<Reunion> getListaReuniones() {
-		return listaReuniones;
-	}
+    public void setDetalleProyecto(String detalleProyecto) {
+        this.detalleProyecto = detalleProyecto;
+    }
 
-	public void setListaReuniones(List<Reunion> listaReuniones) {
-		this.listaReuniones = listaReuniones;
-	}
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
 
-	public List<Tarea> getTareas() {
-		return tareas;
-	}
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
 
-	public void setTareas(List<Tarea> tareas) {
-		this.tareas = tareas;
-	}
+    public Date getFechaFinalizacion() {
+        return fechaFinalizacion;
+    }
 
-	public List<Usuario> getUsuarios() {
-		return usuarios;
-	}
+    public void setFechaFinalizacion(Date fechaFinalizacion) {
+        this.fechaFinalizacion = fechaFinalizacion;
+    }
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
+    public List<Reunion> getListaReuniones() {
+        return listaReuniones;
+    }
 
-	public Boolean getEstado() {
-		return estado;
-	}
+    public void setListaReuniones(List<Reunion> listaReuniones) {
+        this.listaReuniones = listaReuniones;
+    }
 
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
+    public List<Tarea> getTareas() {
+        return tareas;
+    }
 
+    public void setTareas(List<Tarea> tareas) {
+        this.tareas = tareas;
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    @Override
+    public int compareTo(Proyecto otraProyecto) {
+        return this.fechaInicio.compareTo(otraProyecto.getFechaInicio());
+    }
 
 }

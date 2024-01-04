@@ -10,7 +10,7 @@
 
             <div class="contenedor-tabla container">
                 <div class="contenedor-proyecto row">                
-                        <h2>Listado de Tareas</h2>
+                        <h2>Listado de Tareas De Todos los Proyectos</h2>
                             <section id="pendientes">
                         <table class="tabla">
                             <thead>
@@ -20,9 +20,10 @@
                                     <th>Descripcion</th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th>Usuarios</th>
-                                    <th>Proyecto</th>
+                                    <th>Usuario Encargado</th>
+                                    <th>Proyecto Relacionados</th>
                                     <th>Estado</th>
+                                    <th>Progreso</th>
                                     <th>Modificar</th>
                                     <th>Eliminar</th>
                                 </tr>
@@ -41,15 +42,13 @@
                                             <li th:text="${elegidos.nombre}"></li>
                                         </ul>
                                     </td>
-                                    <td>
-                                        <ul th:each="asociado:${tarea.proyecto}">
-                                            <li th:text="${asociado.nombre}"></li>
-                                        </ul>
+                                    <td th:text="${tarea.proyecto.nombre}">
                                     </td>
                                     <td>
-                                        <span th:if="${!tarea.estado}" th:text="'Completada'">Completada</span>
-                                        <span th:if="${tarea.estado}" th:text="'Pendiente'">Pendiente</span>
+                                        <span th:if="${!tarea.estado}" th:text="'Baja'">Baja</span>
+                                        <span th:if="${tarea.estado}" th:text="'Alta'">Alta</span>
                                     </td>
+                                    <th th:text="${tarea.progreso}"></th>
                                     <td style="text-align: center">
                                         <a
                                             class="modificar"

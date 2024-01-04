@@ -4,16 +4,16 @@
 
     <body>
         <header class="contenedor-header-formulario">
-        <nav th:replace = "/fragments/navbar2 :: nav"></nav>
-            
+            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
+
             <div class="contenedor-portada"></div>
 
             <main class="container mt-5 ">
-                 
+
                 <div class='row justify-content-center'>
-                    
-                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
-                       <div th:replace = "/fragments/modelo :: div"></div>
+
+                    <div class="bodyForm-registrar" style="padding: 6rem">
+                        <div th:replace = "/fragments/modelo :: div"></div>
                         <h2 class="text-center mb-5">Perfil Usuario</h2>
 
                         <form class="form-group" th:action= "@{/perfil/modificar}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
@@ -170,18 +170,19 @@
                                 </div>
                                 <div class="row mb-3" style="margin-top: 4rem">
                                     <div class="col-md-6" >
-                                        <img th:src="@{/imagen/perfil/__${id}__}" style="width:12rem" > 
+                                        <img th:src="@{/imagen/perfil/__${id}__}" style="width:12rem"  alt="imagen perfil"> 
                                         <input class="form-control" type="file" name="archivo" style="margin-top: 3rem" id="archivo"  /> 
                                     </div>
                                 </div>
-                                <div class="col-md-6" >
-                                  <input type="hidden" th:field="*{estado}" value="true" sec:authorize="!hasAnyRole('ADMIN')">
-                                <div class='form-check col-md-6 mb-3' style="margin-top: 3rem" sec:authorize="hasAnyRole('ADMIN')">
-                                    <input class="form-check-input" type="checkbox" th:field="*{estado}" th:value="*{estado}" id="flexCheckDefault">
-                                    <label class="form-check-label text-start" for="flexCheckDefault"> Dar Alta
-                                    </label>
+                                <div class="col-md-6">
+                                    <div sec:authorize="hasAnyRole('ADMIN')" class="check-estado" style="width: 60%">
+                                        <label for="estado"> El Usuario está dado de <p th:text="${usuario.estado} ? 'Alta':'Baja'"></p></label><br>
+                                        <input type="checkbox" id="estado" class="mi-check" th:field="*{estado}" />
+                                        <span>Modificar Estado</span>
+                                    </div>
                                 </div>
-                                </div>
+
+
                                 <div class='row'>
                                     <button type="submit" class="btn btn-primary">
                                         Actualizar
@@ -190,12 +191,11 @@
                                 <div class='row'>
                                     <a th:href="@{/inicio}" class="btn btn-primary">Volver</a>
                                 </div>
-
                             </div>
+
 
                         </form>
                     </div>
-
                 </div>
             </main>
 
@@ -204,7 +204,7 @@
         <footer th:replace = "/fragments/footer :: footer"></footer>
 
         <script onload="">
-            
+
             function toggleEdicion() {
                 var nombreInput = document.getElementById('nombre');
                 var apellidoInput = document.getElementById('apellido');
@@ -223,7 +223,7 @@
                 dniInput.readOnly = !dniInput.readOnly;
                 direccionInput.readOnly = !direccionInput.readOnly;
                 empresaInput.readOnly = !empresaInput.readOnly;
-                telefonoInput.readOnly = !telefonoInput.readOnly; 
+                telefonoInput.readOnly = !telefonoInput.readOnly;
                 archivoInput.disabled = !archivoInput.disabled;
                 toggleColor();
 

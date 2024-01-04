@@ -12,6 +12,7 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: var(--fondo);
 }
+
 /*Barra de navegación*/
 .navegacion {
     display: flex;
@@ -141,6 +142,18 @@
     display: inline-block;
     padding: 2rem;
     border-radius: 1rem;
+}
+
+.subir{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-right: 3rem;
+    position:sticky;
+}
+.subir a{
+    font-size: 2rem;
+    color: var(--fondo);
 }
 
 @media (min-width: 768px) {
@@ -299,6 +312,11 @@
 .btn-volver {
     margin-top: 20px;
 }
+.container-btn-volver{
+    display: flex;
+    justify-content: center;
+}
+
 .btn-volver a {
     margin-top: 20px;
     font-size: 1rem;
@@ -371,6 +389,10 @@
     .contenedor-principal{
         display: grid;
         grid-template-columns: 1fr;
+    }
+    .participantes .c-btn{
+        transform: translateY(-2rem);
+
     }
 
 }
@@ -505,7 +527,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     width: 60%;
     text-decoration: none;
 }
@@ -532,6 +553,23 @@
 section {
     margin-bottom: 20px;
 }
+.check-estado{
+    font-size: 1.5rem;
+    background-color: var(--blanco);
+    color: var(--fondo);
+    display: inline-block;
+    width: 60%;
+    padding: .5rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+}
+.mi-check{
+    width: 20px;
+    height: 20px;
+    color:red;
+    margin-right: 1rem;
+}
+
 
 /* Estilos para la tabla de proyectos */
 .contenedor-proyecto {
@@ -540,7 +578,7 @@ section {
     align-items: center;
     background-color: #081b29ea;
     color: white;
-    width: 90%;
+    width: 100%;
     margin-top: 10rem;
     border-radius: 1rem;
     text-align: center;
@@ -587,13 +625,14 @@ a.eliminar {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
 }
 .container-btn {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
+
 }
 #crear-proyecto,
 #solicitar-proyecto {
@@ -613,6 +652,20 @@ a.eliminar {
         opacity: 0.3;
     }
 }
+
+@media (max-width:768px ) {
+    .contenedor-proyecto {
+        width: 100%;
+
+    }
+    #proyectos-agente {
+        font-size: .4rem;
+    }
+    .contenedor-header-proyecto h2{
+        font-size: 1.5rem;
+    }
+}
+
 /*modelo*/
 .container-modelo{
     font-size: 1.5rem;
@@ -623,6 +676,7 @@ a.eliminar {
     justify-items: center;
     text-align: center;
     margin-top: 20px;
+    margin-bottom: 3rem;
 }
 .card-body{
     justify-items: center;
@@ -675,15 +729,141 @@ a.eliminar {
 .participantes{
     background-color: var(--terciario);
     border: 2px solid var(--fondo);
-    width:60%;
+    width:100%;
     padding: 2rem;
+    border-radius: 2rem;
 
 }
 .participantes li{
     font-size: 1.2rem;
     color: var(--fondo);
+    border-bottom: 4px dotted var(--fondo);
+    margin-top: 2rem;
+    padding: 2rem 0 0 2rem;
+    font-weight: 800;
+}
+.participantes li:hover{
+    background-color: var(--fondo);
+    color: var(--terciario);
+    padding: 2rem 0 0 2rem;
+    border-bottom: 4px dotted var(--terciario);
+    border-top: 4px dotted var(--terciario);
+    border-radius: 2rem;
+}
+.participantes .c-btn{
+    transform: translateY(-2.5rem);
+    margin-left: 3rem;
+
+}
+.participantes ul{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.part{
+    font-size: 1.2rem;
+    font-weight: 400;
+    border-radius: 2rem;
+    padding: .3rem .8rem;
+}
+.partTitulo{
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 2rem;
+    padding: .3rem .8rem;
 }
 .text-center{
     display: flex;
     justify-content: center;
 }
+.input-empresa{
+    width: 35rem;
+    background-color: var(--terciario);
+    border: 2px solid var(--fondo);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+    padding: 1rem;
+    color:var(--fondo);
+    font-size: 1.2rem;
+}
+.input-empresa::placeholder{
+    color:var(--fondo);
+}
+.input-empresa-otro{
+    width: 35rem;
+    background-color: var(--fondo);
+    border: 2px solid var(--terciario);
+    padding: 1rem;
+    color:var(--blanco);    
+    font-size: 1.2rem;
+    padding: 1.5rem 2rem;
+}
+.input-empresa-otro::placeholder{
+    color:var(--fondo);
+}
+.input-empresa-otro li{
+    list-style:square;
+    cursor: pointer;
+}
+.alert-info{
+    background-color: var(--fondo);
+    color: var(--blanco);
+    opacity: .9;
+    margin-top: 2rem;
+}
+.btn-buscar{
+    width: 20rem;
+    background-color: var(--fondo);
+    border: 2px solid var(--terciario);
+    border-radius: 1rem;
+    color:var(--blanco);
+    margin-top: 2rem;
+}
+.btn-buscar:hover{
+    background-color: var(--terciario);
+    border: 2px solid var(--fondo);
+    color:var(--fondo);
+}
+ 
+    .participantesList, .proyectosList{
+        position: relative;
+        top: 0;            
+        left: 100%;          
+        min-width: 80px;    
+        background-color: var(--terciario);  
+        border: 2px solid #ccc;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);  
+        display: none;   
+        color: var(--fondo);
+        border-radius: 20px;
+        font-size: 1.3rem;
+        font-weight: 400;
+        opacity: .8;
+        padding: .5rem;
+        padding-right: 2rem;
+    }
+    .sugerencias-proyectos{
+        position: relative;
+        top: 0;                     
+        min-width: 80px;    
+        background-color: var(--terciario);  
+        border: 2px solid #ccc;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);    
+        color: var(--fondo);
+        border-radius: 20px;
+        font-size: 1.4rem;
+        font-weight: 400;
+        opacity: .8;
+        padding: .5rem;
+        padding-right: 2rem;
+    }
+    .sugerencias-proyectos li{
+        cursor: pointer;
+        list-style: none;
+    }
+    .sugerencias-proyectos li:hover{
+         background-color: var(--fondo);  
+        border: 2px dotted white;  
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);    
+        color: var(--terciario);
+        opacity: .8;
+    }

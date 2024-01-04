@@ -3,6 +3,8 @@
 <html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
     <head th:replace="/fragments/head :: head">
+
+
         <body>
             <header class="contenedor-header-formulario">
                 <nav th:replace = "/fragments/navbar2 :: nav"></nav>
@@ -12,83 +14,113 @@
                 <main class="container mt-5">
 
                     <div class="row justify-content-center">
-                        <div class="col-md-12 bodyForm-registrar" style="padding: 6rem">
-                            <h2 class="text-center mb-5">Tareas</h2>
 
+                        <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
+                            <h2 class="text-center mb-5">Ingresa una tarea</h2>
                             <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
                                 <!-- Campos del formulario -->
-
+                                <label for="nombreTarea">Nombre de la tarea</label>
+                                <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
+                                       placeholder="Nombre" class="form-control mb-3" />
                                 <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
                                    style="color: red; font-size: 0.9em;"></p>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-6 bodyForm-registrar" style="padding: 6rem">
-                                        <h2 class="text-center mb-5">Ingresa una tarea</h2>
-                                        <form th:action="@{/tarea/registro}" method="post" th:object="${tarea}" class="form-group">
-                                            <!-- Campos del formulario -->
-                                            <label for="nombreTarea">Nombre de la tarea</label>
-                                            <input type="text" id="nombreTarea" name="nombreTarea" th:field="*{nombreTarea}"
-                                                   placeholder="Nombre" class="form-control mb-3" />
-                                            <p th:if="${#fields.hasErrors('nombreTarea')}" th:errors="*{nombreTarea}" class="error-message"
-                                               style="color: red; font-size: 0.9em;"></p>
 
-                                            <label for="descripcion">Descripcion de la tarea</label>
-                                            <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
-                                                      placeholder="Descripcion" class="form-control mb-3"></textarea>
-                                            <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
-                                               style="color: red; font-size: 0.9em;"></p>
+                                <label for="descripcion">Descripcion de la tarea</label>
+                                <textarea id="descripcion" name="descripcion" th:field="*{descripcion}" rows="4"
+                                          placeholder="Descripcion" class="form-control mb-3"></textarea>
+                                <p th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
 
-                                            <!-- Campos de fecha de inicio y finalización -->
-                                            <label for="fechaInicio">Fecha de Inicio</label>
-                                            <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
-                                                   class="form-control mb-3" />
-                                            <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
-                                               style="color: red; font-size: 0.9em;"></p>
-                                            <label for="fechaFinalizacion">Fecha de Finalización</label>
-                                            <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion" th:field="*{fechaFinalizacion}"
-                                                   class="form-control mb-3" />
-                                            <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}" class="error-message"
-                                               style="color: red; font-size: 0.9em;"></p>
+                                <!-- Campos de fecha de inicio y finalización -->
+                                <label for="fechaInicio">Fecha de Inicio</label>
+                                <input type="datetime-local" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}"
+                                       class="form-control mb-3" />
+                                <p th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+                                <label for="fechaFinalizacion">Fecha de Finalización</label>
+                                <input type="datetime-local" id="fechaFinalizacion" name="fechaFinalizacion" th:field="*{fechaFinalizacion}"
+                                       class="form-control mb-3" />
+                                <p th:if="${#fields.hasErrors('fechaFinalizacion')}" th:errors="*{fechaFinalizacion}" class="error-message"
+                                   style="color: red; font-size: 0.9em;"></p>
+                                <!-- Agrega select para usuarios -->
+                                <label for="usuarios">Seleccionar Agente</label>
+                                <select id="usuarios" name="usuarioId" class="form-select mb-3">
+                                    <!-- Itera sobre la lista de usuarios -->
+                                    <option label="Elije Usuario" value=""></option>
+                                    <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre + ' ' + elegido.apellido + '(' + elegido.rol + ')'}"></option>
+                                </select>
 
-                                            <!-- Agrego select para usuarios -->
-                                            <label for="usuarios">Seleccionar Usuarios</label>
-                                            <select id="usuarios" name="usuarioId" class="form-select mb-3">
-                                                <!-- Itera sobre la lista de usuarios -->
-                                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
-                                            </select>
-                                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
-                                               style="color: red; font-size: 0.9em;"></p>
-                                            <!-- Campo oculto para el estado -->
-                                            <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+                                <!-- Agrega select para proyectos asociados al usuario seleccionado -->
+                                <label for="proyectos">Seleccionar Proyecto</label>
+                                <select id="proyectos" name="proyectoId" class="form-select mb-3" onchange="mostrarParticipantes(this)">
+                                    <!-- Itera sobre la lista de proyectos asociados al usuario seleccionado -->
+                                    <option label="Elije Proyecto" value=""></option>
+                                    <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
+                                </select>
 
-                                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
-
-                                                <option label="Elije Proyecto" value="''"></option>
-
-                                                <option th:each="asociado : ${proyectos}"
-                                                        th:text="${asociado.nombre}"
-                                                        th:value="${asociado.id}"
-                                                        th:field="*{proyecto}"
-                                                        />
-                                            </select>
-
-                                            <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
-                                               class="error-message" style="color: red; font-size: 0.9em;"></p>
-
-                                            <div class='row'>
-                                                <button type="submit" class="btn btn-primary">Guardar tarea</button> 
-                                            </div>                 
-                                            <div class='row'>
-                                                <a th:href="@{/tarea/panel}" class="btn btn-secondary">Volver</a>
-                                            </div>
-                                        </form>
-                                    </div>
+                                <!-- Agrega el div con la lista de usuarios, utiliza Thymeleaf para establecer el estilo -->
+                                <div th:each="proyecto : ${proyectos}" th:id="'participantesList_' + ${proyecto.id}" class="participantesList" style="display:none;">
+                                    <ul>
+                                        <!-- Itera sobre la lista de usuarios dentro de cada proyecto -->
+                                        <p style="border-bottom: 2px dotted #081b29; font-size: 1.5rem">Participantes del Proyecto</p>
+                                        <li th:each="usuario : ${proyecto.usuarios}" th:text="${usuario.nombre + ' ' + usuario.apellido + '(' + usuario.rol + ')'}" style="list-style: none"></li>
+                                    </ul>
                                 </div>
+
+
+                                <!-- Campo oculto para el estado -->
+                                <input hidden="hidden" type="checkbox" id='estado' name="estado" th:checked="true" />
+
+
+                                <div class='row'>
+                                    <button type="submit" class="btn btn-primary">Guardar tarea</button> 
+                                </div>                 
+                                <div class='row' sec:authorize="hasAnyRole('ADMIN')" >
+                                    <a href="/tarea/panel" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                                </div>
+                                <div class='row' sec:authorize="hasAnyRole('CLIENTE', 'AGENTE')">
+                                    <a th:href="@{/tarea/lista/__${session.usuariosession.id}__}" class="btn btn-secondary" style="margin: 1rem">Volver</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
+
+
                 </main>
             </header>
             <footer th:replace="/fragments/footer :: footer"></footer>
-        </body>
 
+        </body>
+        <!-- Agrego la lógica de JavaScript -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function mostrarParticipantes(select) {
+                console.log('mostrarParticipantes se ejecutó');
+
+                // Obtengo la información del proyecto seleccionado
+                var proyectoId = select.value;
+
+                // Oculto todos los participantes inicialmente
+                var participantesLists = document.querySelectorAll('.participantesList');
+                participantesLists.forEach(function (participantesList) {
+                    participantesList.style.display = 'none';
+                });
+
+                // Muestro solo la lista de participantes del proyecto seleccionado
+                var selectedParticipantesList = document.getElementById('participantesList_' + proyectoId);
+                if (selectedParticipantesList) {
+                    selectedParticipantesList.style.display = 'block';
+                }
+            }
+            /*]]>*/
+
+        </script>
+
+        <!-- Agrego el evento onchange al select -->
+        <script>
+            document.getElementById('proyectos').addEventListener('change', function () {
+                mostrarParticipantes(this);
+            });
+        </script>
 </html>
 
