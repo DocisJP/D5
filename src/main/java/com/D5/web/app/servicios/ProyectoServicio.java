@@ -7,7 +7,7 @@ import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Progreso;
-import com.D5.web.app.enumerador.Rol;  
+import com.D5.web.app.enumerador.Rol;
 import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
@@ -29,31 +29,26 @@ public class ProyectoServicio {
         return proyectoRepositorio.findEmpresasByProjectName(projectName);
     }
 
-	public List<String> findEmpresasByProjectName(String projectName) {
-	    return proyectoRepositorio.findEmpresasByProjectName(projectName);
-	}
-	 public List<String> findNombresProyectosByQuery(String query) {
+    public List<String> findNombresProyectosByQuery(String query) {
         // Realiza una búsqueda en el repositorio de proyectos por nombres que coincidan con la consulta
         return proyectoRepositorio.findNombresByNombreContainingIgnoreCase(query);
     }
-        
-	@Transactional
-	public Proyecto crear(Proyecto proyecto) {
-	    try {
-	    	if(proyecto.getEstado()==null)
-	    	{
-	    		proyecto.setEstado(true);
-	    	}
-	        valida(proyecto); 
-	        establecerRelaciones(proyecto); 
-	        return proyectoRepositorio.save(proyecto);
-	    } catch (ValidationException e) {
-	        throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
-	    } catch (Exception e) {
-	        throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
-	    }
-	}
- 
+
+    @Transactional
+    public Proyecto crear(Proyecto proyecto) {
+        try {
+            if (proyecto.getEstado() == null) {
+                proyecto.setEstado(true);
+            }
+            valida(proyecto);
+            establecerRelaciones(proyecto);
+            return proyectoRepositorio.save(proyecto);
+        } catch (ValidationException e) {
+            throw new IllegalArgumentException("Error de validación: " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new IllegalStateException("Error al crear el proyecto: " + e.getMessage(), e);
+        }
+    }
 
     @Transactional
     public Proyecto modificar(Proyecto proyecto) {
@@ -151,19 +146,19 @@ public class ProyectoServicio {
     }
 
     public List<Proyecto> listarProyectos() {
-        
-         List<Proyecto> proyectos = proyectoRepositorio.findAll();
+
+        List<Proyecto> proyectos = proyectoRepositorio.findAll();
         for (Proyecto proyect : proyectos) {
             if (proyect.getFechaFinalizacion().before(new Date())) {
-                System.out.println("fecha fin IF" + proyect.getFechaFinalizacion()+ proyect.getProgreso());
+                System.out.println("fecha fin IF" + proyect.getFechaFinalizacion() + proyect.getProgreso());
                 proyect.setProgreso(Progreso.FINALIZADO);
             } else {
                 proyect.setProgreso(Progreso.PENDIENTE);
-                System.out.println("fecha fin ELSE" + proyect.getFechaFinalizacion()+ proyect.getProgreso());
+                System.out.println("fecha fin ELSE" + proyect.getFechaFinalizacion() + proyect.getProgreso());
             }
             proyectoRepositorio.save(proyect);
         }
-                
+
         return proyectos;
     }
 
