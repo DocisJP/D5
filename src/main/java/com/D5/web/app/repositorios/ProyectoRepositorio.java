@@ -30,4 +30,5 @@ public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
     @Query("SELECT DISTINCT p.nombre FROM Proyecto p WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<String> findNombresByNombreContainingIgnoreCase(String query);
 
+    List<Proyecto> findProyectoByProgreso(@Param("progreso") Progreso actual);
 }

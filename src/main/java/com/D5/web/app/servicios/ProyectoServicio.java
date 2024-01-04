@@ -8,7 +8,6 @@ import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.enumerador.Rol;
-import java.util.ArrayList;
 import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
