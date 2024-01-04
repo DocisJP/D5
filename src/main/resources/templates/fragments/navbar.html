@@ -39,6 +39,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                 <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/dashboard}" th:if="${session.usuariosession != null}">IR AL PANEL</a></li>
                 <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'"  th:href="@{/perfil/panel/__${session.usuariosession.id}__}" >Ver más</a></li>
             </ul>
             <a class="nav-link dropdown-toggle" sec:authorize="!hasAnyRole('ADMIN')" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
