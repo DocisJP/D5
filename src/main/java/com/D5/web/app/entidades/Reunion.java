@@ -20,12 +20,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "reunion")
-public class Reunion implements Comparable<Reunion>{
+public class Reunion implements Comparable<Reunion> {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -38,10 +39,14 @@ public class Reunion implements Comparable<Reunion>{
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date horarioDeInicio;
 
+    private String horarioDeInicioFormatt;
+
     //Agregue horario fin de la reunion
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date horarioDeFin;
+
+    private String horarioDeFinFormatt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
@@ -50,14 +55,14 @@ public class Reunion implements Comparable<Reunion>{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_destinatario_id")
     private Usuario usuarioDestinatario;
-    
+
     @ManyToMany
     @JoinTable(
             name = "reunion_usuarios",
             joinColumns = @JoinColumn(name = "reunion_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id"))
     private List<Usuario> usuarios = new ArrayList<>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proyecto_id")
     private Proyecto proyecto;
@@ -93,6 +98,22 @@ public class Reunion implements Comparable<Reunion>{
 
     public String getId() {
         return id;
+    }
+
+    public String getHorarioDeInicioFormatt() {
+        return horarioDeInicioFormatt;
+    }
+
+    public void setHorarioDeInicioFormatt(String horarioDeInicioFormatt) {
+        this.horarioDeInicioFormatt = horarioDeInicioFormatt;
+    }
+
+    public String getHorarioDeFinFormatt() {
+        return horarioDeFinFormatt;
+    }
+
+    public void setHorarioDeFinFormatt(String horarioDeFinFormatt) {
+        this.horarioDeFinFormatt = horarioDeFinFormatt;
     }
 
     //Getter and setter
@@ -155,7 +176,6 @@ public class Reunion implements Comparable<Reunion>{
     public void setUsuarioDestinatario(Usuario usuarioDestinatario) {
         this.usuarioDestinatario = usuarioDestinatario;
     }
-    
 
     @Override
     public String toString() {
@@ -163,7 +183,7 @@ public class Reunion implements Comparable<Reunion>{
     }
 
     @Override
-     public int compareTo(Reunion otraReunion) {
+    public int compareTo(Reunion otraReunion) {
         return this.horarioDeInicio.compareTo(otraReunion.getHorarioDeInicio());
     }
 

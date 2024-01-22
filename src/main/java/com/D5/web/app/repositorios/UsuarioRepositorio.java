@@ -1,5 +1,6 @@
 package com.D5.web.app.repositorios;
 
+import com.D5.web.app.entidades.Proyecto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -26,15 +28,21 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String>, Usua
 
     @Query("SELECT u FROM Usuario u JOIN u.proyectos p WHERE p.id = :proyectoId")
     public List<Usuario> listarUsuariosPorProyectoId(@Param("proyectoId") String proyectoId);
+    
+@Override
+default List<String> findNombresEmpresasByQuery(String query) {
+    List<String> empresas = findAllByEmpresaContainingIgnoreCase(query)
+            .stream()
+            .map(Usuario::getEmpresa)
+            .filter(Objects::nonNull)  // Filtra empresas nulas si es necesario
+            .distinct()
+            .collect(Collectors.toList());
 
-    @Override
-    default List<String> findNombresEmpresasByQuery(String query) {
-        return findAllByEmpresaContainingIgnoreCase(query)
-                .stream()
-                .map(Usuario::getEmpresa)
-                .distinct()
-                .collect(Collectors.toList());
-    }
-
+    return empresas;
+}
     List<Usuario> findAllByEmpresaContainingIgnoreCase(String empresa);
+
+    @Query("SELECT DISTINCT p FROM Proyecto p JOIN p.usuarios u WHERE LOWER(u.empresa) LIKE LOWER(CONCAT('%', :nombreEmpresa, '%'))")
+    List<Proyecto> findProyectosByNombreEmpresa(@Param("nombreEmpresa") String nombreEmpresa);
+
 }

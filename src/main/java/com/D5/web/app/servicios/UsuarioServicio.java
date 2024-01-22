@@ -4,6 +4,7 @@ package com.D5.web.app.servicios;
 import org.springframework.stereotype.Service;
 
 import com.D5.web.app.entidades.Imagen;
+import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
@@ -211,6 +212,10 @@ public class UsuarioServicio implements UserDetailsService {
 
     public List<String> findNombresEmpresasByQuery(String query) {
        return usuarioRepositorio.findNombresEmpresasByQuery(query);
+    }
+
+     public List<Proyecto> buscarProyectosPorNombreEmpresa(String nombreEmpresa) {
+        return usuarioRepositorio.findProyectosByNombreEmpresa(nombreEmpresa);
     }
  
 }

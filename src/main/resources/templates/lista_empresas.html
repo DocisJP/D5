@@ -31,7 +31,7 @@
                         </ul>
                     </div>
                     <div th:if="${empresas == null or empresas.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
-                        No se encontraron empresas o usuarios asociados al proyecto.
+                        No se encontraron empresas asociados al proyecto.
                     </div>
                 </div>
 
@@ -61,20 +61,6 @@
                     </div>
                 </div>
             </div>
-            <div class="resultados mt-4">
-                <h2>Proyectos Asociados</h2>
-                
-                <div th:if="${proyectosEmpresa != null and !proyectosEmpresa.isEmpty()}">
-                    <ul>
-                        <!-- Lista de empresas -->
-                        <li th:each="proyectoEmpresa : ${proyectosEmpresa}" th:text="${proyectoEmpresa}">Nombre de la Empresa</li>
-                    </ul>
-                </div>
-                <div th:if="${proyectosEmpresa == null or proyectosEmpresa.isEmpty()}" class="alert alert-info">
-                    No se encontraron proyecto asociados a ese nombre.
-                </div>
-            </div>
-        </div>
         <div class="text-center mt-4">
             <a th:href="@{/inicio}" class="btn btn-secondary">Volver</a>
         </div>

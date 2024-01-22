@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.enumerador.Progreso;
+import java.util.Date;
 
 @Repository
 public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
@@ -31,4 +32,14 @@ public interface ProyectoRepositorio extends JpaRepository<Proyecto, String> {
     List<String> findNombresByNombreContainingIgnoreCase(String query);
 
     List<Proyecto> findProyectoByProgreso(@Param("progreso") Progreso actual);
+    
+    @Query("SELECT DISTINCT CONCAT(u.nombre, ' ', u.apellido, ' (', u.rol, ')') FROM Proyecto p JOIN p.usuarios u WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombreProyecto, '%'))")
+    List<String> findUsuariosByProyectName(@Param("nombreProyecto") String nombreProyecto);
+
+    @Query("SELECT DISTINCT CONCAT(r.nombre, ' Fecha: ', r.horarioDeInicio, ' (', r.progreso, ')') FROM Proyecto p JOIN p.listaReuniones r WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombreProyecto, '%'))")
+    List<String> findReunionesByProyectName(@Param("nombreProyecto") String nombreProyecto);
+
+    @Query("SELECT DISTINCT CONCAT(t.nombreTarea, ' Fecha: ', t.fechaInicio, ' (', t.progreso, ')') FROM Proyecto p JOIN p.tareas t WHERE LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombreProyecto, '%'))")
+    List<String> findTareasByProyectName(@Param("nombreProyecto") String nombreProyecto);
+
 }

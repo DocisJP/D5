@@ -12,6 +12,7 @@ import com.D5.web.app.repositorios.ProyectoRepositorio;
 import jakarta.validation.ValidationException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,15 +24,6 @@ public class ProyectoServicio {
 
     @Autowired
     private ProyectoRepositorio proyectoRepositorio;
-
-    public List<String> findEmpresasByProjectName(String projectName) {
-        return proyectoRepositorio.findEmpresasByProjectName(projectName);
-    }
-
-    public List<String> findNombresProyectosByQuery(String query) {
-        // Realiza una búsqueda en el repositorio de proyectos por nombres que coincidan con la consulta
-        return proyectoRepositorio.findNombresByNombreContainingIgnoreCase(query);
-    }
 
     @Transactional
     public Proyecto crear(Proyecto proyecto) {
@@ -198,4 +190,35 @@ public class ProyectoServicio {
         return contador;
 
     }
+
+    public List<String> findEmpresasByProjectName(String projectName) {
+        return proyectoRepositorio.findEmpresasByProjectName(projectName);
+    }
+
+    public List<String> findNombresProyectosByQuery(String query) {
+        // Realiza una búsqueda en el repositorio de proyectos por nombres que coincidan con la consulta
+        return proyectoRepositorio.findNombresByNombreContainingIgnoreCase(query);
+    }
+
+    public List<String> findUsuariosByProjectName(String nombreProyecto) {
+       return proyectoRepositorio.findUsuariosByProyectName(nombreProyecto);
+    }
+
+    public List<String> findReunionesByProjectName(String nombreProyecto) {
+       return proyectoRepositorio.findReunionesByProyectName(nombreProyecto); }
+
+    public List<String> findTareasByProjectName(String nombreProyecto) {
+     return proyectoRepositorio.findTareasByProyectName(nombreProyecto); }
+    
+    
+  public boolean esProyectoReciente(Proyecto proyecto) {
+    // Obtener la fecha de referencia hace 6 meses
+    Calendar calendario = Calendar.getInstance();
+    calendario.add(Calendar.MONTH, -6);
+    Date fechaHaceSeisMeses = calendario.getTime();
+
+    // Verificar si la fecha de inicio del proyecto es posterior a la fecha hace 6 meses
+    return proyecto.getFechaInicio().after(fechaHaceSeisMeses);
+}
+
 }

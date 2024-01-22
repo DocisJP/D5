@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository; 
 import com.D5.web.app.entidades.Reunion; 
 import com.D5.web.app.entidades.Usuario;
+import java.time.ZonedDateTime;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,7 +16,7 @@ import org.springframework.data.repository.query.Param;
 public interface ReunionRepositorio extends JpaRepository<Reunion, String> {
 
 
-    List<Reunion> findByHorarioDeInicioBetween(Date inicio, Date fin);
+    List<Reunion> findByHorarioDeInicioBetween(ZonedDateTime inicio, ZonedDateTime fin);
     
     @Query("SELECT r FROM Reunion r WHERE r.proyecto.id = :id")
     List<Reunion> buscarPorIdProyecto(@Param("id") String id);

@@ -45,11 +45,15 @@ public class Tarea implements Comparable<Tarea>{
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaInicio;
 
+    private String fechaInicioFormatt;
+    
     @Future(message = "La fecha debe ser en el futuro")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date fechaFinalizacion;
 
+    private String fechaFinFormatt;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
@@ -97,6 +101,22 @@ public class Tarea implements Comparable<Tarea>{
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public String getFechaInicioFormatt() {
+        return fechaInicioFormatt;
+    }
+
+    public void setFechaInicioFormatt(String fechaInicioFormatt) {
+        this.fechaInicioFormatt = fechaInicioFormatt;
+    }
+
+    public String getFechaFinFormatt() {
+        return fechaFinFormatt;
+    }
+
+    public void setFechaFinFormatt(String fechaFinFormatt) {
+        this.fechaFinFormatt = fechaFinFormatt;
     }
 
     public Date getFechaInicio() {

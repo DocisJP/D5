@@ -8,6 +8,7 @@ import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Progreso;
 import com.D5.web.app.exepciones.MyException;
 import com.D5.web.app.repositorios.TareaRepositorio;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class TareaServicio {
     UsuarioServicio usuarioServicio;
 
     @Transactional
-    public Tarea crear(String nombreTarea, String descripcion, Boolean estado,Progreso progreso, Date fechaInicio, Date fechaFinalizacion, Usuario usuario, Proyecto proyecto) throws MyException {
+    public Tarea crear(String nombreTarea, String descripcion, Boolean estado, Progreso progreso, Date fechaInicio, Date fechaFinalizacion, Usuario usuario, Proyecto proyecto) throws MyException {
         Tarea tarea = new Tarea();
         Usuario usuarioEncargado = usuario;
 
@@ -38,7 +39,12 @@ public class TareaServicio {
         tarea.setProgreso(Progreso.PENDIENTE);
         tarea.setNombreTarea(nombreTarea);
         tarea.setFechaInicio(fechaInicio);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String formattedDate = dateFormat.format(fechaInicio);
+        tarea.setFechaInicioFormatt(formattedDate);
         tarea.setFechaFinalizacion(fechaFinalizacion);
+        String formattedDateFin = dateFormat.format(fechaFinalizacion);
+        tarea.setFechaFinFormatt(formattedDateFin);
         tarea.setProyecto(proyecto);
         return tareaRepositorio.save(tarea);
     }
@@ -76,11 +82,11 @@ public class TareaServicio {
             throw new IllegalArgumentException("Tarea no encontrada con el ID: " + id);
         }
     }
-    
-  public List<Tarea> buscarPorProyectoId(String id) {
-    List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
-    return resultado != null ? resultado : Collections.emptyList();
-}
+
+    public List<Tarea> buscarPorProyectoId(String id) {
+        List<Tarea> resultado = tareaRepositorio.findTareasByProyectoId(id);
+        return resultado != null ? resultado : Collections.emptyList();
+    }
 
     private void valida(String nombreTarea, String descripcion, Boolean estado, Date fechaInicio, Date fechaFinalizacion) throws MyException {
         if (estado == null) {
@@ -115,12 +121,14 @@ public class TareaServicio {
         }
     }
 
-    
     //******************PROBANDO PANEL TRABAJO***************
     public List<Tarea> obtenerTareasPorProyecto(String proyectoId) {
-     
+
         return tareaRepositorio.findTareasByProyectoId(proyectoId);
     }
     //******************************************************
-}
 
+    public List<Tarea> listarTareasPorIdUsuario(String id) {
+       return tareaRepositorio.findTareasByUsuarioId(id);
+    }
+}

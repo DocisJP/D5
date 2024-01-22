@@ -16,8 +16,12 @@ import com.D5.web.app.repositorios.ReunionRepositorio;
 import com.D5.web.app.repositorios.UsuarioRepositorio;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.hibernate.Hibernate;
 import org.springframework.ui.Model;
@@ -37,8 +41,8 @@ public class ReunionServicio {
     private ProyectoServicio proyectoServicio;
 
     //plan b
-    @org.springframework.transaction.annotation.Transactional
-    public Reunion crear(String nombre, String detalle, Boolean estado,Progreso progreso, Date horarioDeInicio, Date horarioDeFin, Usuario usuarioDestinatario, Usuario usuario, List<Usuario> usuariosParticipantes, Proyecto proyecto) throws MyException {
+      @Transactional
+    public Reunion crear(String nombre, String detalle, Boolean estado, Progreso progreso, Date horarioDeInicio, Date horarioDeFin, Usuario usuarioDestinatario, Usuario usuario, List<Usuario> usuariosParticipantes, Proyecto proyecto) throws MyException {
 
         Reunion reunion = new Reunion();
 
@@ -47,7 +51,12 @@ public class ReunionServicio {
         reunion.setEstado(false);
         reunion.setProgreso(Progreso.PENDIENTE);
         reunion.setHorarioDeInicio(horarioDeInicio);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String formattedDate = dateFormat.format(horarioDeInicio);
+        reunion.setHorarioDeInicioFormatt(formattedDate);
         reunion.setHorarioDeFin(horarioDeFin);
+        String formattedDateFin = dateFormat.format(horarioDeFin);
+        reunion.setHorarioDeFinFormatt(formattedDateFin);
         reunion.setUsuarioDestinatario(usuarioDestinatario);
         reunion.setUsuario(usuario);
         reunion.setUsuarios(usuariosParticipantes);
@@ -96,26 +105,32 @@ public class ReunionServicio {
 
         return detalles;
     }
-
-    private void validar(Reunion reunion) {
-
-        if (reunion.getNombre() == null || reunion.getNombre().isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la reunión es obligatorio.");
-        }
-        if (reunion.getDetalle() == null || reunion.getDetalle().isEmpty()) {
-            throw new IllegalArgumentException("El detalle falta.");
-        }
-        if (reunion.getHorarioDeFin().before(reunion.getHorarioDeInicio())) {
-            throw new IllegalArgumentException("Debe ingresar un horario de finalización valido");
-        }
-        if (reunion.getHorarioDeInicio().after(reunion.getHorarioDeFin())) {
-            throw new IllegalArgumentException("Debe ingresar un horario de inicio valido");
-        }
-        if (reunion.getHorarioDeInicio() == null || reunion.getHorarioDeFin() == null) {
-            throw new IllegalArgumentException("Debe ingresar un horario valido");
-        }
-
+private void validar(Reunion reunion) {
+    if (reunion.getNombre() == null || reunion.getNombre().isEmpty()) {
+        throw new IllegalArgumentException("El nombre de la reunión es obligatorio.");
     }
+    
+    if (reunion.getDetalle() == null || reunion.getDetalle().isEmpty()) {
+        throw new IllegalArgumentException("El detalle falta.");
+    }
+
+    // Verificar si los horarios son null antes de comparar
+    if (reunion.getHorarioDeInicio() == null || reunion.getHorarioDeFin() == null) {
+        throw new IllegalArgumentException("Debe ingresar un horario válido.");
+    }
+
+    // Verificar si los horarios son válidos
+    if (!Objects.equals(reunion.getHorarioDeFin(), reunion.getHorarioDeInicio()) &&
+            reunion.getHorarioDeFin().before(reunion.getHorarioDeInicio())) {
+        throw new IllegalArgumentException("Debe ingresar un horario de finalización válido.");
+    }
+
+    // Puedes manejar la lógica específica si los horarios pueden ser null según tu aplicación
+    if (!Objects.equals(reunion.getHorarioDeInicio(), reunion.getHorarioDeFin()) &&
+            reunion.getHorarioDeInicio().after(reunion.getHorarioDeFin())) {
+        throw new IllegalArgumentException("Debe ingresar un horario de inicio válido.");
+    }
+}
 
     @Transactional
     public List<Reunion> listaReuniones() {
@@ -131,21 +146,21 @@ public class ReunionServicio {
 
     @Transactional
     public int Inactivos() {
-        Integer contador =0;
-        
-         List<Reunion> reuniones = new ArrayList();
-    
+        Integer contador = 0;
+
+        List<Reunion> reuniones = new ArrayList();
+
         reuniones = reunionRepositorio.findAll();
-        
+
         for (Reunion reunion : reuniones) {
-            
+
             if (reunion.getEstado().toString().equalsIgnoreCase("FALSE")) {
                 contador++;
-                
-            }            
-        }    
+
+            }
+        }
         return contador;
-    
+
     }
 
     public List<Reunion> listarReunionesPorIdUsuario(String id) {

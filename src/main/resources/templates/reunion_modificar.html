@@ -45,24 +45,29 @@
                             <label for="usuarios">Seleccionar Usuarios</label>
                             <select id="usuarios" name="usuarioId" class="form-select mb-3">
                                 <!-- Itera sobre la lista de usuarios -->
-                                
-                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre}"></option>
+                                <option label="Elije Usuario" value=""></option>
+                                <option th:each="elegido : ${usuarios}" th:value="${elegido.id}" th:field="*{usuario}" th:text="${elegido.nombre + ' ' + elegido.apellido + '(' + elegido.rol + ')'}"></option>
                             </select>
                             <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
                             <!-- Campo oculto para el estado -->
 
-                            <select id="proyecto" name="proyectoId" class="form-select mb-3" >
-
-                                <option th:each="asociado : ${proyectos}"
-                                        th:text="${asociado.nombre}"
-                                        th:value="${asociado.id}"
-                                        th:field="*{proyecto}"
-                                        />
+                            <!-- Agrega select para proyectos asociados al usuario seleccionado -->
+                            <label for="proyectos">Seleccionar Proyecto</label>
+                            <select id="proyectos" name="proyectoId" class="form-select mb-3" onchange="mostrarParticipantes(this)">
+                                <!-- Itera sobre la lista de proyectos asociados al usuario seleccionado -->
+                                <option label="Elije Proyecto" value=""></option>
+                                <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
                             </select>
 
-                            <p th:if="${#fields.hasErrors('proyecto')}" th:errors="*{proyecto}"
-                               class="error-message" style="color: red; font-size: 0.9em;"></p>
+                            <!-- Agrega el div con la lista de usuarios, utiliza Thymeleaf para establecer el estilo -->
+                            <div th:each="proyecto : ${proyectos}" th:id="'participantesList_' + ${proyecto.id}" class="participantesList" style="display:none;">
+                                <ul>
+                                    <!-- Itera sobre la lista de usuarios dentro de cada proyecto -->
+                                    <p style="border-bottom: 2px dotted #081b29; font-size: 1.5rem">Participantes del Proyecto</p>
+                                    <li th:each="usuario : ${proyecto.usuarios}" th:text="${usuario.nombre + ' ' + usuario.apellido + '(' + usuario.rol + ')'}" style="list-style: none"></li>
+                                </ul>
+                            </div>
 
                             <input hidden="hidden" type="checkbox" name="estado" th:checked="true"/>
                             <label for="estadoReunion"> Aceptada </label>
@@ -83,4 +88,35 @@
         </header>
         <footer th:replace="/fragments/footer :: footer"></footer>
     </body>
+    <!-- Agrego la lógica de JavaScript -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function mostrarParticipantes(select) {
+            console.log('mostrarParticipantes se ejecutó');
+
+            // Obtengo la información del proyecto seleccionado
+            var proyectoId = select.value;
+
+            // Oculto todos los participantes inicialmente
+            var participantesLists = document.querySelectorAll('.participantesList');
+            participantesLists.forEach(function (participantesList) {
+                participantesList.style.display = 'none';
+            });
+
+            // Muestro solo la lista de participantes del proyecto seleccionado
+            var selectedParticipantesList = document.getElementById('participantesList_' + proyectoId);
+            if (selectedParticipantesList) {
+                selectedParticipantesList.style.display = 'block';
+            }
+        }
+        /*]]>*/
+
+    </script>
+
+    <!-- Agrego el evento onchange al select -->
+    <script>
+        document.getElementById('proyectos').addEventListener('change', function () {
+            mostrarParticipantes(this);
+        });
+    </script>
 </html>

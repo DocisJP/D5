@@ -8,26 +8,30 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import java.util.Base64;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "imagen")
 public class Imagen {
 
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    
-	private String mime;
-	
-	private String nombre;
-	
-	@Lob @Basic(fetch = FetchType.LAZY)
-        @Column(name = "contenido", columnDefinition = "MEDIUMBLOB")
-	private byte[] contenido;
-	
+
+    private String mime;
+
+    private String nombre;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "contenido", columnDefinition = "MEDIUMBLOB")
+    private byte[] contenido;
+
+    public String getBase64Image() {
+        return Base64.getEncoder().encodeToString(contenido);
+    }
 
     public String getId() {
         return id;

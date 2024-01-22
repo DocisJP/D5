@@ -125,6 +125,7 @@ h2{
     box-shadow: 3px 2px 6px rgb(227, 221, 221);
     display:grid;
     justify-content: end;
+    border: 1.5rem groove var(--fondo);
 }
 .notas
 h5{
@@ -141,13 +142,22 @@ h5{
     margin: 1rem;
     padding: 1.5rem;
     border-radius: 2rem 5rem;
-    box-shadow: 3px 2px 6px rgb(227, 221, 221);
+    box-shadow: 3px 2px 8px rgb(227, 221, 221);
     transform: translateX(18rem);
+    border: 1.5rem groove var(--primario);
 }
 .proyecto h1,
 h3 {
     line-height: 5rem;
     padding:1rem;
+    color: var(--terciario);
+    font-weight: 800;
+    text-shadow: 2px 4px 6px black;
+}
+.container h1{
+    color: var(--terciario);
+    font-weight: 800;
+    text-shadow: 2px 4px 6px black;
 }
 .tarea {
     background-color: var(--fondo);
@@ -159,6 +169,7 @@ h3 {
     border-radius: 6rem 3rem;
     box-shadow: 3px 2px 6px rgb(227, 221, 221);
     transform: translateX(18rem);
+    border: 1.5rem groove var(--primario);
 }
 .tarea h1,
 h2,
@@ -175,6 +186,7 @@ p {
     padding: 1.5rem;
     border-radius: 4rem 6rem;
     box-shadow: 3px 2px 6px rgb(227, 221, 221);
+    border: 1.5rem groove var(--fondo);
 }
 .reunion h1,
 h5,
@@ -245,8 +257,8 @@ p {
 
 }
 @media  screen and (max-width:992px) {
-    
-     .notas{
+
+    .notas{
         width: 100%;
     }
 }
@@ -319,7 +331,7 @@ p {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center bottom;
-    opacity: 0.7;
+    opacity: 0.9;
 
     .contenedor-form {
         display: flex;

@@ -37,13 +37,13 @@
 
                             <!-- Campos de fecha de inicio y finalización -->
                             <label for="horarioDeInicio">Hora de inicio</label>
-                            <input type="datetime-local" id="horarioDeInicio" name="horarioDeInicio" th:field="*{horarioDeInicio}"
-                                   class="form-control mb-3" />
+                            <input type="datetime-local" id="horarioDeInicio" name="horarioDeInicio" th:field="*{horarioDeInicio}" class="form-control mb-3" pattern="yyyy-MM-ddTHH:mm" />
+
                             <p th:if="${#fields.hasErrors('horarioDeInicio')}" th:errors="*{horarioDeInicio}" class="error-message"
                                style="color: red; font-size: 0.9em;"></p>
 
                             <label for="horarioDeFin">Horario de Finalización</label>
-                            <input type="datetime-local" id="horarioDeFin" name="horarioDeFin"
+                            <input type="datetime-local" id="horarioDeFin" name="horarioDeFin" pattern="yyyy-MM-ddTHH:mm"
                                    th:field="*{horarioDeFin}" class="form-control mb-3" />
                             <p th:if="${#fields.hasErrors('horarioDeFin')}" th:errors="*{horarioDeFin}"
                                class="error-message" style="color: red; font-size: 0.9em;"> </p>
@@ -110,4 +110,9 @@
         }
         /*]]>*/
     </script>
+    <script>
+    document.getElementById('horarioDeInicio').addEventListener('change', function(event) {
+        console.log(event.target.value);
+    });
+</script>
 </html>
