@@ -263,9 +263,7 @@
                     <div class="resultados mt-4 input-empresa-otro">
                         <h2>Usuarios Asociados</h2>
 
-                        <div
-                            th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}"
-                            >
+                        <div th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}"  >
                             <ul>
                                 <li th:each="usuario : ${listadoUsuarios}">
                                     <span th:if="${usuario != null and usuario.getClass().getName() == 'java.lang.String'}" th:text="${usuario}"></span>
@@ -277,11 +275,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div
-                            th:if="${listadoUsuarios == null or listadoUsuarios.isEmpty()}"
-                            class="alert alert-info"
-                            style="border: 2px solid var(--fondo)"
-                            >
+                        <div  th:if="${listadoUsuarios == null or listadoUsuarios.isEmpty()}"  class="alert alert-info"  style="border: 2px solid var(--fondo)" >
                             No se encontraron usuarios asociados al proyecto.
                         </div>
                     </div>
@@ -291,7 +285,7 @@
                         <!-- Lista de Proyectos -->
                         <div th:if="${proyectos != null and !proyectos.isEmpty()}">
                             <ul>
-                                <li th:each="proyecto : ${proyectos}" th:text="${proyecto.nombre + ' //Fecha De Inicio: ' + proyecto.fechaInicio + '(' + proyecto.progreso + ')'}" >Nombre del Proyecto</li>
+                                <li th:each="proyecto : ${proyectos}"><p th:text="${proyecto.nombre}"></p><span th:text="|Fecha De Inicio: ${proyecto.fechaInicio} |"></span><span th:text="| (${proyecto.progreso}) |"></span></li>
                             </ul>
                         </div>
                         <div th:if="${proyectos == null or proyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
