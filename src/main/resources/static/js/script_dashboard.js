@@ -266,6 +266,10 @@ function mostrarSugerenciasEmpresa(valor) {
             .catch(error => console.error('Error al obtener sugerencias de empresas a través de usuarios:', error));
 }
 ////Seccion Dashboard
+//
+//
+//
+//
 // Configuración del gráfico de carga de trabajo de los agentes
 var workloadData = {
     labels: [
@@ -312,7 +316,10 @@ var projectStatusData = {
     labels: ["Pendiente", "En Progreso", "Completado"],
     datasets: [
         {
-            data: [8, 10, 7],
+            data: [
+                document.getElementById('pendingProjects').textContent,
+                document.getElementById('inProgressProjects').textContent,
+                document.getElementById('completedProjects').textContent],
             backgroundColor: [
                 "rgba(255, 99, 132, 0.2)",
                 "rgba(255, 205, 86, 0.2)",

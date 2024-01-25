@@ -137,6 +137,10 @@ public class UsuarioServicio implements UserDetailsService {
    public Usuario getOne(String id){
         return usuarioRepositorio.getReferenceById(id);
     }
+   
+   public Long cuantosAgentes(){
+        return usuarioRepositorio.countAllAgentes();
+    }
 
     public void cambiarEstado(Usuario usuario) {
         usuario.setEstado(!usuario.getEstado());

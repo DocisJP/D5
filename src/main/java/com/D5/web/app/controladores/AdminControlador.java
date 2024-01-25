@@ -153,52 +153,53 @@ public class AdminControlador {
         // Retorna directamente la vista "nuevo_dashboard" (sin redirección)
         return "nuevo_dashboard";
     }
-@GetMapping("/sugerirNombresProyectos")
-@ResponseBody
-public List<String> sugerirNombresProyectos(@RequestParam String query) {
-    return proyectoServicio.findNombresProyectosByQuery(query);
-}
 
-@PostMapping("/buscar")
-@ResponseBody
-public ResponseEntity<Map<String, Object>> buscarEmpresasByProjectName(@RequestBody Map<String, String> requestBody) {
-
-    String nombreProyecto = requestBody.get("nombreProyecto");
-    List<String> empresas = Collections.emptyList();
-    List<String> usuarios = Collections.emptyList();
-    List<String> reuniones = Collections.emptyList();
-    List<String> tareas = Collections.emptyList();
-    List<String> sugerenciasNombresProyectos = Collections.emptyList();
-
-    if (nombreProyecto != null && !nombreProyecto.isEmpty()) {
-        empresas = proyectoServicio.findEmpresasByProjectName(nombreProyecto);
-        usuarios = proyectoServicio.findUsuariosByProjectName(nombreProyecto);
-        reuniones = proyectoServicio.findReunionesByProjectName(nombreProyecto);
-        tareas = proyectoServicio.findTareasByProjectName(nombreProyecto);
-
-        // Obtener sugerencias de nombres de proyectos
-        sugerenciasNombresProyectos = proyectoServicio.findNombresProyectosByQuery(nombreProyecto);
-
-        System.out.println("Sugerencias de nombres de proyectos: " + sugerenciasNombresProyectos);
-        System.out.println("Termino de búsqueda: '" + nombreProyecto + "'");
-        System.out.println("Empresas encontradas: " + empresas);
-        System.out.println("Usuarios encontrados: " + usuarios);
-        System.out.println("Reuniones encontradas: " + reuniones);
-        System.out.println("Tareas encontradas: " + tareas);
-    } else {
-        System.out.println("No hay nombre de proyecto.");
+    @GetMapping("/sugerirNombresProyectos")
+    @ResponseBody
+    public List<String> sugerirNombresProyectos(@RequestParam String query) {
+        return proyectoServicio.findNombresProyectosByQuery(query);
     }
 
-    Map<String, Object> responseData = new HashMap<>();
-    responseData.put("nombreProyecto", nombreProyecto);
-    responseData.put("empresas", empresas);
-    responseData.put("usuarios", usuarios);
-    responseData.put("reuniones", reuniones);
-    responseData.put("tareas", tareas);
-    responseData.put("sugerenciasNombresProyectos", sugerenciasNombresProyectos);
+    @PostMapping("/buscar")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> buscarEmpresasByProjectName(@RequestBody Map<String, String> requestBody) {
 
-    return ResponseEntity.ok(responseData);
-}
+        String nombreProyecto = requestBody.get("nombreProyecto");
+        List<String> empresas = Collections.emptyList();
+        List<String> usuarios = Collections.emptyList();
+        List<String> reuniones = Collections.emptyList();
+        List<String> tareas = Collections.emptyList();
+        List<String> sugerenciasNombresProyectos = Collections.emptyList();
+
+        if (nombreProyecto != null && !nombreProyecto.isEmpty()) {
+            empresas = proyectoServicio.findEmpresasByProjectName(nombreProyecto);
+            usuarios = proyectoServicio.findUsuariosByProjectName(nombreProyecto);
+            reuniones = proyectoServicio.findReunionesByProjectName(nombreProyecto);
+            tareas = proyectoServicio.findTareasByProjectName(nombreProyecto);
+
+            // Obtener sugerencias de nombres de proyectos
+            sugerenciasNombresProyectos = proyectoServicio.findNombresProyectosByQuery(nombreProyecto);
+
+            System.out.println("Sugerencias de nombres de proyectos: " + sugerenciasNombresProyectos);
+            System.out.println("Termino de búsqueda: '" + nombreProyecto + "'");
+            System.out.println("Empresas encontradas: " + empresas);
+            System.out.println("Usuarios encontrados: " + usuarios);
+            System.out.println("Reuniones encontradas: " + reuniones);
+            System.out.println("Tareas encontradas: " + tareas);
+        } else {
+            System.out.println("No hay nombre de proyecto.");
+        }
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("nombreProyecto", nombreProyecto);
+        responseData.put("empresas", empresas);
+        responseData.put("usuarios", usuarios);
+        responseData.put("reuniones", reuniones);
+        responseData.put("tareas", tareas);
+        responseData.put("sugerenciasNombresProyectos", sugerenciasNombresProyectos);
+
+        return ResponseEntity.ok(responseData);
+    }
 
     @GetMapping("/buscarUsuarioYProyectos")
     public String buscarUsuarioYProyectosPorNombreEmpresa(@RequestParam(required = false) String nombreEmpresa, Model model) {
@@ -220,6 +221,12 @@ public ResponseEntity<Map<String, Object>> buscarEmpresasByProjectName(@RequestB
         model.addAttribute("proyectos", proyectos);
 
         return "nuevo_dashboard";
+    }
+
+    @GetMapping("/admin/cuantosAgentes")
+    @ResponseBody
+    public Long getAgentesCount() {
+        return usuarioServicio.cuantosAgentes();
     }
 
     @GetMapping("/gestion-empresas")
