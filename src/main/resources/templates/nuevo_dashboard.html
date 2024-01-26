@@ -38,9 +38,7 @@
                 <a href="#projectsSection" onclick="showSection('projects')">Gestión de Proyectos</a>
                 <a href="#agentsSection" onclick="showSection('agents')">Gestión de Usuarios</a>
                 <a href="#clientsSection" onclick="showSection('clients')">Gestión de Empresas</a>
-                <a href="#adminDashboardSection" onclick="showSection('adminDashboard')"
-                   >Dashboard del Administrador</a
-                >
+                <a href="#adminDashboardSection" onclick="showSection('adminDashboard')" >Dashboard del Administrador</a>
             </nav>
 
             <div class="content">
@@ -321,11 +319,11 @@
                     <div>
                         <h3>Estadísticas de Proyectos</h3>
                         <!-- Agrega aquí estadísticas detalladas sobre el estado y progreso de los proyectos -->
-                        <p>Proyectos Pendientes: <span id="pendingProjects">8</span></p>
+                        <p>Proyectos Pendientes: <span th:text="${proyectosTotales}" id="pendingProjects">7</span></p>
                         <p>
-                            Proyectos en Progreso: <span id="inProgressProjects">10</span>
+                            Proyectos en Progreso: <span th:text="${proyectosEnProgreso}" id="inProgressProjects">11</span>
                         </p>
-                        <p>Proyectos Completados: <span id="completedProjects">7</span></p>
+                        <p>Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
                     </div>
 
                     <!-- Información resumida sobre clientes y proyectos -->
@@ -333,6 +331,7 @@
                         <h3>Información Resumida</h3>
                         <!-- Agrega aquí información resumida sobre clientes y proyectos -->
                         <p>Clientes Activos: <span id="activeClients">12</span></p>
+                        <p>Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
                         <p>Proyectos Recientes: <span id="recentProjects">5</span></p>
                     </div>
                 </div>

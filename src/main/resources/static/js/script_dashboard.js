@@ -267,14 +267,20 @@ function mostrarSugerenciasEmpresa(valor) {
 }
 ////Seccion Dashboard
 //
-//
+
+
+var cadenaGenerica = document.getElementById('avblAgents').textContent + " Agentes Disponibles";
+
+console.log("Agentes count:", cadenaGenerica);
+
+
 //
 //
 // Configuración del gráfico de carga de trabajo de los agentes
 var workloadData = {
     labels: [
         "Agente 1",
-        "Agente 2",
+        cadenaGenerica,
         "Agente 3",
         "Agente 4",
         "Agente 1",

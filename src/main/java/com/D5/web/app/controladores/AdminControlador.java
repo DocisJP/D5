@@ -84,6 +84,8 @@ public class AdminControlador {
         model.addAttribute("activeClients", clientesActivos);
         model.addAttribute("recentProjects", proyectosRecientes);
         model.addAttribute("listaUsuarios", listadoU);
+        model.addAttribute("cuantosAgentes", usuarioServicio.cuantosAgentes());
+        
 
         return "nuevo_dashboard";
     }
@@ -223,11 +225,6 @@ public class AdminControlador {
         return "nuevo_dashboard";
     }
 
-    @GetMapping("/admin/cuantosAgentes")
-    @ResponseBody
-    public Long getAgentesCount() {
-        return usuarioServicio.cuantosAgentes();
-    }
 
     @GetMapping("/gestion-empresas")
     public String showClients(Model model) {
