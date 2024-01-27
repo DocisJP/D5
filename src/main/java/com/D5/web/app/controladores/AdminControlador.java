@@ -5,6 +5,7 @@ import com.D5.web.app.entidades.Reunion;
 import com.D5.web.app.entidades.Tarea;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Progreso;
+import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.servicios.ProyectoServicio;
 import com.D5.web.app.servicios.ReunionServicio;
 import com.D5.web.app.servicios.TareaServicio;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -77,15 +79,18 @@ public class AdminControlador {
         long totalAgentes = listadoU.stream().filter(u -> "AGENTE".equals(u.getRol())).count();
         long clientesActivos = listadoU.stream().filter(Usuario::getEstado).count();
         long proyectosRecientes = listadoP.stream().filter(proyectoServicio::esProyectoReciente).count();
+        long inProgressProjects = listadoP.stream().filter(p -> "PENDIENTE".equals(p.getProgreso())).count();
+        long proyectosFinalizados = listadoP.stream().filter(p -> "FINALIZADO".equals(p.getProgreso())).count();
 
         model.addAttribute("totalProjects", totalProyectos);
         model.addAttribute("totalClients", totalClientes);
         model.addAttribute("totalAgents", totalAgentes);
         model.addAttribute("activeClients", clientesActivos);
         model.addAttribute("recentProjects", proyectosRecientes);
+        model.addAttribute("inProgressProjects", inProgressProjects);
+        model.addAttribute("proyectosFinalizados", proyectosFinalizados);
         model.addAttribute("listaUsuarios", listadoU);
-        model.addAttribute("cuantosAgentes", usuarioServicio.cuantosAgentes());
-        
+        model.addAttribute("cuantosAgentes", +usuarioServicio.cuantosAgentes());
 
         return "nuevo_dashboard";
     }
@@ -162,6 +167,14 @@ public class AdminControlador {
         return proyectoServicio.findNombresProyectosByQuery(query);
     }
 
+    @GetMapping("/devolverAgentes")
+    @ResponseBody
+    public List<String> devolverAgentes() {
+        return usuarioServicio.buscarPorRol(Rol.AGENTE).stream()
+                .map(Usuario::getNombre)
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("/buscar")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> buscarEmpresasByProjectName(@RequestBody Map<String, String> requestBody) {
@@ -224,7 +237,6 @@ public class AdminControlador {
 
         return "nuevo_dashboard";
     }
-
 
     @GetMapping("/gestion-empresas")
     public String showClients(Model model) {

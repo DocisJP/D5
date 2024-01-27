@@ -212,13 +212,13 @@ public class ProyectoServicio {
     
     
   public boolean esProyectoReciente(Proyecto proyecto) {
-    // Obtener la fecha de referencia hace 6 meses
+    // Obtener la fecha de referencia hace un mes
     Calendar calendario = Calendar.getInstance();
-    calendario.add(Calendar.MONTH, -6);
-    Date fechaHaceSeisMeses = calendario.getTime();
+    calendario.add(Calendar.MONTH, -1);
+    Date fechaReciente = calendario.getTime();
 
-    // Verificar si la fecha de inicio del proyecto es posterior a la fecha hace 6 meses
-    return proyecto.getFechaInicio().after(fechaHaceSeisMeses);
+    // Verificar si la fecha de inicio del proyecto es posterior a la fecha hace un mes
+    return proyecto.getFechaInicio().after(fechaReciente);
 }
 
 }

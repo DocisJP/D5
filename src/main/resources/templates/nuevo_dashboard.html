@@ -105,18 +105,14 @@
                     </div>
                     <div id="usuariosContainer" class="resultados mt-4 input-empresa-otro">
                         <h2>Usuarios Asociados</h2>
-
-                        <div
-                            th:if="${usuarios != null and !usuarios.isEmpty()}"
-                            class="input-empresa-otro"
-                            >
+                        <div th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}" class="input-empresa-otro">
                             <ul>
-                                <li th:each="usuario : ${usuarios}">
-                                    <span th:if="${usuario != null and usuario.getClass().getName() == 'java.lang.String'}" th:text="${usuario}"></span>
-                                    <span th:if="${usuario != null and usuario.getClass().getName() != 'java.lang.String'}">
-                                        <span th:text="${usuario.nombre != null ? usuario.nombre : ''}"></span>
-                                        <span th:text="${usuario.apellido != null ? ' ' + usuario.apellido : ''}"></span>
-                                        <span th:text="${usuario.rol != null ? '(' + usuario.rol + ')' : ''}"></span>
+                                <li th:each="usuarioEncontrado : ${listadoUsuarios}">
+                                    <span th:if="${usuarioEncontrado != null and usuarioEncontrado.getClass().getName() == 'java.lang.String'}" th:text="${usuarioEncontrado.getName()}"></span>
+                                    <span th:if="${usuarioEncontrado != null and usuarioEncontrado.getClass().getName() != 'java.lang.String'}">
+                                        <span th:text="${usuarioEncontrado.nombre != null ? usuarioEncontrado.nombre : ''}"></span>
+                                        <span th:text="${usuarioEncontrado.apellido != null ? ' ' + usuarioEncontrado.apellido : ''}"></span>
+                                        <span th:text="${usuarioEncontrado.rol != null ? '(' + usuarioEncontrado.rol + ')' : ''}"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -133,19 +129,17 @@
                     <div id="reunionesContainer" class="resultados mt-4 input-empresa-otro">
                         <h2>Reuniones del Proyecto</h2>
 
-                        <div th:if="${reuniones != null and not #lists.isEmpty(reuniones)}" class="input-empresa-otro">
+                        <div th:if="${reuniones != null and not reuniones.isEmpty()}" class="input-empresa-otro">
                             <ul>
                                 <li th:each="reunion : ${reuniones}">
-                                    <span th:if="${reunion != null and reunion.getClass().getName() == 'java.lang.String'}" th:text="${reunion}"></span>
-                                    <span th:if="${reunion != null and reunion.getClass().getName() != 'java.lang.String'}">
-                                        <span th:text="${reunion.nombre != null ? reunion.nombre : ''}"></span>
-                                        <span th:text="${reunion.horarioDeInicioFormatt != null ? ' ' + reunion.horarioDeInicioFormatt : ''}"></span>
-                                        <span th:text="${reunion.progreso != null ? '(' + reunion.progreso + ')' : ''}"></span>
+                                    <span th:text="${reunion.nombre != null?reunion.nombre:'No hay reunion'}"></span>
+                                    <span th:text="| - ${reunion.horarioDeInicioFormatt != null ? reunion.horarioDeInicioFormatt : 'Sin fecha'}|"></span>
+                                    <span th:text="| ( ${reunion.progreso != null ? reunion.progreso : 'Sin progreso'} )|"></span>
                                     </span>
                                 </li>
                             </ul>
                         </div>
-                        <div th:if="${reuniones == null or #lists.isEmpty(reuniones)}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                        <div th:unless="${reuniones != null}" class="alert alert-info" style="border: 2px solid var(--fondo)">
                             No se encontraron reuniones asociadas al proyecto.
                         </div>
                     </div>
@@ -319,10 +313,8 @@
                     <div>
                         <h3>Estadísticas de Proyectos</h3>
                         <!-- Agrega aquí estadísticas detalladas sobre el estado y progreso de los proyectos -->
-                        <p>Proyectos Pendientes: <span th:text="${proyectosTotales}" id="pendingProjects">7</span></p>
-                        <p>
-                            Proyectos en Progreso: <span th:text="${proyectosEnProgreso}" id="inProgressProjects">11</span>
-                        </p>
+                        <p>Proyectos Pendientes: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
+                        <p> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </p>
                         <p>Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
                     </div>
 
@@ -330,9 +322,9 @@
                     <div>
                         <h3>Información Resumida</h3>
                         <!-- Agrega aquí información resumida sobre clientes y proyectos -->
-                        <p>Clientes Activos: <span id="activeClients">12</span></p>
+                        <p>Clientes Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
                         <p>Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
-                        <p>Proyectos Recientes: <span id="recentProjects">5</span></p>
+                        <p>Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></p>
                     </div>
                 </div>
             </div>

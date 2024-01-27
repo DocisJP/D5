@@ -104,7 +104,7 @@ function buscarProyecto() {
                     var usuariosList = document.createElement('ul');
                     data.usuarios.forEach(function (usuario) {
                         var li = document.createElement('li');
-                        // Lógica similar para mostrar usuarios...
+                        li.textContent = usuario.toString();
                         usuariosList.appendChild(li);
                     });
                     usuariosContainer.appendChild(usuariosList);
@@ -113,29 +113,29 @@ function buscarProyecto() {
                 }
                 // Reuniones
                 var reunionesContainer = document.getElementById('reunionesContainer');
-                if (data.reuniones && data.reuniones.length > 0) {
+                if (data.reuniones !== '' && data.reuniones.length > 0) {
                     var reunionesList = document.createElement('ul');
                     data.reuniones.forEach(function (reunion) {
                         var li = document.createElement('li');
-                        // Lógica similar para mostrar reuniones...
+                        li.textContent = "Se reunen: " + reuniones.toString();
                         reunionesList.appendChild(li);
                     });
                     reunionesContainer.appendChild(reunionesList);
                 } else {
-                    reunionesContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron usuarios asociados al proyecto.</div>';
+                    reunionesContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No hay reuniones para el proyecto.</div>';
                 }
                 // Tareas
                 var tareasContainer = document.getElementById('tareasContainer');
-                if (data.tareas && data.tareas.length > 0) {
+                if (data.tareas !== '' && data.tareas.length > 0) {
                     var tareasList = document.createElement('ul');
                     data.tareas.forEach(function (tarea) {
                         var li = document.createElement('li');
-                        // Lógica similar para mostrar tareas...
+                        li.textContent = tarea.toString();
                         tareasList.appendChild(li);
                     });
                     tareasContainer.appendChild(tareasList);
                 } else {
-                    tareasContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron usuarios asociados al proyecto.</div>';
+                    tareasContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron tareas del proyecto.</div>';
                 }
 
             })
@@ -267,31 +267,10 @@ function mostrarSugerenciasEmpresa(valor) {
 }
 ////Seccion Dashboard
 //
-
-
-var cadenaGenerica = document.getElementById('avblAgents').textContent + " Agentes Disponibles";
-
-console.log("Agentes count:", cadenaGenerica);
-
-
-//
-//
 // Configuración del gráfico de carga de trabajo de los agentes
+var listaAgentes = [];
 var workloadData = {
-    labels: [
-        "Agente 1",
-        cadenaGenerica,
-        "Agente 3",
-        "Agente 4",
-        "Agente 1",
-        "Agente 2",
-        "Agente 3",
-        "Agente 4",
-        "Agente 1",
-        "Agente 2",
-        "Agente 3",
-        "Agente 4"
-    ],
+    labels: listaAgentes,
     datasets: [
         {
             label: "Carga de Trabajo",
@@ -302,6 +281,27 @@ var workloadData = {
         }
     ]
 };
+
+
+fetch('/admin/devolverAgentes',
+        {
+            method: 'GET',
+        }
+)
+        .then(response => response.json)
+        .then(data => {
+            let elemLabels = Array.isArray(data) ? data : [data]
+            elemLabels.forEach(function (elem) {
+                listaAgentes.push(elem);
+                workloadData.labels.push(listaAgentes);
+            })
+        })
+        .catch(e => {
+            listaAgentes.push("No hay: " + e)
+            workloadData.labels = listaAgentes;
+        });
+
+var cadenaGenerica = document.getElementById('avblAgents').textContent + " Agentes Disponibles";
 
 var workloadOptions = {
     scales: {
