@@ -90,7 +90,7 @@ public class AdminControlador {
         model.addAttribute("inProgressProjects", inProgressProjects);
         model.addAttribute("proyectosFinalizados", proyectosFinalizados);
         model.addAttribute("listaUsuarios", listadoU);
-        model.addAttribute("cuantosAgentes", +usuarioServicio.cuantosAgentes());
+        model.addAttribute("cuantosAgentes", usuarioServicio.buscarPorRol(Rol.AGENTE).stream().count());
 
         return "nuevo_dashboard";
     }
@@ -169,9 +169,16 @@ public class AdminControlador {
 
     @GetMapping("/devolverAgentes")
     @ResponseBody
-    public List<String> devolverAgentes() {
+    public List<HashMap<String, String>> devolverAgentes() {
         return usuarioServicio.buscarPorRol(Rol.AGENTE).stream()
-                .map(Usuario::getNombre)
+                .map(usuario -> {
+                    // Retrieve project count from ProyectoServicio
+                    String cuantosProyectos = Long.toString(proyectoServicio.listarProyectosPorIdUsuario(usuario.getId()).stream().count());
+
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put(usuario.getNombre(), cuantosProyectos); // nombres es la llave, valor son los proyectos.
+                    return map;
+                })
                 .collect(Collectors.toList());
     }
 

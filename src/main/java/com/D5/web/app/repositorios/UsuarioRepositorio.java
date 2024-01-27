@@ -42,9 +42,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String>, Usua
         return empresas;
     }
 
-    @Query("SELECT COUNT(u) FROM Usuario u WHERE u.rol = Rol.AGENTE")
-    Long countAllAgentes();
-
     List<Usuario> findAllByEmpresaContainingIgnoreCase(String empresa);
 
     @Query("SELECT DISTINCT p FROM Proyecto p JOIN p.usuarios u WHERE LOWER(u.empresa) LIKE LOWER(CONCAT('%', :nombreEmpresa, '%'))")

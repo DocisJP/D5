@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -138,9 +137,6 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.getReferenceById(id);
     }
    
-   public Long cuantosAgentes(){
-        return usuarioRepositorio.countAllAgentes();
-    }
 
     public void cambiarEstado(Usuario usuario) {
         usuario.setEstado(!usuario.getEstado());

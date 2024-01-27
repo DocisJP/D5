@@ -274,7 +274,7 @@ var workloadData = {
     datasets: [
         {
             label: "Carga de Trabajo",
-            data: [15, 10, 8, 5, 15, 10, 8, 5, 15, 10, 8, 5],
+            data: [],
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1
@@ -282,7 +282,7 @@ var workloadData = {
     ]
 };
 
-
+// Obtener los datos a visualizar
 fetch('/admin/devolverAgentes',
         {
             method: 'GET',
@@ -291,14 +291,16 @@ fetch('/admin/devolverAgentes',
         .then(response => response.text())
         .then(data => {
             const temp1 = JSON.parse(data)
-            let elemLabels = Array.isArray(temp1) ? temp1 : [temp1]
-            elemLabels.forEach(function (elem) {
-                listaAgentes.push(elem);
+            let elemLabels = Object.entries(temp1)
+            elemLabels.forEach(function (elem, i) {
+                listaAgentes.push(Object.keys(elem[1]));
+                workloadData.datasets[0].data.push(Object.values(elem[1]));
             })
         })
         .catch(e => {
             listaAgentes.push("No hay: " + e)
             workloadData.labels = listaAgentes;
+            workloadData.datasets[0].data.push("1");
         });
 
 var cadenaGenerica = document.getElementById('avblAgents').textContent + " Agentes Disponibles";
