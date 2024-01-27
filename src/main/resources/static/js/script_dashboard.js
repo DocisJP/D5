@@ -288,12 +288,12 @@ fetch('/admin/devolverAgentes',
             method: 'GET',
         }
 )
-        .then(response => response.json)
+        .then(response => response.text())
         .then(data => {
-            let elemLabels = Array.isArray(data) ? data : [data]
+            const temp1 = JSON.parse(data)
+            let elemLabels = Array.isArray(temp1) ? temp1 : [temp1]
             elemLabels.forEach(function (elem) {
                 listaAgentes.push(elem);
-                workloadData.labels.push(listaAgentes);
             })
         })
         .catch(e => {
