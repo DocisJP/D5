@@ -70,6 +70,12 @@ public class AdminControlador {
     @GetMapping("/dashboard")
     public String adminDashboard(Model model) {
 
+        cargaMetricasAdmin(model);
+
+        return "nuevo_dashboard";
+    }
+
+    private void cargaMetricasAdmin(Model model) {
         // Obtener métricas clave
         List<Proyecto> listadoP = proyectoServicio.listarProyectos();
         List<Usuario> listadoU = usuarioServicio.listarUsuarios();
@@ -91,8 +97,6 @@ public class AdminControlador {
         model.addAttribute("proyectosFinalizados", proyectosFinalizados);
         model.addAttribute("listaUsuarios", listadoU);
         model.addAttribute("cuantosAgentes", usuarioServicio.buscarPorRol(Rol.AGENTE).stream().count());
-
-        return "nuevo_dashboard";
     }
 
     @PostMapping("/dashboard")
@@ -214,6 +218,8 @@ public class AdminControlador {
     public String buscarUsuarioYProyectosPorNombreEmpresa(@RequestParam(required = false) String nombreEmpresa, Model model) {
         List<Usuario> listaUsuarios = Collections.emptyList();
         List<Proyecto> proyectos = Collections.emptyList();
+
+        cargaMetricasAdmin(model);
 
         if (nombreEmpresa != null && !nombreEmpresa.isEmpty()) {
             listaUsuarios = usuarioServicio.buscarUsuarioPorNombreEmpresa(nombreEmpresa);
