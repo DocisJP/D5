@@ -175,9 +175,9 @@
                         <div class="agent-card-datos">
                             <img th:src="'data:image/' + ${usuario.imagen.mime} + ';base64,' + ${usuario.imagen.base64Image}" alt="Foto del Usuario" />
                             <h4 th:text="${usuario.nombre + ' ' + usuario.apellido}"></h4>
-                            <p th:text="'Email: ' + ${usuario.email}"></p>
-                            <p th:text="'Rol: ' + ${usuario.rol}"></p>
-                            <p th:text="'Empresa: ' + ${usuario.empresa}"></p>
+                            <p class="metricas" th:text="'Email: ' + ${usuario.email}"></p>
+                            <p class="metricas" th:text="'Rol: ' + ${usuario.rol}"></p>
+                            <p class="metricas" th:text="'Empresa: ' + ${usuario.empresa}"></p>
 
                             <!-- Dentro de la card del agente -->
                             <div class="agent-card-buttons" style="text-align: right">
@@ -190,7 +190,6 @@
                         <!-- Agregar este div oculto al final de tu HTML fuera de las tarjetas -->
                         <div th:id="'detailsSection-' + ${usuario.id}" class="detailsSection" style="display: none;">
                             <div class="agent-card-extra">
-                                <!-- Contenido detallado del agente (proyectos, tareas, reuniones, etc.) -->
                                 <!-- Contenido detallado del agente (proyectos, tareas, reuniones, etc.) -->
                                 <h4>Proyectos</h4>
                                 <p th:if="${proyectosTotales != null}" th:text="'Proyectos Totales: ' + ${proyectosTotales}"></p>

@@ -237,17 +237,17 @@ function showDetails(userId) {
                     // Actualizar la vista con los datos recibidos
                     userDetailsSection.innerHTML = `
                         <h4>Proyectos</h4>
-                        <p>Proyectos Totales: ${data.proyectosTotales}</p>
-                        <p>Proyectos Pendientes: ${data.proyectosEnProgreso}</p>
-                        <p>Proyectos Finalizados: ${data.proyectosFinalizados}</p>
+                        <p class="metricas">Proyectos Totales: ${data.proyectosTotales}</p>
+                        <p class="metricas">Proyectos Pendientes: ${data.proyectosEnProgreso}</p>
+                        <p class="metricas">Proyectos Finalizados: ${data.proyectosFinalizados}</p>
                         <h4>Reuniones</h4>
-                        <p>Reuniones Totales: ${data.reunionesTotales}</p>
-                        <p>Reuniones Pendientes: ${data.reunionesEnProgreso}</p>
-                        <p>Reuniones Finalizados: ${data.reunionesFinalizados}</p>
+                        <p class="metricas">Reuniones Totales: ${data.reunionesTotales}</p>
+                        <p class="metricas">Reuniones Pendientes: ${data.reunionesEnProgreso}</p>
+                        <p class="metricas">Reuniones Finalizados: ${data.reunionesFinalizados}</p>
                         <h4>Tareas</h4>
-                        <p>Tareas Totales: ${data.tareasTotales}</p>
-                        <p>Tareas Pendientes: ${data.tareasEnProgreso}</p>
-                        <p>Tareas Finalizados: ${data.tareasFinalizados}</p>
+                        <p class="metricas">Tareas Totales: ${data.tareasTotales}</p>
+                        <p class="metricas">Tareas Pendientes: ${data.tareasEnProgreso}</p>
+                        <p class="metricas">Tareas Finalizados: ${data.tareasFinalizados}</p>
                         <button onclick="hideDetails()">Ver Menos</button>
                     `;
                     userDetailsSection.scrollIntoView({behavior: 'smooth'});
