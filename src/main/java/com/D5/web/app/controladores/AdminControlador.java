@@ -75,12 +75,12 @@ public class AdminControlador {
         List<Usuario> listadoU = usuarioServicio.listarUsuarios();
 
         long totalProyectos = listadoP.size();
-        long totalClientes = listadoU.stream().filter(u -> "CLIENTE".equals(u.getRol())).count();
-        long totalAgentes = listadoU.stream().filter(u -> "AGENTE".equals(u.getRol())).count();
+        long totalClientes = listadoU.stream().filter(u -> Rol.CLIENTE.equals(u.getRol())).count();
+        long totalAgentes = listadoU.stream().filter(u -> Rol.AGENTE.equals(u.getRol())).count();
         long clientesActivos = listadoU.stream().filter(Usuario::getEstado).count();
         long proyectosRecientes = listadoP.stream().filter(proyectoServicio::esProyectoReciente).count();
-        long inProgressProjects = listadoP.stream().filter(p -> "PENDIENTE".equals(p.getProgreso())).count();
-        long proyectosFinalizados = listadoP.stream().filter(p -> "FINALIZADO".equals(p.getProgreso())).count();
+        long inProgressProjects = listadoP.stream().filter(p -> (Progreso.PENDIENTE).equals(p.getProgreso())).count();
+        long proyectosFinalizados = listadoP.stream().filter(p -> (Progreso.FINALIZADO).equals(p.getProgreso())).count();
 
         model.addAttribute("totalProjects", totalProyectos);
         model.addAttribute("totalClients", totalClientes);
@@ -98,8 +98,6 @@ public class AdminControlador {
     @PostMapping("/dashboard")
     public ResponseEntity<Map<String, Object>> adminDashboardPoste(@RequestBody Map<String, String> requestBody) {
         String userId = requestBody.get("userId");
-
-        System.out.println("userId " + userId);
 
         Usuario usuario = new Usuario();
         long proyectosTotalesDelUsu = 0;
@@ -131,11 +129,6 @@ public class AdminControlador {
             tareasEnProgreso = tareas.stream().filter(t -> Progreso.PENDIENTE.equals(t.getProgreso())).count();
             tareasFinalizados = tareas.stream().filter(t -> Progreso.FINALIZADO.equals(t.getProgreso())).count();
         }
-
-        System.out.println("Mostrando detalles para el usuario con ID: " + userId);
-        System.out.println("Mostrando proyectos para el usuario con ID: " + proyectosTotalesDelUsu);
-        System.out.println("Mostrando proyectos para el usuario con ID: " + proyectosEnProgresoDelUsu);
-        System.out.println("Mostrando proyectos para el usuario con ID: " + proyectosFinalizadosDelUsu);
 
         return ResponseEntity.ok(Map.of(
                 "status", "success",
@@ -202,12 +195,6 @@ public class AdminControlador {
             // Obtener sugerencias de nombres de proyectos
             sugerenciasNombresProyectos = proyectoServicio.findNombresProyectosByQuery(nombreProyecto);
 
-            System.out.println("Sugerencias de nombres de proyectos: " + sugerenciasNombresProyectos);
-            System.out.println("Termino de búsqueda: '" + nombreProyecto + "'");
-            System.out.println("Empresas encontradas: " + empresas);
-            System.out.println("Usuarios encontrados: " + usuarios);
-            System.out.println("Reuniones encontradas: " + reuniones);
-            System.out.println("Tareas encontradas: " + tareas);
         } else {
             System.out.println("No hay nombre de proyecto.");
         }
@@ -231,9 +218,6 @@ public class AdminControlador {
         if (nombreEmpresa != null && !nombreEmpresa.isEmpty()) {
             listaUsuarios = usuarioServicio.buscarUsuarioPorNombreEmpresa(nombreEmpresa);
             proyectos = usuarioServicio.buscarProyectosPorNombreEmpresa(nombreEmpresa);
-            System.out.println("Termino de búsqueda: '" + nombreEmpresa + "'");
-            System.out.println("Usuarios encontrados: " + listaUsuarios);
-            System.out.println("Proyectos encontrados: " + proyectos);
         } else {
             System.out.println("No hay nombre de empresa.");
         }

@@ -332,58 +332,60 @@ p {
     background-size: cover;
     background-position: center bottom;
     opacity: 0.9;
+}
 
-    .contenedor-form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 1rem;
-        height: auto;
-    }
-    .bodyForm {
-        background-color: transparent;
-        color: var(--blanco);
-        text-align: center;
-        width: 100%;
-        border-radius: 1rem;
-        justify-content: center;
-        align-items: center;
-        padding-bottom: 5rem;
-    }
+.contenedor-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    height: auto;
+}
+.bodyForm {
+    background-color: transparent;
+    color: var(--blanco);
+    text-align: center;
+    width: 100%;
+    border-radius: 1rem;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5rem;
+}
 
-    .buscador select {
-        width: 30%;
-        border-radius: 1rem;
-        font-size: 1.5rem;
+.buscador select {
+    width: 30%;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+}
+
+.buscador button {
+    border-radius: 1rem;
+    font-size: 1.5rem;
+}
 
 
-        .buscador button {
-            border-radius: 1rem;
-            font-size: 1.5rem;
-        }
+/*modelo*/
+.container-modelo{
+    font-size: 1.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    margin-top: 20px;
+}
+.card-body{
+    justify-items: center;
+    text-align: center;
+}
+.exito{
+    background-color: green;
+    width: 30%;
+}
 
+.error{
+    background-color: red;
+    width: 30%;
+}
 
-        /*modelo*/
-        .container-modelo{
-            font-size: 1.5rem;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            justify-items: center;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .card-body{
-            justify-items: center;
-            text-align: center;
-        }
-        .exito{
-            background-color: green;
-            width: 30%;
-        }
-
-        .error{
-            background-color: red;
-            width: 30%;
-        }
