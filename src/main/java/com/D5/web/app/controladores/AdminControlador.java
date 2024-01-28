@@ -45,28 +45,6 @@ public class AdminControlador {
     @Autowired
     TareaServicio tareaServicio;
 
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/dashboard")
-//    public String panelAdministrativo(ModelMap modelo) {
-//
-//        return "dashboard.html";
-//
-//    }
-//
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/buscar")
-//    public String busquedaAdmin(@RequestParam String busqueda, ModelMap modelo) {
-//        List<String> listaProyectos = proyectoServicio.findEmpresasByProjectName(busqueda);
-//        List<String> empresas = proyectoServicio.findNombresProyectosByQuery(busqueda);
-//        List<Usuario> listaUsuarios = usuarioServicio.buscarUsuarioPorNombreEmpresa(busqueda);
-//
-//        modelo.addAttribute("listaProyectos", listaProyectos);
-//        modelo.addAttribute("empresas", empresas);
-//        modelo.addAttribute("listaUsuarios", listaUsuarios);
-//
-//        return "dashboard.html";
-//
-//   }
     @GetMapping("/dashboard")
     public String adminDashboard(Model model) {
 
@@ -74,18 +52,23 @@ public class AdminControlador {
         List<Proyecto> listadoP = proyectoServicio.listarProyectos();
         List<Usuario> listadoU = usuarioServicio.listarUsuarios();
 
+        System.out.println("LISTADO PROYECTOS" + listadoP.size());
+
         long totalProyectos = listadoP.size();
-        long totalClientes = listadoU.stream().filter(u -> "CLIENTE".equals(u.getRol())).count();
-        long totalAgentes = listadoU.stream().filter(u -> "AGENTE".equals(u.getRol())).count();
-        long clientesActivos = listadoU.stream().filter(Usuario::getEstado).count();
+        long totalClientes = listadoU.stream().filter(u -> u.getRol().CLIENTE.equals(u.getRol())).count();
+        long totalAgentes = listadoU.stream().filter(u -> u.getRol().AGENTE.equals(u.getRol())).count();
+        long usuariosActivos = listadoU.stream().filter(Usuario::getEstado).count();
         long proyectosRecientes = listadoP.stream().filter(proyectoServicio::esProyectoReciente).count();
-        long inProgressProjects = listadoP.stream().filter(p -> "PENDIENTE".equals(p.getProgreso())).count();
-        long proyectosFinalizados = listadoP.stream().filter(p -> "FINALIZADO".equals(p.getProgreso())).count();
+        long inProgressProjects = listadoP.stream().filter(p -> p.getProgreso().PENDIENTE.equals(p.getProgreso())).count();
+        long proyectosFinalizados = listadoP.stream().filter(p -> p.getProgreso().FINALIZADO.equals(p.getProgreso())).count();
+
+        System.out.println("PROYECTOS PENDIENTE " + inProgressProjects);
+        System.out.println("PROYECTOS FINALIZADOS " + proyectosFinalizados);
 
         model.addAttribute("totalProjects", totalProyectos);
         model.addAttribute("totalClients", totalClientes);
         model.addAttribute("totalAgents", totalAgentes);
-        model.addAttribute("activeClients", clientesActivos);
+        model.addAttribute("activeClients", usuariosActivos);
         model.addAttribute("recentProjects", proyectosRecientes);
         model.addAttribute("inProgressProjects", inProgressProjects);
         model.addAttribute("proyectosFinalizados", proyectosFinalizados);
@@ -184,7 +167,7 @@ public class AdminControlador {
 
     @PostMapping("/buscar")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> buscarEmpresasByProjectName(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Map<String, Object>> buscarByProjectName(@RequestBody Map<String, String> requestBody) {
 
         String nombreProyecto = requestBody.get("nombreProyecto");
         List<String> empresas = Collections.emptyList();
@@ -223,7 +206,7 @@ public class AdminControlador {
         return ResponseEntity.ok(responseData);
     }
 
-    @GetMapping("/buscarUsuarioYProyectos")
+    /* @GetMapping("/buscarUsuarioYProyectos")
     public String buscarUsuarioYProyectosPorNombreEmpresa(@RequestParam(required = false) String nombreEmpresa, Model model) {
         List<Usuario> listaUsuarios = Collections.emptyList();
         List<Proyecto> proyectos = Collections.emptyList();
@@ -243,14 +226,50 @@ public class AdminControlador {
         model.addAttribute("proyectos", proyectos);
 
         return "nuevo_dashboard";
+    }*/
+    @GetMapping("/sugerirNombresEmpresas")
+    @ResponseBody
+    public List<String> sugerirNombresEmpresas(@RequestParam String query) {
+        return usuarioServicio.findNombresEmpresasByQuery(query);
     }
 
-    @GetMapping("/gestion-empresas")
-    public String showClients(Model model) {
-        // Lógica para obtener y agregar datos al modelo
-        // Puedes usar servicios para interactuar con la base de datos y obtener la información necesaria
+    @PostMapping("/buscarUsuarioYProyectos")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> buscarUsuarioYProyectosPorNombreEmpresa(@RequestBody Map<String, String> requestBody) {
 
-        return "nuevo_dashboard"; // Este es el nombre de tu archivo HTML sin la extensión
+        String nombreEmpresa = requestBody.get("nombreEmpresa");
+        List<String> listaUsuarios = Collections.emptyList();
+        List<String> proyectos = Collections.emptyList();
+        List<String> sugerenciasNombresEmpresas = Collections.emptyList();
+
+        
+         System.out.println("Termino de búsqueda1: '" + nombreEmpresa + "'");
+            System.out.println("Usuarios encontrados: " + listaUsuarios);
+            System.out.println("Proyectos encontrados: " + proyectos);
+            
+        if (nombreEmpresa != null && !nombreEmpresa.isEmpty()) {
+            listaUsuarios = usuarioServicio.buscarUsuarioPorNombreEmpresa(nombreEmpresa);
+            proyectos = usuarioServicio.buscarProyectosPorNombreEmpresa(nombreEmpresa);
+ System.out.println("Termino de búsqueda2: '" + nombreEmpresa + "'");
+            System.out.println("Usuarios encontrados: " + listaUsuarios);
+            System.out.println("Proyectos encontrados: " + proyectos);
+            // Obtener sugerencias de nombres de empresas
+            sugerenciasNombresEmpresas = usuarioServicio.findNombresEmpresasByQuery(nombreEmpresa);
+
+            System.out.println("Termino de búsqueda3: '" + nombreEmpresa + "'");
+            System.out.println("Usuarios encontrados: " + listaUsuarios);
+            System.out.println("Proyectos encontrados: " + proyectos);
+        } else {
+            System.out.println("No hay nombre de empresa.");
+        }
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("nombreEmpresa", nombreEmpresa);
+        responseData.put("proyectos", proyectos);
+        responseData.put("usuarios", listaUsuarios);
+        responseData.put("sugerenciasNombresEmpresas", sugerenciasNombresEmpresas);
+
+        return ResponseEntity.ok(responseData);
     }
 
 }

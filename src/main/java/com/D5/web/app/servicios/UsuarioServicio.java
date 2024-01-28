@@ -106,7 +106,12 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
-       public List<Usuario> buscarUsuarioPorNombreEmpresa(String empresa) {
+    
+     public List<Usuario> buscarUsuariosPorNombreEmpresa(String empresa) {
+	    return usuarioRepositorio.buscarUsuariosPorNombreEmpresa(empresa);
+	}
+    
+       public List<String> buscarUsuarioPorNombreEmpresa(String empresa) {
 	    return usuarioRepositorio.buscarUsuarioPorNombreEmpresa(empresa);
 	}
 
@@ -214,7 +219,7 @@ public class UsuarioServicio implements UserDetailsService {
        return usuarioRepositorio.findNombresEmpresasByQuery(query);
     }
 
-     public List<Proyecto> buscarProyectosPorNombreEmpresa(String nombreEmpresa) {
+     public List<String> buscarProyectosPorNombreEmpresa(String nombreEmpresa) {
         return usuarioRepositorio.findProyectosByNombreEmpresa(nombreEmpresa);
     }
  
