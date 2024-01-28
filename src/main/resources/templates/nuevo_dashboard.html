@@ -69,13 +69,8 @@
                                     <!-- Lista de sugerencias -->
                                 </ul>
                             </div>
-
-                            <!-- Cambia el tipo de botón a submit y agrega un id -->
-                            <button type="submit" id="buscarButton">Buscar</button>
                         </form>
                     </section>
-
-
                     <!-- Contenido específico para la gestión de proyectos -->
                     <div id="empresasContainer" class="resultados mt-4 input-empresa-otro">
                         <h2>Empresas Asociadas</h2>
@@ -129,13 +124,12 @@
                     <div id="reunionesContainer" class="resultados mt-4 input-empresa-otro">
                         <h2>Reuniones del Proyecto</h2>
 
-                        <div th:if="${reuniones != null and not reuniones.isEmpty()}" class="input-empresa-otro">
+                        <div th:if="${reuniones != null and !reuniones.isEmpty()}" class="input-empresa-otro">
                             <ul>
                                 <li th:each="reunion : ${reuniones}">
-                                    <span th:text="${reunion.nombre != null?reunion.nombre:'No hay reunion'}"></span>
-                                    <span th:text="| - ${reunion.horarioDeInicioFormatt != null ? reunion.horarioDeInicioFormatt : 'Sin fecha'}|"></span>
-                                    <span th:text="| ( ${reunion.progreso != null ? reunion.progreso : 'Sin progreso'} )|"></span>
-                                    </span>
+                                    <span th:text="${reunion.nombre != null ? reunion.nombre : ''}"></span>
+                                    <span th:text="${reunion.horarioDeInicioFormatt != null ? reunion.horarioDeInicioFormatt : ''}"></span>
+                                    <span th:text="${reunion.progreso != null ? reunion.progreso : ''}"></span>
                                 </li>
                             </ul>
                         </div>
@@ -218,38 +212,36 @@
                     </div>
                 </div>
                 <!--**********************************************************************************************-->
-                <!-- SECCION EMPRESAS -->
+                <!-- Seccion Empresas -->
                 <div id="clientsSection" class="content-section">
                     <h1>Gestión de Empresas</h1>
-                    <section class="text-center" style="margin-top: 4rem">
-                        <form
-                            th:action="@{/admin/buscarUsuarioYProyectos}"
-                            method="get"
-                            class="form-inline justify-content-center mb-2"
-                            >
-                            <!-- Agrego el campo de autocompletar para el nombre de la empresa -->
-                            <div class="autocomplete">
-                                <input
-                                    type="text"
-                                    id="nombreEmpresa"
-                                    name="nombreEmpresa"
-                                    class="form-control input-empresa"
-                                    placeholder="Buscar por nombre de la empresa"
-                                    oninput="mostrarSugerenciasEmpresa(this.value)"
-                                    />
+                    <section class="text-center">
+                      
+                             <form id="formBusquedaEmpresa" th:action="@{/admin/buscarUsuarioYProyectos}" method="post" class="form-inline justify-content-center mb-2">
+                            <!-- Cambia el método de GET a POST -->
+                            <input
+                                type="text"
+                                id="nombreEmpresa"
+                                th:value="${nombreEmpresa}"
+                                name="nombreEmpresa"
+                                class="form-control input-empresa"
+                                placeholder="Buscar por nombre de la Empresa"
+                                oninput="mostrarSugerenciasEmpresa(this.value)"
+                                />
 
-                                <div
-                                    id="sugerenciasEmpresas"
-                                    class="sugerencias-proyectos"
-                                    style="display: none"
-                                    ></div>
+                            <!-- Agrego el div con las sugerencias -->
+                            <div
+                                id="sugerenciasEmpresas"
+                                class="sugerencias-proyectos"
+                                style="display: none"
+                                >
+                                <ul onclick="seleccionarSugerenciaEmpresa(event)">
+                                    <!-- Lista de sugerencias -->
+                                </ul>
                             </div>
-                            <button type="submit" class="btn-buscar">
-                                Buscar por nombre Empresa
-                            </button>
                         </form>
                     </section>
-                    <div class="resultados mt-4 input-empresa-otro">
+                   <div id="usuariosContainerEmpresa" class="resultados mt-4 input-empresa-otro">
                         <h2>Usuarios Asociados</h2>
 
                         <div th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}"  >
@@ -265,7 +257,7 @@
                             </ul>
                         </div>
                         <div  th:if="${listadoUsuarios == null or listadoUsuarios.isEmpty()}"  class="alert alert-info"  style="border: 2px solid var(--fondo)" >
-                            No se encontraron usuarios asociados al proyecto.
+                            No se encontraron usuarios asociados a la Empresa.
                         </div>
                     </div>
                     <!-- Sección de Proyectos -->
@@ -274,14 +266,13 @@
                         <!-- Lista de Proyectos -->
                         <div th:if="${proyectos != null and !proyectos.isEmpty()}">
                             <ul>
-                                <li th:each="proyecto : ${proyectos}"><p th:text="${proyecto.nombre}"></p><span th:text="|Fecha De Inicio: ${proyecto.fechaInicio} |"></span><span th:text="| (${proyecto.progreso}) |"></span></li>
+                                <li th:each="proyecto : ${proyectos}"><p th:text="${proyecto.nombre}"></p><span th:text="|Fecha De Inicio: ${proyecto.fechaInicio} |"></span><span th:text="| (${proyecto.progreso}) |"></span><br></li>
                             </ul>
                         </div>
                         <div th:if="${proyectos == null or proyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
                             No se encontraron proyectos asociados a la empresa.
                         </div>
                     </div>
-
                 </div>
 
                 <!--**********************************************************************************************-->
@@ -313,7 +304,7 @@
                     <div>
                         <h3>Estadísticas de Proyectos</h3>
                         <!-- Agrega aquí estadísticas detalladas sobre el estado y progreso de los proyectos -->
-                        <p>Proyectos Pendientes: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
+                        <p>Proyectos Totales: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
                         <p> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </p>
                         <p>Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
                     </div>
@@ -322,7 +313,7 @@
                     <div>
                         <h3>Información Resumida</h3>
                         <!-- Agrega aquí información resumida sobre clientes y proyectos -->
-                        <p>Clientes Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
+                        <p>Usuarios Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
                         <p>Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
                         <p>Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></p>
                     </div>

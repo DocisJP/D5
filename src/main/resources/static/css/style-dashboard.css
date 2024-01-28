@@ -46,12 +46,7 @@
   border-radius: 50%;
   box-shadow: 0px 3px 25px -4px var(--fondo);
 }
-/* .botonLink:hover {
-  background-color: var(--terciario);
-  color: var(--fondo);
-  border: 2px solid var(--oscuro);
-  border-radius: 10px 30px;
-} */
+
 @media (max-width: 768px) {
   .checkbtn {
     display: block;
@@ -98,6 +93,10 @@
 body {
   margin: 0;
   font-family: "Arial", sans-serif;
+  height: 100%;
+  min-height: 1000px;
+background: linear-gradient(45deg, var(--fondo), var(--terciario), var(--fondo), var(--terciario), var(--fondo));
+background-repeat: no-repeat;
 }
 
 .container {
@@ -127,6 +126,12 @@ body {
 
 .content-section {
   display: none;
+}
+
+.content-section h1{
+    color: var(--blanco);
+    font-weight: 900;
+    font-size: 3rem;
 }
 
 .active-section {

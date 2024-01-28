@@ -1,10 +1,8 @@
 package com.D5.web.app.servicios;
 
-
 import org.springframework.stereotype.Service;
 
 import com.D5.web.app.entidades.Imagen;
-import com.D5.web.app.entidades.Proyecto;
 import com.D5.web.app.entidades.Usuario;
 import com.D5.web.app.enumerador.Rol;
 import com.D5.web.app.exepciones.MyException;
@@ -43,7 +41,7 @@ public class UsuarioServicio implements UserDetailsService {
             String password,
             String password2,
             Long dni,
-            Long telefono, 
+            Long telefono,
             String direccion,
             Rol rol,
             String empresa,
@@ -84,7 +82,7 @@ public class UsuarioServicio implements UserDetailsService {
         existente.setEmpresa(usuario.getEmpresa());
         existente.setTelefono(usuario.getTelefono());
         existente.setEstado(usuario.getEstado());
-        
+
         if (archivo == null || archivo.isEmpty()) {
             existente.setImagen(usuario.getImagen());
         } else {
@@ -106,9 +104,14 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.findById(id).orElse(null);
 
     }
-       public List<Usuario> buscarUsuarioPorNombreEmpresa(String empresa) {
-	    return usuarioRepositorio.buscarUsuarioPorNombreEmpresa(empresa);
-	}
+
+    public List<Usuario> buscarUsuariosPorNombreEmpresa(String empresa) {
+        return usuarioRepositorio.buscarUsuariosPorNombreEmpresa(empresa);
+    }
+
+    public List<String> buscarUsuarioPorNombreEmpresa(String empresa) {
+        return usuarioRepositorio.buscarUsuarioPorNombreEmpresa(empresa);
+    }
 
     @Transactional
     public List<Usuario> listarUsuarios() {
@@ -133,10 +136,10 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.delete(usuario);
 
     }
-   public Usuario getOne(String id){
+
+    public Usuario getOne(String id) {
         return usuarioRepositorio.getReferenceById(id);
     }
-   
 
     public void cambiarEstado(Usuario usuario) {
         usuario.setEstado(!usuario.getEstado());
@@ -153,10 +156,10 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        
-    Usuario usuario = usuarioRepositorio.findByEmail(email);
-    
-      if (usuario != null && usuario.getEstado().toString().equalsIgnoreCase("true")) {
+
+        Usuario usuario = usuarioRepositorio.findByEmail(email);
+
+        if (usuario != null && usuario.getEstado().toString().equalsIgnoreCase("true")) {
 
             List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
 
@@ -185,38 +188,37 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
 
     }
-    
+
     //agrego metodo para detectar si hay usuarios sin activar    
     @Transactional
-    public Integer Inactivos(){
-    
+    public Integer Inactivos() {
+
         Integer contador = 0;
-        
-         List<Usuario> usuarios = new ArrayList();
-    
+
+        List<Usuario> usuarios = new ArrayList();
+
         usuarios = usuarioRepositorio.findAll();
-        
+
         for (Usuario usuario : usuarios) {
-            
+
             if (usuario.getEstado().toString().equalsIgnoreCase("FALSE")) {
-                contador++;                
-            }            
-        }    
+                contador++;
+            }
+        }
         return contador;
-    
+
     }
 
     public List<Usuario> listarUsuariosPorIdProyecto(String id) {
-      return usuarioRepositorio.listarUsuariosPorProyectoId(id);
+        return usuarioRepositorio.listarUsuariosPorProyectoId(id);
     }
 
     public List<String> findNombresEmpresasByQuery(String query) {
-       return usuarioRepositorio.findNombresEmpresasByQuery(query);
+        return usuarioRepositorio.findNombresEmpresasByQuery(query);
     }
 
-     public List<Proyecto> buscarProyectosPorNombreEmpresa(String nombreEmpresa) {
+    public List<String> buscarProyectosPorNombreEmpresa(String nombreEmpresa) {
         return usuarioRepositorio.findProyectosByNombreEmpresa(nombreEmpresa);
     }
- 
-}
 
+}

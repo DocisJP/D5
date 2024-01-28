@@ -64,7 +64,7 @@ public class BusquedaController {
         List<Usuario> usuarios = Collections.emptyList();
 
         if (nombreEmpresa != null && !nombreEmpresa.isEmpty()) {
-            usuarios = usuarioServicio.buscarUsuarioPorNombreEmpresa(nombreEmpresa);
+            usuarios = usuarioServicio.buscarUsuariosPorNombreEmpresa(nombreEmpresa);
             System.out.println("Termino de búsqueda: '" + nombreEmpresa + "'");
             System.out.println("Usuarios encontrados: " + usuarios);
         } else {

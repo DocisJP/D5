@@ -1,6 +1,5 @@
 package com.D5.web.app.repositorios;
 
-import com.D5.web.app.entidades.Proyecto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +9,6 @@ import com.D5.web.app.enumerador.Rol;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, String>, UsuarioCustomRepository {
@@ -24,8 +22,12 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String>, Usua
     @Query("SELECT u FROM Usuario u WHERE u.rol = :rol")
     public List<Usuario> findByRol(@Param("rol") Rol rol);
 
+    /*PROBANDO*/
+    @Query("SELECT DISTINCT CONCAT(u.nombre, ' ', u.apellido, ' | (', u.rol, ')') FROM Usuario u WHERE LOWER(u.empresa) LIKE LOWER(CONCAT('%', :nombreEmpresa, '%'))")
+    List<String> buscarUsuarioPorNombreEmpresa(@Param("nombreEmpresa") String nombreEmpresa);
+
     @Query("SELECT u FROM Usuario u WHERE LOWER( u.empresa) LIKE LOWER(CONCAT('%',:empresa, '%'))")
-    public List<Usuario> buscarUsuarioPorNombreEmpresa(@Param("empresa") String empresa);
+    public List<Usuario> buscarUsuariosPorNombreEmpresa(@Param("empresa") String empresa);
 
     @Query("SELECT u FROM Usuario u JOIN u.proyectos p WHERE p.id = :proyectoId")
     public List<Usuario> listarUsuariosPorProyectoId(@Param("proyectoId") String proyectoId);
@@ -44,7 +46,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String>, Usua
 
     List<Usuario> findAllByEmpresaContainingIgnoreCase(String empresa);
 
-    @Query("SELECT DISTINCT p FROM Proyecto p JOIN p.usuarios u WHERE LOWER(u.empresa) LIKE LOWER(CONCAT('%', :nombreEmpresa, '%'))")
-    List<Proyecto> findProyectosByNombreEmpresa(@Param("nombreEmpresa") String nombreEmpresa);
+    @Query("SELECT DISTINCT CONCAT(p.nombre, '| Fecha de Inicio: ', p.fechaInicio, ' | (', p.progreso, ')') FROM Proyecto p JOIN p.usuarios u WHERE LOWER(u.empresa) LIKE LOWER(CONCAT('%', :nombreEmpresa, '%')) ")
+    List<String> findProyectosByNombreEmpresa(@Param("nombreEmpresa") String nombreEmpresa);
 
 }

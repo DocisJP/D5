@@ -27,7 +27,7 @@
         <a href="#proyecto" th:if="${session.usuariosession != null}">Proyecto</a>
         <a href="#calendario" th:if="${session.usuariosession != null}">Reuniones</a>
         <a href="#pendientes" sec:authorize="hasAnyRole('ADMIN','AGENTE')">Tareas Pendientes</a>
-        <a th:href="@{/buscar}" sec:authorize="hasAnyRole('ADMIN')">Buscar</a>
+        <a th:href="@{/admin/dashboard}" sec:authorize="hasAnyRole('ADMIN')" th:if="${session.usuariosession != null}">PANEL ADMIN</a>
         <a href="#block-de-notas" sec:authorize="hasAnyRole('ADMIN','AGENTE')">Guardar Tareas</a>
         <a th:href="@{/proyecto/trabajo}" sec:authorize="hasAnyRole('AGENTE')" th:if="${session.usuariosession != null}">PANEL TRABAJO</a>
 
@@ -39,7 +39,6 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                 <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'" th:href="@{/logout}" >Cerrar Sesión</a></li>
-                <li><a class="dropdown-item" th:href="@{/admin/dashboard}" th:if="${session.usuariosession != null}">IR AL PANEL</a></li>
                 <li><a  class="dropdown-item" onmouseover="this.style.color = 'var(--fondo)'"  th:href="@{/perfil/panel/__${session.usuariosession.id}__}" >Ver más</a></li>
             </ul>
             <a class="nav-link dropdown-toggle" sec:authorize="!hasAnyRole('ADMIN')" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

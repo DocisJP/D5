@@ -21,6 +21,7 @@ function mostrarSugerencias(valor) {
     // Oculta la lista de sugerencias si el valor está vacío
     if (!valor.trim()) {
         document.getElementById('sugerenciasProyectos').style.display = 'none';
+        limpiarVista();
         return;
     }
 
@@ -48,6 +49,7 @@ function mostrarSugerencias(valor) {
                     li.onclick = function () {
                         document.getElementById('nombreProyecto').value = sugerencia;
                         sugerenciasProyectos.style.display = 'none';
+                        buscarProyecto();
                     };
                     ul.appendChild(li);
                 });
@@ -72,6 +74,8 @@ function buscarProyecto() {
     var valor = document.getElementById('nombreProyecto').value;
     var data = {nombreProyecto: valor};
 
+    limpiarVista();
+
     fetch('/admin/buscar', {
         method: 'POST', // Cambia a POST
         headers: {
@@ -81,8 +85,6 @@ function buscarProyecto() {
     })
             .then(response => response.json())
             .then(data => {
-                // Limpiar la vista antes de actualizarla
-                limpiarVista();
 
                 // Empresas
                 var empresasContainer = document.getElementById('empresasContainer');
@@ -93,6 +95,10 @@ function buscarProyecto() {
                         li.textContent = empresa;
                         empresasList.appendChild(li);
                     });
+                    // Crear el título y agregarlo al contenedor
+                    var empresasTitle = document.createElement('h2');
+                    empresasTitle.textContent = 'Empresas Asociadas';
+                    empresasContainer.appendChild(empresasTitle);
                     empresasContainer.appendChild(empresasList);
                 } else {
                     empresasContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron empresas asociadas al proyecto.</div>';
@@ -107,32 +113,61 @@ function buscarProyecto() {
                         li.textContent = usuario.toString();
                         usuariosList.appendChild(li);
                     });
+                    // Crear el título y agregarlo al contenedor
+                    var usuariosTitle = document.createElement('h2');
+                    usuariosTitle.textContent = 'Usuarios Asociados';
+                    usuariosContainer.appendChild(usuariosTitle);
+
                     usuariosContainer.appendChild(usuariosList);
                 } else {
                     usuariosContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron usuarios asociados al proyecto.</div>';
                 }
                 // Reuniones
+                // Obtener el contenedor de reuniones en el DOM
                 var reunionesContainer = document.getElementById('reunionesContainer');
-                if (data.reuniones !== '' && data.reuniones.length > 0) {
+
+                // Verificar si se encontraron reuniones
+                if (data.reuniones !== null && data.reuniones.length > 0) {
+                    // Crear una lista no ordenada para mostrar las reuniones
                     var reunionesList = document.createElement('ul');
+
+                    // Iterar sobre cada reunión y agregarla a la lista
                     data.reuniones.forEach(function (reunion) {
-                        var li = document.createElement('li');
-                        li.textContent = "Se reunen: " + reuniones.toString();
-                        reunionesList.appendChild(li);
+                        // Crear un elemento de lista para cada reunión
+                        var reunionItem = document.createElement('li');
+
+                        // Asignar el texto para mostrar la información de la reunión
+                        reunionItem.textContent = reunion;
+
+                        // Agregar el elemento de lista a la lista de reuniones
+                        reunionesList.appendChild(reunionItem);
                     });
+
+                    // Crear el título y agregarlo al contenedor
+                    var reunionesTitle = document.createElement('h2');
+                    reunionesTitle.textContent = 'Reuniones Asociadas';
+                    reunionesContainer.appendChild(reunionesTitle);
+                    // Agregar la lista de reuniones al contenedor de reuniones en el DOM
                     reunionesContainer.appendChild(reunionesList);
                 } else {
-                    reunionesContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No hay reuniones para el proyecto.</div>';
+                    // Si no se encontraron reuniones, mostrar un mensaje de alerta
+                    reunionesContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron reuniones asociadas al proyecto.</div>';
                 }
+
+
                 // Tareas
                 var tareasContainer = document.getElementById('tareasContainer');
                 if (data.tareas !== '' && data.tareas.length > 0) {
                     var tareasList = document.createElement('ul');
                     data.tareas.forEach(function (tarea) {
                         var li = document.createElement('li');
-                        li.textContent = tarea.toString();
+                        li.textContent = tarea;
                         tareasList.appendChild(li);
                     });
+                    // Crear el título y agregarlo al contenedor
+                    var tareasTitle = document.createElement('h2');
+                    tareasTitle.textContent = 'Tareas Asociadas';
+                    tareasContainer.appendChild(tareasTitle);
                     tareasContainer.appendChild(tareasList);
                 } else {
                     tareasContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron tareas del proyecto.</div>';
@@ -161,20 +196,20 @@ function limpiarVista() {
 
 }
 
-// Selecciona el formulario y asocia la función buscarProyecto al evento submit
+
+// Selecciona el formulario y asocia la función buscarEmpresa al evento submit
 document.getElementById('formBusquedaProyecto').addEventListener('submit', function (event) {
     // Evita que el formulario se envíe normalmente (ya que queremos manejarlo con JavaScript)
     event.preventDefault();
-
-    // Llama a la función buscarProyecto al hacer clic en el botón
+    // Llama a la función buscarEmpresa al hacer clic en el botón
     buscarProyecto();
+
 });
 
-// Selecciona el formulario y asocia la función mostrarSugerencias al evento input del campo de búsqueda
-document.getElementById('nombreProyecto').addEventListener('input', function () {
-    mostrarSugerencias(this.value);
+// Oculta la lista de sugerencias al cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('sugerenciasProyectos').style.display = 'none';
 });
-
 
 //Seccion Usuarios
 function showDetails(userId) {
@@ -232,39 +267,138 @@ function hideDetails() {
     });
 }
 
-//Seccion Empresas
+//Seccion Empresa
+/// Función para mostrar sugerencias
 function mostrarSugerenciasEmpresa(valor) {
-// Oculta la lista de sugerencias si el valor está vacío
+    console.log('Valor de búsqueda:', valor);
+
+    // Oculta la lista de sugerencias si el valor está vacío
     if (!valor.trim()) {
         document.getElementById('sugerenciasEmpresas').style.display = 'none';
-
+        limpiarVistaEmpresa(); // Limpiar la vista al mostrar sugerencias
         return;
     }
 
-// Limpia la lista de sugerencias
+    // Limpia la lista de sugerencias
     var sugerenciasEmpresas = document.getElementById('sugerenciasEmpresas');
     sugerenciasEmpresas.innerHTML = '';
-    // Realiza la solicitud al controlador para obtener las sugerencias de empresas a través de usuarios
-    fetch('/sugerirNombresEmpresas?query=' + valor)
+
+    // Realiza la solicitud al controlador para obtener las sugerencias
+    fetch('/admin/sugerirNombresEmpresas?query=' + encodeURIComponent(valor), {
+        method: 'GET', // Cambia el método a GET
+    })
             .then(response => response.json())
             .then(data => {
+                console.log('Datos recibidos:', data);
+
                 // Agrega las sugerencias a la lista
                 var ul = document.createElement('ul');
-                data.forEach(function (sugerencia) {
+
+                // Verifica si 'data' es una cadena en lugar de una matriz
+                var sugerenciasEmp = Array.isArray(data) ? data : [data];
+
+                sugerenciasEmp.forEach(function (sugerencia) {
                     var li = document.createElement('li');
                     li.textContent = sugerencia;
-                    li.onclick = function () { // Agrega un evento onclick a cada sugerencia
+                    li.onclick = function () {
                         document.getElementById('nombreEmpresa').value = sugerencia;
                         sugerenciasEmpresas.style.display = 'none';
+                        buscarEmpresa(); // Realizar búsqueda al seleccionar sugerencia
                     };
                     ul.appendChild(li);
                 });
+
                 sugerenciasEmpresas.appendChild(ul);
+
                 // Muestra el div si hay sugerencias, ocúltalo de lo contrario
-                sugerenciasEmpresas.style.display = data.length > 0 ? 'block' : 'none';
+                sugerenciasEmpresas.style.display = sugerenciasEmp.length > 0 ? 'block' : 'none';
             })
-            .catch(error => console.error('Error al obtener sugerencias de empresas a través de usuarios:', error));
+            .catch(error => console.error('Error al obtener sugerencias:', error));
 }
+
+// Función para realizar la búsqueda y actualizar la vista
+function buscarEmpresa() {
+    var valor = document.getElementById('nombreEmpresa').value;
+    var data = {nombreEmpresa: valor};
+
+    // Limpiar la vista antes de actualizarla
+    limpiarVistaEmpresa();
+
+    fetch('/admin/buscarUsuarioYProyectos', {
+        method: 'POST', // Cambia a POST
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+            .then(response => response.json())
+            .then(data => {
+                // Proyectos
+                var proyectosAsociadosContainer = document.getElementById('proyectosAsociadosContainer');
+                if (data.proyectos && data.proyectos.length > 0) {
+                    var proyectosList = document.createElement('ul');
+                    data.proyectos.forEach(function (proyecto) {
+                        var li = document.createElement('li');
+                        li.textContent = proyecto;
+                        proyectosList.appendChild(li);
+                    });
+                    // Crear el título y agregarlo al contenedor
+                    var proyectosTitle = document.createElement('h2');
+                    proyectosTitle.textContent = 'Proyectos Asociados';
+                    proyectosAsociadosContainer.appendChild(proyectosTitle);
+                    proyectosAsociadosContainer.appendChild(proyectosList);
+                } else {
+                    proyectosAsociadosContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron empresas asociadas al proyecto.</div>';
+                }
+
+                // Usuarios
+                var usuariosContainerEmpresa = document.getElementById('usuariosContainerEmpresa');
+                if (data.usuarios && data.usuarios.length > 0) {
+                    var usuariosList = document.createElement('ul');
+                    data.usuarios.forEach(function (usuario) {
+                        var li = document.createElement('li');
+                        li.textContent = usuario.toString();
+                        usuariosList.appendChild(li);
+                    });
+                    // Crear el título y agregarlo al contenedor
+                    var usuariosTitle = document.createElement('h2');
+                    usuariosTitle.textContent = 'Usuarios Asociados';
+                    usuariosContainerEmpresa.appendChild(usuariosTitle);
+                    usuariosContainerEmpresa.appendChild(usuariosList);
+                } else {
+                    usuariosContainerEmpresa.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron usuarios asociados al proyecto.</div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error en la solicitud:', error);
+                // Manejar el error, mostrar un mensaje al usuario, etc.
+            });
+}
+
+// Función para limpiar la vista
+function limpiarVistaEmpresa() {
+    var usuariosContainerEmpresa = document.getElementById('usuariosContainerEmpresa');
+    usuariosContainerEmpresa.innerHTML = '';
+
+    var proyectosAsociadosContainer = document.getElementById('proyectosAsociadosContainer');
+    proyectosAsociadosContainer.innerHTML = '';
+}
+
+// Selecciona el formulario y asocia la función buscarEmpresa al evento submit
+document.getElementById('formBusquedaEmpresa').addEventListener('submit', function (event) {
+    // Evita que el formulario se envíe normalmente (ya que queremos manejarlo con JavaScript)
+    event.preventDefault();
+
+    // Llama a la función buscarEmpresa al hacer clic en el botón
+    buscarEmpresa();
+});
+
+// Oculta la lista de sugerencias al cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('sugerenciasEmpresas').style.display = 'none';
+});
+
+
 ////Seccion Dashboard
 //
 // Configuración del gráfico de carga de trabajo de los agentes
@@ -273,10 +407,10 @@ var workloadData = {
     labels: listaAgentes,
     datasets: [
         {
-            label: "Carga de Trabajo",
+            label: "Carga de Trabajo de Agentes",
             data: [],
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-            borderColor: "rgba(75, 192, 192, 1)",
+            backgroundColor: "rgba(75, 192, 192)",
+            borderColor: "rgba(75, 192, 192)",
             borderWidth: 1
         }
     ]
@@ -321,22 +455,19 @@ var workloadChart = new Chart(document.getElementById("workloadChart"), {
 
 // Configuración del gráfico de estado de los proyectos
 var projectStatusData = {
-    labels: ["Pendiente", "En Progreso", "Completado"],
+    labels: ["En Progreso", "Completado"],
     datasets: [
         {
             data: [
-                document.getElementById('pendingProjects').textContent,
                 document.getElementById('inProgressProjects').textContent,
                 document.getElementById('completedProjects').textContent],
             backgroundColor: [
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(255, 205, 86, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
+                "rgba(255, 205, 86)",
+                "rgba(54, 162, 235)"
             ],
             borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(255, 205, 86, 1)",
-                "rgba(54, 162, 235, 1)",
+                "rgba(255, 205, 86)",
+                "rgba(54, 162, 235)"
             ],
             borderWidth: 1
         }
