@@ -216,8 +216,8 @@
                 <div id="clientsSection" class="content-section">
                     <h1>Gestión de Empresas</h1>
                     <section class="text-center">
-                      
-                             <form id="formBusquedaEmpresa" th:action="@{/admin/buscarUsuarioYProyectos}" method="post" class="form-inline justify-content-center mb-2">
+
+                        <form id="formBusquedaEmpresa" th:action="@{/admin/buscarUsuarioYProyectos}" method="post" class="form-inline justify-content-center mb-2">
                             <!-- Cambia el método de GET a POST -->
                             <input
                                 type="text"
@@ -241,7 +241,7 @@
                             </div>
                         </form>
                     </section>
-                   <div id="usuariosContainerEmpresa" class="resultados mt-4 input-empresa-otro">
+                    <div id="usuariosContainerEmpresa" class="resultados mt-4 input-empresa-otro">
                         <h2>Usuarios Asociados</h2>
 
                         <div th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}"  >
@@ -284,8 +284,8 @@
                     <div>
                         <h3>Métricas Clave</h3>
                         <!-- Agrega aquí las métricas clave -->
-                        <p>Total de Proyectos: <span th:text="${totalProjects}" id="totalProjects">25</span></p>
-                        <p>Total de Clientes: <span th:text="${totalClients}" id="totalClients">15</span></p>
+                        <p class="metricas">Total de Proyectos: <span th:text="${totalProjects}" id="totalProjects">25</span></p>
+                        <p class="metricas">Total de Clientes: <span th:text="${totalClients}" id="totalClients">15</span></p>
                         <!-- Agrega más métricas según sea necesario -->
                     </div>
 
@@ -304,18 +304,18 @@
                     <div>
                         <h3>Estadísticas de Proyectos</h3>
                         <!-- Agrega aquí estadísticas detalladas sobre el estado y progreso de los proyectos -->
-                        <p>Proyectos Totales: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
-                        <p> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </p>
-                        <p>Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
+                        <p class="metricas">Proyectos Totales: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
+                        <p class="metricas"> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </p>
+                        <p class="metricas">Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
                     </div>
 
                     <!-- Información resumida sobre clientes y proyectos -->
                     <div>
                         <h3>Información Resumida</h3>
                         <!-- Agrega aquí información resumida sobre clientes y proyectos -->
-                        <p>Usuarios Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
-                        <p>Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
-                        <p>Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></p>
+                        <p class="metricas">Usuarios Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
+                        <p class="metricas">Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
+                        <p class="metricas">Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></p>
                     </div>
                 </div>
             </div>

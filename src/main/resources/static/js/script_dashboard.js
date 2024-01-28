@@ -428,7 +428,7 @@ fetch('/admin/devolverAgentes',
             let elemLabels = Object.entries(temp1)
             elemLabels.forEach(function (elem, i) {
                 listaAgentes.push(Object.keys(elem[1]));
-                workloadData.datasets[0].data.push(Object.values(elem[1]));
+                workloadData.datasets[0].data.push(Object.values(elem[1])[0]); // Devuelve el contenido en un array, por eso la expresión.
             })
         })
         .catch(e => {
