@@ -104,7 +104,7 @@ function buscarProyecto() {
                     var usuariosList = document.createElement('ul');
                     data.usuarios.forEach(function (usuario) {
                         var li = document.createElement('li');
-                        // Lógica similar para mostrar usuarios...
+                        li.textContent = usuario.toString();
                         usuariosList.appendChild(li);
                     });
                     usuariosContainer.appendChild(usuariosList);
@@ -113,29 +113,29 @@ function buscarProyecto() {
                 }
                 // Reuniones
                 var reunionesContainer = document.getElementById('reunionesContainer');
-                if (data.reuniones && data.reuniones.length > 0) {
+                if (data.reuniones !== '' && data.reuniones.length > 0) {
                     var reunionesList = document.createElement('ul');
                     data.reuniones.forEach(function (reunion) {
                         var li = document.createElement('li');
-                        // Lógica similar para mostrar reuniones...
+                        li.textContent = "Se reunen: " + reuniones.toString();
                         reunionesList.appendChild(li);
                     });
                     reunionesContainer.appendChild(reunionesList);
                 } else {
-                    reunionesContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron usuarios asociados al proyecto.</div>';
+                    reunionesContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No hay reuniones para el proyecto.</div>';
                 }
                 // Tareas
                 var tareasContainer = document.getElementById('tareasContainer');
-                if (data.tareas && data.tareas.length > 0) {
+                if (data.tareas !== '' && data.tareas.length > 0) {
                     var tareasList = document.createElement('ul');
                     data.tareas.forEach(function (tarea) {
                         var li = document.createElement('li');
-                        // Lógica similar para mostrar tareas...
+                        li.textContent = tarea.toString();
                         tareasList.appendChild(li);
                     });
                     tareasContainer.appendChild(tareasList);
                 } else {
-                    tareasContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron usuarios asociados al proyecto.</div>';
+                    tareasContainer.innerHTML = '<div class="alert alert-info" style="border: 2px solid var(--fondo)">No se encontraron tareas del proyecto.</div>';
                 }
 
             })
@@ -266,32 +266,44 @@ function mostrarSugerenciasEmpresa(valor) {
             .catch(error => console.error('Error al obtener sugerencias de empresas a través de usuarios:', error));
 }
 ////Seccion Dashboard
+//
 // Configuración del gráfico de carga de trabajo de los agentes
+var listaAgentes = [];
 var workloadData = {
-    labels: [
-        "Agente 1",
-        "Agente 2",
-        "Agente 3",
-        "Agente 4",
-        "Agente 1",
-        "Agente 2",
-        "Agente 3",
-        "Agente 4",
-        "Agente 1",
-        "Agente 2",
-        "Agente 3",
-        "Agente 4"
-    ],
+    labels: listaAgentes,
     datasets: [
         {
             label: "Carga de Trabajo",
-            data: [15, 10, 8, 5, 15, 10, 8, 5, 15, 10, 8, 5],
+            data: [],
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1
         }
     ]
 };
+
+// Obtener los datos a visualizar
+fetch('/admin/devolverAgentes',
+        {
+            method: 'GET',
+        }
+)
+        .then(response => response.text())
+        .then(data => {
+            const temp1 = JSON.parse(data)
+            let elemLabels = Object.entries(temp1)
+            elemLabels.forEach(function (elem, i) {
+                listaAgentes.push(Object.keys(elem[1]));
+                workloadData.datasets[0].data.push(Object.values(elem[1]));
+            })
+        })
+        .catch(e => {
+            listaAgentes.push("No hay: " + e)
+            workloadData.labels = listaAgentes;
+            workloadData.datasets[0].data.push("1");
+        });
+
+var cadenaGenerica = document.getElementById('avblAgents').textContent + " Agentes Disponibles";
 
 var workloadOptions = {
     scales: {
@@ -312,7 +324,10 @@ var projectStatusData = {
     labels: ["Pendiente", "En Progreso", "Completado"],
     datasets: [
         {
-            data: [8, 10, 7],
+            data: [
+                document.getElementById('pendingProjects').textContent,
+                document.getElementById('inProgressProjects').textContent,
+                document.getElementById('completedProjects').textContent],
             backgroundColor: [
                 "rgba(255, 99, 132, 0.2)",
                 "rgba(255, 205, 86, 0.2)",

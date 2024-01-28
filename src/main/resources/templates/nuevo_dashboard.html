@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"> 
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Panel del Administrador</title>
-        <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -21,7 +18,7 @@
         <link rel="stylesheet" type="text/css" th:href="@{/css/style-dashboard.css}" />
         <link rel="stylesheet" type="text/css" th:href="@{/css/normalize.css}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
         <link
             href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;400;700&display=swap"
             rel="stylesheet"
@@ -33,17 +30,15 @@
     </head>
     <body>
         <header class="contenedor-header">
-            <nav th:replace = "/fragments/navbar2 :: nav"></nav>
-            <div th:replace = "/fragments/modelo :: div"></div>
+            <nav th:replace = "~{/fragments/navbar2 :: nav}"></nav>
+            <div th:replace = "~{/fragments/modelo :: div}"></div>
         </header>
         <div class="container">
             <nav class="sidebar">
                 <a href="#projectsSection" onclick="showSection('projects')">Gestión de Proyectos</a>
                 <a href="#agentsSection" onclick="showSection('agents')">Gestión de Usuarios</a>
                 <a href="#clientsSection" onclick="showSection('clients')">Gestión de Empresas</a>
-                <a href="#adminDashboardSection" onclick="showSection('adminDashboard')"
-                   >Dashboard del Administrador</a
-                >
+                <a href="#adminDashboardSection" onclick="showSection('adminDashboard')" >Dashboard del Administrador</a>
             </nav>
 
             <div class="content">
@@ -110,18 +105,14 @@
                     </div>
                     <div id="usuariosContainer" class="resultados mt-4 input-empresa-otro">
                         <h2>Usuarios Asociados</h2>
-
-                        <div
-                            th:if="${usuarios != null and !usuarios.isEmpty()}"
-                            class="input-empresa-otro"
-                            >
+                        <div th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}" class="input-empresa-otro">
                             <ul>
-                                <li th:each="usuario : ${usuarios}">
-                                    <span th:if="${usuario != null and usuario.getClass().getName() == 'java.lang.String'}" th:text="${usuario}"></span>
-                                    <span th:if="${usuario != null and usuario.getClass().getName() != 'java.lang.String'}">
-                                        <span th:text="${usuario.nombre != null ? usuario.nombre : ''}"></span>
-                                        <span th:text="${usuario.apellido != null ? ' ' + usuario.apellido : ''}"></span>
-                                        <span th:text="${usuario.rol != null ? '(' + usuario.rol + ')' : ''}"></span>
+                                <li th:each="usuarioEncontrado : ${listadoUsuarios}">
+                                    <span th:if="${usuarioEncontrado != null and usuarioEncontrado.getClass().getName() == 'java.lang.String'}" th:text="${usuarioEncontrado.getName()}"></span>
+                                    <span th:if="${usuarioEncontrado != null and usuarioEncontrado.getClass().getName() != 'java.lang.String'}">
+                                        <span th:text="${usuarioEncontrado.nombre != null ? usuarioEncontrado.nombre : ''}"></span>
+                                        <span th:text="${usuarioEncontrado.apellido != null ? ' ' + usuarioEncontrado.apellido : ''}"></span>
+                                        <span th:text="${usuarioEncontrado.rol != null ? '(' + usuarioEncontrado.rol + ')' : ''}"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -138,19 +129,17 @@
                     <div id="reunionesContainer" class="resultados mt-4 input-empresa-otro">
                         <h2>Reuniones del Proyecto</h2>
 
-                        <div th:if="${reuniones != null and not #lists.isEmpty(reuniones)}" class="input-empresa-otro">
+                        <div th:if="${reuniones != null and not reuniones.isEmpty()}" class="input-empresa-otro">
                             <ul>
                                 <li th:each="reunion : ${reuniones}">
-                                    <span th:if="${reunion != null and reunion.getClass().getName() == 'java.lang.String'}" th:text="${reunion}"></span>
-                                    <span th:if="${reunion != null and reunion.getClass().getName() != 'java.lang.String'}">
-                                        <span th:text="${reunion.nombre != null ? reunion.nombre : ''}"></span>
-                                        <span th:text="${reunion.horarioDeInicioFormatt != null ? ' ' + reunion.horarioDeInicioFormatt : ''}"></span>
-                                        <span th:text="${reunion.progreso != null ? '(' + reunion.progreso + ')' : ''}"></span>
+                                    <span th:text="${reunion.nombre != null?reunion.nombre:'No hay reunion'}"></span>
+                                    <span th:text="| - ${reunion.horarioDeInicioFormatt != null ? reunion.horarioDeInicioFormatt : 'Sin fecha'}|"></span>
+                                    <span th:text="| ( ${reunion.progreso != null ? reunion.progreso : 'Sin progreso'} )|"></span>
                                     </span>
                                 </li>
                             </ul>
                         </div>
-                        <div th:if="${reuniones == null or #lists.isEmpty(reuniones)}" class="alert alert-info" style="border: 2px solid var(--fondo)">
+                        <div th:unless="${reuniones != null}" class="alert alert-info" style="border: 2px solid var(--fondo)">
                             No se encontraron reuniones asociadas al proyecto.
                         </div>
                     </div>
@@ -263,9 +252,7 @@
                     <div class="resultados mt-4 input-empresa-otro">
                         <h2>Usuarios Asociados</h2>
 
-                        <div
-                            th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}"
-                            >
+                        <div th:if="${listadoUsuarios != null and !listadoUsuarios.isEmpty()}"  >
                             <ul>
                                 <li th:each="usuario : ${listadoUsuarios}">
                                     <span th:if="${usuario != null and usuario.getClass().getName() == 'java.lang.String'}" th:text="${usuario}"></span>
@@ -277,11 +264,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div
-                            th:if="${listadoUsuarios == null or listadoUsuarios.isEmpty()}"
-                            class="alert alert-info"
-                            style="border: 2px solid var(--fondo)"
-                            >
+                        <div  th:if="${listadoUsuarios == null or listadoUsuarios.isEmpty()}"  class="alert alert-info"  style="border: 2px solid var(--fondo)" >
                             No se encontraron usuarios asociados al proyecto.
                         </div>
                     </div>
@@ -291,7 +274,7 @@
                         <!-- Lista de Proyectos -->
                         <div th:if="${proyectos != null and !proyectos.isEmpty()}">
                             <ul>
-                                <li th:each="proyecto : ${proyectos}" th:text="${proyecto.nombre + ' //Fecha De Inicio: ' + proyecto.fechaInicio + '(' + proyecto.progreso + ')'}" >Nombre del Proyecto</li>
+                                <li th:each="proyecto : ${proyectos}"><p th:text="${proyecto.nombre}"></p><span th:text="|Fecha De Inicio: ${proyecto.fechaInicio} |"></span><span th:text="| (${proyecto.progreso}) |"></span></li>
                             </ul>
                         </div>
                         <div th:if="${proyectos == null or proyectos.isEmpty()}" class="alert alert-info" style="border: 2px solid var(--fondo)">
@@ -330,19 +313,18 @@
                     <div>
                         <h3>Estadísticas de Proyectos</h3>
                         <!-- Agrega aquí estadísticas detalladas sobre el estado y progreso de los proyectos -->
-                        <p>Proyectos Pendientes: <span id="pendingProjects">8</span></p>
-                        <p>
-                            Proyectos en Progreso: <span id="inProgressProjects">10</span>
-                        </p>
-                        <p>Proyectos Completados: <span id="completedProjects">7</span></p>
+                        <p>Proyectos Pendientes: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
+                        <p> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </p>
+                        <p>Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
                     </div>
 
                     <!-- Información resumida sobre clientes y proyectos -->
                     <div>
                         <h3>Información Resumida</h3>
                         <!-- Agrega aquí información resumida sobre clientes y proyectos -->
-                        <p>Clientes Activos: <span id="activeClients">12</span></p>
-                        <p>Proyectos Recientes: <span id="recentProjects">5</span></p>
+                        <p>Clientes Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
+                        <p>Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
+                        <p>Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></p>
                     </div>
                 </div>
             </div>
