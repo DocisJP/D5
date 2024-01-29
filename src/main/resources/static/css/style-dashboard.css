@@ -153,6 +153,11 @@ body {
 }
 /* Estilos para las cards de agentes */
 .agent-card {
+    backdrop-filter: blur(0.22em);
+    background: conic-gradient(at 36% 21%,
+        #66660014 2deg, #ffff993d 6deg 12deg, #ffe8364a 18deg 35deg,
+        #ffff992b 45deg 101deg, #cccc003e 110deg 150deg,
+        #66660011 200deg);
     display: flex;
     flex-wrap: wrap;
     max-width: 500px;
@@ -162,7 +167,7 @@ body {
     border-radius: 8px;
     padding: 3rem;
     margin-bottom: 20px;
-    backdrop-filter: blur(.22em);
+
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
