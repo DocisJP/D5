@@ -101,7 +101,7 @@ body {
     font-family: "Arial", sans-serif;
     height: 100%;
     min-height: 1000px;
-    background: linear-gradient(45deg, var(--fondo), var(--terciario), var(--fondo), var(--terciario), var(--fondo));
+    background: linear-gradient(95deg, var(--fondo), var(--terciario), var(--blanco), var(--terciario), var(--fondo));
     background-repeat: no-repeat;
 }
 
@@ -135,7 +135,7 @@ body {
 }
 
 .content-section h1{
-    color: var(--blanco);
+    color: var(--fondo);
     font-weight: 900;
     font-size: 3rem;
 }
@@ -153,11 +153,7 @@ body {
 }
 /* Estilos para las cards de agentes */
 .agent-card {
-    backdrop-filter: blur(0.22em);
-    background: conic-gradient(at 36% 21%,
-        #66660014 2deg, #ffff993d 6deg 12deg, #ffe8364a 18deg 35deg,
-        #ffff992b 45deg 101deg, #cccc003e 110deg 150deg,
-        #66660011 200deg);
+    background:radial-gradient(var(--secundario),var(--terciario),var(--fondo));
     display: flex;
     flex-wrap: wrap;
     max-width: 500px;
@@ -342,3 +338,4 @@ h3{
     color: var(--terciario);
     opacity: .8;
 }
+

@@ -398,51 +398,79 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('sugerenciasEmpresas').style.display = 'none';
 });
 
-
-////Seccion Dashboard
+//// Seccion Dashboard
 //
 // Configuración del gráfico de carga de trabajo de los agentes
 var listaAgentes = [];
 var workloadData = {
     labels: listaAgentes,
-    datasets: [
-        {
-            label: "Carga de Trabajo de Agentes",
-            data: [],
-            backgroundColor: "rgba(75, 192, 192)",
-            borderColor: "rgba(75, 192, 192)",
-            borderWidth: 1
-        }
-    ]
+    datasets: [{
+        label: "Carga de Trabajo de Agentes",
+        data: [],
+        backgroundColor: "rgb(13, 72, 111)",
+        borderColor: "rgb(75, 192, 192)",
+        borderWidth: 1
+    }]
 };
 
 // Obtener los datos a visualizar
-fetch('/admin/devolverAgentes',
-        {
-            method: 'GET',
-        }
-)
-        .then(response => response.text())
-        .then(data => {
-            const temp1 = JSON.parse(data)
-            let elemLabels = Object.entries(temp1)
-            elemLabels.forEach(function (elem, i) {
-                listaAgentes.push(Object.keys(elem[1]));
-                workloadData.datasets[0].data.push(Object.values(elem[1])[0]); // Devuelve el contenido en un array, por eso la expresión.
-            })
-        })
-        .catch(e => {
-            listaAgentes.push("No hay: " + e)
-            workloadData.labels = listaAgentes;
-            workloadData.datasets[0].data.push("1");
-        });
+fetch('/admin/devolverAgentes', {
+    method: 'GET',
+})
+.then(response => response.text())
+.then(data => {
+    const temp1 = JSON.parse(data)
+    let elemLabels = Object.entries(temp1)
+    elemLabels.forEach(function (elem, i) {
+        listaAgentes.push(Object.keys(elem[1]));
+        workloadData.datasets[0].data.push(Object.values(elem[1])[0]);
+    })
+})
+.catch(e => {
+    listaAgentes.push("No hay: " + e)
+    workloadData.labels = listaAgentes;
+    workloadData.datasets[0].data.push("1");
+});
 
 var cadenaGenerica = document.getElementById('avblAgents').textContent + " Agentes Disponibles";
 
 var workloadOptions = {
     scales: {
         y: {
-            beginAtZero: true
+            beginAtZero: true,
+            ticks: {
+                font: {
+                    color: 'black',
+                    size: 24
+                }
+            }
+        },
+        x: {
+            ticks: {
+                color: 'black',
+                font: {
+                    size: 20,
+                    weight:700
+                }
+            }
+        }
+    },
+    plugins: {
+        title: {
+            display: true,
+            text: 'Carga de Trabajo de Agentes',
+            font: {
+                color: 'black',
+                size: 32
+            }
+        },
+        legend: {
+            labels: {
+                font: {
+                    color: 'black',
+                    size: 24
+                }
+            }
         }
     }
 };
@@ -456,43 +484,48 @@ var workloadChart = new Chart(document.getElementById("workloadChart"), {
 // Configuración del gráfico de estado de los proyectos
 var projectStatusData = {
     labels: ["En Progreso", "Completado"],
-    datasets: [
-        {
-            data: [
-                document.getElementById('inProgressProjects').textContent,
-                document.getElementById('completedProjects').textContent],
-            backgroundColor: [
-                "rgba(255, 205, 86)",
-                "rgba(54, 162, 235)"
-            ],
-            borderColor: [
-                "rgba(255, 205, 86)",
-                "rgba(54, 162, 235)"
-            ],
-            borderWidth: 1
-        }
-    ]
+    datasets: [{
+        data: [
+            document.getElementById('inProgressProjects').textContent,
+            document.getElementById('completedProjects').textContent
+        ],
+        backgroundColor: [
+            "rgb(20, 181, 65)",
+            "rgb(13, 72, 111)"
+        ],
+        borderColor: [
+            "rgb(20, 181, 65)",
+            "rgb(13, 72, 111)"
+        ],
+        borderWidth: 1
+    }]
 };
 
 var projectStatusOptions = {
     responsive: true,
     plugins: {
-        legend: {
-            position: "top"
-        },
         title: {
             display: true,
-            text: "Estado de los Proyectos"
+            text: 'Estado de los Proyectos',
+            font: {
+                color: 'white',
+                size: 32
+            }
+        },
+        legend: {
+            position: 'top',
+            labels: {
+                font: {
+                    color: 'white',
+                    size: 24
+                }
+            }
         }
     }
 };
 
-var projectStatusChart = new Chart(
-        document.getElementById("projectStatusChart"),
-        {
-            type: "pie",
-            data: projectStatusData,
-            options: projectStatusOptions
-        }
-);
-  
+var projectStatusChart = new Chart(document.getElementById("projectStatusChart"), {
+    type: "pie",
+    data: projectStatusData,
+    options: projectStatusOptions
+});

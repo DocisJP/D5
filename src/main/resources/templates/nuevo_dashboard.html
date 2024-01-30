@@ -27,6 +27,7 @@
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script defer src="/js/script_dashboard.js"></script>
+        
     </head>
     <body>
         <header class="contenedor-header">
@@ -283,8 +284,8 @@
                     <div>
                         <h3>Métricas Clave</h3>
                         <!-- Agrega aquí las métricas clave -->
-                        <p class="metricas">Total de Proyectos: <span th:text="${totalProjects}" id="totalProjects">25</span></p>
-                        <p class="metricas">Total de Clientes: <span th:text="${totalClients}" id="totalClients">15</span></p>
+                        <h4 class="metricas">Total de Proyectos: <span th:text="${totalProjects}" id="totalProjects">25</span></h4>
+                        <h4 class="metricas">Total de Clientes: <span th:text="${totalClients}" id="totalClients">15</span></h4>
                         <!-- Agrega más métricas según sea necesario -->
                     </div>
 
@@ -303,18 +304,18 @@
                     <div>
                         <h3>Estadísticas de Proyectos</h3>
                         <!-- Agrega aquí estadísticas detalladas sobre el estado y progreso de los proyectos -->
-                        <p class="metricas">Proyectos Totales: <span th:text="${totalProjects}" id="pendingProjects">7</span></p>
-                        <p class="metricas"> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </p>
-                        <p class="metricas">Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></p>
+                        <h4 class="metricas">Proyectos Totales: <span th:text="${totalProjects}" id="pendingProjects">7</span></h4>
+                        <h4 class="metricas"> Proyectos en Progreso: <span th:text="${inProgressProjects}" id="inProgressProjects">11</span> </h4>
+                        <h4 class="metricas">Proyectos Completados: <span th:text="${proyectosFinalizados}" id="completedProjects">17</span></h4>
                     </div>
 
                     <!-- Información resumida sobre clientes y proyectos -->
                     <div>
                         <h3>Información Resumida</h3>
                         <!-- Agrega aquí información resumida sobre clientes y proyectos -->
-                        <p class="metricas">Usuarios Activos: <span th:text="${activeClients}" id="activeClients">12</span></p>
-                        <p class="metricas">Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></p>
-                        <p class="metricas">Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></p>
+                        <h4 class="metricas">Usuarios Activos: <span th:text="${activeClients}" id="activeClients">12</span></h4>
+                        <h4 class="metricas">Agentes disponible: <span th:text="${cuantosAgentes}" id="avblAgents">1</span></h4>
+                        <h4 class="metricas">Proyectos Recientes: <span th:text="${recentProjects}" id="recentProjects">5</span></h4>
                     </div>
                 </div>
             </div>
