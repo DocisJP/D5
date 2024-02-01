@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ES-ar" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-    <head th:replace="/fragments/head :: head">
+    <head th:replace="/fragments/head :: head"><title></title> </head>
     <body>
         <header class="contenedor-header-formulario">
             <nav th:replace = "/fragments/navbar2 :: nav"></nav>
@@ -15,7 +15,7 @@
 
                         <form class="form-group" th:action="@{/reunion/modificar}" th:object="${reunion}" method="POST">
                             <!-- Campos del formulario -->
-                            <input hidden th:field="*{id}" th:value="*{id}" name="id">
+                            <input hidden="hidden" th:field="*{id}" th:value="*{id}" name="id" />
                             <label for="nombre">Nombre de la reunion</label>
                             <input type="text" id="nombreTarea" name="nombre" th:field="*{nombre}" th:value="*{nombre}"
                                    placeholder="Nombre" class="form-control mb-3" />
@@ -57,21 +57,26 @@
                             <select id="proyectos" name="proyectoId" class="form-select mb-3" onchange="mostrarParticipantes(this)">
                                 <!-- Itera sobre la lista de proyectos asociados al usuario seleccionado -->
                                 <option label="Elije Proyecto" value=""></option>
-                                <option th:each="proyecto : ${proyectos}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
+                                <option th:each="proyecto : ${proyectos}" th:selected="${proyecto==reunion.proyecto}" th:value="${proyecto.id}" th:text="${proyecto.nombre}"></option>
+                            </select>
+                            <label for="progreso">Seleccionar Progreso</label>
+
+                            <!-- Selección del progreso -->
+                            <select id="progreso" name="progreso" class="form-select mb-3" >
+                                <option label="Elija progreso" value=""></option>
+                                <option th:each="actual : ${progreso}" th:selected="${reunion.progreso == actual}" th:text="${actual}"></option>
                             </select>
 
                             <!-- Agrega el div con la lista de usuarios, utiliza Thymeleaf para establecer el estilo -->
                             <div th:each="proyecto : ${proyectos}" th:id="'participantesList_' + ${proyecto.id}" class="participantesList" style="display:none;">
+                                <!-- Itera sobre la lista de usuarios dentro de cada proyecto -->
+                                <p style="border-bottom: 2px dotted #081b29; font-size: 1.5rem">Participantes del Proyecto</p>
                                 <ul>
-                                    <!-- Itera sobre la lista de usuarios dentro de cada proyecto -->
-                                    <p style="border-bottom: 2px dotted #081b29; font-size: 1.5rem">Participantes del Proyecto</p>
-                                    <li th:each="usuario : ${proyecto.usuarios}" th:text="${usuario.nombre + ' ' + usuario.apellido + '(' + usuario.rol + ')'}" style="list-style: none"></li>
+                                    <li th:each="usuario : ${proyecto.usuarios}" th:text="| ${usuario.nombre} ${usuario.apellido} (${usuario.rol}) |" style="list-style: none"></li>
                                 </ul>
                             </div>
-
                             <input hidden="hidden" type="checkbox" name="estado" th:checked="true"/>
                             <label for="estadoReunion"> Aceptada </label>
-
                             <div class='row'>
                                 <button type="submit" class="btn btn-primary">Modificar reunion</button>
                             </div>
@@ -87,36 +92,37 @@
             </main>
         </header>
         <footer th:replace="/fragments/footer :: footer"></footer>
-    </body>
-    <!-- Agrego la lógica de JavaScript -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        function mostrarParticipantes(select) {
-            console.log('mostrarParticipantes se ejecutó');
 
-            // Obtengo la información del proyecto seleccionado
-            var proyectoId = select.value;
+        <!-- Agrego la lógica de JavaScript -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function mostrarParticipantes(select) {
+                console.log('mostrarParticipantes se ejecutó');
 
-            // Oculto todos los participantes inicialmente
-            var participantesLists = document.querySelectorAll('.participantesList');
-            participantesLists.forEach(function (participantesList) {
-                participantesList.style.display = 'none';
-            });
+                // Obtengo la información del proyecto seleccionado
+                var proyectoId = select.value;
 
-            // Muestro solo la lista de participantes del proyecto seleccionado
-            var selectedParticipantesList = document.getElementById('participantesList_' + proyectoId);
-            if (selectedParticipantesList) {
-                selectedParticipantesList.style.display = 'block';
+                // Oculto todos los participantes inicialmente
+                var participantesLists = document.querySelectorAll('.participantesList');
+                participantesLists.forEach(function (participantesList) {
+                    participantesList.style.display = 'none';
+                });
+
+                // Muestro solo la lista de participantes del proyecto seleccionado
+                var selectedParticipantesList = document.getElementById('participantesList_' + proyectoId);
+                if (selectedParticipantesList) {
+                    selectedParticipantesList.style.display = 'block';
+                }
             }
-        }
-        /*]]>*/
+            /*]]>*/
 
-    </script>
+        </script>
 
-    <!-- Agrego el evento onchange al select -->
-    <script>
-        document.getElementById('proyectos').addEventListener('change', function () {
-            mostrarParticipantes(this);
-        });
-    </script>
+        <!-- Agrego el evento onchange al select -->
+        <script>
+            document.getElementById('proyectos').addEventListener('change', function () {
+                mostrarParticipantes(this);
+            });
+        </script>
+    </body>
 </html>

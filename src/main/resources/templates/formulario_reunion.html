@@ -59,7 +59,7 @@
                                 <label for="usuarios">Seleccionar Usuarios</label>
                                 <select id="usuarios" name="usuarioDestinatarioId" class="form-select mb-3" onchange="mostrarProyectos(this)">
                                     <option label="Elije Usuario" value=""></option>
-                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" class="select-usuarios" th:text="${usuario.nombre + ' ' + usuario.apellido + '(' + usuario.rol + ')' + 'Empresa(' + usuario.empresa + ')'}"></option>
+                                    <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" class="select-usuarios" th:text="|${usuario.nombre} ${usuario.apellido} (${usuario.rol}) Empresa: ${usuario.empresa}|"></option>
                                 </select>
 
                             </div>
@@ -111,8 +111,8 @@
         /*]]>*/
     </script>
     <script>
-    document.getElementById('horarioDeInicio').addEventListener('change', function(event) {
-        console.log(event.target.value);
-    });
-</script>
+        document.getElementById('horarioDeInicio').addEventListener('change', function (event) {
+            console.log(event.target.value);
+        });
+    </script>
 </html>

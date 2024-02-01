@@ -161,7 +161,6 @@ public class ReunionControlador {
         return "redirect:/reunion/participantes/" + reunion.getId();
     }
 
-    @Transactional
     @GetMapping("/registrar")
     public String formularioReunion(Model model, HttpSession session) {
         Usuario usuarioEncargado = (Usuario) session.getAttribute("usuariosession");
@@ -234,7 +233,7 @@ public class ReunionControlador {
                     nombre,
                     detalle,
                     estado,
-                    progreso,
+                    (progreso != null ? progreso : Progreso.PENDIENTE),
                     horarioDeInicio,
                     horarioDeFin,
                     usuarioDestinatario,
@@ -345,68 +344,70 @@ public class ReunionControlador {
         model.addAttribute("reunion", reunion);
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("proyectos", proyectos);
+        model.addAttribute("progreso", Progreso.values());
 
         return "reunion_modificar.html";
     }
 
-@PostMapping("/modificar")
-public String modificarReunion(
-        @RequestParam String id,
-        @RequestParam String nombre,
-        @RequestParam String detalle,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeInicio,
-        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
-        @RequestParam String usuarioId,
-        @RequestParam String proyectoId,
-        Model model
-) {
-    Reunion reunion = reunionServicio.buscarPorId(id);
+    @PostMapping("/modificar")
+    public String modificarReunion(
+            @RequestParam String id,
+            @RequestParam String nombre,
+            @RequestParam String detalle,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeInicio,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
+            @RequestParam String usuarioId,
+            @RequestParam String proyectoId,
+            @RequestParam Progreso progreso,
+            Model model
+    ) {
+        Reunion reunion = reunionServicio.buscarPorId(id);
 
-    reunion.setNombre(nombre);
-    reunion.setDetalle(detalle);
-    reunion.setHorarioDeInicio(horarioDeInicio);
+        reunion.setNombre(nombre);
+        reunion.setDetalle(detalle);
+        reunion.setHorarioDeInicio(horarioDeInicio);
 
-    // Formatear y establecer la fecha de inicio
-    SimpleDateFormat dateFormatInicio = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-    String formattedDateInicio = dateFormatInicio.format(horarioDeInicio);
-    reunion.setHorarioDeInicioFormatt(formattedDateInicio);
+        // Formatear y establecer la fecha de inicio
+        SimpleDateFormat dateFormatInicio = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String formattedDateInicio = dateFormatInicio.format(horarioDeInicio);
+        reunion.setHorarioDeInicioFormatt(formattedDateInicio);
 
-    // Formatear y establecer la fecha de fin
-    reunion.setHorarioDeFin(horarioDeFin);
-    SimpleDateFormat dateFormatFin = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-    String formattedDateFin = dateFormatFin.format(horarioDeFin);
-    reunion.setHorarioDeFinFormatt(formattedDateFin);
+        // Formatear y establecer la fecha de fin
+        reunion.setHorarioDeFin(horarioDeFin);
+        SimpleDateFormat dateFormatFin = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String formattedDateFin = dateFormatFin.format(horarioDeFin);
+        reunion.setHorarioDeFinFormatt(formattedDateFin);
 
-    reunion.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
-    reunion.setProyecto(proyectoServicio.buscarPorId(proyectoId));
-    reunion.setEstado(Boolean.TRUE);
+        reunion.setUsuario(usuarioServicio.buscarUsuario(usuarioId));
+        reunion.setProyecto(proyectoServicio.buscarPorId(proyectoId));
+        reunion.setEstado(Boolean.TRUE);
 
-    Date horarioActual = new Date();
-    
-    if (horarioDeFin != null && horarioDeFin.after(horarioActual)) {
-        reunion.setProgreso(Progreso.PENDIENTE);
-    } else {
-        reunion.setProgreso(Progreso.FINALIZADO);
+//        Date horarioActual = new Date();
+        reunion.setProgreso(progreso);
+
+//        if (horarioDeFin != null && horarioDeFin.after(horarioActual)) {
+//            reunion.setProgreso(Progreso.PENDIENTE);
+//        } else {
+//            reunion.setProgreso(Progreso.FINALIZADO);
+//        }
+        try {
+            reunionServicio.modificar(reunion);
+            model.addAttribute("exito", "La modificación fue aceptada");
+
+        } catch (Exception e) {
+            List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+            List<Proyecto> proyectos = proyectoServicio.listarProyectos();
+            model.addAttribute("reunion", reunion);
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("proyectos", proyectos);
+            model.addAttribute("progreso", Progreso.values());
+            model.addAttribute("error", e.getMessage());
+
+            return "reunion_modificar.html";
+        }
+
+        return "redirect:/reunion/detalle/" + reunion.getId();
     }
-
-    try {
-        reunionServicio.modificar(reunion);
-        model.addAttribute("exito", "La modificación fue aceptada");
-
-    } catch (Exception e) {
-        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-        List<Proyecto> proyectos = proyectoServicio.listarProyectos();
-        model.addAttribute("reunion", reunion);
-        model.addAttribute("usuarios", usuarios);
-        model.addAttribute("proyectos", proyectos);
-        model.addAttribute("error", e.getMessage());
-
-        return "reunion_modificar.html";
-    }
-
-    return "redirect:/reunion/detalle/" + reunion.getId();
-}
-
 
     @GetMapping("/cambiarEstado/{id}")
     public String estadoReunion(@PathVariable String id, ModelMap modelo, HttpSession session) {
@@ -488,7 +489,7 @@ public String modificarReunion(
             @RequestParam String nombre,
             @RequestParam(required = false) String detalle,
             @RequestParam Boolean estado,
-            @RequestParam Progreso progreso,
+            @RequestParam(required = false) Progreso progreso,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeInicio,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Date horarioDeFin,
             @RequestParam(required = false) String usuarioDestinatarioId,
@@ -513,22 +514,19 @@ public String modificarReunion(
                     nombre,
                     detalle,
                     estado,
-                    progreso,
+                    (progreso != null ? progreso : Progreso.PENDIENTE),
                     horarioDeInicio,
                     horarioDeFin,
                     usuarioDestinatario,
                     usuarioSolicitante,
                     usuariosParticipantes,
                     proyectoAsociado);
-
             if (reunionGuardada != null && reunionGuardada.getId() != null) {
                 redirectAttrs.addFlashAttribute("exito", "La reunión fue solicitada con éxito");
                 return "redirect:/reunion/detalleSolicitud/" + reunionGuardada.getId();
             } else {
                 // Manejar el caso de que reunionuardada sea nula o no tenga ID
                 modelo.addAttribute("error", "La reunion no pudo ser solicitada.");
-
-                return "solicitud_reunion.html";
             }
 
         } catch (Exception ex) {
@@ -536,5 +534,6 @@ public String modificarReunion(
 
             return "solicitud_reunion.html";
         }
+        return "solicitud_reunion.html";
     }
 }
